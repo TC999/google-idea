@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d4915a3_9e283986",
+        "filename": "java/idea-ui/src/com/intellij/openapi/roots/ui/configuration/IdeaProjectSettingsService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2013-05-29T20:44:38Z",
+      "side": 1,
+      "message": "I love the \"REMOVE ME ASAP!\" comment",
+      "revId": "2fd6821310bed531eb4a9a14b5ceccdddc3ba9dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
