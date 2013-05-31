@@ -27,8 +27,11 @@ import com.intellij.internal.statistic.connect.StatisticsHttpClientSender;
 import com.intellij.internal.statistic.connect.StatisticsService;
 import com.intellij.internal.statistic.persistence.SentUsagesPersistence;
 import com.intellij.internal.statistic.persistence.UsageStatisticsPersistenceComponent;
+<<<<<<< HEAD   (9b82a5 Merge "Temporarily warn about gradle project settings")
 import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import com.intellij.openapi.application.impl.ApplicationInfoImpl;
+=======
+>>>>>>> BRANCH (ec3fb1 Snapshot 568f05589922685b8c8f9a2f2f465043b8128542 from maste)
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
@@ -183,12 +186,12 @@ public class StatisticsUploadAssistant {
     private static Map<GroupDescriptor, Set<PatchedUsage>> mapToPatchedUsagesMap(Map<GroupDescriptor, Set<UsageDescriptor>> allUsages) {
         Map<GroupDescriptor, Set<PatchedUsage>> patchedUsages = new LinkedHashMap<GroupDescriptor, Set<PatchedUsage>>();
         for (Map.Entry<GroupDescriptor, Set<UsageDescriptor>> entry : allUsages.entrySet()) {
-            patchedUsages.put(entry.getKey(), ContainerUtil.map2Set(entry.getValue(), new Function<UsageDescriptor, PatchedUsage>() {
+            patchedUsages.put(entry.getKey(), new HashSet<PatchedUsage>(ContainerUtil.map2Set(entry.getValue(), new Function<UsageDescriptor, PatchedUsage>() {
                 @Override
                 public PatchedUsage fun(UsageDescriptor usageDescriptor) {
                     return new PatchedUsage(usageDescriptor);
                 }
-            }));
+            })));
         }
         return patchedUsages;
     }
