@@ -16,9 +16,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryTable;
-import com.intellij.openapi.vfs.JarFileSystem;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.util.io.FileUtilRt;
+import com.intellij.openapi.vfs.*;
 import com.intellij.util.NotNullFunction;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.ContainerUtilRt;
@@ -126,6 +125,12 @@ public class LibraryDataService implements ProjectDataService<LibraryData, Libra
       for (File file : entry.getValue()) {
         VirtualFile virtualFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file);
         if (virtualFile == null) {
+          String extension = FileUtilRt.getExtension(file.getName());
+          if ("jar".equals(extension)) {
+            String url = VfsUtilCore.pathToUrl(file.getAbsolutePath());
+            model.addRoot(url, entry.getKey());
+            continue;
+          }
           if (entry.getKey() == OrderRootType.CLASSES) {
             LOG.warn(
               String.format("Can't find %s of the library '%s' at path '%s'", entry.getKey(), libraryName, file.getAbsolutePath())
@@ -150,6 +155,7 @@ public class LibraryDataService implements ProjectDataService<LibraryData, Libra
     }
   }
 
+  @Override
   public void removeData(@NotNull final Collection<? extends Library> libraries, @NotNull final Project project, boolean synchronous) {
     if (libraries.isEmpty()) {
       return;
