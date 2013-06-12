@@ -16,6 +16,24 @@
       "revId": "10756ddf05fd4a5a9952fc1cc24e520cfac48bd2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1bf126_4573f4ed",
+        "filename": "platform/external-system-impl/src/com/intellij/openapi/externalSystem/service/project/manage/LibraryDataService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2013-06-12T20:46:04Z",
+      "side": 1,
+      "message": "This is the URL that IDEA uses to set up jar libraries. The bug is that it is currently using \"file://\" as protocol for jar dependencies that do not exist.",
+      "parentUuid": "bd1bf126_e584c099",
+      "revId": "10756ddf05fd4a5a9952fc1cc24e520cfac48bd2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
