@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd1bf126_e584c099",
+        "filename": "platform/external-system-impl/src/com/intellij/openapi/externalSystem/service/project/manage/LibraryDataService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-06-12T20:43:52Z",
+      "side": 1,
+      "message": "I\u0027m a little confused; I thought jar: urls were intended when you want to point *inside* the jar, e.g.  jar:/foo/bar.jar!com/android/Foo.class ?",
+      "revId": "10756ddf05fd4a5a9952fc1cc24e520cfac48bd2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
