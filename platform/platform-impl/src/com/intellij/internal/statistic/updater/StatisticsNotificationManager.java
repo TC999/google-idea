@@ -1,17 +1,16 @@
 package com.intellij.internal.statistic.updater;
 
-import com.intellij.internal.statistic.StatisticsBundle;
 import com.intellij.internal.statistic.configurable.StatisticsConfigurable;
+<<<<<<< HEAD   (dcdbd6 Merge "Update ADT dictionary with a few more words")
 import com.intellij.internal.statistic.connect.RemotelyConfigurableStatisticsService;
+=======
+>>>>>>> BRANCH (0e154c Snapshot 4a019151cb9b5542ea5ba9ed2f07b29cee0951f0 from maste)
 import com.intellij.internal.statistic.connect.StatisticsService;
 import com.intellij.internal.statistic.persistence.UsageStatisticsPersistenceComponent;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationListener;
-import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
-import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ApplicationNamesInfo;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.IdeFrame;

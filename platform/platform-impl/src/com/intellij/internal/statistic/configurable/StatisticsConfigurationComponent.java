@@ -62,6 +62,7 @@ public class StatisticsConfigurationComponent {
     if (service != null) {
       Map<String, String> overrides = service.getStatisticsConfigurationLabels();
       if (overrides != null) {
+<<<<<<< HEAD   (dcdbd6 Merge "Update ADT dictionary with a few more words")
         String s = overrides.get("title");
         if (s != null) {
           myTitle.setText(s);
@@ -71,6 +72,17 @@ public class StatisticsConfigurationComponent {
           myLabel.setText(s);
         }
         s = overrides.get("allow-checkbox");
+=======
+        String s = overrides.get(StatisticsService.TITLE);
+        if (s != null) {
+          myTitle.setText(s);
+        }
+        s = overrides.get(StatisticsService.DETAILS);
+        if (s != null) {
+          myLabel.setText(s);
+        }
+        s = overrides.get(StatisticsService.ALLOW_CHECKBOX);
+>>>>>>> BRANCH (0e154c Snapshot 4a019151cb9b5542ea5ba9ed2f07b29cee0951f0 from maste)
         if (s != null) {
           myAllowToSendUsagesCheckBox.setText(s);
         }
