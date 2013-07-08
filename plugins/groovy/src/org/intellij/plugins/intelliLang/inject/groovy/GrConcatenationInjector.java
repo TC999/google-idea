@@ -27,6 +27,7 @@ import org.intellij.plugins.intelliLang.inject.InjectedLanguage;
 import org.intellij.plugins.intelliLang.inject.InjectorUtils;
 import org.intellij.plugins.intelliLang.inject.config.BaseInjection;
 import org.intellij.plugins.intelliLang.util.AnnotationUtilEx;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.groovy.lang.psi.api.GroovyResolveResult;
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.GrVariable;
@@ -113,6 +114,109 @@ public class GrConcatenationInjector implements MultiHostInjector {
       );
       InjectorUtils.registerInjection(language, Collections.singletonList(info), host.getContainingFile(), registrar);
     }
+=======
+import org.intellij.plugins.intelliLang.util.PsiUtilEx;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.plugins.groovy.lang.psi.api.GroovyResolveResult;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.GrVariable;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.arguments.GrArgumentList;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssignmentExpression;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCall;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrExpression;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrReferenceExpression;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.typedef.members.GrMethod;
+import org.jetbrains.plugins.groovy.lang.psi.impl.signatures.GrClosureSignatureUtil;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * @author Max Medvedev
+ */
+public class GrConcatenationInjector implements MultiHostInjector {
+  @Override
+  public void getLanguagesToInject(@NotNull MultiHostRegistrar registrar, @NotNull PsiElement context) {
+    assert context instanceof GrLiteral;
+    final GrLiteral literal = (GrLiteral)context;
+
+    final PsiElement parent = literal.getParent();
+    if (parent instanceof GrAssignmentExpression && ((GrAssignmentExpression)parent).getRValue() == literal) {
+      final GrExpression lvalue = ((GrAssignmentExpression)parent).getLValue();
+      if (lvalue instanceof GrReferenceExpression) {
+        final PsiElement resolved = ((GrReferenceExpression)lvalue).resolve();
+        if (resolved instanceof PsiModifierListOwner) {
+          processAnnotations(registrar, literal, (PsiModifierListOwner)resolved);
+        }
+      }
+    }
+    else if (parent instanceof GrVariable) {
+      processAnnotations(registrar, literal, ((GrVariable)parent));
+    }
+    else if (parent instanceof GrArgumentList) {
+      final PsiElement pparent = parent.getParent();
+
+      if (pparent instanceof GrCall) {
+        final GrCall call = (GrCall)pparent;
+        final GroovyResolveResult result = call.advancedResolve();
+        if (result.getElement() != null) {
+          final Map<GrExpression, Pair<PsiParameter, PsiType>> map = GrClosureSignatureUtil
+            .mapArgumentsToParameters(result, literal, false, false, call.getNamedArguments(), call.getExpressionArguments(), call.getClosureArguments());
+
+          if (map != null) {
+            final Pair<PsiParameter, PsiType> pair = map.get(literal);
+            processAnnotations(registrar, literal, pair.first);
+          }
+        }
+      }
+    }
+  }
+
+  private static void processAnnotations(MultiHostRegistrar registrar,
+                                         PsiLanguageInjectionHost host,
+                                         PsiModifierListOwner annotationOwner) {
+    final Pair<String, ? extends Set<String>> pair =
+      Configuration.getInstance().getAdvancedConfiguration().getLanguageAnnotationPair();
+
+    final PsiAnnotation[] annotations = getAnnotationFrom(annotationOwner, pair, true, true);
+    if (annotations.length > 0) {
+      final String id = AnnotationUtilEx.calcAnnotationValue(annotations, "value");
+      final String prefix = AnnotationUtilEx.calcAnnotationValue(annotations, "prefix");
+      final String suffix = AnnotationUtilEx.calcAnnotationValue(annotations, "suffix");
+      final BaseInjection injection = new BaseInjection(GroovyLanguageInjectionSupport.GROOVY_SUPPORT_ID);
+      if (prefix != null) injection.setPrefix(prefix);
+      if (suffix != null) injection.setSuffix(suffix);
+      if (id != null) injection.setInjectedLanguageId(id);
+
+      //todo suffixes & prefixes are not supported
+      final Language language = InjectedLanguage.findLanguageById(injection.getInjectedLanguageId());
+
+      Trinity<PsiLanguageInjectionHost, InjectedLanguage, TextRange> info = Trinity.create(
+        host,
+        InjectedLanguage.create(injection.getInjectedLanguageId(), prefix, suffix, true),
+        ElementManipulators.getManipulator(host).getRangeInElement(host)
+      );
+      InjectorUtils.registerInjection(language, Collections.singletonList(info), host.getContainingFile(), registrar);
+    }
+  }
+
+  @NotNull
+  public static PsiAnnotation[] getAnnotationFrom(PsiModifierListOwner owner,
+                                                  Pair<String, ? extends Set<String>> annotationName,
+                                                  boolean allowIndirect,
+                                                  boolean inHierarchy) {
+    if (!isLanguageAnnotationTargetGroovy(owner)) return PsiAnnotation.EMPTY_ARRAY;
+
+    return AnnotationUtilEx.getAnnotationsFromImpl(owner, annotationName, allowIndirect, inHierarchy);
+  }
+
+  private static boolean isLanguageAnnotationTargetGroovy(PsiModifierListOwner owner) {
+    return owner instanceof GrMethod && ((GrMethod)owner).getReturnTypeElementGroovy() == null ||
+           owner instanceof GrVariable && ((GrVariable)owner).getTypeElementGroovy() == null ||
+           PsiUtilEx.isLanguageAnnotationTarget(owner);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
 
   @NotNull

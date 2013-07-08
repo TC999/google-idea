@@ -314,7 +314,11 @@ public class GeneratedParserUtilBase {
 
   public static void exit_section_(PsiBuilder builder_,
                                    PsiBuilder.Marker marker,
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
                                    IElementType elementType,
+=======
+                                   @Nullable IElementType elementType,
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
                                    boolean result) {
     close_marker_impl_(ErrorState.get(builder_).frameStack.peekLast(), marker, elementType, result);
   }
@@ -858,9 +862,11 @@ public class GeneratedParserUtilBase {
     boolean checkParens = state.braces != null && checkBraces;
     int totalCount = 0;
     int tokenCount = 0;
-    if (checkParens && builder_.rawLookup(-1) == state.braces[0].getLeftBraceType()) {
-      LighterASTNode doneMarker = builder_.getLatestDoneMarker();
-      if (doneMarker != null && doneMarker.getStartOffset() == builder_.rawTokenTypeStart(-1) && doneMarker.getTokenType() == TokenType.ERROR_ELEMENT) {
+    if (checkParens) {
+      int tokenIdx = -1;
+      while (builder_.rawLookup(tokenIdx) == TokenType.WHITE_SPACE) tokenIdx --;
+      LighterASTNode doneMarker = builder_.rawLookup(tokenIdx) == state.braces[0].getLeftBraceType() ? builder_.getLatestDoneMarker() : null;
+      if (doneMarker != null && doneMarker.getStartOffset() == builder_.rawTokenTypeStart(tokenIdx) && doneMarker.getTokenType() == TokenType.ERROR_ELEMENT) {
         parenList.add(Pair.create(((PsiBuilder.Marker)doneMarker).precede(), (PsiBuilder.Marker)null));
       }
     }
@@ -894,7 +900,7 @@ public class GeneratedParserUtilBase {
         if (marker == null) {
           marker = builder_.mark();
         }
-        final boolean result = (state.altMode && !parenList.isEmpty() || eatMoreCondition.parse(builder_, level + 1)) && parser.parse(builder_, level + 1);
+        final boolean result = (!parenList.isEmpty() || eatMoreCondition.parse(builder_, level + 1)) && parser.parse(builder_, level + 1);
         if (result) {
           tokenCount++;
           totalCount++;
@@ -938,19 +944,10 @@ public class GeneratedParserUtilBase {
       super(DUMMY_BLOCK);
     }
 
+    @NotNull
     @Override
     public PsiReference[] getReferences() {
       return PsiReference.EMPTY_ARRAY;
-    }
-
-    @Override
-    public boolean canNavigateToSource() {
-      return false;
-    }
-
-    @Override
-    public boolean canNavigate() {
-      return false;
     }
 
     @NotNull

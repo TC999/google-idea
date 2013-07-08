@@ -459,13 +459,13 @@ public class VcsHistoryDialog extends DialogWrapper implements DataProvider {
 
   @Nullable
   private Block getBlock(VcsFileRevision revision) throws FilesTooBigForDiffException, VcsException {
-    if (myRevisionToContentMap.containsKey(revision))
+    if (myRevisionToContentMap.containsKey(revision)) {
       return myRevisionToContentMap.get(revision);
-
-    int index = myRevisions.indexOf(revision);
+    }
 
     final String revisionContent = getContentOf(revision);
     if (revisionContent == null) return null;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     if (index == 0) {
       Block currentBlock = new Block(myEditor.getDocument().getText(), mySelectionStart, mySelectionEnd);
       myRevisionToContentMap.put(revision, new FindBlock(revisionContent, currentBlock).getBlockInThePrevVersion());
@@ -475,6 +475,19 @@ public class VcsHistoryDialog extends DialogWrapper implements DataProvider {
       if (prevBlock == null) return null;
       myRevisionToContentMap.put(revision, new FindBlock(revisionContent, prevBlock).getBlockInThePrevVersion());
     }
+=======
+
+    int index = myRevisions.indexOf(revision);
+    Block blockByIndex = getBlock(index);
+    if (blockByIndex == null) return null;
+
+    myRevisionToContentMap.put(revision, new FindBlock(revisionContent, blockByIndex).getBlockInThePrevVersion());
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     return myRevisionToContentMap.get(revision);
   }
+
+  private Block getBlock(int index) throws FilesTooBigForDiffException, VcsException {
+    return index > 0 ? getBlock(myRevisions.get(index - 1)) : new Block(myEditor.getDocument().getText(), mySelectionStart, mySelectionEnd);
+  }
+
 }

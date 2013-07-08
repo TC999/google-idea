@@ -16,6 +16,7 @@
 package org.jetbrains.jps.javac;
 
 import com.intellij.openapi.util.SystemInfo;
+import com.intellij.util.SmartList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.jps.api.CanceledStatus;
 import org.jetbrains.jps.builders.java.JavaSourceTransformer;
@@ -191,7 +192,7 @@ public class JavacMain {
   private static List<JavaSourceTransformer> getSourceTransformers() {
     final Class<JavaSourceTransformer> transformerClass = JavaSourceTransformer.class;
     final ServiceLoader<JavaSourceTransformer> loader = ServiceLoader.load(transformerClass, transformerClass.getClassLoader());
-    final List<JavaSourceTransformer> transformers = new ArrayList<JavaSourceTransformer>();
+    final List<JavaSourceTransformer> transformers = new SmartList<JavaSourceTransformer>();
     for (JavaSourceTransformer t : loader) {
       transformers.add(t);
     }
@@ -219,8 +220,12 @@ public class JavacMain {
   private static Collection<String> prepareOptions(final Collection<String> options, boolean usingJavac) {
     final List<String> result = new ArrayList<String>();
     if (usingJavac) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       result.add("-Xprefer:source"); 
       result.add("-implicit:none"); // the option supported by javac only
+=======
+      result.add("-implicit:class"); // the option supported by javac only
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     }
     else { // is Eclipse
       result.add("-noExit");

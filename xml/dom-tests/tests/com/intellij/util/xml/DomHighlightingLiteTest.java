@@ -22,7 +22,10 @@ import com.intellij.codeInspection.InspectionToolProvider;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.ex.InspectionToolRegistrar;
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
 import com.intellij.ide.ui.search.SearchableOptionsRegistrar;
+=======
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.mock.MockInspectionProfile;
 import com.intellij.profile.codeInspection.InspectionProfileManager;
@@ -54,7 +57,7 @@ public class DomHighlightingLiteTest extends DomTestCase {
   protected void setUp() throws Exception {
     super.setUp();
 
-    final InspectionToolRegistrar registrar = new InspectionToolRegistrar(SearchableOptionsRegistrar.getInstance());
+    final InspectionToolRegistrar registrar = new InspectionToolRegistrar();
     registrar.registerTools(new InspectionToolProvider[0]);
     final InspectionProfileManager inspectionProfileManager = new InspectionProfileManagerImpl(registrar, new MockSchemesManagerFactory());
     myInspectionProfile = new MockInspectionProfile();

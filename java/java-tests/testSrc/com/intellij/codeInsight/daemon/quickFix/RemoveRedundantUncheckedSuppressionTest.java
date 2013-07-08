@@ -32,7 +32,11 @@ public class RemoveRedundantUncheckedSuppressionTest extends LightQuickFixTestCa
     final UncheckedWarningLocalInspection warningLocalInspection = new UncheckedWarningLocalInspection();
     final RedundantSuppressInspection inspection = new RedundantSuppressInspection(){
       @Override
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       protected InspectionToolWrapper[] getInspectionTools(PsiElement psiElement, InspectionManager manager) {
+=======
+      protected InspectionToolWrapper[] getInspectionTools(PsiElement psiElement, @NotNull InspectionManager manager) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         return new InspectionToolWrapper[]{
           new LocalInspectionToolWrapper(varargsInspection),
           new LocalInspectionToolWrapper(warningLocalInspection)

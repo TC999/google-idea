@@ -57,7 +57,11 @@ public abstract class AbstractExternalSystemLocalSettings {
     new AtomicReference<Map<ExternalProjectPojo, Collection<ExternalProjectPojo>>>(
       ContainerUtilRt.<ExternalProjectPojo, Collection<ExternalProjectPojo>>newHashMap()
     );
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   private final AtomicReference<Map<String, Collection<ExternalTaskPojo>>>                 myAvailableTasks                   =
+=======
+  private final AtomicReference<Map<String/* external project config path */, Collection<ExternalTaskPojo>>> myAvailableTasks =
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     new AtomicReference<Map<String, Collection<ExternalTaskPojo>>>(
       ContainerUtilRt.<String, Collection<ExternalTaskPojo>>newHashMap()
     );
@@ -195,7 +199,11 @@ public abstract class AbstractExternalSystemLocalSettings {
       toForget.add(taskInfo.getSettings().getExternalProjectPath());
     }
     
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     AbstractExternalSystemSettings<?, ?> settings = manager.getSettingsProvider().fun(myProject);
+=======
+    AbstractExternalSystemSettings<?, ?, ?> settings = manager.getSettingsProvider().fun(myProject);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     for (ExternalProjectSettings projectSettings : settings.getLinkedProjectsSettings()) {
       toForget.remove(projectSettings.getExternalProjectPath());
     }

@@ -34,6 +34,7 @@ import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.UserDataHolderBase;
 import com.intellij.openapi.vfs.NonPhysicalFileSystem;
 import com.intellij.openapi.vfs.PersistentFSConstants;
+import com.intellij.openapi.vfs.VFileProperty;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.impl.PsiManagerEx;
 import com.intellij.psi.impl.PsiManagerImpl;
@@ -47,6 +48,10 @@ import com.intellij.testFramework.LightVirtualFile;
 import com.intellij.util.LocalTimeCounter;
 import com.intellij.util.ReflectionCache;
 import com.intellij.util.SmartList;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+import com.intellij.util.containers.ContainerUtil;
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -146,7 +151,7 @@ public class SingleRootFileViewProvider extends UserDataHolderBase implements Fi
   @Override
   @NotNull
   public List<PsiFile> getAllFiles() {
-    return Collections.singletonList(getPsi(getBaseLanguage()));
+    return ContainerUtil.createMaybeSingletonList(getPsi(getBaseLanguage()));
   }
 
   @Nullable
@@ -267,7 +272,7 @@ public class SingleRootFileViewProvider extends UserDataHolderBase implements Fi
 
   @Nullable
   protected PsiFile createFile(@NotNull Project project, @NotNull VirtualFile file, @NotNull FileType fileType) {
-    if (fileType.isBinary() || file.is(VirtualFile.PROP_SPECIAL)) {
+    if (fileType.isBinary() || file.is(VFileProperty.SPECIAL)) {
       return new PsiBinaryFileImpl((PsiManagerImpl)getManager(), this);
     }
     if (!isTooLargeForIntelligence(file)) {
@@ -538,8 +543,13 @@ public class SingleRootFileViewProvider extends UserDataHolderBase implements Fi
     private final PsiFileImpl myFile;
     private volatile String myContent = null;
     private final long myModificationStamp;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") 
+=======
+
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     private final List<FileElement> myFileElementHardRefs = new SmartList<FileElement>();
 
     private PsiFileContent(final PsiFileImpl file, final long modificationStamp) {

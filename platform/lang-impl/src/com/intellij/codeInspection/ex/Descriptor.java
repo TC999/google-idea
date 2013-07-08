@@ -20,6 +20,7 @@ import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInsight.daemon.HighlightDisplayKey;
 import com.intellij.codeInspection.InspectionProfileEntry;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.psi.search.scope.packageSet.NamedScope;
 import org.jdom.Element;
@@ -44,18 +45,29 @@ public class Descriptor {
   private final ScopeToolState myState;
   private final InspectionProfileImpl myInspectionProfile;
 
-  public Descriptor(@NotNull ScopeToolState state, @NotNull InspectionProfileImpl inspectionProfile) {
+  public Descriptor(@NotNull ScopeToolState state, @NotNull InspectionProfileImpl inspectionProfile, @NotNull Project project) {
     myState = state;
     myInspectionProfile = inspectionProfile;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     InspectionToolWrapper tool = (InspectionToolWrapper)state.getTool();
+=======
+    InspectionToolWrapper tool = state.getTool();
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     myText = tool.getDisplayName();
     final String[] groupPath = tool.getGroupPath();
     myGroup = groupPath.length == 0 ? new String[]{InspectionProfileEntry.GENERAL_GROUP_NAME} : groupPath;
     myKey = HighlightDisplayKey.find(tool.getShortName());
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     myLevel = inspectionProfile.getErrorLevel(myKey, ScopeToolStateUtil.getScope(state));
     myEnabled = inspectionProfile.isToolEnabled(myKey, ScopeToolStateUtil.getScope(state));
     myToolWrapper = tool;
     myScope = ScopeToolStateUtil.getScope(state);
+=======
+    myScope = state.getScope(project);
+    myLevel = inspectionProfile.getErrorLevel(myKey, myScope, project);
+    myEnabled = inspectionProfile.isToolEnabled(myKey, myScope, project);
+    myToolWrapper = tool;
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
 
   public boolean equals(Object obj) {
@@ -99,14 +111,22 @@ public class Descriptor {
   }
 
   @NotNull
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   public InspectionToolWrapper getTool() {
+=======
+  public InspectionToolWrapper getToolWrapper() {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     return myToolWrapper;
   }
 
   @Nullable
   public String loadDescription() {
     if (myConfig == null) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       InspectionToolWrapper toolWrapper = getTool();
+=======
+      InspectionToolWrapper toolWrapper = getToolWrapper();
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
       myConfig = createConfigElement(toolWrapper);
     }
 
@@ -120,7 +140,11 @@ public class Descriptor {
   public static Element createConfigElement(InspectionToolWrapper toolWrapper) {
     Element element = new Element("options");
     try {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       toolWrapper.writeSettings(element);
+=======
+      toolWrapper.getTool().writeSettings(element);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     }
     catch (WriteExternalException e) {
       LOG.error(e);

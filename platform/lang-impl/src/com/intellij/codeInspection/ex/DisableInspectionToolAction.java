@@ -63,7 +63,11 @@ public class DisableInspectionToolAction implements IntentionAction, Iconable {
   public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
     final InspectionProjectProfileManager profileManager = InspectionProjectProfileManager.getInstance(project);
     InspectionProfile inspectionProfile = profileManager.getInspectionProfile();
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     InspectionToolWrapper toolWrapper = (InspectionToolWrapper)inspectionProfile.getInspectionTool(myToolId);
+=======
+    InspectionToolWrapper toolWrapper = inspectionProfile.getInspectionTool(myToolId, project);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     return toolWrapper == null || toolWrapper.getDefaultLevel() != HighlightDisplayLevel.NON_SWITCHABLE_ERROR;
   }
 

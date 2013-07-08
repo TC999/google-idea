@@ -22,7 +22,10 @@ import com.intellij.codeInspection.InspectionProfile;
 import com.intellij.codeInspection.InspectionProfileEntry;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.ex.InspectionToolWrapper;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper;
+=======
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.diagnostic.Logger;
@@ -273,9 +276,15 @@ public class DomElementAnnotationsManagerImpl extends DomElementAnnotationsManag
     Class rootType = fileElement.getRootElementClass();
     final InspectionProfile profile = getInspectionProfile(fileElement);
     final List<DomElementsInspection> inspections = new SmartList<DomElementsInspection>();
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     for (final InspectionToolWrapper toolWrapper : (InspectionToolWrapper[])profile.getInspectionTools(fileElement.getFile())) {
       if (!enabledOnly || profile.isToolEnabled(HighlightDisplayKey.find(toolWrapper.getShortName()), fileElement.getFile())) {
         ContainerUtil.addIfNotNull(getSuitableInspection(toolWrapper, rootType), inspections);
+=======
+    for (final InspectionToolWrapper toolWrapper : profile.getInspectionTools(fileElement.getFile())) {
+      if (!enabledOnly || profile.isToolEnabled(HighlightDisplayKey.find(toolWrapper.getShortName()), fileElement.getFile())) {
+        ContainerUtil.addIfNotNull(getSuitableInspection(toolWrapper.getTool(), rootType), inspections);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
       }
     }
     return inspections;
@@ -287,10 +296,6 @@ public class DomElementAnnotationsManagerImpl extends DomElementAnnotationsManag
 
   @Nullable
   private static DomElementsInspection getSuitableInspection(InspectionProfileEntry entry, Class rootType) {
-    if (entry instanceof LocalInspectionToolWrapper) {
-      return getSuitableInspection(((LocalInspectionToolWrapper)entry).getTool(), rootType);
-    }
-
     if (entry instanceof DomElementsInspection) {
       if (((DomElementsInspection)entry).getDomClasses().contains(rootType)) {
         return (DomElementsInspection) entry;

@@ -221,7 +221,11 @@ public class ViewOfflineResultsAction extends AnAction implements DumbAware {
     final GlobalInspectionContextImpl context = managerEx.createNewGlobalContext(false);
     context.setExternalProfile(inspectionProfile);
     context.setCurrentScope(scope);
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     context.initializeTools(new ArrayList<Tools>(), new ArrayList<Tools>(), new ArrayList<Tools>(), new ArrayList<Tools>());
+=======
+    context.initializeTools(new ArrayList<Tools>(), new ArrayList<Tools>(), new ArrayList<Tools>());
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     final InspectionResultsView view = new InspectionResultsView(project, inspectionProfile, scope, context,
                                                                  new OfflineInspectionRVContentProvider(resMap, project));
     ((RefManagerImpl)context.getRefManager()).inspectionReadActionStarted();

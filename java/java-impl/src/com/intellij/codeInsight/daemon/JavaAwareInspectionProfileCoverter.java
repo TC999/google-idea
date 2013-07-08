@@ -52,7 +52,11 @@ public class JavaAwareInspectionProfileCoverter extends InspectionProfileConvert
     super.fillErrorLevels(profile);
 
     //javadoc attributes
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     final InspectionToolWrapper toolWrapper = (InspectionToolWrapper)profile.getInspectionTool(JavaDocLocalInspection.SHORT_NAME, null);
+=======
+    final InspectionToolWrapper toolWrapper = profile.getInspectionTool(JavaDocLocalInspection.SHORT_NAME, null);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     JavaDocLocalInspection inspection = (JavaDocLocalInspection)toolWrapper.getTool();
     inspection.myAdditionalJavadocTags = myAdditionalJavadocTags;
   }

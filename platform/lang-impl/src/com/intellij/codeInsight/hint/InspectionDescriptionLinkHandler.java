@@ -50,7 +50,11 @@ public class InspectionDescriptionLinkHandler extends TooltipLinkHandler {
     }
 
     final InspectionProfile profile = (InspectionProfile)InspectionProfileManager.getInstance().getRootProfile();
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     final InspectionToolWrapper toolWrapper = (InspectionToolWrapper)profile.getInspectionTool(refSuffix, file);
+=======
+    final InspectionToolWrapper toolWrapper = profile.getInspectionTool(refSuffix, file);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     if (toolWrapper == null) return null;
 
     String description = toolWrapper.loadDescription();

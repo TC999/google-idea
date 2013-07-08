@@ -115,7 +115,11 @@ public abstract class InspectionTestCase extends PsiTestCase {
   protected void runTool(final String testDir,
                          final String jdkName,
                          boolean runDeadCodeFirst,
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
                          final InspectionToolWrapper toolWrapper,
+=======
+                         @NotNull InspectionToolWrapper toolWrapper,
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
                          @NotNull InspectionToolWrapper... additional) {
     final VirtualFile[] sourceDir = new VirtualFile[1];
     ApplicationManager.getApplication().runWriteAction(new Runnable() {
@@ -132,7 +136,11 @@ public abstract class InspectionTestCase extends PsiTestCase {
     AnalysisScope scope = createAnalysisScope(sourceDir[0].getParent());
 
     InspectionManagerEx inspectionManager = (InspectionManagerEx)InspectionManager.getInstance(getProject());
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     InspectionToolWrapper[] toolWrappers = runDeadCodeFirst ? new InspectionToolWrapper []{new CommonInspectionToolWrapper(new UnusedDeclarationInspection()), toolWrapper} : new InspectionToolWrapper []{toolWrapper};
+=======
+    InspectionToolWrapper[] toolWrappers = runDeadCodeFirst ? new InspectionToolWrapper []{new GlobalInspectionToolWrapper(new UnusedDeclarationInspection()), toolWrapper} : new InspectionToolWrapper []{toolWrapper};
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     toolWrappers = ArrayUtil.mergeArrays(toolWrappers, additional);
     final GlobalInspectionContextImpl globalContext =
       CodeInsightTestFixtureImpl.createGlobalContextForTool(scope, getProject(), inspectionManager, toolWrappers);
@@ -140,6 +148,7 @@ public abstract class InspectionTestCase extends PsiTestCase {
     InspectionTestUtil.runTool(toolWrapper, scope, globalContext, inspectionManager);
   }
 
+  @NotNull
   protected AnalysisScope createAnalysisScope(VirtualFile sourceDir) {
     PsiManager psiManager = PsiManager.getInstance(myProject);
     return new AnalysisScope(psiManager.findDirectory(sourceDir));

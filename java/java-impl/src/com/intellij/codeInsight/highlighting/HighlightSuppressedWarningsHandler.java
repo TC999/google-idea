@@ -118,11 +118,20 @@ public class HighlightSuppressedWarningsHandler extends HighlightUsagesHandlerBa
       if (!(value instanceof String)) {
         continue;
       }
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       InspectionToolWrapper toolById = ((InspectionProfileImpl)inspectionProfile).getToolById((String)value, target);
       if (!(toolById instanceof LocalInspectionToolWrapper)) {
+=======
+      InspectionToolWrapper toolWrapperById = ((InspectionProfileImpl)inspectionProfile).getToolById((String)value, target);
+      if (!(toolWrapperById instanceof LocalInspectionToolWrapper)) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         continue;
       }
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       final LocalInspectionToolWrapper toolWrapper = ((LocalInspectionToolWrapper)toolById).createCopy();
+=======
+      final LocalInspectionToolWrapper toolWrapper = ((LocalInspectionToolWrapper)toolWrapperById).createCopy();
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
       final InspectionManagerEx managerEx = (InspectionManagerEx)InspectionManager.getInstance(project);
       final GlobalInspectionContextImpl context = managerEx.createNewGlobalContext(false);
       toolWrapper.initialize(context);

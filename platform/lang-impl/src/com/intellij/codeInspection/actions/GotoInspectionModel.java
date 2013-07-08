@@ -45,8 +45,13 @@ public class GotoInspectionModel extends SimpleChooseByNameModel {
   public GotoInspectionModel(Project project) {
     super(project, IdeBundle.message("prompt.goto.inspection.enter.name"), "goto.inspection.help.id");
     final InspectionProfileImpl rootProfile = (InspectionProfileImpl)InspectionProfileManager.getInstance().getRootProfile();
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     for (ScopeToolState state : rootProfile.getAllTools()) {
       InspectionToolWrapper tool = (InspectionToolWrapper)state.getTool();
+=======
+    for (ScopeToolState state : rootProfile.getAllTools(project)) {
+      InspectionToolWrapper tool = state.getTool();
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
       InspectionToolWrapper workingTool = tool;
       if (tool instanceof LocalInspectionToolWrapper) {
         workingTool = LocalInspectionToolWrapper.findTool2RunInBatch(project, null, tool.getShortName());

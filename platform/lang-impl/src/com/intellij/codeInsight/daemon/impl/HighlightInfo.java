@@ -766,7 +766,8 @@ public class HighlightInfo implements Segment {
       List<IntentionAction> options = myOptions;
       HighlightDisplayKey key = myKey;
       if (myProblemGroup != null) {
-        HighlightDisplayKey problemGroupKey = HighlightDisplayKey.findById(myProblemGroup.getProblemName());
+        String problemName = myProblemGroup.getProblemName();
+        HighlightDisplayKey problemGroupKey = problemName != null ? HighlightDisplayKey.findById(problemName) : null;
         if (problemGroupKey != null) {
           key = problemGroupKey;
         }
@@ -776,11 +777,19 @@ public class HighlightInfo implements Segment {
       }
       List<IntentionAction> newOptions = IntentionManager.getInstance().getStandardIntentionOptions(key, element);
       InspectionProfile profile = InspectionProjectProfileManager.getInstance(element.getProject()).getInspectionProfile();
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       InspectionToolWrapper toolWrapper = (InspectionToolWrapper)profile.getInspectionTool(key.toString(), element);
+=======
+      InspectionToolWrapper toolWrapper = profile.getInspectionTool(key.toString(), element);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
       if (!(toolWrapper instanceof LocalInspectionToolWrapper)) {
         HighlightDisplayKey idkey = HighlightDisplayKey.findById(key.toString());
         if (idkey != null) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
           toolWrapper = (InspectionToolWrapper)profile.getInspectionTool(idkey.toString(), element);
+=======
+          toolWrapper = profile.getInspectionTool(idkey.toString(), element);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         }
       }
       if (toolWrapper != null) {

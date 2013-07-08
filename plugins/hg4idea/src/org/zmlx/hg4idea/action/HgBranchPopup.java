@@ -110,7 +110,11 @@ public class HgBranchPopup {
     popupGroup.addSeparator("Repositories");
     boolean isMultiRepoConfig = repositories.size() > 1;
     for (VirtualFile repository : repositories) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       HgRepository repo = HgRepositoryImpl.getFullInstance(repository, myProject, myProject);
+=======
+      HgRepository repo = HgRepositoryImpl.getInstance(repository, myProject, myProject);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
       popupGroup.add(new RootAction<HgRepository>(repo, isMultiRepoConfig ? myCurrentRepository : null,
                                                   new HgBranchPopupActions(repo.getProject(), repo).createActions(null),
                                                   HgUtil.getDisplayableBranchText(repo),

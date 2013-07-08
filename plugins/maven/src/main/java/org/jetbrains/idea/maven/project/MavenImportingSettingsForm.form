@@ -272,6 +272,7 @@
         <properties>
           <labelFor value="83bca"/>
           <text value="Dependency types:"/>
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
           <toolTipText value="Comma separated list of dependency types those must be added as external libraries on import"/>
         </properties>
       </component>
@@ -295,6 +296,31 @@
           <fontColor value="BRIGHTER"/>
           <labelFor value="83bca"/>
           <text value="Comma separated list of dependency types those must be added as external libraries on import"/>
+=======
+          <toolTipText resource-bundle="ProjectBundle" key="maven.import.dependency.type.description"/>
+        </properties>
+      </component>
+      <component id="83bca" class="javax.swing.JTextField" binding="myDependencyTypes">
+        <constraints>
+          <grid row="15" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="60" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <columns value="0"/>
+          <toolTipText resource-bundle="ProjectBundle" key="maven.import.dependency.type.description"/>
+        </properties>
+      </component>
+      <component id="d634c" class="com.intellij.ui.components.JBLabel">
+        <constraints>
+          <grid row="16" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <componentStyle value="SMALL"/>
+          <fontColor value="BRIGHTER"/>
+          <labelFor value="83bca"/>
+          <text resource-bundle="ProjectBundle" key="maven.import.dependency.type.description"/>
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         </properties>
       </component>
     </children>

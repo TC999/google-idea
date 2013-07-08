@@ -24,6 +24,7 @@ import com.intellij.CommonBundle;
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.codeInspection.*;
 import com.intellij.codeInspection.reference.*;
+import com.intellij.codeInspection.ui.InspectionToolPresentation;
 import com.intellij.lang.StdLanguages;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -67,8 +68,8 @@ public class GlobalJavaInspectionContextImpl extends GlobalJavaInspectionContext
   public void enqueueClassUsagesProcessor(RefClass refClass, UsagesProcessor p) {
     if (myClassUsagesRequests == null) myClassUsagesRequests = new THashMap<SmartPsiElementPointer, List<UsagesProcessor>>();
     enqueueRequestImpl(refClass, myClassUsagesRequests, p);
-  }
 
+  }
   @Override
   public void enqueueDerivedClassesProcessor(RefClass refClass, DerivedClassesProcessor p) {
     if (myDerivedClassesRequests == null) myDerivedClassesRequests = new THashMap<SmartPsiElementPointer, List<DerivedClassesProcessor>>();
@@ -100,7 +101,7 @@ public class GlobalJavaInspectionContextImpl extends GlobalJavaInspectionContext
   }
 
   @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
-  public static boolean isInspectionsEnabled(final boolean online, Project project) {
+  public static boolean isInspectionsEnabled(final boolean online, @NotNull Project project) {
     final Module[] modules = ModuleManager.getInstance(project).getModules();
     if (online) {
       if (modules.length == 0) {
@@ -416,22 +417,49 @@ public class GlobalJavaInspectionContextImpl extends GlobalJavaInspectionContext
                                       @NotNull final List<Tools> localTools,
                                       @NotNull final GlobalInspectionContext context) {
     getEntryPointsManager(context.getRefManager()).resolveEntryPoints(context.getRefManager());
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+    // UnusedDeclarationInspection should run first
+    for (int i = 0; i < globalTools.size(); i++) {
+      InspectionToolWrapper toolWrapper = globalTools.get(i).getTool();
+      if (UnusedDeclarationInspection.SHORT_NAME.equals(toolWrapper.getShortName())) {
+        Collections.swap(globalTools, i, 0);
+        break;
+      }
+    }
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
 
 
 
   @Override
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   public void performPostRunActivities(@NotNull List<InspectionProfileEntry> needRepeatSearchRequest, @NotNull final GlobalInspectionContext context) {
+=======
+  public void performPostRunActivities(@NotNull List<InspectionToolWrapper> needRepeatSearchRequest, @NotNull final GlobalInspectionContext context) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     JobDescriptor progress = context.getStdJobDescriptors().FIND_EXTERNAL_USAGES;
     progress.setTotalAmount(getRequestCount());
 
     do {
       processSearchRequests(context);
       InspectionToolWrapper[] requestors = needRepeatSearchRequest.toArray(new InspectionToolWrapper[needRepeatSearchRequest.size()]);
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       for (InspectionToolWrapper wrapper : requestors) {
         InspectionProfileEntry requestor = wrapper.getTool();
         if (requestor instanceof InspectionTool && !((InspectionTool)requestor).queryExternalUsagesRequests(InspectionManager.getInstance(context.getProject()))) {
           needRepeatSearchRequest.remove(wrapper);
+=======
+      InspectionManager inspectionManager = InspectionManager.getInstance(context.getProject());
+      for (InspectionToolWrapper toolWrapper : requestors) {
+        boolean result = false;
+        if (toolWrapper instanceof GlobalInspectionToolWrapper) {
+          InspectionToolPresentation presentation = ((GlobalInspectionContextImpl)context).getPresentation(toolWrapper);
+          result = ((GlobalInspectionToolWrapper)toolWrapper).getTool().queryExternalUsagesRequests(inspectionManager, context, presentation);
+        }
+        if (!result) {
+          needRepeatSearchRequest.remove(toolWrapper);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         }
       }
       int oldSearchRequestCount = progress.getTotalAmount();

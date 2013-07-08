@@ -64,13 +64,18 @@ public class MoveInnerToUpperOrMembersHandler extends MoveHandlerDelegate {
                            final Editor editor) {
     if (isStaticInnerClass(element) && !JavaMoveClassesOrPackagesHandler.isReferenceInAnonymousClass(reference)) {
       FeatureUsageTracker.getInstance().triggerFeatureUsed("refactoring.move.moveInner");
+      final PsiElement targetContainer = LangDataKeys.TARGET_PSI_ELEMENT.getData(dataContext);
       PsiClass aClass = (PsiClass) element;
       SelectInnerOrMembersRefactoringDialog dialog = new SelectInnerOrMembersRefactoringDialog(aClass, project);
       dialog.show();
       if (dialog.isOK()) {
         final MoveHandlerDelegate moveHandlerDelegate = dialog.getRefactoringHandler();
         if (moveHandlerDelegate != null) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
           moveHandlerDelegate.doMove(project, new PsiElement[] { aClass }, LangDataKeys.TARGET_PSI_ELEMENT.getData(dataContext), null);
+=======
+          moveHandlerDelegate.doMove(project, new PsiElement[] { aClass }, targetContainer, null);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         }
       }
       return true;

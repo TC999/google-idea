@@ -19,6 +19,7 @@ import com.intellij.JavaTestUtil;
 import com.intellij.codeInspection.deadCode.UnusedDeclarationInspection;
 import com.intellij.codeInspection.ex.CommonInspectionToolWrapper;
 import com.intellij.codeInspection.ex.EntryPointsManagerImpl;
+import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper;
 import com.intellij.openapi.roots.LanguageLevelProjectExtension;
 import com.intellij.pom.java.LanguageLevel;
 import com.intellij.testFramework.InspectionTestCase;
@@ -41,7 +42,11 @@ public class UnusedDeclarationTest extends InspectionTestCase {
   }
 
   private void doTest() {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     doTest("deadCode/" + getTestName(true), new CommonInspectionToolWrapper(myTool));
+=======
+    doTest("deadCode/" + getTestName(true), new GlobalInspectionToolWrapper(myTool));
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
 
   public void testSCR6067() {

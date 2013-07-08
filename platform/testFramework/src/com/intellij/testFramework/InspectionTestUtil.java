@@ -20,9 +20,13 @@ import com.intellij.codeInsight.daemon.HighlightDisplayKey;
 import com.intellij.codeInspection.ex.GlobalInspectionContextImpl;
 import com.intellij.codeInspection.ex.InspectionManagerEx;
 import com.intellij.codeInspection.ex.InspectionToolWrapper;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
 import com.intellij.openapi.progress.EmptyProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.impl.ProgressManagerImpl;
+=======
+import com.intellij.codeInspection.ui.InspectionToolPresentation;
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.JDOMUtil;
 import junit.framework.Assert;
@@ -127,11 +131,22 @@ expected:
     return Comparing.equal(reportedFile.getName(), expectedProblem.getChildText("file"));
   }
 
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   public static void compareToolResults(InspectionToolWrapper toolWrapper, boolean checkRange, String testDir) {
+=======
+  public static void compareToolResults(@NotNull InspectionToolWrapper toolWrapper, boolean checkRange, String testDir) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     final Element root = new Element("problems");
     final Document doc = new Document(root);
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     toolWrapper.updateContent();  //e.g. dead code need check for reachables
     toolWrapper.exportResults(root);
+=======
+    InspectionToolPresentation presentation = ((GlobalInspectionContextImpl)toolWrapper.getContext()).getPresentation(toolWrapper);
+
+    presentation.updateContent();  //e.g. dead code need check for reachables
+    presentation.exportResults(root);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 
     File file = new File(testDir + "/expected.xml");
     try {
@@ -154,11 +169,6 @@ expected:
       HighlightDisplayKey.register(shortName);
     }
 
-    ((ProgressManagerImpl)ProgressManager.getInstance()).executeProcessUnderProgress(new Runnable() {
-        @Override
-        public void run() {
-          globalContext.performInspectionsWithProgress(scope, inspectionManager);
-        }
-      }, new EmptyProgressIndicator());
+    globalContext.doInspections(scope);
   }
 }

@@ -118,9 +118,14 @@ public class ExtConnectionCvsSettings extends CvsConnectionSettings {
     if (!(sourceException instanceof IOException)) return t;
     String localizedMessage = t.getLocalizedMessage();
     if (localizedMessage == null || !localizedMessage.startsWith(UNHANDLED_RESPONSE_PREFIX)) return t;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     String response = localizedMessage.substring(UNHANDLED_RESPONSE_PREFIX.length(),
                                                  localizedMessage.length() - 1);
     if (StringUtil.startsWithConcatenation(response, USER + "@", HOST)) {
+=======
+    String response = localizedMessage.substring(UNHANDLED_RESPONSE_PREFIX.length(), localizedMessage.length() - 1);
+    if (StringUtil.startsWithConcatenation(response, USER, "@", HOST)) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
       return new IOCommandException(new IOException(CvsBundle.message("exception.text.ext.server.rejected.access")));
     }
     else {

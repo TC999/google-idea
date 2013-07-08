@@ -440,7 +440,6 @@ public abstract class LightPlatformTestCase extends UsefulTestCase implements Da
     final List<InspectionEP> eps = ContainerUtil.newArrayList();
     ContainerUtil.addAll(eps, Extensions.getExtensions(LocalInspectionEP.LOCAL_INSPECTION));
     ContainerUtil.addAll(eps, Extensions.getExtensions(InspectionEP.GLOBAL_INSPECTION));
-    ContainerUtil.addAll(eps, (InspectionEP[])Extensions.getExtensions("com.intellij.specialTool"));
 
     next:
     for (int i = 0; i < classes.length; i++) {
@@ -462,23 +461,40 @@ public abstract class LightPlatformTestCase extends UsefulTestCase implements Da
     }
   }
 
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   protected void enableInspectionTool(@NotNull InspectionToolWrapper wrapper) {
     enableInspectionTool(myAvailableInspectionTools, wrapper);
+=======
+  protected void enableInspectionTool(@NotNull InspectionToolWrapper toolWrapper) {
+    enableInspectionTool(myAvailableInspectionTools, toolWrapper);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
   protected void enableInspectionTool(@NotNull InspectionProfileEntry tool) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     assert !(tool instanceof InspectionToolWrapper) : tool;
     enableInspectionTool(myAvailableInspectionTools, InspectionToolRegistrar.wrapTool(tool));
+=======
+    InspectionToolWrapper toolWrapper = InspectionToolRegistrar.wrapTool(tool);
+    enableInspectionTool(myAvailableInspectionTools, toolWrapper);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
 
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   private static void enableInspectionTool(@NotNull Map<String, InspectionToolWrapper> availableLocalTools, @NotNull InspectionToolWrapper wrapper) {
     final String shortName = wrapper.getShortName();
+=======
+  public static void enableInspectionTool(@NotNull Map<String, InspectionToolWrapper> availableLocalTools,
+                                          @NotNull InspectionToolWrapper toolWrapper) {
+    final String shortName = toolWrapper.getShortName();
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     final HighlightDisplayKey key = HighlightDisplayKey.find(shortName);
     if (key == null) {
-      HighlightDisplayKey.register(shortName, wrapper.getDisplayName(), wrapper instanceof LocalInspectionToolWrapper
-                                                                        ? ((LocalInspectionToolWrapper)wrapper).getTool().getID()
-                                                                        : wrapper.getShortName());
+      String id = toolWrapper instanceof LocalInspectionToolWrapper
+                  ? ((LocalInspectionToolWrapper)toolWrapper).getTool().getID()
+                  : toolWrapper.getShortName();
+      HighlightDisplayKey.register(shortName, toolWrapper.getDisplayName(), id);
     }
-    availableLocalTools.put(shortName, wrapper);
+    availableLocalTools.put(shortName, toolWrapper);
   }
 
   @NotNull

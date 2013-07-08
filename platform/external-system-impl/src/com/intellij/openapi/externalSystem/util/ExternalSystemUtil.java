@@ -48,6 +48,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ex.ProjectRootManagerEx;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
@@ -169,7 +170,7 @@ public class ExternalSystemUtil {
     if (manager == null) {
       return;
     }
-    AbstractExternalSystemSettings<?, ?> settings = manager.getSettingsProvider().fun(project);
+    AbstractExternalSystemSettings<?, ?, ?> settings = manager.getSettingsProvider().fun(project);
     final Collection<? extends ExternalProjectSettings> projectsSettings = settings.getLinkedProjectsSettings();
     if (projectsSettings.isEmpty()) {
       return;
@@ -184,7 +185,7 @@ public class ExternalSystemUtil {
       private final Set<String> myExternalModuleNames = ContainerUtilRt.newHashSet();
 
       @Override
-      public void onSuccess(@Nullable DataNode<ProjectData> externalProject) {
+      public void onSuccess(@Nullable final DataNode<ProjectData> externalProject) {
         if (externalProject == null) {
           return;
         }
@@ -192,7 +193,21 @@ public class ExternalSystemUtil {
         for (DataNode<ModuleData> node : moduleNodes) {
           myExternalModuleNames.add(node.getData().getName());
         }
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
         projectDataManager.importData(externalProject.getKey(), Collections.singleton(externalProject), project, false);
+=======
+        ExternalSystemApiUtil.executeProjectChangeAction(true, new Runnable() {
+          @Override
+          public void run() {
+            ProjectRootManagerEx.getInstanceEx(project).mergeRootsChangesDuring(new Runnable() {
+              @Override
+              public void run() {
+                projectDataManager.importData(externalProject.getKey(), Collections.singleton(externalProject), project, true);
+              }
+            }); 
+          }
+        });
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         if (--counter[0] <= 0) {
           processOrphanModules();
         }
@@ -348,6 +363,7 @@ public class ExternalSystemUtil {
                                     final boolean resolveLibraries,
                                     final boolean modal)
   {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     File projectFolder = new File(externalProjectPath).getParentFile();
     if (projectFolder == null) {
       String error = String.format("Cannot obtain parent of external project path: '%s'", externalProjectPath);
@@ -360,6 +376,16 @@ public class ExternalSystemUtil {
     }
     final String projectName = projectFolder.getName();
 
+=======
+    File projectFile = new File(externalProjectPath);
+    final String projectName;
+    if (projectFile.isFile()) {
+      projectName = projectFile.getParentFile().getName();
+    }
+    else {
+      projectName = projectFile.getName();
+    }
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     final TaskUnderProgress refreshProjectStructureTask = new TaskUnderProgress() {
       @SuppressWarnings({"ThrowableResultOfMethodCallIgnored", "IOResourceOpenedButNotSafelyClosed"})
       @Override

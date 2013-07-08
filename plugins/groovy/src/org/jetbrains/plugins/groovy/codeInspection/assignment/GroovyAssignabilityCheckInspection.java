@@ -76,10 +76,14 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.signatures.GrClosureSignatureU
 import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.GrReferenceResolveUtil;
 import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.TypesUtil;
 import org.jetbrains.plugins.groovy.lang.psi.typeEnhancers.ClosureParameterEnhancer;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
 import org.jetbrains.plugins.groovy.lang.psi.util.GdkMethodUtil;
 import org.jetbrains.plugins.groovy.lang.psi.util.GroovyCommonClassNames;
 import org.jetbrains.plugins.groovy.lang.psi.util.GroovyConstantExpressionEvaluator;
 import org.jetbrains.plugins.groovy.lang.psi.util.PsiUtil;
+=======
+import org.jetbrains.plugins.groovy.lang.psi.util.*;
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 import org.jetbrains.plugins.groovy.lang.resolve.ResolveUtil;
 import org.jetbrains.plugins.groovy.refactoring.GroovyRefactoringUtil;
 
@@ -241,7 +245,7 @@ public class GroovyAssignabilityCheckInspection extends BaseInspection {
       if (lValue instanceof GrIndexProperty) return;
       if (!PsiUtil.mightBeLValue(lValue)) return;
 
-      IElementType opToken = assignment.getOperationToken();
+      IElementType opToken = assignment.getOperationTokenType();
       if (opToken != GroovyTokenTypes.mASSIGN) return;
 
       GrExpression rValue = assignment.getRValue();
@@ -569,7 +573,13 @@ public class GroovyAssignabilityCheckInspection extends BaseInspection {
 
         if (exprArgs.length == 0 && !PsiUtil.isConstructorHasRequiredParameters(constructor)) return true;
       }
-      return checkMethodApplicability(constructorResolveResult, place, checkUnknownArgs);
+
+      PsiType[] types = PsiUtil.getArgumentTypes(place, true);
+      PsiClass containingClass = constructor.getContainingClass();
+      if (types != null && containingClass != null) {
+        types = GrInnerClassConstructorUtil.addEnclosingArgIfNeeded(types, place, containingClass);
+      }
+      return checkMethodApplicability(constructorResolveResult, place, checkUnknownArgs, types);
     }
 
     @Override
@@ -884,13 +894,21 @@ public class GroovyAssignabilityCheckInspection extends BaseInspection {
       return builder.toString();
     }
 
-    private boolean checkMethodApplicability(GroovyResolveResult methodResolveResult, GroovyPsiElement place, boolean checkUnknownArgs) {
+    private boolean checkMethodApplicability(@NotNull GroovyResolveResult methodResolveResult,
+                                             @NotNull GroovyPsiElement place,
+                                             boolean checkUnknownArgs) {
+      return checkMethodApplicability(methodResolveResult, place, checkUnknownArgs, PsiUtil.getArgumentTypes(place, true));
+    }
+
+    private boolean checkMethodApplicability(@NotNull GroovyResolveResult methodResolveResult,
+                                             @NotNull GroovyPsiElement place,
+                                             boolean checkUnknownArgs,
+                                             @Nullable PsiType[] argumentTypes) {
       final PsiElement element = methodResolveResult.getElement();
       if (!(element instanceof PsiMethod)) return true;
       if (element instanceof GrBuilderMethod) return true;
 
       final PsiMethod method = (PsiMethod)element;
-      PsiType[] argumentTypes = PsiUtil.getArgumentTypes(place, true);
       if ("call".equals(method.getName()) && place instanceof GrReferenceExpression) {
         final GrExpression qualifierExpression = ((GrReferenceExpression)place).getQualifierExpression();
         if (qualifierExpression != null) {

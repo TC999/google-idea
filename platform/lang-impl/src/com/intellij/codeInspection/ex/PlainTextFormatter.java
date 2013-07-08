@@ -92,7 +92,11 @@ public class PlainTextFormatter implements InspectionsReportConverter {
           continue;
         }
 
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
         InspectionToolWrapper toolWrapper = (InspectionToolWrapper)tools.get(fileNameWithoutExt).getTool();
+=======
+        InspectionToolWrapper toolWrapper = tools.get(fileNameWithoutExt).getTool();
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 
         // Tool name and group
         w.append(getToolPresentableName(toolWrapper)).append("\n");

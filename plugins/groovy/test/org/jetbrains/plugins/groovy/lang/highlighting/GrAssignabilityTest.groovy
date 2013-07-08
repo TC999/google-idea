@@ -726,4 +726,55 @@ xx = 'abc'
 
   }
 
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+
+  void testInnerClassConstructor0() {
+    testHighlighting('''\
+class A {
+  class Inner {
+    def Inner() {}
+  }
+
+  def foo() {
+    new Inner() //correct
+  }
+
+  static def bar() {
+    new <error>Inner</error>() //semi-correct
+    new Inner(new A()) //correct
+  }
+}
+
+new A.Inner() //semi-correct
+new A.Inner(new A()) //correct
+''')
+  }
+
+  void testInnerClassConstructor1() {
+    testHighlighting('''\
+class A {
+  class Inner {
+    def Inner(A a) {}
+  }
+
+  def foo() {
+    new Inner(new A()) //correct
+    new Inner<warning>()</warning>
+    new Inner<warning>(new A(), new A())</warning>
+  }
+
+  static def bar() {
+    new Inner(new A(), new A()) //correct
+    new Inner<warning>(new A())</warning> //incorrect: first arg is recognized as an enclosing instance arg
+  }
+}
+
+new A.Inner<warning>()</warning> //incorrect
+new A.Inner<warning>(new A())</warning> //incorrect: first arg is recognized as an enclosing instance arg
+new A.Inner(new A(), new A()) //correct
+''')
+  }
+
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 }

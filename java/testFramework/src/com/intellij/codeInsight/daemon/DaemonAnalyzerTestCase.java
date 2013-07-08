@@ -193,6 +193,7 @@ public abstract class DaemonAnalyzerTestCase extends CodeInsightTestCase {
     //((VirtualFilePointerManagerImpl)VirtualFilePointerManager.getInstance()).assertPointersDisposed();
   }
 
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   protected void enableInspectionTool(@NotNull InspectionProfileEntry tool){
     assert !(tool instanceof InspectionToolWrapper) : tool;
     InspectionToolWrapper wrapper = InspectionToolRegistrar.wrapTool(tool);
@@ -202,6 +203,11 @@ public abstract class DaemonAnalyzerTestCase extends CodeInsightTestCase {
       HighlightDisplayKey.register(shortName, wrapper.getDisplayName(), ((LocalInspectionToolWrapper)wrapper).getID());
     }
     myAvailableTools.put(shortName, wrapper);
+=======
+  protected void enableInspectionTool(@NotNull InspectionProfileEntry tool) {
+    InspectionToolWrapper toolWrapper = InspectionToolRegistrar.wrapTool(tool);
+    LightPlatformTestCase.enableInspectionTool(myAvailableTools, toolWrapper);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
 
   protected void enableInspectionToolsFromProvider(InspectionToolProvider toolProvider){

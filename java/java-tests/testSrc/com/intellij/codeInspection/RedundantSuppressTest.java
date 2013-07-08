@@ -5,6 +5,7 @@ import com.intellij.codeInspection.ex.*;
 import com.intellij.codeInspection.i18n.I18nInspection;
 import com.intellij.psi.PsiElement;
 import com.intellij.testFramework.InspectionTestCase;
+import org.jetbrains.annotations.NotNull;
 
 public class RedundantSuppressTest extends InspectionTestCase {
   private GlobalInspectionToolWrapper myWrapper;
@@ -19,7 +20,11 @@ public class RedundantSuppressTest extends InspectionTestCase {
 
     myWrapper = new GlobalInspectionToolWrapper(new RedundantSuppressInspection() {
       @Override
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       protected InspectionToolWrapper[] getInspectionTools(PsiElement psiElement, InspectionManager manager) {
+=======
+      protected InspectionToolWrapper[] getInspectionTools(PsiElement psiElement, @NotNull InspectionManager manager) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         return myInspectionToolWrappers;
       }
     });

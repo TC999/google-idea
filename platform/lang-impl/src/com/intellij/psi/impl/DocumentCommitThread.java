@@ -293,7 +293,7 @@ public class DocumentCommitThread extends DocumentCommitProcessor implements Run
         ((ProgressManagerImpl)ProgressManager.getInstance()).executeProcessUnderProgress(new Runnable() {
           @Override
           public void run() {
-            result[0] = commitUnderProgress(commitTask, null, false);
+            result[0] = commitUnderProgress(commitTask, false);
           }
         }, commitTask.indicator);
         finishRunnable = result[0];
@@ -331,7 +331,7 @@ public class DocumentCommitThread extends DocumentCommitProcessor implements Run
   }
 
   @Override
-  public void commitSynchronously(@NotNull Document document, @NotNull Project project, PsiFile excludeFile) {
+  public void commitSynchronously(@NotNull Document document, @NotNull Project project) {
     assert !isDisposed;
     ApplicationManager.getApplication().assertWriteAccessAllowed();
 
@@ -363,7 +363,7 @@ public class DocumentCommitThread extends DocumentCommitProcessor implements Run
 
     log("About to commit sync", task, true, indicator);
 
-    Runnable finish = commitUnderProgress(task, excludeFile, true);
+    Runnable finish = commitUnderProgress(task, true);
     log("Committed sync", task, true, finish, indicator);
     assert finish != null;
 
@@ -392,7 +392,6 @@ public class DocumentCommitThread extends DocumentCommitProcessor implements Run
   // returns finish commit Runnable (to be invoked later in EDT), or null on failure
   @Nullable
   private Runnable commitUnderProgress(@NotNull final CommitTask task,
-                                       final PsiFile excludeFile,
                                        final boolean synchronously) {
     final Project project = task.project;
     final Document document = task.document;
@@ -407,7 +406,11 @@ public class DocumentCommitThread extends DocumentCommitProcessor implements Run
         if (viewProvider == null) return;
         List<PsiFile> psiFiles = viewProvider.getAllFiles();
         for (PsiFile file : psiFiles) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
           if (file.isValid() && file != excludeFile) {
+=======
+          if (file.isValid()) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
             Processor<Document> finishProcessor = doCommit(task, file, synchronously);
             if (finishProcessor != null) {
               finishProcessors.add(finishProcessor);
@@ -465,9 +468,6 @@ public class DocumentCommitThread extends DocumentCommitProcessor implements Run
         }
 
         PsiDocumentManagerImpl documentManager = (PsiDocumentManagerImpl)PsiDocumentManager.getInstance(project);
-        Collection<Document> uncommitted = documentManager.getUncommittedDocumentsUnsafe();
-        FileViewProvider viewProvider = documentManager.getCachedViewProvider(document);
-        //if (!documentManager.getSynchronizer().isInSynchronization(document) && !uncommitted.contains(document)) return; // already committed, must be the sync commit
 
         log("Executing later finishCommit", task, false);
         boolean success = documentManager.finishCommit(document, finishProcessors, synchronously, task.reason);

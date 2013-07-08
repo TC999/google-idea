@@ -236,7 +236,11 @@ public class ExtensionPointImpl<T> implements ExtensionPoint<T> {
       myLoadedAdapters.clear();
       ExtensionComponentAdapter[] adapters = allAdapters.toArray(new ExtensionComponentAdapter[myExtensionAdapters.size()]);
       LoadingOrder.sort(adapters);
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
       final List<T> extensions = new ArrayList<T>();
+=======
+      final List<T> extensions = new ArrayList<T>(adapters.length);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
       for (ExtensionComponentAdapter adapter : adapters) {
         @SuppressWarnings("unchecked") T extension = (T)adapter.getExtension();
         assertClass(extension.getClass());

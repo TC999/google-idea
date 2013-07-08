@@ -59,4 +59,16 @@ public class StringBufferReplaceableByString {
     (Math.random() < 0.5 ? a : b).append("BLA");
     System.out.println(a + "/" + b);
   }
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+
+  String incomplete(char[] cs) {
+    StringBuilder a = new StringBuilder();
+    a.append(cs, 1);
+    System.out.println(a.toString());
+    StringBuilder b = new StringBuilder();
+    b.append()
+    return b.toString();
+  }
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 }

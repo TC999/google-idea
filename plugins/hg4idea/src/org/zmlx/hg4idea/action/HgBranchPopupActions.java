@@ -121,7 +121,54 @@ public class HgBranchPopupActions {
         });
       }
       catch (HgCommandException exception) {
-        HgAbstractGlobalAction.handleException(myProject, exception);
+        HgAbstractGlobalAction.handleException(myProject, "Can't create new branch: ", exception);
+      }
+    }
+  }
+
+  private static class HgNewBookmarkAction extends DumbAwareAction {
+    protected final List<HgRepository> myRepositories;
+    protected Project myProject;
+    @NotNull final VirtualFile myPreselectedRepo;
+
+    HgNewBookmarkAction(@NotNull Project project, @NotNull List<HgRepository> repositories, @NotNull VirtualFile preselectedRepo) {
+      super("New Bookmark", "Create new bookmark", null);
+      myProject = project;
+      myRepositories = repositories;
+      myPreselectedRepo = preselectedRepo;
+    }
+
+    @Override
+    public void update(AnActionEvent e) {
+      if (DvcsUtil.anyRepositoryIsFresh(myRepositories)) {
+        e.getPresentation().setEnabled(false);
+        e.getPresentation().setDescription("Bookmark creation is not possible before the first commit.");
+      }
+    }
+
+    @Override
+    public void actionPerformed(AnActionEvent e) {
+
+      final HgBookmarkDialog bookmarkDialog = new HgBookmarkDialog(myProject);
+      bookmarkDialog.show();
+      if (bookmarkDialog.isOK()) {
+        try {
+          final String name = bookmarkDialog.getName();
+          new HgBookmarkCreateCommand(myProject, myPreselectedRepo, name,
+                                      bookmarkDialog.isActive()).execute(new HgCommandResultHandler() {
+            @Override
+            public void process(@Nullable HgCommandResult result) {
+              myProject.getMessageBus().syncPublisher(HgVcs.BRANCH_TOPIC).update(myProject, null);
+              if (HgErrorUtil.hasErrorsInCommandExecution(result)) {
+                new HgCommandResultNotifier(myProject)
+                  .notifyError(result, "Creation failed", "Bookmark creation [" + name + "] failed");
+              }
+            }
+          });
+        }
+        catch (HgCommandException exception) {
+          HgAbstractGlobalAction.handleException(myProject, exception);
+        }
       }
     }
   }

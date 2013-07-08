@@ -34,7 +34,11 @@ import com.intellij.util.containers.hash.HashSet;
 import com.intellij.util.xml.DomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
 import org.jetbrains.idea.maven.dom.DependencyId;
+=======
+import org.jetbrains.idea.maven.dom.DependencyConflictId;
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 import org.jetbrains.idea.maven.dom.MavenDomProjectProcessorUtils;
 import org.jetbrains.idea.maven.dom.MavenDomUtil;
 import org.jetbrains.idea.maven.dom.model.MavenDomDependency;
@@ -218,7 +222,11 @@ public class ExtractManagedDependenciesAction extends BaseRefactoringAction {
 
       return new Function<MavenDomProjectModel, Set<MavenDomDependency>>() {
         public Set<MavenDomDependency> fun(MavenDomProjectModel model) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
           DependencyId dependencyId = DependencyId.create(dependency);
+=======
+          DependencyConflictId dependencyId = DependencyConflictId.create(dependency);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
           if (dependencyId == null) return Collections.emptySet();
 
           return MavenDomProjectProcessorUtils.searchDependencyUsages(model, dependencyId, Collections.singleton(dependency));

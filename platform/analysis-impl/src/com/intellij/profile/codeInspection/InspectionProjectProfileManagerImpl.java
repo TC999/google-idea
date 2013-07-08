@@ -61,6 +61,7 @@ public class InspectionProjectProfileManagerImpl extends InspectionProjectProfil
   private final NamedScopeManager myLocalScopesHolder;
   private NamedScopesHolder.ScopeListener myScopeListener;
 
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   public InspectionProjectProfileManagerImpl(final Project project,
                                              InspectionProfileManager inspectionProfileManager,
                                              DependencyValidationManager holder,
@@ -239,6 +240,188 @@ public class InspectionProjectProfileManagerImpl extends InspectionProjectProfil
     super.convert(element);
     if (PROJECT_PROFILE != null) {
       ((ProfileEx)getProjectProfileImpl()).convert(element);
+=======
+  public InspectionProjectProfileManagerImpl(@NotNull Project project,
+                                             @NotNull InspectionProfileManager inspectionProfileManager,
+                                             @NotNull DependencyValidationManager holder,
+                                             @NotNull NamedScopeManager localScopesHolder) {
+    super(project, inspectionProfileManager, holder);
+    myLocalScopesHolder = localScopesHolder;
+    mySeverityRegistrar = new SeverityRegistrar();
+  }
+
+  public static InspectionProjectProfileManagerImpl getInstanceImpl(Project project){
+    return (InspectionProjectProfileManagerImpl)project.getComponent(InspectionProjectProfileManager.class);
+  }
+
+  @Override
+  public Element getState() {
+    try {
+      final Element e = new Element("settings");
+      writeExternal(e);
+      return e;
+    }
+    catch (WriteExternalException e1) {
+      LOG.error(e1);
+      return null;
+    }
+  }
+
+  @Override
+  public void loadState(Element state) {
+    try {
+      readExternal(state);
+    }
+    catch (InvalidDataException e) {
+      LOG.error(e);
+    }
+  }
+
+  @Override
+  public boolean isProfileLoaded() {
+    return myName2Profile.containsKey(getInspectionProfile().getName());
+  }
+
+  @NotNull
+  public synchronized InspectionProfileWrapper getProfileWrapper(){
+    final InspectionProfile profile = getInspectionProfile();
+    final String profileName = profile.getName();
+    if (!myName2Profile.containsKey(profileName)){
+      initProfileWrapper(profile);
+    }
+    return myName2Profile.get(profileName);
+  }
+
+  public InspectionProfileWrapper getProfileWrapper(final String profileName){
+    return myName2Profile.get(profileName);
+  }
+
+  @Override
+  public void updateProfile(@NotNull Profile profile) {
+    super.updateProfile(profile);
+    initProfileWrapper(profile);
+  }
+
+  @Override
+  public void deleteProfile(String name) {
+    super.deleteProfile(name);
+    final InspectionProfileWrapper profileWrapper = myName2Profile.remove(name);
+    if (profileWrapper != null) {
+      profileWrapper.cleanup(myProject);
+    }
+  }
+
+  @Override
+  public void projectOpened() {
+    StartupManager startupManager = StartupManager.getInstance(myProject);
+    if (startupManager == null) return; // upsource
+    startupManager.registerPostStartupActivity(new DumbAwareRunnable() {
+      @Override
+      public void run() {
+        final Set<Profile> profiles = new HashSet<Profile>();
+        profiles.add(getProjectProfileImpl());
+        profiles.addAll(getProfiles());
+        profiles.addAll(InspectionProfileManager.getInstance().getProfiles());
+        final Application app = ApplicationManager.getApplication();
+        Runnable initInspectionProfilesRunnable = new Runnable() {
+          @Override
+          public void run() {
+            for (Profile profile : profiles) {
+              initProfileWrapper(profile);
+            }
+            fireProfilesInitialized();
+          }
+        };
+        if (app.isUnitTestMode() || app.isHeadlessEnvironment()) {
+          initInspectionProfilesRunnable.run();
+          UIUtil.dispatchAllInvocationEvents(); //do not restart daemon in the middle of the test
+        }
+        else {
+          app.executeOnPooledThread(initInspectionProfilesRunnable);
+        }
+        myScopeListener = new NamedScopesHolder.ScopeListener() {
+          @Override
+          public void scopesChanged() {
+            for (Profile profile : getProfiles()) {
+              ((InspectionProfile)profile).scopesChanged();
+            }
+          }
+        };
+        myHolder.addScopeListener(myScopeListener);
+        myLocalScopesHolder.addScopeListener(myScopeListener);
+        Disposer.register(myProject, new Disposable() {
+          @Override
+          public void dispose() {
+            myHolder.removeScopeListener(myScopeListener);
+            myLocalScopesHolder.removeScopeListener(myScopeListener);
+          }
+        });
+      }
+    });
+  }
+
+  @Override
+  public void initProfileWrapper(@NotNull Profile profile) {
+    final InspectionProfileWrapper wrapper = new InspectionProfileWrapper((InspectionProfile)profile);
+    wrapper.init(myProject);
+    myName2Profile.put(profile.getName(), wrapper);
+  }
+
+  @Override
+  public void projectClosed() {
+    final Application app = ApplicationManager.getApplication();
+    Runnable cleanupInspectionProfilesRunnable = new Runnable() {
+      @Override
+      public void run() {
+        for (InspectionProfileWrapper wrapper : myName2Profile.values()) {
+          wrapper.cleanup(myProject);
+        }
+        fireProfilesShutdown();
+      }
+    };
+    if (app.isUnitTestMode() || app.isHeadlessEnvironment()) {
+      cleanupInspectionProfilesRunnable.run();
+    }
+    else {
+      app.executeOnPooledThread(cleanupInspectionProfilesRunnable);
+    }
+  }
+
+  @NotNull
+  @Override
+  public SeverityRegistrar getSeverityRegistrar() {
+    return mySeverityRegistrar;
+  }
+
+  @NotNull
+  @Override
+  public SeverityRegistrar getOwnSeverityRegistrar() {
+    return mySeverityRegistrar;
+  }
+
+  @Override
+  public void readExternal(final Element element) throws InvalidDataException {
+    mySeverityRegistrar.readExternal(element);
+    super.readExternal(element);
+  }
+
+  @Override
+  public void writeExternal(final Element element) throws WriteExternalException {
+    super.writeExternal(element);
+    mySeverityRegistrar.writeExternal(element);
+  }
+
+  @Override
+  public Profile getProfile(@NotNull final String name) {
+    return getProfile(name, true);
+  }
+
+  @Override
+  public void convert(Element element) throws InvalidDataException {
+    super.convert(element);
+    if (PROJECT_PROFILE != null) {
+      ((ProfileEx)getProjectProfileImpl()).convert(element, getProject());
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     }
   }
 }

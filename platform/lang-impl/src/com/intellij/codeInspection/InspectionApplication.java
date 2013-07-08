@@ -218,7 +218,7 @@ public class InspectionApplication {
             if (myErrorCodeRequired) System.exit(1);
             return;
           }
-          inspectionContext.launchInspectionsOffline(scope, resultsDataPath, myRunGlobalToolsOnly, im, inspectionsResults);
+          inspectionContext.launchInspectionsOffline(scope, resultsDataPath, myRunGlobalToolsOnly, inspectionsResults);
           logMessageLn(1, "\n" +
                           InspectionsBundle.message("inspection.capitalized.done") +
                           "\n");
@@ -458,16 +458,24 @@ public class InspectionApplication {
         xmlWriter.startNode("group");
         xmlWriter.addAttribute("name", groupName);
         final Set<InspectionToolWrapper> entries = map.get(groupName);
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
         for (InspectionToolWrapper entry : entries) {
+=======
+        for (InspectionToolWrapper toolWrapper : entries) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
           xmlWriter.startNode("inspection");
-          xmlWriter.addAttribute("shortName", entry.getShortName());
-          xmlWriter.addAttribute("displayName", entry.getDisplayName());
-          final String description = entry.loadDescription();
+          xmlWriter.addAttribute("shortName", toolWrapper.getShortName());
+          xmlWriter.addAttribute("displayName", toolWrapper.getDisplayName());
+          final String description = toolWrapper.loadDescription();
           if (description != null) {
             xmlWriter.setValue(description);
           }
           else {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
             LOG.error(entry.getShortName() + " descriptionUrl==" + entry);
+=======
+            LOG.error(toolWrapper.getShortName() + " descriptionUrl==" + toolWrapper);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
           }
           xmlWriter.endNode();
         }

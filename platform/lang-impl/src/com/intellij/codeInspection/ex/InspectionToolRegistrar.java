@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
 /*
  * Copyright 2000-2011 JetBrains s.r.o.
  *
@@ -293,3 +294,5 @@ public class InspectionToolRegistrar {
     });
   }
 }
+=======
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)

@@ -19,6 +19,7 @@ import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.JarFileSystem;
+import com.intellij.openapi.vfs.VFileProperty;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -101,7 +102,11 @@ public class FileElement {
     return file != null &&
            file.isValid() &&
            file.isInLocalFileSystem() &&
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
            (file.is(VirtualFile.PROP_HIDDEN) || SystemInfo.isUnix && file.getName().startsWith("."));
+=======
+           (file.is(VFileProperty.HIDDEN) || SystemInfo.isUnix && file.getName().startsWith("."));
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
 
   public static boolean isArchive(@Nullable VirtualFile file) {

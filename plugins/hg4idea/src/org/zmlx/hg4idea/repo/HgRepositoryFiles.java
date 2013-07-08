@@ -37,6 +37,10 @@ public class HgRepositoryFiles {
   public static final String BRANCH = "branch";
   public static final String BOOKMARKS = "bookmarks";
   public static final String CURRENT_BOOKMARK = "bookmarks.current";
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+  public static final String CONFIG_HGRC = "hgrc";
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 
 
   @NotNull private final String myBranchHeadsPath;
@@ -45,6 +49,10 @@ public class HgRepositoryFiles {
   @NotNull private final String myBranchPath;
   @NotNull private final String myBookmarksPath;
   @NotNull private final String myCurrentBookmarkPath;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+  @NotNull private final String myConfigHgrcPath;
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 
   @NotNull
   public static HgRepositoryFiles getInstance(@NotNull VirtualFile hgDir) {
@@ -57,7 +65,12 @@ public class HgRepositoryFiles {
     myBranchPath = hgDir.getPath() + slash(BRANCH);
     myMergePath = hgDir.getPath() + slash(MERGE);
     myBookmarksPath = hgDir.getPath() + slash(BOOKMARKS);
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     myCurrentBookmarkPath = hgDir.getPath()+slash(CURRENT_BOOKMARK);
+=======
+    myCurrentBookmarkPath = hgDir.getPath() + slash(CURRENT_BOOKMARK);
+    myConfigHgrcPath = hgDir.getPath() + slash(CONFIG_HGRC);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
   }
 
   @NotNull
@@ -97,4 +110,11 @@ public class HgRepositoryFiles {
   public boolean isCurrentBookmarksFile(String filePath) {
     return filePath.equals(myCurrentBookmarkPath);
   }
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+
+  public boolean isConfigHgrcFile(String filePath) {
+    return filePath.equals(myConfigHgrcPath);
+  }
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 }

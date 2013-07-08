@@ -45,4 +45,12 @@ public interface HgRepository extends Repository {
 
   @Nullable
   String getCurrentBookmark();
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+
+  @NotNull
+  HgConfig getRepositoryConfig();
+
+  void updateConfig();
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
 }

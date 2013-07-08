@@ -1,8 +1,13 @@
 <component name="CopyrightManager">
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   <settings default="aosp">
     <module2copyright>
       <element module="aosp-code" copyright="aosp" />
     </module2copyright>
+=======
+  <settings default="apache 2 license">
+    <module2copyright />
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     <LanguageOptions name="__TEMPLATE__">
       <option name="addBlankAfter" value="false" />
     </LanguageOptions>

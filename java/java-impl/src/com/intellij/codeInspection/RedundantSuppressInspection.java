@@ -19,10 +19,8 @@ import com.intellij.analysis.AnalysisScope;
 import com.intellij.codeInsight.daemon.GroupNames;
 import com.intellij.codeInsight.daemon.impl.RemoveSuppressWarningAction;
 import com.intellij.codeInspection.ex.*;
-import com.intellij.codeInspection.reference.RefClass;
-import com.intellij.codeInspection.reference.RefElement;
-import com.intellij.codeInspection.reference.RefJavaVisitor;
-import com.intellij.codeInspection.reference.RefManagerImpl;
+import com.intellij.codeInspection.reference.*;
+import com.intellij.codeInspection.ui.InspectionToolPresentation;
 import com.intellij.codeInspection.ui.SingleCheckboxOptionsPanel;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -116,7 +114,7 @@ public class RedundantSuppressInspection extends GlobalInspectionTool{
     return checkElement(psiClass, manager, project);
   }
 
-  public CommonProblemDescriptor[] checkElement(@NotNull final PsiElement psiElement, @NotNull InspectionManager manager, @NotNull Project project) {
+  public CommonProblemDescriptor[] checkElement(@NotNull final PsiElement psiElement, @NotNull final InspectionManager manager, @NotNull Project project) {
     final Map<PsiElement, Collection<String>> suppressedScopes = new THashMap<PsiElement, Collection<String>>();
     psiElement.accept(new JavaRecursiveElementWalkingVisitor() {
       @Override public void visitModifierList(PsiModifierList list) {
@@ -193,7 +191,11 @@ public class RedundantSuppressInspection extends GlobalInspectionTool{
 
     final AnalysisScope scope = new AnalysisScope(psiElement.getContainingFile());
     final InspectionManagerEx inspectionManagerEx = (InspectionManagerEx)InspectionManager.getInstance(project);
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
     GlobalInspectionContextImpl globalContext = inspectionManagerEx.createNewGlobalContext(false);
+=======
+    final GlobalInspectionContextImpl globalContext = inspectionManagerEx.createNewGlobalContext(false);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     globalContext.setCurrentScope(scope);
     final RefManagerImpl refManager = (RefManagerImpl)globalContext.getRefManager();
     refManager.inspectionReadActionStarted();
@@ -204,19 +206,40 @@ public class RedundantSuppressInspection extends GlobalInspectionTool{
         String toolId = toolWrapper instanceof LocalInspectionToolWrapper ? ((LocalInspectionToolWrapper)toolWrapper).getTool().getID() : toolWrapper.getShortName();
         toolWrapper.initialize(globalContext);
         Collection<CommonProblemDescriptor> descriptors;
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
+=======
+        final InspectionToolPresentation presentation = globalContext.getPresentation(toolWrapper);
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
         if (toolWrapper instanceof LocalInspectionToolWrapper) {
           LocalInspectionToolWrapper local = (LocalInspectionToolWrapper)toolWrapper;
           if (local.isUnfair()) continue; //cant't work with passes other than LocalInspectionPass
-          local.processFile(psiElement.getContainingFile(), false, manager);
-          descriptors = local.getProblemDescriptors();
+          List<ProblemDescriptor> results = local.getTool().processFile(psiElement.getContainingFile(), manager);
+          InspectionToolPresentation toolPresentation = globalContext.getPresentation(local);
+          LocalDescriptorsUtil.addProblemDescriptors(results, toolPresentation, false, globalContext, local.getTool());
+          descriptors = presentation.getProblemDescriptors();
         }
         else if (toolWrapper instanceof GlobalInspectionToolWrapper) {
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
           GlobalInspectionToolWrapper global = (GlobalInspectionToolWrapper)toolWrapper;
           if (global.getTool().isGraphNeeded()) {
+=======
+          final GlobalInspectionToolWrapper global = (GlobalInspectionToolWrapper)toolWrapper;
+          GlobalInspectionTool globalTool = global.getTool();
+          if (globalTool.isGraphNeeded()) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
             refManager.findAllDeclarations();
           }
-          global.processFile(scope, manager, globalContext, false);
-          descriptors = global.getProblemDescriptors();
+          final InspectionToolPresentation toolPresentation = globalContext.getPresentation(global);
+          globalContext.getRefManager().iterate(new RefVisitor() {
+            @Override public void visitElement(@NotNull RefEntity refEntity) {
+              CommonProblemDescriptor[]
+                descriptors1 = global.getTool().checkElement(refEntity, scope, manager, globalContext, toolPresentation);
+              if (descriptors1 != null) {
+                toolPresentation.addProblemElement(refEntity, false, descriptors1);
+              }
+            }
+          });
+          descriptors = presentation.getProblemDescriptors();
         }
         else {
           continue;
@@ -285,7 +308,11 @@ public class RedundantSuppressInspection extends GlobalInspectionTool{
     return result.toArray(new ProblemDescriptor[result.size()]);
   }
 
+<<<<<<< HEAD   (39f68d Merge "Revert "Snapshot d8891a7de15cebb78b6ce5711e50e531b42c)
   protected InspectionToolWrapper[] getInspectionTools(PsiElement psiElement, InspectionManager manager) {
+=======
+  protected InspectionToolWrapper[] getInspectionTools(PsiElement psiElement, @NotNull InspectionManager manager) {
+>>>>>>> BRANCH (c1ace1 Snapshot aea001abfc1b38fec3a821bcd5174cc77dc75787 from maste)
     ModifiableModel model = InspectionProjectProfileManager.getInstance(manager.getProject()).getInspectionProfile().getModifiableModel();
     InspectionProfileWrapper profile = new InspectionProfileWrapper((InspectionProfile)model);
     profile.init(manager.getProject());
