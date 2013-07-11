@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0764ac98_31ebd26b",
+        "filename": ".idea/runConfigurations/AndroidStudio.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1017944
+      },
+      "writtenOn": "2013-07-11T16:04:00Z",
+      "side": 1,
+      "message": "This will override it getting the bundled templates that we\u0027ve put in plugins/android/lib. What\u0027s the problem you\u0027re trying to solve?",
+      "revId": "745d6952344df108199d1084e6438f8d2ae8202a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
