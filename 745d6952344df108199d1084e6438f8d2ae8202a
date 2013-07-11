@@ -16,6 +16,24 @@
       "revId": "745d6952344df108199d1084e6438f8d2ae8202a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0764ac98_91f2be58",
+        "filename": ".idea/runConfigurations/AndroidStudio.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-07-11T16:08:18Z",
+      "side": 1,
+      "message": "This is a launch config which is used only when you load the Studio project in IntelliJ and try to run it.\n\nIf I understand correctly, the SDK templates are only put there when you build a distribution of Studio; that doesn\u0027t work when you\u0027re just running/debugging Studio during development. This is a convenience to make the sdk templates kick in for our own use. (This is basically the fallback stuff I was mentioning last night which we have to find annotations, device frames etc when you\u0027re also running under IntelliJ and don\u0027t have the full distro resources available, but since you already had a system property we could do it directly in the launch config).",
+      "parentUuid": "0764ac98_31ebd26b",
+      "revId": "745d6952344df108199d1084e6438f8d2ae8202a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
