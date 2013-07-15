@@ -16,6 +16,24 @@
       "revId": "3a3d9c7b82809530a8fc6c71bf7d74ff45c5a786",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27b2905c_46bb10fb",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/application/impl/ApplicationInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2013-07-15T17:54:45Z",
+      "side": 1,
+      "message": "Hmm, afaik, we can\u0027t merge upstream. Jetbrains pulls in changes from android plugin at their own schedule and I don\u0027t know what their process is.\n\nI assume you are asking this thinking about the future where you are planning to actively modify idea.git (for project structure changes). In that case, I\u0027m not sure what the correct approach would be - whether your changes go into idea.git and Jetbrains pulls from it, or if you\u0027d do it in a separate branch, or if you ought to submit to their github.",
+      "parentUuid": "27b2905c_06c1087b",
+      "revId": "3a3d9c7b82809530a8fc6c71bf7d74ff45c5a786",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
