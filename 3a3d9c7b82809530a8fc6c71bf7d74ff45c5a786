@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27b2905c_06c1087b",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/application/impl/ApplicationInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1017944
+      },
+      "writtenOn": "2013-07-15T17:48:48Z",
+      "side": 1,
+      "message": "Do we have a process for excluding changes as candidates for upstream merging, other than this comment?",
+      "revId": "3a3d9c7b82809530a8fc6c71bf7d74ff45c5a786",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
