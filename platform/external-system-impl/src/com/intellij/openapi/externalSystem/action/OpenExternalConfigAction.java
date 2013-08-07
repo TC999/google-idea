@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class OpenExternalConfigAction extends AnAction implements DumbAware {
 
+<<<<<<< HEAD   (ba434a Merge "Cherry-pick commits from IDEA repo.")
   @Override
   public void update(AnActionEvent e) {
     ProjectSystemId externalSystemId = ExternalSystemDataKeys.EXTERNAL_SYSTEM_ID.getData(e.getDataContext());
@@ -34,6 +35,22 @@ public class OpenExternalConfigAction extends AnAction implements DumbAware {
     }
 
     e.getPresentation().setText(ExternalSystemBundle.message("action.open.config.text"));
+=======
+  public OpenExternalConfigAction() {
+    getTemplatePresentation().setText(ExternalSystemBundle.message("action.open.config.text", "external"));
+    getTemplatePresentation().setDescription(ExternalSystemBundle.message("action.open.config.description", "external"));
+  }
+
+  @Override
+  public void update(AnActionEvent e) {
+    ProjectSystemId externalSystemId = ExternalSystemDataKeys.EXTERNAL_SYSTEM_ID.getData(e.getDataContext());
+    if (externalSystemId == null) {
+      e.getPresentation().setEnabled(false);
+      return;
+    }
+
+    e.getPresentation().setText(ExternalSystemBundle.message("action.open.config.text", externalSystemId.getReadableName()));
+>>>>>>> BRANCH (6739a8 Snapshot af729d01433bb5bbd6ca93c0fdf9778b36d624ce from maste)
     e.getPresentation().setDescription(ExternalSystemBundle.message("action.open.config.description", externalSystemId.getReadableName()));
     e.getPresentation().setIcon(ExternalSystemUiUtil.getUiAware(externalSystemId).getProjectIcon());
 

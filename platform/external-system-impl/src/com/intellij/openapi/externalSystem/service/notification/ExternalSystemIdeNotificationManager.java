@@ -65,7 +65,11 @@ public class ExternalSystemIdeNotificationManager {
         ShowSettingsUtil.getInstance().editConfigurable(project, configurable);
       }
     };
+<<<<<<< HEAD   (ba434a Merge "Cherry-pick commits from IDEA repo.")
 
+=======
+    
+>>>>>>> BRANCH (6739a8 Snapshot af729d01433bb5bbd6ca93c0fdf9778b36d624ce from maste)
     for (ExternalSystemNotificationExtension extension : ExternalSystemNotificationExtension.EP_NAME.getExtensions()) {
       if (!externalSystemId.equals(extension.getTargetExternalSystemId())) {
         continue;

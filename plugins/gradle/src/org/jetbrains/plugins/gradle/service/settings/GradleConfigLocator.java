@@ -44,7 +44,11 @@ public class GradleConfigLocator implements ExternalSystemConfigLocator {
       if (!name.endsWith(GradleConstants.EXTENSION)) {
         continue;
       }
+<<<<<<< HEAD   (ba434a Merge "Cherry-pick commits from IDEA repo.")
       if (!GradleConstants.SETTINGS_FILE_NAME.equals(name)) {
+=======
+      if (!GradleConstants.SETTINGS_FILE_NAME.equals(name) && !child.isDirectory()) {
+>>>>>>> BRANCH (6739a8 Snapshot af729d01433bb5bbd6ca93c0fdf9778b36d624ce from maste)
         return child;
       }
     }

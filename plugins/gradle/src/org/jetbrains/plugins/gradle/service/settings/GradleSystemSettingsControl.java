@@ -141,7 +141,15 @@ public class GradleSystemSettingsControl implements ExternalSystemSettingsContro
 
   @Nullable
   private static String trimIfPossible(@Nullable String s) {
+<<<<<<< HEAD   (ba434a Merge "Cherry-pick commits from IDEA repo.")
     return s == null ? null : s.trim();
+=======
+    if (s == null) {
+      return null;
+    }
+    String result = s.trim();
+    return result.isEmpty() ? null : result;
+>>>>>>> BRANCH (6739a8 Snapshot af729d01433bb5bbd6ca93c0fdf9778b36d624ce from maste)
   }
 
   @Override

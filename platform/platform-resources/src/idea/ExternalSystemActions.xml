@@ -10,7 +10,12 @@
     <action id="ExternalSystem.DetachProject"
             class="com.intellij.openapi.externalSystem.action.DetachExternalProjectAction"/>
     <action id="ExternalSystem.OpenConfig"
+<<<<<<< HEAD   (ba434a Merge "Cherry-pick commits from IDEA repo.")
             class="com.intellij.openapi.externalSystem.action.OpenExternalConfigAction"/>
+=======
+            class="com.intellij.openapi.externalSystem.action.OpenExternalConfigAction"
+            use-shortcut-of="EditSource"/>
+>>>>>>> BRANCH (6739a8 Snapshot af729d01433bb5bbd6ca93c0fdf9778b36d624ce from maste)
 
     <!--Tool window actions-->
     <group id="ExternalSystem.ToolWindow.Toolbar">
