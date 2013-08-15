@@ -15,6 +15,7 @@
  */
 package org.jetbrains.plugins.gradle.service.project;
 
+import com.intellij.execution.configurations.CommandLineTokenizer;
 import com.intellij.openapi.externalSystem.model.ExternalSystemException;
 import com.intellij.openapi.externalSystem.model.task.ExternalSystemTaskId;
 import com.intellij.openapi.externalSystem.model.task.ExternalSystemTaskNotificationEvent;
@@ -30,6 +31,9 @@ import org.jetbrains.plugins.gradle.settings.GradleExecutionSettings;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -45,7 +49,8 @@ public class GradleExecutionHelper {
                                                              @NotNull ExternalSystemTaskNotificationListener listener,
                                                              boolean downloadLibraries)
   {
-    return getModelBuilder(downloadLibraries ? IdeaProject.class : BasicIdeaProject.class, id, settings, connection, listener);
+    return getModelBuilder(downloadLibraries ? IdeaProject.class : BasicIdeaProject.class, id, settings, connection, listener,
+                           Collections.<String>emptyList());
   }
   
   @SuppressWarnings("MethodMayBeStatic")
@@ -54,10 +59,11 @@ public class GradleExecutionHelper {
                                              @NotNull final ExternalSystemTaskId id,
                                              @Nullable GradleExecutionSettings settings,
                                              @NotNull ProjectConnection connection,
-                                             @NotNull ExternalSystemTaskNotificationListener listener)
+                                             @NotNull ExternalSystemTaskNotificationListener listener,
+                                             @NotNull List<String> extraJvmArgs)
   {
     ModelBuilder<T> result = connection.model(modelType);
-    prepare(result, id, settings, listener);
+    prepare(result, id, settings, listener, extraJvmArgs);
     return result;
   }
 
@@ -69,23 +75,38 @@ public class GradleExecutionHelper {
                                         @NotNull ExternalSystemTaskNotificationListener listener)
   {
     BuildLauncher result = connection.newBuild();
-    prepare(result, id, settings, listener);
+    prepare(result, id, settings, listener, Collections.<String>emptyList());
     return result;
   }
 
   @SuppressWarnings("IOResourceOpenedButNotSafelyClosed")
-  private static void prepare(@NotNull LongRunningOperation operation,
+  public static void prepare(@NotNull LongRunningOperation operation,
                               @NotNull final ExternalSystemTaskId id,
                               @Nullable GradleExecutionSettings settings,
-                              @NotNull final ExternalSystemTaskNotificationListener listener)
+                              @NotNull final ExternalSystemTaskNotificationListener listener,
+                              @NotNull List<String> extraJvmArgs)
   {
     if (settings == null) {
       return;
     }
 
+    List<String> jvmArgs = new ArrayList<String>();
+
     String vmOptions = settings.getDaemonVmOptions();
-    if (vmOptions != null) {
-      operation.setJvmArguments(vmOptions.trim());
+    if (vmOptions != null && !vmOptions.isEmpty()) {
+      CommandLineTokenizer tokenizer = new CommandLineTokenizer(vmOptions);
+      while(tokenizer.hasMoreTokens()) {
+        String vmOption = tokenizer.nextToken();
+        if (vmOption != null && !vmOption.isEmpty()) {
+          jvmArgs.add(vmOption);
+        }
+      }
+    }
+
+    jvmArgs.addAll(extraJvmArgs);
+
+    if (!jvmArgs.isEmpty()) {
+      operation.setJvmArguments(jvmArgs.toArray(new String[jvmArgs.size()]));
     }
 
     listener.onStart(id);
