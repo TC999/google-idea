@@ -29,15 +29,13 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.gradle.remote.impl.GradleLibraryNamesMixer;
+import org.jetbrains.plugins.gradle.settings.ClassHolder;
 import org.jetbrains.plugins.gradle.settings.GradleExecutionSettings;
 import org.jetbrains.plugins.gradle.util.GradleConstants;
 import org.jetbrains.plugins.gradle.util.GradleUtil;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Denis Zhdanov
@@ -51,7 +49,12 @@ public class GradleProjectResolver implements ExternalSystemProjectResolver<Grad
 
   private final GradleLibraryNamesMixer myLibraryNamesMixer = new GradleLibraryNamesMixer();
 
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
   @Nullable private Pair<List<Pair<String, Class<?>>>, List<GradleProjectResolverExtension>> myCachedExtensions;
+=======
+  @Nullable
+  private Pair<List<ClassHolder<? extends GradleProjectResolverExtension>>, List<GradleProjectResolverExtension>> myCachedExtensions;
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
   
   @Nullable
   @Override
@@ -63,12 +66,22 @@ public class GradleProjectResolver implements ExternalSystemProjectResolver<Grad
     throws ExternalSystemException, IllegalArgumentException, IllegalStateException
   {
     if (settings != null) {
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
       List<Pair<String, Class<?>>> extensionClasses = settings.getResolverExtensions();
       if (myCachedExtensions == null || !myCachedExtensions.first.equals(extensionClasses)) {
         List<Pair<String, Class<?>>> pairs = ContainerUtilRt.newArrayList(extensionClasses);
+=======
+      List<ClassHolder<? extends GradleProjectResolverExtension>> extensionClasses = settings.getResolverExtensions();
+      if (myCachedExtensions == null || !myCachedExtensions.first.equals(extensionClasses)) {
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
         List<GradleProjectResolverExtension> extensions = ContainerUtilRt.newArrayList();
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
         for (Pair<String, Class<?>> p : pairs) {
+=======
+        for (ClassHolder<? extends GradleProjectResolverExtension> holder : extensionClasses) {
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
           try {
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
             final GradleProjectResolverExtension extension;
             if (p.second != null) {
               //noinspection unchecked
@@ -80,13 +93,28 @@ public class GradleProjectResolver implements ExternalSystemProjectResolver<Grad
             else {
               continue;
             }
+=======
+            final GradleProjectResolverExtension extension = holder.getTargetClass().newInstance();
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
             extensions.add(extension);
           }
           catch (Throwable e) {
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
             throw new IllegalArgumentException(String.format("Can't instantiate project resolve extension for class '%s'", p.first), e);
+=======
+            throw new IllegalArgumentException(
+              String.format("Can't instantiate project resolve extension for class '%s'", holder.getTargetClassName()),
+              e
+            );
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
           }
         }
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
         myCachedExtensions = Pair.create(pairs, extensions);
+=======
+        List<ClassHolder<? extends GradleProjectResolverExtension>> key = ContainerUtilRt.newArrayList(extensionClasses);
+        myCachedExtensions = Pair.create(key, extensions);
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
       }
       for (GradleProjectResolverExtension extension : myCachedExtensions.second) {
         DataNode<ProjectData> result = extension.resolveProjectInfo(id, projectPath, downloadLibraries, settings, listener);

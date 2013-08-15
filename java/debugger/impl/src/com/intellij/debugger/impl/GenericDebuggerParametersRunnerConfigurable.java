@@ -25,6 +25,10 @@ import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
+=======
+import com.intellij.openapi.util.text.StringUtilRt;
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
 import com.intellij.ui.PortField;
 import com.intellij.xdebugger.impl.settings.DebuggerConfigurable;
 import org.jetbrains.annotations.NotNull;
@@ -99,10 +103,13 @@ public class GenericDebuggerParametersRunnerConfigurable extends SettingsEditor<
   }
 
   @Override
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
   public void disposeEditor() {
   }
 
   @Override
+=======
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
   public void resetEditorFrom(GenericDebuggerRunnerSettings runnerSettings) {
     setIsLocal(runnerSettings.LOCAL);
     setTransport(runnerSettings.getTransport());
@@ -153,9 +160,14 @@ public class GenericDebuggerParametersRunnerConfigurable extends SettingsEditor<
   }
 
   private void checkPort() throws ConfigurationException {
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
     final int port = myPortField.getNumber();
     if (isSocket() && port > 0 && (port < 0 || port > 0xffff)) {
       throw new ConfigurationException(DebuggerBundle.message("error.text.invalid.port.0", port));
+=======
+    if (isSocket() && !myPortField.isSpecified()) {
+      throw new ConfigurationException(DebuggerBundle.message("error.text.invalid.port"));
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
     }
   }
 
@@ -172,7 +184,11 @@ public class GenericDebuggerParametersRunnerConfigurable extends SettingsEditor<
 
   private void setPort(String port) {
     if (isSocket()) {
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
       myPortField.setNumber(StringUtil.parseInt(port, 0));
+=======
+      myPortField.setNumber(StringUtilRt.parseInt(port, 0));
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
     }
     else {
       myAddressField.setText(port);

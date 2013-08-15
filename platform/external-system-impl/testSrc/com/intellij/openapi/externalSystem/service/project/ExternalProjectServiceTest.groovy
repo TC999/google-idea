@@ -20,13 +20,17 @@ import com.intellij.openapi.externalSystem.model.DataNode
 import com.intellij.openapi.externalSystem.model.project.ExternalSystemSourceType
 import com.intellij.openapi.externalSystem.model.project.ProjectData
 import com.intellij.openapi.externalSystem.test.AbstractExternalSystemTest
-import com.intellij.openapi.externalSystem.test.ExternalProjectBuilder
 import com.intellij.openapi.externalSystem.test.ExternalSystemTestUtil
 import com.intellij.openapi.externalSystem.util.ExternalSystemApiUtil
 import com.intellij.openapi.roots.LibraryOrderEntry
 import com.intellij.openapi.roots.ModuleSourceOrderEntry
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
 import com.intellij.openapi.roots.OrderEntry;
+=======
+import com.intellij.openapi.roots.OrderEntry
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
 
+import static com.intellij.openapi.externalSystem.model.project.ExternalSystemSourceType.*
 /**
  * @author Denis Zhdanov
  * @since 8/8/13 5:17 PM
@@ -60,6 +64,7 @@ public class ExternalProjectServiceTest extends AbstractExternalSystemTest {
 
   void 'test changes in a project layout (content roots) could be detected on Refresh'() {
 
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
     String rootPath = ExternalSystemApiUtil.toCanonicalPath("/project1");
 
     DataNode<ProjectData> projectNodeInitial = buildExternalProjectInfo {
@@ -89,6 +94,29 @@ public class ExternalProjectServiceTest extends AbstractExternalSystemTest {
             folder(type: ExternalSystemSourceType.EXCLUDED, path: rootPath + '/build')
           } } }
     }
+=======
+    String rootPath = ExternalSystemApiUtil.toCanonicalPath(project.basePath);
+
+    def contentRoots = [
+      (TEST): ['src/test/resources', '/src/test/java', 'src/test/groovy'],
+      (SOURCE): ['src/main/resources', 'src/main/java', 'src/main/groovy'],
+      (EXCLUDED): ['.gradle', 'build']
+    ]
+
+    def projectRootBuilder = {
+      buildExternalProjectInfo {
+        project {
+          module {
+            contentRoot(rootPath) {
+              contentRoots.each { key, values -> values.each { folder(type: key, path: "$rootPath/$it") } }
+            } } } } }
+
+    DataNode<ProjectData> projectNodeInitial = projectRootBuilder()
+
+    contentRoots[(SOURCE)].remove(0)
+    contentRoots[(TEST)].remove(0)
+    DataNode<ProjectData> projectNodeRefreshed = projectRootBuilder()
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
 
     applyProjectState([projectNodeInitial, projectNodeRefreshed])
 

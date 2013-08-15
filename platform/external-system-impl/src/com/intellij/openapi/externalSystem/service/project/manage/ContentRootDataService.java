@@ -82,7 +82,11 @@ public class ContentRootDataService implements ProjectDataService<ContentRootDat
         final ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(module);
         final ModifiableRootModel model = moduleRootManager.getModifiableModel();
         final ContentEntry[] contentEntries = model.getContentEntries();
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
         final Map<String, ContentEntry> contentEntriesMap = new HashMap<String, ContentEntry>(contentEntries.length);
+=======
+        final Map<String, ContentEntry> contentEntriesMap = ContainerUtilRt.newHashMap();
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
         for(ContentEntry contentEntry : contentEntries) {
           contentEntriesMap.put(contentEntry.getUrl(), contentEntry);
         }
@@ -91,7 +95,11 @@ public class ContentRootDataService implements ProjectDataService<ContentRootDat
             ContentRootData contentRoot = data.getData();
             ContentEntry contentEntry = findOrCreateContentRoot(model, contentRoot.getRootPath());
             LOG.info(String.format("Importing content root '%s' for module '%s'", contentRoot.getRootPath(), module.getName()));
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
             final Set<String> retainedPaths = new HashSet<String>();
+=======
+            final Set<String> retainedPaths = ContainerUtilRt.newHashSet();
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
             for (String path : contentRoot.getPaths(ExternalSystemSourceType.SOURCE)) {
               createSourceRootIfAbsent(contentEntry, path, module.getName());
               retainedPaths.add(ExternalSystemApiUtil.toCanonicalPath(path));
@@ -118,6 +126,7 @@ public class ContentRootDataService implements ProjectDataService<ContentRootDat
     });
   }
 
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
   private static void removeOutdatedContentFolders(final ContentEntry entry, final Set<String> retainedContentFolders) {
     final List<SourceFolder> sourceFolders = new ArrayList<SourceFolder>(Arrays.asList(entry.getSourceFolders()));
     for(final SourceFolder sourceFolder : sourceFolders) {
@@ -127,6 +136,17 @@ public class ContentRootDataService implements ProjectDataService<ContentRootDat
       }
     }
     final List<ExcludeFolder> excludeFolders = new ArrayList<ExcludeFolder>(Arrays.asList(entry.getExcludeFolders()));
+=======
+  private static void removeOutdatedContentFolders(@NotNull final ContentEntry entry, @NotNull final Set<String> retainedContentFolders) {
+    final List<SourceFolder> sourceFolders = ContainerUtilRt.newArrayList(entry.getSourceFolders());
+    for(final SourceFolder sourceFolder : sourceFolders) {
+      final String path = VirtualFileManager.extractPath(sourceFolder.getUrl());
+      if(!retainedContentFolders.contains(path)) {
+        entry.removeSourceFolder(sourceFolder);
+      }
+    }
+    final List<ExcludeFolder> excludeFolders =  ContainerUtilRt.newArrayList(entry.getExcludeFolders());
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
     for(final ExcludeFolder excludeFolder : excludeFolders) {
       final String path = VirtualFileManager.extractPath(excludeFolder.getUrl());
       if(!(excludeFolder instanceof ExcludedOutputFolder) && !retainedContentFolders.contains(path)) {

@@ -352,12 +352,16 @@ public class EditorsSplitters extends JBPanel {
         final FileEditorManagerImpl fileEditorManager = getManager();
         final HistoryEntry entry = new HistoryEntry(fileEditorManager.getProject(), file.getChild(HistoryEntry.TAG), true);
         final boolean isCurrent = Boolean.valueOf(file.getAttributeValue("current")).booleanValue();
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
         final int finalI = i;
         ApplicationManager.getApplication().runReadAction(new Runnable() {
           public void run() {
             fileEditorManager.openFileImpl4(window, entry.myFile, false, entry, isCurrent, finalI);
           }
         });
+=======
+        fileEditorManager.openFileImpl4(window, entry.myFile, false, entry, isCurrent, i);
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
         if (fileEditorManager.isFileOpen(entry.myFile)) {
           window.setFilePinned(entry.myFile, Boolean.valueOf(file.getAttributeValue(PINNED)).booleanValue());
           if (Boolean.valueOf(file.getAttributeValue("current-in-tab")).booleanValue()) {

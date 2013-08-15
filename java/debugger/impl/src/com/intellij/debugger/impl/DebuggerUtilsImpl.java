@@ -38,6 +38,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiExpression;
 import com.intellij.util.net.NetUtils;
 import com.sun.jdi.Value;
+import com.sun.jdi.connect.spi.TransportService;
 import org.jdom.Element;
 
 import java.io.IOException;
@@ -139,8 +140,14 @@ public class DebuggerUtilsImpl extends DebuggerUtilsEx{
     }
 
     try {
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
       String address = transportService.startListening();
       transportService.stopListening(address);
+=======
+      TransportService.ListenKey listenKey = transportService.startListening();
+      final String address = listenKey.address();
+      transportService.stopListening(listenKey);
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
       return address;
     }
     catch (IOException e) {

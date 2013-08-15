@@ -22,6 +22,7 @@ import com.intellij.openapi.util.SystemInfo;
 import com.intellij.util.containers.ContainerUtilRt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.plugins.gradle.service.project.GradleProjectResolverExtension;
 
 import java.util.List;
 
@@ -35,7 +36,11 @@ public class GradleExecutionSettings extends ExternalSystemExecutionSettings {
 
   private static final long serialVersionUID = 1L;
 
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
   @NotNull private final List<Pair<String, Class<?>>> myResolverExtensions = ContainerUtilRt.newArrayList();
+=======
+  @NotNull private final List<ClassHolder<? extends GradleProjectResolverExtension>> myResolverExtensions = ContainerUtilRt.newArrayList();
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
   @Nullable private final String myGradleHome;
   @Nullable private final String myServiceDirectory;
 
@@ -84,10 +89,15 @@ public class GradleExecutionSettings extends ExternalSystemExecutionSettings {
   }
 
   @NotNull
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
   public List<Pair<String, Class<?>>> getResolverExtensions() {
+=======
+  public List<ClassHolder<? extends GradleProjectResolverExtension>> getResolverExtensions() {
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
     return myResolverExtensions;
   }
 
+<<<<<<< HEAD   (d67919 Merge "Revert "Revert "Replaced Gradle 1.8 with Gradle 1.7.")
   @SuppressWarnings("ConstantConditions")
   public void addResolverExtensionClass(@NotNull String className) {
     Pair<String, Class<?>> p = Pair.create(className, null);
@@ -98,6 +108,10 @@ public class GradleExecutionSettings extends ExternalSystemExecutionSettings {
   public void addResolverExtensionClass(@NotNull Class<?> clazz) {
     Pair<String, Class<?>> p = new Pair<String, Class<?>>(null, clazz);
     myResolverExtensions.add(p);
+=======
+  public void addResolverExtensionClass(@NotNull ClassHolder<? extends GradleProjectResolverExtension> holder) {
+    myResolverExtensions.add(holder);
+>>>>>>> BRANCH (a3c369 Snapshot 13baaa319cd568c4e19b9232b24f2002f2631688 from maste)
   }
 
   /**
