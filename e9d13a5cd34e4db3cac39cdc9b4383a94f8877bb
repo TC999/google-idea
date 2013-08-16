@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f83c9ca4_d47a342e",
+        "filename": "java/idea-ui/src/com/intellij/openapi/roots/ui/configuration/ProjectStructureConfigurable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1017944
+      },
+      "writtenOn": "2013-08-16T18:54:27Z",
+      "side": 1,
+      "message": "This is kind of a hack. It prevents filtered Configurables from being added to the side panel and therefore discoverable by the user, but they\u0027re still being created. That\u0027s because the list of Configurables is hardcoded into the Project Structure dialog, and many parts of the code rely on being able to navigate to them, from quick fixes and error resolutions and such. This CL doesn\u0027t address any of those issues. To do it properly, Project Structure should be refactored such that its Configurables are generalized along with the navigation mechanism to get to them. That\u0027s beyond the scope of what I\u0027d prefer to do, and I\u0027m not sure you\u0027d want me doing that amount of work in your codebase in any event.",
+      "revId": "e9d13a5cd34e4db3cac39cdc9b4383a94f8877bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f83c9ca4_746c2073",
+        "filename": "resources/src/idea/RichPlatformPlugin.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1017944
+      },
+      "writtenOn": "2013-08-16T18:54:27Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is the right file for these extension points. I don\u0027t really understand the structure of your config files.",
+      "revId": "e9d13a5cd34e4db3cac39cdc9b4383a94f8877bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
