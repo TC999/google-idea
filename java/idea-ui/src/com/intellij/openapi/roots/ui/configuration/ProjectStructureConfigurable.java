@@ -58,7 +58,9 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProjectStructureConfigurable extends BaseConfigurable implements SearchableConfigurable, Place.Navigator {
 
@@ -71,6 +73,8 @@ public class ProjectStructureConfigurable extends BaseConfigurable implements Se
   private JComponent myToFocus;
   private boolean myWasUiDisposed;
   private ConfigurationErrorsComponent myErrorsComponent;
+  private final Set<ProjectStructureConfigurableFilter.Config> myDisabledSettings =
+    EnumSet.noneOf(ProjectStructureConfigurableFilter.Config.class);
 
   public static class UIState {
     public float proportion;
@@ -206,6 +210,17 @@ public class ProjectStructureConfigurable extends BaseConfigurable implements Se
   }
 
   private void initSidePanel() {
+    ProjectStructureConfigurableFilter[] filters = ProjectStructureConfigurableFilter.EP_NAME.getExtensions();
+    for (ProjectStructureConfigurableFilter filter : filters) {
+      for (ProjectStructureConfigurableFilter.Config config : ProjectStructureConfigurableFilter.Config.values()) {
+        if (!filter.isAvailable(config, myProject)) {
+          myDisabledSettings.add(config);
+        }
+      }
+    }
+
+    ProjectStructureConfigurableAdder[] adders = ProjectStructureConfigurableAdder.EP_NAME.getExtensions();
+
     boolean isDefaultProject = myProject == ProjectManager.getInstance().getDefaultProject();
 
     mySidePanel = new SidePanel(this, myHistory);
@@ -220,13 +235,26 @@ public class ProjectStructureConfigurable extends BaseConfigurable implements Se
       addFacetsConfig();
       addArtifactsConfig();
     }
+
+    for (ProjectStructureConfigurableAdder adder : adders) {
+      for (Configurable configurable : adder.getExtraConfigurables(myProject, myContext, true)) {
+        addConfigurable(configurable, true);
+      }
+    }
+
     mySidePanel.addSeparator("Platform Settings");
     addJdkListConfig();
     addGlobalLibrariesConfig();
+
+    for (ProjectStructureConfigurableAdder adder : adders) {
+      for (Configurable configurable : adder.getExtraConfigurables(myProject, myContext, false)) {
+        addConfigurable(configurable, true);
+      }
+    }
   }
 
   private void addArtifactsConfig() {
-    addConfigurable(myArtifactsStructureConfigurable);
+    addConfigurable(myArtifactsStructureConfigurable, !myDisabledSettings.contains(ProjectStructureConfigurableFilter.Config.ARTIFACTS));
   }
 
   public ArtifactsStructureConfigurable getArtifactsStructureConfigurable() {
@@ -235,7 +263,7 @@ public class ProjectStructureConfigurable extends BaseConfigurable implements Se
 
   private void addFacetsConfig() {
     if (myFacetStructureConfigurable.isVisible()) {
-      addConfigurable(myFacetStructureConfigurable);
+      addConfigurable(myFacetStructureConfigurable, !myDisabledSettings.contains(ProjectStructureConfigurableFilter.Config.FACETS));
     }
   }
 
@@ -244,25 +272,25 @@ public class ProjectStructureConfigurable extends BaseConfigurable implements Se
       myJdkListConfig = JdkListConfigurable.getInstance(myProject);
       myJdkListConfig.init(myContext);
     }
-    addConfigurable(myJdkListConfig);
+    addConfigurable(myJdkListConfig, !myDisabledSettings.contains(ProjectStructureConfigurableFilter.Config.JDK_LIST));
   }
 
   private void addProjectConfig() {
     myProjectConfig = new ProjectConfigurable(myProject, myContext, myModuleConfigurator, myProjectJdksModel);
-    addConfigurable(myProjectConfig);
+    addConfigurable(myProjectConfig, !myDisabledSettings.contains(ProjectStructureConfigurableFilter.Config.PROJECT));
   }
 
   private void addProjectLibrariesConfig() {
-    addConfigurable(myProjectLibrariesConfig);
+    addConfigurable(myProjectLibrariesConfig, !myDisabledSettings.contains(ProjectStructureConfigurableFilter.Config.PROJECT_LIBRARIES));
   }
 
   private void addGlobalLibrariesConfig() {
-    addConfigurable(myGlobalLibrariesConfig);
+    addConfigurable(myGlobalLibrariesConfig, !myDisabledSettings.contains(ProjectStructureConfigurableFilter.Config.GLOBAL_LIBRARIES));
   }
 
   private void addModulesConfig() {
     myModulesConfig = ModuleStructureConfigurable.getInstance(myProject);
-    addConfigurable(myModulesConfig);
+    addConfigurable(myModulesConfig, !myDisabledSettings.contains(ProjectStructureConfigurableFilter.Config.MODULES));
   }
 
   @Override
@@ -579,10 +607,12 @@ public class ProjectStructureConfigurable extends BaseConfigurable implements Se
     return myProjectConfig;
   }
 
-  private void addConfigurable(Configurable configurable) {
+  private void addConfigurable(Configurable configurable, boolean addToSidePanel) {
     myName2Config.add(configurable);
 
-    mySidePanel.addPlace(createPlaceFor(configurable), new Presentation(configurable.getDisplayName()));
+    if (addToSidePanel) {
+      mySidePanel.addPlace(createPlaceFor(configurable), new Presentation(configurable.getDisplayName()));
+    }
   }
 
   private static Place createPlaceFor(final Configurable configurable) {
