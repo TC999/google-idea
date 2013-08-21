@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author Aleksey Pivovarov
  */
+<<<<<<< HEAD   (a09237 Merge "Import updater module")
 public class GithubRepoOrg extends GithubRepo {
   @NotNull Permissions myPermissions;
 
@@ -28,6 +29,16 @@ public class GithubRepoOrg extends GithubRepo {
     private boolean myAdmin;
     private boolean myPull;
     private boolean myPush;
+=======
+@SuppressWarnings({"FieldCanBeLocal", "UnusedDeclaration"})
+public class GithubRepoOrg extends GithubRepo {
+  @NotNull private final Permissions myPermissions;
+
+  public static class Permissions {
+    private final boolean myAdmin;
+    private final boolean myPull;
+    private final boolean myPush;
+>>>>>>> BRANCH (d34b4c Snapshot 32d31e4915ef17b3ec6ec4e87923f017e8e41bce from maste)
 
     public Permissions(boolean admin, boolean pull, boolean push) {
       myAdmin = admin;

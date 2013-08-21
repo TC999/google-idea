@@ -19,6 +19,10 @@
 
     <applicationService serviceInterface="org.jetbrains.plugins.github.util.GithubSslSupport"
                         serviceImplementation="org.jetbrains.plugins.github.util.GithubSslSupport"/>
+<<<<<<< HEAD   (a09237 Merge "Import updater module")
+=======
+    <webBrowserUrlProvider implementation="org.jetbrains.plugins.github.extensions.GithubWebBrowserUrlProvider"/>
+>>>>>>> BRANCH (d34b4c Snapshot 32d31e4915ef17b3ec6ec4e87923f017e8e41bce from maste)
   </extensions>
 
   <extensions defaultExtensionNs="Git4Idea">

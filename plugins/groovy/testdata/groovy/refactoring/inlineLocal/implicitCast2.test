@@ -3,4 +3,8 @@ s = 2
 print <selection>s</selection>
 -----
 String s = 'a'
+<<<<<<< HEAD   (a09237 Merge "Import updater module")
 print 2 as String
+=======
+print 2 as String
+>>>>>>> BRANCH (d34b4c Snapshot 32d31e4915ef17b3ec6ec4e87923f017e8e41bce from maste)

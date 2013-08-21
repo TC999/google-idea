@@ -19,15 +19,20 @@ import com.intellij.icons.AllIcons;
 import com.intellij.ide.IdeEventQueue;
 import com.intellij.ide.ui.UISettings;
 import com.intellij.ide.ui.UISettingsListener;
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.ui.popup.Balloon;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
+import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.wm.*;
 import com.intellij.openapi.wm.impl.IdeFrameImpl;
 import com.intellij.openapi.wm.impl.ToolWindowImpl;
+import com.intellij.ui.GotItMessage;
 import com.intellij.ui.IdeBorderFactory;
+import com.intellij.ui.UIBundle;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
@@ -146,6 +151,7 @@ class ToolWindowsWidget extends JLabel implements CustomStatusBarWidget, StatusB
 
           final Dimension size = list.getPreferredSize();
           final JComponent c = ToolWindowsWidget.this;
+<<<<<<< HEAD   (a09237 Merge "Import updater module")
           final RelativePoint point = new RelativePoint(c, new Point(-4, -4 - size.height));
 
 
@@ -156,6 +162,20 @@ class ToolWindowsWidget extends JLabel implements CustomStatusBarWidget, StatusB
           list.setSelectedIndex(list.getItemsCount() - 1);
           popup = JBPopupFactory.getInstance().createListPopupBuilder(list)
             .setAutoselectOnMouseMove(true)
+=======
+          final Insets padding = UIUtil.getListViewportPadding();
+          final RelativePoint point = new RelativePoint(c, new Point(-4, -padding.top - padding.bottom -4 - size.height));
+
+          if (popup != null && popup.isVisible()) {
+            return;
+          }
+
+          list.setSelectedIndex(list.getItemsCount() - 1);
+          PopupChooserBuilder builder = JBPopupFactory.getInstance().createListPopupBuilder(list);
+          popup = builder
+            .setAutoselectOnMouseMove(true)
+            .setRequestFocus(false)
+>>>>>>> BRANCH (d34b4c Snapshot 32d31e4915ef17b3ec6ec4e87923f017e8e41bce from maste)
             .setItemChoosenCallback(new Runnable() {
               @Override
               public void run() {
@@ -172,6 +192,29 @@ class ToolWindowsWidget extends JLabel implements CustomStatusBarWidget, StatusB
         }
       }, 300);
     }
+<<<<<<< HEAD   (a09237 Merge "Import updater module")
+=======
+  }
+
+  @Override
+  public void addNotify() {
+    super.addNotify();
+    final String key = "toolwindow.stripes.buttons.info.shown";
+    if (UISettings.getInstance().HIDE_TOOL_STRIPES && !PropertiesComponent.getInstance().isTrueValue(key)) {
+      final Alarm alarm = new Alarm();
+      alarm.addRequest(new Runnable() {
+        @Override
+        public void run() {
+          GotItMessage.createMessage(UIBundle.message("tool.window.quick.access.title"), UIBundle.message(
+            "tool.window.quick.access.message"))
+            .setDisposable(ToolWindowsWidget.this)
+            .show(new RelativePoint(ToolWindowsWidget.this, new Point(10, 0)), Balloon.Position.above);
+            PropertiesComponent.getInstance().setValue(key, String.valueOf(true));
+          Disposer.dispose(alarm);
+        }
+      }, 10000);
+    }
+>>>>>>> BRANCH (d34b4c Snapshot 32d31e4915ef17b3ec6ec4e87923f017e8e41bce from maste)
   }
 
   @Override
@@ -262,5 +305,6 @@ class ToolWindowsWidget extends JLabel implements CustomStatusBarWidget, StatusB
     Disposer.dispose(this);
     KeyboardFocusManager.getCurrentKeyboardFocusManager().removePropertyChangeListener("focusOwner", this);
     myStatusBar = null;
+    popup = null;
   }
 }

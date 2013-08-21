@@ -16,6 +16,7 @@
 package org.jetbrains.plugins.github.api;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,15 @@ import java.util.List;
 /**
  * @author Aleksey Pivovarov
  */
+<<<<<<< HEAD   (a09237 Merge "Import updater module")
 @SuppressWarnings("UnusedDeclaration")
 class GithubIssuesSearchResultRaw implements DataConstructor {
   List<GithubIssueRaw> items;
+=======
+@SuppressWarnings({"UnusedDeclaration", "ConstantConditions"})
+class GithubIssuesSearchResultRaw implements DataConstructor {
+  @Nullable public List<GithubIssueRaw> items;
+>>>>>>> BRANCH (d34b4c Snapshot 32d31e4915ef17b3ec6ec4e87923f017e8e41bce from maste)
 
   @NotNull
   GithubIssuesSearchResult createIssueSearchResult() {

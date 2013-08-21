@@ -21,7 +21,11 @@ import org.jetbrains.annotations.NotNull;
  * @author Aleksey Pivovarov
  */
 public class GithubOrg {
+<<<<<<< HEAD   (a09237 Merge "Import updater module")
   @NotNull String myLogin;
+=======
+  @NotNull private final String myLogin;
+>>>>>>> BRANCH (d34b4c Snapshot 32d31e4915ef17b3ec6ec4e87923f017e8e41bce from maste)
 
   public GithubOrg(@NotNull String login) {
     myLogin = login;

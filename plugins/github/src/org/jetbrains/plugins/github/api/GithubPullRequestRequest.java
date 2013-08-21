@@ -20,11 +20,20 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Aleksey Pivovarov
  */
+<<<<<<< HEAD   (a09237 Merge "Import updater module")
 class GithubPullRequestRequest {
   @NotNull String title;
   @NotNull String body;
   @NotNull String head; // branch with changes
   @NotNull String base; // branch requested to
+=======
+@SuppressWarnings({"FieldCanBeLocal", "UnusedDeclaration"})
+class GithubPullRequestRequest {
+  @NotNull private final String title;
+  @NotNull private final String body;
+  @NotNull private final String head; // branch with changes
+  @NotNull private final String base; // branch requested to
+>>>>>>> BRANCH (d34b4c Snapshot 32d31e4915ef17b3ec6ec4e87923f017e8e41bce from maste)
 
   public GithubPullRequestRequest(@NotNull String title, @NotNull String description, @NotNull String head, @NotNull String base) {
     this.title = title;
