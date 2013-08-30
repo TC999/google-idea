@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b265e52b_dafe45e3",
+        "filename": ".idea/gradle.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-08-30T19:28:27Z",
+      "side": 1,
+      "message": "What\u0027s this file? (The Downloads paths look suspicious)",
+      "revId": "b6c5717fbad6d75f6e31d13005126df23143c794",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b265e52b_7a07312c",
+        "filename": "plugins/gradle/gradle.iml",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-08-30T19:28:27Z",
+      "side": 1,
+      "message": "This looks like it\u0027s checking in way too much (+200 lines); these are all sample apps in the distro and probably shouldn\u0027t be there, right?",
+      "revId": "b6c5717fbad6d75f6e31d13005126df23143c794",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
