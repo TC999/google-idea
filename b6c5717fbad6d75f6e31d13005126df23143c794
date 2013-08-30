@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b265e52b_5a451551",
+        "filename": ".idea/gradle.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2013-08-30T19:34:43Z",
+      "side": 1,
+      "message": "Good catch! I was reviewing it too and it is some mistake I made. I intended to update this is Studio running inside IDEA, but ended up doing it IDEA itself. Removing file now.",
+      "parentUuid": "b265e52b_dafe45e3",
+      "revId": "b6c5717fbad6d75f6e31d13005126df23143c794",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b265e52b_7a07312c",
         "filename": "plugins/gradle/gradle.iml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-30T19:28:27Z",
       "side": 1,
       "message": "This looks like it\u0027s checking in way too much (+200 lines); these are all sample apps in the distro and probably shouldn\u0027t be there, right?",
+      "revId": "b6c5717fbad6d75f6e31d13005126df23143c794",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b265e52b_9a268dc7",
+        "filename": "plugins/gradle/gradle.iml",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2013-08-30T19:34:43Z",
+      "side": 1,
+      "message": "This is done automatically when adding a source zip. IDEA scans it. Without all this stuff, sources are not properly located.\n\nI\u0027ll let Vlad decide whether he wants to take this or leave it the old way.",
+      "parentUuid": "b265e52b_7a07312c",
       "revId": "b6c5717fbad6d75f6e31d13005126df23143c794",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
