@@ -69,6 +69,24 @@
       "revId": "b6c5717fbad6d75f6e31d13005126df23143c794",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b265e52b_ba9389a2",
+        "filename": "plugins/gradle/gradle.iml",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-08-30T19:41:28Z",
+      "side": 1,
+      "message": "Ok, but I think that when you add a source zip you get to choose which roots within it to include (I did something similar with the asm source zip a while back), so you can include only the source roots that are relevant. It looks like the src zip contains source code for ALL gradle code, whereas we\u0027re only including .jar files for parts of gradle. In particular, we shouldn\u0027t include any of the docs *sample* projects, and can probably strip out code for example for sonar as well, since we\u0027re not including the corresponding jars.\n\nBasically, the source jar includes too much and we don\u0027t need to point to roots that we don\u0027t have source code for.\n\n(The more jar roots we add into the IntelliJ project, the more places the IDE has to look for class docs during code completion etc.)",
+      "parentUuid": "b265e52b_9a268dc7",
+      "revId": "b6c5717fbad6d75f6e31d13005126df23143c794",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
