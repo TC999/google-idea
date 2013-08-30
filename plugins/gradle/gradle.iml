@@ -25,15 +25,16 @@
     <orderEntry type="module-library" exported="">
       <library name="Gradle">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/gradle-base-services-1.8-20130730220035+0000.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/gradle-core-1.8-20130730220035+0000.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/gradle-messaging-1.8-20130730220035+0000.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/gradle-tooling-api-1.8-20130730220035+0000.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/gradle-wrapper-1.8-20130730220035+0000.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/gradle-base-services-1.8-20130829182645+0000.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/gradle-core-1.8-20130829182645+0000.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/gradle-messaging-1.8-20130829182645+0000.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/gradle-tooling-api-1.8-20130829182645+0000.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/gradle-wrapper-1.8-20130829182645+0000.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/gradle-1.8-20130730220035+0000-src.zip!/" />
+          <root url="jar://$MODULE_DIR$/lib/gradle-1.8-20130829182645+0000-src.zip!/" />
+          <root url="jar://$MODULE_DIR$/lib/gradle-1.8-20130829182645+0000-src.zip!/gradle-1.8-20130829182645+0000/subprojects/tooling-api/src/main/java" />
         </SOURCES>
       </library>
     </orderEntry>
