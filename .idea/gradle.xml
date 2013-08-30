@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="gradleHome" value="$USER_HOME$/Downloads/gradle-1.8-20130829182645+0000" />
+    <option name="linkedProjectPath" value="$USER_HOME$/Downloads/android-gradle-samples/multiproject/build.gradle" />
+    <option name="preferLocalInstallationToWrapper" value="true" />
+    <option name="useAutoImport" value="false" />
+  </component>
+</project>
+
