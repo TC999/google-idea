@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.jetbrains.jps.model.java.JpsJavaClasspathKind
+import org.jetbrains.jps.model.module.JpsLibraryDependency
+import org.jetbrains.jps.model.library.JpsOrderRootType
+import org.jetbrains.jps.util.JpsPathUtil
+
 import static org.jetbrains.jps.idea.IdeaProjectLoader.guessHome
 
 includeTargets << new File("${guessHome(this)}/build/scripts/utils.gant")
@@ -24,7 +30,7 @@ target('default': "Developers update") {
 }
 
 String appInfoFileName() {
-  return "idea/IdeaApplicationInfo.xml"
+  return "idea/AndroidStudioApplicationInfo.xml"
 }
 
 String patchAppDescriptor(String targetDirectory) {
@@ -33,12 +39,12 @@ String patchAppDescriptor(String targetDirectory) {
   ant.delete(dir: patchedDirectory)
 
   layout(patchedDirectory) {
-    module("community-resources") {
+    module("adt-branding") {
       include(name: appInfoFileName())
     }
   }
 
-  ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_NUMBER__", value: "IC-$snapshot")
+  ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_NUMBER__", value: "AI-$snapshot")
   ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_DATE__", value: new Date().format("yyyyMMddHHmm"))
 
   return patchedDirectory
@@ -138,7 +144,8 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
         module("colorSchemes")
         module("resources")
         module("platform-resources")
-        module("community-resources") {
+        module("community-resources")
+        module("adt-branding") {
           if (patchedDescriptorDir != null) {
             exclude(name: appInfoFileName())
           }
@@ -236,9 +243,7 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
 }
 
 public def layoutCommunityPlugins(String home) {
-  if (isDefined("androidPluginHome")) {
-    layoutAndroid(p("androidPluginHome"))
-  }
+  layoutAndroid()
 
   dir("plugins") {
     def simplePlugins = ["commander", "copyright", "properties", "java-i18n", "hg4idea", "github", "ui-designer-core"] //, "tasks-time-tracking"]
@@ -582,13 +587,49 @@ def reorder(String home, String targetDirectory) {
   }
 }
 
-def layoutAndroid(String androidHome) {
+def layoutAndroid() {
   dir("plugins") {
     layoutPlugin("android") {
-      fileset(dir: "${androidHome}/android/lib") {
+      fileset(dir: "${home}/../adt/idea/android/lib") {
         include(name: "**/*.jar")
-        exclude(name: "**/ddmlib_1.jar")
-        exclude(name: "src/*.jar")
+      }
+
+      // Add Additional libraries that the Android plugin depends on that come from TOOLS_PREBUILTS.
+      // Note: This is a HACK: rather than encoding the full path, we should really query
+      // the project model for the classpath just like we do for the androidModules' dependencies
+      // below
+      fileset(file: "${home}/../../prebuilts/tools/common/freemarker/freemarker-2.3.19.jar")
+
+      androidModules = [
+              "assetstudio",
+              "common",
+              "ddmlib",
+              "draw9patch",
+              "dvlib",
+              "layoutlib-api",
+              "lint-api",
+              "lint-checks",
+              "manifest-merger",
+              "ninepatch",
+              "perflib",
+              "sdk-common",
+              "sdklib"
+      ]
+
+      androidModules.each { moduleName ->
+        jar("${moduleName}.jar") {
+          module(moduleName)
+        }
+      }
+
+      jar("androidAnnotations.jar") {
+        fileset(dir: "${home}/../adt/idea/android/annotations")
+      }
+
+      // copy over dependencies of all android modules
+      androidModuleDeps = findModuleDependencies(androidModules)
+      androidModuleDeps.each {
+        fileset(file: it)
       }
 
       jar("android-common.jar") {
@@ -599,41 +640,20 @@ def layoutAndroid(String androidHome) {
         module("android-rt")
       }
 
-      jar("common.jar") {
-        module("common")
-      }
-      jar("sdklib.jar") {
-        module("sdklib")
-      }
-      jar("layoutlib-api.jar") {
-        module("layoutlib-api")
-      }
-      jar("manifest-merger.jar") {
-        module("manifest-merger")
-      }
-      jar("sdk-tools.jar") {
-        module("assetstudio")
-        module("ddmlib")
-        module("dvlib")
-        module("draw9patch")
-        module("lint-cli")
-        module("lint-api")
-        module("lint-checks")
-        module("ninepatch")
-        module("sdk-common")
-      }
-      jar("androidAnnotations.jar") {
-        fileset(dir: "$androidHome/android/annotations")
-      }
-      dir("jps") {
-        jar("android-gradle-jps.jar") { module("android-gradle-jps") }
-      }
-      dir("device-art-resources") {
-        fileset(dir: "$androidHome/android/device-art-resources")
-      }
-
       dir("jps") {
         jar("android-jps-plugin.jar") { module("android-jps-plugin") }
+        jar("android-gradle-jps.jar") { module("android-gradle-jps") }
+      }
+
+      dir("device-art-resources") {
+        fileset(dir: "${home}/../adt/idea/android/device-art-resources")
+      }
+
+      dir("templates") {
+        fileset(dir: "${home}/../base/templates") {
+         include(name: "activities/**")
+         include(name: "gradle-projects/**")
+       }
       }
     }
 
@@ -643,6 +663,27 @@ def layoutAndroid(String androidHome) {
       }
     }
   }
+}
+
+private Set<String> findModuleDependencies(List<String> modules) {
+  Set<String> paths = new HashSet<String>();
+  modules.each {
+    m = findModule(it)
+    m.getDependenciesList().getDependencies().each {
+      projectBuilder.stage("looking at dependency " + it);
+
+      if (it instanceof JpsLibraryDependency) {  // only want library dependencies (and not other modules)
+        lib = it.getLibrary()
+        if (lib != null) {
+          libroots = lib.getRoots(JpsOrderRootType.COMPILED) // only want compile (and not test)
+          libroots.each {
+            paths.addAll(JpsPathUtil.urlToFile(it.getUrl()).getAbsolutePath());
+          }
+        }
+      }
+    }
+  }
+  return paths;
 }
 
 def layoutCommunityJps(String home, String target) {
