@@ -131,11 +131,16 @@ public class SdkEditor implements Configurable, Place.Navigator {
     myTabbedPane = new TabbedPaneWrapper(myDisposable);
     for (OrderRootType type : OrderRootType.getAllTypes()) {
       if (mySdk == null || showTabForType(type)) {
-        final SdkPathEditor pathEditor = OrderRootTypeUIFactory.FACTORY.getByKey(type).createPathEditor(mySdk);
-        if (pathEditor != null) {
-          pathEditor.setAddBaseDir(mySdk.getHomeDirectory());
-          myTabbedPane.addTab(pathEditor.getDisplayName(), pathEditor.createComponent());
-          myPathEditors.put(type, pathEditor);
+        try {
+          final SdkPathEditor pathEditor = OrderRootTypeUIFactory.FACTORY.getByKey(type).createPathEditor(mySdk);
+          if (pathEditor != null) {
+            pathEditor.setAddBaseDir(mySdk.getHomeDirectory());
+            myTabbedPane.addTab(pathEditor.getDisplayName(), pathEditor.createComponent());
+            myPathEditors.put(type, pathEditor);
+          }
+        }
+        catch (Exception e) {
+          e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
       }
     }

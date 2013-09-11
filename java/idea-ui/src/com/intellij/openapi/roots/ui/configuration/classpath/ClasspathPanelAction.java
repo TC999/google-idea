@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 /**
  * @author nik
  */
-abstract class ClasspathPanelAction implements ActionListener, Runnable {
+public abstract class ClasspathPanelAction implements ActionListener, Runnable {
   protected final ClasspathPanel myClasspathPanel;
 
   protected ClasspathPanelAction(ClasspathPanel classpathPanel) {

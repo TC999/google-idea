@@ -87,7 +87,7 @@ public class ProjectConfigurable extends ProjectStructureElementConfigurable<Pro
     myModulesConfigurator = configurator;
     mySettingsElement = new GeneralProjectSettingsElement(context);
     final ProjectStructureDaemonAnalyzer daemonAnalyzer = context.getDaemonAnalyzer();
-    myModulesConfigurator.addAllModuleChangeListener(new ModuleEditor.ChangeListener() {
+    myModulesConfigurator.addAllModuleChangeListener(new ModuleEditorImpl.ChangeListener() {
       @Override
       public void moduleStateChanged(ModifiableRootModel moduleRootModel) {
         daemonAnalyzer.queueUpdate(mySettingsElement);

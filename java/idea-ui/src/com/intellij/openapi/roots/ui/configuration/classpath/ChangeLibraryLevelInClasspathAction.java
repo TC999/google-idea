@@ -31,7 +31,7 @@ import javax.swing.*;
 /**
  * @author nik
  */
-class ChangeLibraryLevelInClasspathAction extends ChangeLibraryLevelActionBase {
+public class ChangeLibraryLevelInClasspathAction extends ChangeLibraryLevelActionBase {
   private final ClasspathPanel myPanel;
 
   public ChangeLibraryLevelInClasspathAction(@NotNull ClasspathPanel panel, final @NotNull String targetTableName, @NotNull String targetTableLevel) {

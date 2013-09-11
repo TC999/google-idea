@@ -29,7 +29,7 @@ import java.util.*;
 /**
 * @author nik
 */
-class AddModuleDependencyAction extends AddItemPopupAction<Module> {
+public class AddModuleDependencyAction extends AddItemPopupAction<Module> {
   private final StructureConfigurableContext myContext;
   private final ClasspathPanel myClasspathPanel;
 

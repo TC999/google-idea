@@ -37,7 +37,7 @@ import java.util.List;
 /**
 * @author nik
 */
-class AddLibraryDependencyAction extends AddItemPopupAction<Library> {
+public class AddLibraryDependencyAction extends AddItemPopupAction<Library> {
   private final StructureConfigurableContext myContext;
 
   public AddLibraryDependencyAction(ClasspathPanel classpathPanel, final int index, final String title,

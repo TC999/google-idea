@@ -29,7 +29,7 @@ import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.impl.libraries.LibraryTableImplUtil;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryTable;
-import com.intellij.openapi.roots.ui.configuration.ModuleEditor;
+import com.intellij.openapi.roots.ui.configuration.ModuleEditorImpl;
 import com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorListener;
 import com.intellij.openapi.roots.ui.configuration.projectRoot.*;
 import com.intellij.openapi.roots.ui.configuration.projectRoot.daemon.ProjectStructureElement;
@@ -79,7 +79,7 @@ public class ArtifactsStructureConfigurable extends BaseStructureConfigurable {
       }
     });
 
-    context.getModulesConfigurator().addAllModuleChangeListener(new ModuleEditor.ChangeListener() {
+    context.getModulesConfigurator().addAllModuleChangeListener(new ModuleEditorImpl.ChangeListener() {
       @Override
       public void moduleStateChanged(ModifiableRootModel moduleRootModel) {
         for (ProjectStructureElement element : getProjectStructureElements()) {

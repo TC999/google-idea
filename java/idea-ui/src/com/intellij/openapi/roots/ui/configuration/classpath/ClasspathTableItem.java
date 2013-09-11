@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 /**
 * @author nik
 */
-class ClasspathTableItem<T extends OrderEntry> {
+public class ClasspathTableItem<T extends OrderEntry> {
   @Nullable protected final T myEntry;
   private final boolean myRemovable;
 

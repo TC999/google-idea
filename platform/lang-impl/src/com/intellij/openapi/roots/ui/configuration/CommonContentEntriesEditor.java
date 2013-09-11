@@ -64,10 +64,10 @@ import java.util.List;
 public class CommonContentEntriesEditor extends ModuleElementsEditor {
   private static final Logger LOG = Logger.getInstance("#com.intellij.openapi.roots.ui.configuration.ContentEntriesEditor");
   public static final String NAME = ProjectBundle.message("module.paths.title");
-  private static final Color BACKGROUND_COLOR = UIUtil.getListBackground();
+  protected static final Color BACKGROUND_COLOR = UIUtil.getListBackground();
 
   protected ContentEntryTreeEditor myRootTreeEditor;
-  private MyContentEntryEditorListener myContentEntryEditorListener;
+  protected MyContentEntryEditorListener myContentEntryEditorListener;
   protected JPanel myEditorsPanel;
   private final Map<String, ContentEntryEditor> myEntryToEditorMap = new HashMap<String, ContentEntryEditor>();
   private String mySelectedEntryUrl;
@@ -240,7 +240,7 @@ public class CommonContentEntriesEditor extends ModuleElementsEditor {
     };
   }
 
-  void selectContentEntry(final String contentEntryUrl) {
+  protected void selectContentEntry(final String contentEntryUrl) {
     if (mySelectedEntryUrl != null && mySelectedEntryUrl.equals(contentEntryUrl)) {
       return;
     }
@@ -264,8 +264,10 @@ public class CommonContentEntriesEditor extends ModuleElementsEditor {
               scroller.scrollRectToVisible(component.getBounds());
             }
           });
-          myRootTreeEditor.setContentEntryEditor(editor);
-          myRootTreeEditor.requestFocus();
+          if (myRootTreeEditor != null) {
+            myRootTreeEditor.setContentEntryEditor(editor);
+            myRootTreeEditor.requestFocus();
+          }
         }
       }
     }
@@ -337,7 +339,7 @@ public class CommonContentEntriesEditor extends ModuleElementsEditor {
     selectContentEntry(contentEntriesArray[contentEntriesArray.length - 1].getUrl());
   }
 
-  private final class MyContentEntryEditorListener extends ContentEntryEditorListenerAdapter {
+  public final class MyContentEntryEditorListener extends ContentEntryEditorListenerAdapter {
     @Override
     public void editingStarted(@NotNull ContentEntryEditor editor) {
       selectContentEntry(editor.getContentEntryUrl());

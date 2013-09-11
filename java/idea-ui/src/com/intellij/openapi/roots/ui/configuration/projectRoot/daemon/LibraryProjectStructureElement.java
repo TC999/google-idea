@@ -24,7 +24,7 @@ import com.intellij.openapi.roots.impl.libraries.LibraryImpl;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryTable;
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
-import com.intellij.openapi.roots.ui.configuration.ModuleEditor;
+import com.intellij.openapi.roots.ui.configuration.ModuleEditorImpl;
 import com.intellij.openapi.roots.ui.configuration.ProjectStructureConfigurable;
 import com.intellij.openapi.roots.ui.configuration.libraries.LibraryEditingUtil;
 import com.intellij.openapi.roots.ui.configuration.libraryEditor.ExistingLibraryEditor;
@@ -128,8 +128,8 @@ public class LibraryProjectStructureElement extends ProjectStructureElement {
   @NotNull
   private Library getSourceOrThis() {
     final InvocationHandler invocationHandler = Proxy.isProxyClass(myLibrary.getClass()) ? Proxy.getInvocationHandler(myLibrary) : null;
-    final Library realLibrary = invocationHandler instanceof ModuleEditor.ProxyDelegateAccessor ?
-                                (Library)((ModuleEditor.ProxyDelegateAccessor)invocationHandler).getDelegate() : myLibrary;
+    final Library realLibrary = invocationHandler instanceof ModuleEditorImpl.ProxyDelegateAccessor ?
+                                (Library)((ModuleEditorImpl.ProxyDelegateAccessor)invocationHandler).getDelegate() : myLibrary;
     final Library source = realLibrary instanceof LibraryImpl? ((LibraryImpl)realLibrary).getSource() : null;
     return source != null ? source : myLibrary;
   }

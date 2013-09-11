@@ -57,15 +57,15 @@ import java.util.List;
  *         Date: Jan 19, 2004
  */
 public abstract class ContentRootPanel extends JPanel {
-  private static final Color EXCLUDED_COLOR = new JBColor(new Color(0x992E00), DarculaColors.RED);
-  private static final Color SELECTED_HEADER_COLOR = new JBColor(new Color(0xDEF2FF), UIUtil.getPanelBackground().darker());
-  private static final Color HEADER_COLOR = new JBColor(new Color(0xF5F5F5), Gray._82);
-  private static final Color SELECTED_CONTENT_COLOR = new Color(0xF0F9FF);
-  private static final Color CONTENT_COLOR = new JBColor(Color.WHITE, UIUtil.getPanelBackground());
-  private static final Color UNSELECTED_TEXT_COLOR = Gray._51;
+  protected static final Color EXCLUDED_COLOR = new JBColor(new Color(0x992E00), DarculaColors.RED);
+  protected static final Color SELECTED_HEADER_COLOR = new JBColor(new Color(0xDEF2FF), UIUtil.getPanelBackground().darker());
+  protected static final Color HEADER_COLOR = new JBColor(new Color(0xF5F5F5), Gray._82);
+  protected static final Color SELECTED_CONTENT_COLOR = new Color(0xF0F9FF);
+  protected static final Color CONTENT_COLOR = new JBColor(Color.WHITE, UIUtil.getPanelBackground());
+  protected static final Color UNSELECTED_TEXT_COLOR = Gray._51;
 
   protected final ActionCallback myCallback;
-  private final List<ModuleSourceRootEditHandler<?>> myModuleSourceRootEditHandlers;
+  protected final List<ModuleSourceRootEditHandler<?>> myModuleSourceRootEditHandlers;
   private JComponent myHeader;
   private JComponent myBottom;
   private final Map<JComponent, Color> myComponentToForegroundMap = new HashMap<JComponent, Color>();
@@ -139,7 +139,7 @@ public abstract class ContentRootPanel extends JPanel {
     }
   }
 
-  private JComponent createHeader() {
+  protected JComponent createHeader() {
     final JPanel panel = new JPanel(new GridBagLayout());
     final JLabel headerLabel = new JLabel(toDisplayPath(getContentEntry().getUrl()));
     headerLabel.setFont(headerLabel.getFont().deriveFont(Font.BOLD));
@@ -206,12 +206,12 @@ public abstract class ContentRootPanel extends JPanel {
     return null;
   }
 
-  private void registerTextComponent(final JComponent component, final Color foreground) {
+  protected void registerTextComponent(final JComponent component, final Color foreground) {
     component.setForeground(foreground);
     myComponentToForegroundMap.put(component, foreground);
   }
 
-  private <P extends JpsElement> JComponent createFolderComponent(final ContentFolder folder, Color foreground, ModuleSourceRootEditHandler<P> editor) {
+  protected <P extends JpsElement> JComponent createFolderComponent(final ContentFolder folder, Color foreground, ModuleSourceRootEditHandler<P> editor) {
     final VirtualFile folderFile = folder.getFile();
     final VirtualFile contentEntryFile = getContentEntry().getFile();
     final String properties = folder instanceof SourceFolderImpl? StringUtil.notNullize(
@@ -239,7 +239,7 @@ public abstract class ContentRootPanel extends JPanel {
     }
   }
 
-  private JComponent createFolderDeleteComponent(final ContentFolder folder, @Nullable ModuleSourceRootEditHandler<?> editor) {
+  protected JComponent createFolderDeleteComponent(final ContentFolder folder, @Nullable ModuleSourceRootEditHandler<?> editor) {
     final String tooltipText;
     if (folder.getFile() != null && getContentEntry().getFile() != null) {
       if (editor != null) {
@@ -314,7 +314,7 @@ public abstract class ContentRootPanel extends JPanel {
     return toDisplayPath(url);
   }
 
-  private static String toDisplayPath(final String url) {
+  protected static String toDisplayPath(final String url) {
     return VirtualFileManager.extractPath(url).replace('/', File.separatorChar);
   }
 
