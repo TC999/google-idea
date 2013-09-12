@@ -32,9 +32,13 @@
     <attribute name="script" />
     <sequential>
       <java failonerror="true" jar="${project.home}/lib/ant/lib/ant-launcher.jar" fork="true">
+<<<<<<< HEAD   (11f06b Merge "Removes warning message before Project Structure.")
         <jvmarg line="-Xmx768m -XX:MaxPermSize=152m"/>
         <jvmarg value="-Dout=${out.dir}" />
         <jvmarg value="-DbuildNumber=${buildId}" />
+=======
+        <jvmarg line="-Xmx612m -XX:MaxPermSize=152m"/>
+>>>>>>> BRANCH (a28de5 Snapshot b7cfcd5072e521a95c49cdd58405fa262075116e from idea/)
 
         <arg line="&quot;-Dgant.script=@{script}&quot;"/>
         <arg line="&quot;-Dteamcity.build.tempDir=${tmp.dir}&quot;"/>

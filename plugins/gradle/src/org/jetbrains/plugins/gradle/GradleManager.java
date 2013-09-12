@@ -167,7 +167,19 @@ implements ExternalSystemConfigurableAware, ExternalSystemUiAware, ExternalSyste
         }
 
         GradleProjectSettings projectLevelSettings = settings.getLinkedProjectSettings(pair.second);
+<<<<<<< HEAD   (11f06b Merge "Removes warning message before Project Structure.")
         DistributionType distributionType = projectLevelSettings == null ? DistributionType.LOCAL : projectLevelSettings.getDistributionType();
+=======
+        final DistributionType distributionType;
+        if (projectLevelSettings == null) {
+          distributionType =
+            GradleUtil.isGradleDefaultWrapperFilesExist(pair.second) ? DistributionType.DEFAULT_WRAPPED : DistributionType.LOCAL;
+        }
+        else {
+          distributionType = projectLevelSettings.getDistributionType() == null ? DistributionType.LOCAL : projectLevelSettings.getDistributionType();
+        }
+
+>>>>>>> BRANCH (a28de5 Snapshot b7cfcd5072e521a95c49cdd58405fa262075116e from idea/)
         GradleExecutionSettings result = new GradleExecutionSettings(localGradlePath,
                                                                      settings.getServiceDirectoryPath(),
                                                                      distributionType,

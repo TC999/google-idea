@@ -26,11 +26,15 @@ import org.jetbrains.annotations.Nullable;
 public class GradleProjectSettings extends ExternalProjectSettings {
 
   @Nullable private String myGradleHome;
+<<<<<<< HEAD   (11f06b Merge "Removes warning message before Project Structure.")
   @NotNull  private DistributionType distributionType;
 
   public GradleProjectSettings() {
     this.distributionType = DistributionType.LOCAL;
   }
+=======
+  @Nullable  private DistributionType distributionType;
+>>>>>>> BRANCH (a28de5 Snapshot b7cfcd5072e521a95c49cdd58405fa262075116e from idea/)
 
   @Nullable
   public String getGradleHome() {
@@ -41,12 +45,12 @@ public class GradleProjectSettings extends ExternalProjectSettings {
     myGradleHome = gradleHome;
   }
 
-  @NotNull
+  @Nullable
   public DistributionType getDistributionType() {
     return distributionType;
   }
 
-  public void setDistributionType(@NotNull DistributionType distributionType) {
+  public void setDistributionType(@Nullable DistributionType distributionType) {
     this.distributionType = distributionType;
   }
 
