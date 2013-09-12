@@ -16,6 +16,24 @@
       "revId": "7f14ad74427d1b12ce644d7b77b435dd77cafb7e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876c2149_e3ad327d",
+        "filename": ".idea/modules.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2013-09-12T19:24:17Z",
+      "side": 1,
+      "message": "The GAE group is in there, but none of the plugins are exposed in any way.  It was added in by the intellij guys because our initial plugin, before swtiching to maven, used the standard Java builder (which was disabled I believe) and linked to those plugins.  That is not the case anymore.\n\nI think I should send out an email to ide-partners about this. Removing the app-engine stuff from community might be the next step because it\u0027s not functional.\n\nAlso I think cloud tools will include non-appengine functionality at some point.",
+      "parentUuid": "277c55f0_b2245dbb",
+      "revId": "7f14ad74427d1b12ce644d7b77b435dd77cafb7e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
