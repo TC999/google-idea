@@ -16,7 +16,7 @@ import javax.swing.event.ChangeEvent;
 /**
  * @author ksafonov
  */
-public abstract class TabbedModuleEditor extends ModuleEditor {
+public abstract class TabbedModuleEditor extends ModuleEditorImpl {
 
   private static final String SELECTED_EDITOR_KEY = TabbedModuleEditor.class.getName() + ".selectedEditor";
 

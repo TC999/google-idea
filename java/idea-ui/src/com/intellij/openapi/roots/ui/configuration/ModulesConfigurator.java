@@ -162,20 +162,30 @@ public class ModulesConfigurator implements ModulesProvider, ModuleEditor.Change
   }
 
   private ModuleEditor doCreateModuleEditor(final Module module) {
-    final ModuleEditor moduleEditor = new HeaderHidingTabbedModuleEditor(myProject, this, module) {
-      @Override
-      public ProjectFacetsConfigurator getFacetsConfigurator() {
-        return myFacetsConfigurator;
+    ModuleEditor moduleEditor = null;
+    for (ModuleEditorProvider provider : ModuleEditorProvider.EP_NAME.getExtensions()) {
+      moduleEditor = provider.getModuleEditor(myProject, module, this);
+      if (moduleEditor != null) {
+        break;
       }
-    };
+    }
+    if (moduleEditor == null) {
+      moduleEditor = new HeaderHidingTabbedModuleEditor(myProject, this, module) {
+        @Override
+        public ProjectFacetsConfigurator getFacetsConfigurator() {
+          return myFacetsConfigurator;
+        }
+      };
+    }
 
     myModuleEditors.add(moduleEditor);
 
     moduleEditor.addChangeListener(this);
+    final ModuleEditor finalModuleEditor = moduleEditor;
     Disposer.register(moduleEditor, new Disposable() {
       @Override
       public void dispose() {
-        moduleEditor.removeChangeListener(ModulesConfigurator.this);
+        finalModuleEditor.removeChangeListener(ModulesConfigurator.this);
       }
     });
     return moduleEditor;
