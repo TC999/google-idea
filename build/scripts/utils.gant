@@ -787,6 +787,7 @@ binding.setVariable("buildWinLauncher", { String ch, String inputPath, String ou
   }
 })
 
+<<<<<<< HEAD   (26583d Merge "Rename update channels.")
 binding.setVariable("layoutUpdater", { String target, String jarName = "updater.jar" ->
   layout(target) {
     jar(jarName) {
@@ -796,10 +797,11 @@ binding.setVariable("layoutUpdater", { String target, String jarName = "updater.
 })
 
 binding.setVariable("buildModulesAndCollectUsedJars", { List modules, List approvedJars, List forbiddenJars ->
+=======
+binding.setVariable("collectUsedJars", { List modules, List approvedJars, List forbiddenJars, List modulesToBuild ->
+>>>>>>> BRANCH (f7998d Snapshot cd724ea5e27634f1c84f893f10b646937a677d56 from idea/)
   def usedJars = new HashSet();
 
-  projectBuilder.cleanOutput()
-  def modulesToBuild = []
   modules.each {
     def module = findModule(it)
     if (module != null) {
@@ -814,12 +816,22 @@ binding.setVariable("buildModulesAndCollectUsedJars", { List modules, List appro
           }
         }
       }
-      modulesToBuild << module
+      if (modulesToBuild != null) {
+        modulesToBuild << module
+      }
     }
     else {
       projectBuilder.warning("$it is not a module")
     }
   }
+
+  return usedJars
+})
+
+binding.setVariable("buildModulesAndCollectUsedJars", { List modules, List approvedJars, List forbiddenJars ->
+  def modulesToBuild = []
+  def usedJars = collectUsedJars(modules, approvedJars, forbiddenJars, modulesToBuild)
+  projectBuilder.cleanOutput()
   projectBuilder.buildModules(modulesToBuild)
 
   return usedJars
