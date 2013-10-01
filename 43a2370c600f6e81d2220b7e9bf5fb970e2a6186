@@ -16,6 +16,24 @@
       "revId": "43a2370c600f6e81d2220b7e9bf5fb970e2a6186",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4779b7c_f6f02014",
+        "filename": "java/idea-ui/src/com/intellij/openapi/roots/ui/configuration/ModuleEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006444
+      },
+      "writtenOn": "2013-10-01T02:08:44Z",
+      "side": 1,
+      "message": "Here\u0027s a diff of the previous version of ModuleEditor.java to the ModuleEditorImpl.java provided in this CL: https://paste.googleplex.com/6384675043934208",
+      "parentUuid": "2485338a_e004e22a",
+      "revId": "43a2370c600f6e81d2220b7e9bf5fb970e2a6186",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
