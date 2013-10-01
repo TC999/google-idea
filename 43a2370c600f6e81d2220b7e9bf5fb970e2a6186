@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2485338a_e004e22a",
+        "filename": "java/idea-ui/src/com/intellij/openapi/roots/ui/configuration/ModuleEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1017944
+      },
+      "writtenOn": "2013-10-01T00:55:46Z",
+      "side": 1,
+      "message": "This is basically splitting ModuleEditor up into an interface/implementation; the changes in ModuleEditorImpl are minimal. Unfortunately, Gerrit doesn\u0027t show you a reasonable diff.",
+      "revId": "43a2370c600f6e81d2220b7e9bf5fb970e2a6186",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
