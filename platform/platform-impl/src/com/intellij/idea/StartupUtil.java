@@ -220,6 +220,11 @@ public class StartupUtil {
       throw new RuntimeException("Unable to create temp directory '" + ideTempDir + "'");
     }
 
+    // Make sure to initialize getTempDirectory before modifying the java.io.tmpdir system prop
+    // below. This forces it to cache the right value and avoid a race condition while it is
+    // being changed here.
+    FileUtil.getTempDirectory();
+
     String javaTempDir = System.getProperty(JAVA_IO_TEMP_DIR);
     try {
       System.setProperty(JAVA_IO_TEMP_DIR, ideTempDir.getPath());

@@ -118,8 +118,9 @@ public class Main {
   private static void installPatch() throws IOException {
     String platform = System.getProperty(PLATFORM_PREFIX_PROPERTY, "idea");
     String patchFileName = ("jetbrains.patch.jar." + platform).toLowerCase();
-    File originalPatchFile = new File(System.getProperty("java.io.tmpdir"), patchFileName);
-    File copyPatchFile = new File(System.getProperty("java.io.tmpdir"), patchFileName + "_copy");
+    String tmpDir = FileUtilRt.getTempDirectory();
+    File originalPatchFile = new File(tmpDir, patchFileName);
+    File copyPatchFile = new File(tmpDir, patchFileName + "_copy");
 
     // always delete previous patch copy
     if (!FileUtilRt.delete(copyPatchFile)) {
