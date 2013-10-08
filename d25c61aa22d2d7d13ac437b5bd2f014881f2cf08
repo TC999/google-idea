@@ -16,6 +16,24 @@
       "revId": "d25c61aa22d2d7d13ac437b5bd2f014881f2cf08",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61c0fd68_831ca47f",
+        "filename": "platform/platform-impl/src/com/intellij/idea/StartupUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2013-10-08T03:33:17Z",
+      "side": 1,
+      "message": "Using a lock was my original fix, and then I reverted to this which seems simpler.",
+      "parentUuid": "e1d30d45_190daff9",
+      "revId": "d25c61aa22d2d7d13ac437b5bd2f014881f2cf08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
