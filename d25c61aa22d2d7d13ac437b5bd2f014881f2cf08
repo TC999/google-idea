@@ -34,6 +34,24 @@
       "revId": "d25c61aa22d2d7d13ac437b5bd2f014881f2cf08",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61c0fd68_a341e84a",
+        "filename": "platform/platform-impl/src/com/intellij/idea/StartupUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2013-10-08T03:39:21Z",
+      "side": 1,
+      "message": "I agree with you, btw.\n\nTor - can you think of any alternative ways?\n\nI wonder if the JB would be willing to clean it up so that Native.POINTER_SIZE and its side effects are performed via a different method than this ugly hack.",
+      "parentUuid": "61c0fd68_831ca47f",
+      "revId": "d25c61aa22d2d7d13ac437b5bd2f014881f2cf08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
