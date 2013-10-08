@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1d30d45_190daff9",
+        "filename": "platform/platform-impl/src/com/intellij/idea/StartupUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2013-10-08T01:28:20Z",
+      "side": 1,
+      "message": "Ugh, I don\u0027t like it, but I can\u0027t think of a way (other than to use a lock, say JAVA_IO_TEMP_DIR_LOCK that both places would need to use).\n\nI think we should wait for a day to hear back from JB.",
+      "revId": "d25c61aa22d2d7d13ac437b5bd2f014881f2cf08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
