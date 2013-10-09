@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1c94dea_06275ad8",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2013-10-09T22:30:36Z",
+      "side": 1,
+      "message": "These 2 files keep appearing when I run AS from IJ.",
+      "revId": "e6c79bc2c00e8efa84de2505f62a5ec37ea2647d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
