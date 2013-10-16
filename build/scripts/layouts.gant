@@ -658,6 +658,43 @@ def layoutAndroid() {
         module("android-rt")
       }
 
+<<<<<<< HEAD   (e42024 Merge "Adding explanation to Android Studio channel names.")
+=======
+      jar("common.jar") {
+        module("common")
+      }
+      jar("sdklib.jar") {
+        module("sdklib")
+      }
+      jar("layoutlib-api.jar") {
+        module("layoutlib-api")
+      }
+      jar("manifest-merger.jar") {
+        module("manifest-merger")
+      }
+      jar("sdk-tools.jar") {
+        module("assetstudio")
+        module("ddmlib")
+        module("dvlib")
+        module("draw9patch")
+        module("lint-cli")
+        module("lint-api")
+        module("lint-checks")
+        module("ninepatch")
+        module("sdk-common")
+        module("perflib")
+      }
+      jar("androidAnnotations.jar") {
+        fileset(dir: "$androidHome/android/annotations")
+      }
+      dir("jps") {
+        jar("android-gradle-jps.jar") { module("android-gradle-jps") }
+      }
+      dir("device-art-resources") {
+        fileset(dir: "$androidHome/android/device-art-resources")
+      }
+
+>>>>>>> BRANCH (767536 Snapshot 246ebf4786ef75849985fa5fba6015155ebac527 from idea/)
       dir("jps") {
         jar("android-jps-plugin.jar") { module("android-jps-plugin") }
         jar("android-gradle-jps.jar") { module("android-gradle-jps") }
