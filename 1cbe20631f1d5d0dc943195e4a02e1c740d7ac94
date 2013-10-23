@@ -16,6 +16,24 @@
       "revId": "1cbe20631f1d5d0dc943195e4a02e1c740d7ac94",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9efb90cd_534c2e76",
+        "filename": "platform/platform-resources/src/idea/PlatformActions.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2013-10-23T21:00:05Z",
+      "side": 1,
+      "message": "You can experiment with the following options:\n\n 1. AndroidStudioPlugin.xml in adt-branding\n 2. androidstudio.xml in android\n 3 .Via code in class AndroidInitialConfigurator\n\nThat said, if it is just one line, it is not a big deal if you can\u0027t get one of the above to work.",
+      "parentUuid": "fe41ecd7_45979ed0",
+      "revId": "1cbe20631f1d5d0dc943195e4a02e1c740d7ac94",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
