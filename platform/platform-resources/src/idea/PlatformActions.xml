@@ -497,6 +497,8 @@
     </group>
 
     <group id="WelcomeScreen.Configure">
+      <action id="WelcomeScreen.RunAndroidSdkManager" class="org.jetbrains.android.actions.RunAndroidSdkManagerAction" icon="AndroidIcons.SdkManager" />
+
       <action id="WelcomeScreen.Settings" class="com.intellij.ide.actions.ShowSettingsAction" icon="AllIcons.General.Configure"/>
       <action id="WelcomeScreen.Plugins" class="com.intellij.ide.actions.ShowPluginManagerAction" icon="AllIcons.General.PluginManager"/>
 
