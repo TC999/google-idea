@@ -142,7 +142,13 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   def macAppRoot = "Android Studio.app"
   def linTarRoot = "android-studio"
 
+<<<<<<< HEAD   (979193 Merge "There are no problems with flickering under Darcula o)
   androidBuildNumber = p("buildNumber")
+=======
+  def macAppRoot = isEap() ?
+                   "IntelliJ IDEA ${p("component.version.major")} CE EAP.app" :
+                   "IntelliJ IDEA ${p("component.version.major")} CE.app"
+>>>>>>> BRANCH (3a2425 Snapshot fb3d71c562a0c9a822e3cd0473c641d8449e7acd from idea/)
 
   def winZip = "$paths.artifacts/android-studio-${androidBuildNumber}.win.zip"
   def macZip = "$paths.artifacts/android-studio-${androidBuildNumber}.mac.zip"
