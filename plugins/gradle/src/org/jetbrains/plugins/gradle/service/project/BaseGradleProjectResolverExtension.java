@@ -127,7 +127,7 @@ public class BaseGradleProjectResolverExtension implements GradleProjectResolver
     return new ModuleData(GradleConstants.SYSTEM_ID,
                           StdModuleTypes.JAVA.getId(),
                           moduleName,
-                          projectData.getIdeProjectFileDirectoryPath(),
+                          moduleConfigPath,
                           moduleConfigPath);
   }
 
