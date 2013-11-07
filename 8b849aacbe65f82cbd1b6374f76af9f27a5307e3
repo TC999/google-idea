@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de65092b_4eaf1768",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/model/MetaManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-11-07T23:21:05Z",
+      "side": 1,
+      "message": "here we just return the MetaModel object that this method creates (such that an override can take the object and customize it further).",
+      "revId": "8b849aacbe65f82cbd1b6374f76af9f27a5307e3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e570543_ac16b761",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/model/MetaManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-11-07T23:21:05Z",
+      "side": 1,
+      "message": "These methods just extracted the new-expressions in code further down",
+      "revId": "8b849aacbe65f82cbd1b6374f76af9f27a5307e3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
