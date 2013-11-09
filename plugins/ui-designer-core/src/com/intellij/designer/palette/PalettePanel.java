@@ -15,7 +15,6 @@
  */
 package com.intellij.designer.palette;
 
-import com.intellij.designer.LightToolWindowContent;
 import com.intellij.designer.designSurface.DesignerEditorPanel;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.application.ApplicationManager;
@@ -42,7 +41,7 @@ import java.util.List;
 /**
  * @author Alexander Lobas
  */
-public class PalettePanel extends JPanel implements DataProvider, LightToolWindowContent {
+public class PalettePanel extends JPanel implements DataProvider, PaletteToolWindowContent {
   private final JPanel myPaletteContainer = new PaletteContainer();
   private List<PaletteGroupComponent> myGroupComponents = Collections.emptyList();
   private List<PaletteItemsComponent> myItemsComponents = Collections.emptyList();
@@ -103,6 +102,7 @@ public class PalettePanel extends JPanel implements DataProvider, LightToolWindo
     }
   }
 
+  @Override
   @Nullable
   public PaletteItem getActiveItem() {
     for (PaletteGroupComponent groupComponent : myGroupComponents) {
@@ -116,6 +116,7 @@ public class PalettePanel extends JPanel implements DataProvider, LightToolWindo
     return null;
   }
 
+  @Override
   public void clearActiveItem() {
     if (getActiveItem() != null) {
       for (PaletteItemsComponent itemsComponent : myItemsComponents) {
@@ -125,6 +126,7 @@ public class PalettePanel extends JPanel implements DataProvider, LightToolWindo
     }
   }
 
+  @Override
   public void refresh() {
     repaint();
   }
