@@ -39,7 +39,7 @@ import java.awt.event.ComponentEvent;
 /**
  * @author Alexander Lobas
  */
-public final class DesignerToolWindow implements LightToolWindowContent {
+public final class DesignerToolWindow implements DesignerToolWindowContent {
   private final Splitter myToolWindowPanel;
   private ComponentTree myComponentTree;
   private ComponentTreeBuilder myTreeBuilder;

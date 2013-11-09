@@ -46,8 +46,16 @@ public final class DesignerToolWindowManager extends AbstractToolWindowManager {
     myToolWindowContent = new DesignerToolWindow(project, true);
   }
 
-  public static DesignerToolWindow getInstance(DesignerEditorPanel designer) {
-    DesignerToolWindowManager manager = getInstance(designer.getProject());
+  public static DesignerToolWindowContent getInstance(DesignerEditorPanel designer) {
+    DesignerCustomizations customizations = getCustomizations();
+    if (customizations != null) {
+      DesignerToolWindowContent content = customizations.getDesignerWindowContent(designer);
+      if (content != null) {
+        return content;
+      }
+    }
+
+    DesignerToolWindowManager manager = designer.getProject().getComponent(DesignerToolWindowManager.class);
     if (manager.isEditorMode()) {
       return (DesignerToolWindow)manager.getContent(designer);
     }
@@ -55,7 +63,14 @@ public final class DesignerToolWindowManager extends AbstractToolWindowManager {
   }
 
 
-  public static DesignerToolWindowManager getInstance(Project project) {
+  public static AbstractToolWindowManager getInstance(Project project) {
+    DesignerCustomizations customizations = getCustomizations();
+    if (customizations != null) {
+      AbstractToolWindowManager manager = customizations.getDesignerWindowManager(project);
+      if (manager != null) {
+        return manager;
+      }
+    }
     return project.getComponent(DesignerToolWindowManager.class);
   }
 

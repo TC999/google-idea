@@ -45,15 +45,30 @@ public class PaletteToolWindowManager extends AbstractToolWindowManager {
     super(project, fileEditorManager);
   }
 
-  public static PalettePanel getInstance(DesignerEditorPanel designer) {
-    PaletteToolWindowManager manager = getInstance(designer.getProject());
+  public static PaletteToolWindowContent getInstance(DesignerEditorPanel designer) {
+    DesignerCustomizations customizations = getCustomizations();
+    if (customizations != null) {
+      PaletteToolWindowContent content = customizations.getPaletteWindowContent(designer);
+      if (content != null) {
+        return content;
+      }
+    }
+
+    PaletteToolWindowManager manager = designer.getProject().getComponent(PaletteToolWindowManager.class);
     if (manager.isEditorMode()) {
       return (PalettePanel)manager.getContent(designer);
     }
     return manager.myToolWindowPanel;
   }
 
-  public static PaletteToolWindowManager getInstance(Project project) {
+  public static AbstractToolWindowManager getInstance(Project project) {
+    DesignerCustomizations customizations = getCustomizations();
+    if (customizations != null) {
+      AbstractToolWindowManager manager = customizations.getPaletteWindowManager(project);
+      if (manager != null) {
+        return manager;
+      }
+    }
     return project.getComponent(PaletteToolWindowManager.class);
   }
 
