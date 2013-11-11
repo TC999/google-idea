@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "3e570543_85d581d3",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/palette/PaletteToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-11-11T16:44:02Z",
+      "side": 1,
+      "message": "The Android designer will replace not just the tool window content, but the tool window manager as well.\n\nThis is done by overriding DesignerEditorPanel#getPaletteWindowManager.\n\nThis works in 99% of the cases. The designer code will all call that method, get the right window manager, ask it to produce its content window, etc.\n\nHowever, there was one exception to this: ToggleEditorModeAction. \n\nThat class doesn\u0027t have a hook to the corresponding designer, so it just calls the static methods on DesignerToolWindowManager and PaletteToolWindowManager to get the instances. This obviously doesn\u0027t work with our overridden methods.\n\nThat\u0027s why I added the *additional* code in those static getters to consult whether there is a designer customization, and if so, delegate to it to look up what the manager instance should be. In the case of the Android designer, it will return its own window manager instance -- so there isn\u0027t a problem with the field created directly above getting combined with this unknown manager.\n\nIt\u0027s simply a way for the static instance to be able to delegate to another singleton when appropriate.\n\nHowever, I don\u0027t think that the ToggleEditorModeAction is something that a lot of people use. I\u0027ve uploaded a new patch which rips out this code to support it; now it\u0027s *just* the debugger delegation code, which is the really important part.",
+      "parentUuid": "feed6dca_3324d041",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feed6dca_d3f74c70",
         "filename": "plugins/ui-designer-core/src/com/intellij/designer/palette/PaletteToolWindowManager.java",
         "patchSetId": 1
