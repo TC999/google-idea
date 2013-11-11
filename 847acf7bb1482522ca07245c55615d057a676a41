@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "defa6981_350e7290",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/DesignerToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1033281
+      },
+      "writtenOn": "2013-11-11T16:08:07Z",
+      "side": 1,
+      "message": "For ToolWindow mode content created directly",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feed6dca_f3fa485a",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/DesignerToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1033281
+      },
+      "writtenOn": "2013-11-11T16:08:07Z",
+      "side": 1,
+      "message": "But now you return new unknown (and not addet to ToolWindow or editor component) object",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3edaa533_5fd32b46",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/DesignerToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1033281
+      },
+      "writtenOn": "2013-11-11T16:08:07Z",
+      "side": 1,
+      "message": "But now you return new unknown (and not addet to ToolWindow or editor component) object",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defa6981_151376b8",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/DesignerToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1033281
+      },
+      "writtenOn": "2013-11-11T16:08:07Z",
+      "side": 1,
+      "message": "For InEditor mode content created directly",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3edaa533_7fd8ef61",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/palette/PaletteToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1033281
+      },
+      "writtenOn": "2013-11-11T16:08:07Z",
+      "side": 1,
+      "message": "For ToolWindow mode content created directly",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feed6dca_3324d041",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/palette/PaletteToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1033281
+      },
+      "writtenOn": "2013-11-11T16:08:07Z",
+      "side": 1,
+      "message": "But now you return new unknown (and not addet to ToolWindow or editor component) object",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feed6dca_d3f74c70",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/palette/PaletteToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1033281
+      },
+      "writtenOn": "2013-11-11T16:08:07Z",
+      "side": 1,
+      "message": "But now you return new unknown (and not addet to ToolWindow or editor component) object",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defa6981_550dfe8e",
+        "filename": "plugins/ui-designer-core/src/com/intellij/designer/palette/PaletteToolWindowManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1033281
+      },
+      "writtenOn": "2013-11-11T16:08:07Z",
+      "side": 1,
+      "message": "For InEditor mode content created directly",
+      "revId": "847acf7bb1482522ca07245c55615d057a676a41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
