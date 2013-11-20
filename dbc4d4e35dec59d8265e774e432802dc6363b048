@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e64b999_394f30a7",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-11-20T18:15:51Z",
+      "side": 1,
+      "message": "nit - does not exist",
+      "revId": "dbc4d4e35dec59d8265e774e432802dc6363b048",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bef93500_de8fe10e",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-11-20T18:15:51Z",
+      "side": 1,
+      "message": "Just curious - how come you\u0027re using a system property rather than just a global string builder which you null out after use? (With this approach you need to keep concatenating to the same string, and since strings are immutable ever append is a full array copy.)",
+      "revId": "dbc4d4e35dec59d8265e774e432802dc6363b048",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e0dfde8_7cfb3560",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-11-20T18:15:51Z",
+      "side": 1,
+      "message": "You should use PathManager.getLogPath instead. On Mac for example the log directory is not under the system path, it\u0027s in ~/Library/Logs/ (with logs from other apps too)",
+      "revId": "dbc4d4e35dec59d8265e774e432802dc6363b048",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e0dfde8_bc230d3a",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-11-20T18:15:51Z",
+      "side": 1,
+      "message": "I\u0027m assuming this code is some sort of simple runner which doesn\u0027t have access to Guava; if it does, use Files.write(p, log, Charsets.UTF_8)",
+      "revId": "dbc4d4e35dec59d8265e774e432802dc6363b048",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
