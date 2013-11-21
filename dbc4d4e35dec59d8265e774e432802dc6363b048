@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5ed03988_f1363a01",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2013-11-21T07:17:12Z",
+      "side": 1,
+      "message": "the log is then dumped using 2 different ways: if the bootstrap is restarting, it dumps directly to a special log file (that\u0027s dumpDelayedLogging) and in this case it happens right away so it has the data locally. However in the normal case where Studio starts, the logger is instantiated from another ClassLoader and doesn\u0027t have access to the locals from this loader. That\u0027s the case with dumpDelayedLogging(Logger). To work around that I\u0027m using the property, which I clear after I dump it to the *regular* Studio log.",
+      "parentUuid": "bef93500_de8fe10e",
+      "revId": "dbc4d4e35dec59d8265e774e432802dc6363b048",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e0dfde8_7cfb3560",
         "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "5ed03988_d13b36e9",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2013-11-21T07:17:12Z",
+      "side": 1,
+      "message": "good idea, didn\u0027t see that one.",
+      "parentUuid": "7e0dfde8_7cfb3560",
+      "revId": "dbc4d4e35dec59d8265e774e432802dc6363b048",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e0dfde8_bc230d3a",
         "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2013-11-20T18:15:51Z",
       "side": 1,
       "message": "I\u0027m assuming this code is some sort of simple runner which doesn\u0027t have access to Guava; if it does, use Files.write(p, log, Charsets.UTF_8)",
+      "revId": "dbc4d4e35dec59d8265e774e432802dc6363b048",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ed03988_3121f2b6",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2013-11-21T07:17:12Z",
+      "side": 1,
+      "message": "Nope no guava here and I\u0027d rather not add it.",
+      "parentUuid": "7e0dfde8_bc230d3a",
       "revId": "dbc4d4e35dec59d8265e774e432802dc6363b048",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
