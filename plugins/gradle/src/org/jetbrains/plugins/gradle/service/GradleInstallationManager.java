@@ -1,5 +1,6 @@
 package org.jetbrains.plugins.gradle.service;
 
+import com.google.common.collect.Lists;
 import com.intellij.openapi.externalSystem.service.project.PlatformFacade;
 import com.intellij.openapi.externalSystem.util.ExternalSystemConstants;
 import com.intellij.openapi.module.Module;
@@ -32,6 +33,7 @@ import org.jetbrains.plugins.groovy.config.GroovyConfigUtils;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -365,6 +367,22 @@ public class GradleInstallationManager {
     return null;
   }
 
+  private List<File> getAndroidBuildJars() {
+    List<File> result = Lists.newArrayList();
+    List<String> androidPaths = Arrays.asList(
+      "/ssd/aosp/idea133/out/host/gradle/repo/com/android/tools/build/builder/0.7.0/builder-0.7.0.jar",
+      "/ssd/aosp/idea133/out/host/gradle/repo/com/android/tools/build/builder/0.7.0/builder-0.7.0-javadoc.jar",
+      "/ssd/aosp/idea133/out/host/gradle/repo/com/android/tools/build/builder/0.7.0/builder-0.7.0-sources.jar",
+      "/ssd/aosp/idea133/out/host/gradle/repo/com/android/tools/build/gradle/0.7.0/gradle-0.7.0.jar",
+      "/ssd/aosp/idea133/out/host/gradle/repo/com/android/tools/build/gradle/0.7.0/gradle-0.7.0-javadoc.jar",
+      "/ssd/aosp/idea133/out/host/gradle/repo/com/android/tools/build/gradle/0.7.0/gradle-0.7.0-sources.jar"
+    );
+    for (String path: androidPaths) {
+      result.add(new File(path));
+    }
+    return result;
+  }
+
   /**
    * Allows to ask for the classpath roots of the classes that are additionally provided by the gradle integration (e.g. gradle class
    * files, bundled groovy-all jar etc).
@@ -401,6 +419,13 @@ public class GradleInstallationManager {
           if (virtualFile != null) {
             ContainerUtil.addIfNotNull(result, jarFileSystem.getJarRootForLocalFile(virtualFile));
           }
+        }
+      }
+
+      for (File file: getAndroidBuildJars()) {
+        VirtualFile vf = localFileSystem.refreshAndFindFileByIoFile(file);
+        if (vf != null) {
+          ContainerUtil.addIfNotNull(result, jarFileSystem.getJarRootForLocalFile(vf));
         }
       }
 
