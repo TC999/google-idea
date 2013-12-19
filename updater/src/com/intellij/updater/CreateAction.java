@@ -17,6 +17,7 @@ public class CreateAction extends PatchAction {
     super(in);
   }
 
+  @Override
   protected void doBuildPatchFile(File olderFile, File newerFile, ZipOutputStream patchOutput) throws IOException {
     patchOutput.putNextEntry(new ZipEntry(myPath));
 
@@ -70,10 +71,12 @@ public class CreateAction extends PatchAction {
     }
   }
 
+  @Override
   protected void doBackup(File toFile, File backupFile) {
     // do nothing
   }
 
+  @Override
   protected void doRevert(File toFile, File backupFile) throws IOException {
     Utils.delete(toFile);
   }
