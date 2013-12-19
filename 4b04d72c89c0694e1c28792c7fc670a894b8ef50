@@ -16,6 +16,24 @@
       "revId": "4b04d72c89c0694e1c28792c7fc670a894b8ef50",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e871338d_9780c675",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2013-12-19T20:56:23Z",
+      "side": 1,
+      "message": "Ooops.... vim mistake, I must have typed 63927 before i so it inserted it 63927 times :)",
+      "parentUuid": "c86e2fb0_f9f56fab",
+      "revId": "4b04d72c89c0694e1c28792c7fc670a894b8ef50",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
