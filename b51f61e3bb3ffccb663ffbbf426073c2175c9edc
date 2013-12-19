@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "e871338d_17c59647",
+        "filename": "updater/src/com/intellij/updater/CreateAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-12-19T20:00:19Z",
+      "side": 1,
+      "message": "They do use it in quite a few places (for example a recursive grep in tools/idea/java shows 15,000 occurrences), they just don\u0027t have the warning for it enabled, so in lots of places they are missing it. I\u0027d include it.",
+      "parentUuid": "c86e2fb0_b62a260f",
+      "range": {
+        "startLine": 73,
+        "startChar": 3,
+        "endLine": 73,
+        "endChar": 11
+      },
+      "revId": "b51f61e3bb3ffccb663ffbbf426073c2175c9edc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e871338d_f73adaab",
         "filename": "updater/src/com/intellij/updater/Utils.java",
         "patchSetId": 1
@@ -53,6 +77,29 @@
       "writtenOn": "2013-12-19T19:54:14Z",
       "side": 1,
       "message": "nit: I think this comment could be improved to specify:\n\n - it retries deleting a file with progressively longer delays in between, until it is actually deleted or it times out\n - that this is an attempt to fix a particular bug and a link to that bug.",
+      "revId": "b51f61e3bb3ffccb663ffbbf426073c2175c9edc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48631fc4_1a477991",
+        "filename": "updater/src/com/intellij/updater/Utils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-12-19T20:00:19Z",
+      "side": 1,
+      "message": "Does this mean that we will wait on *each* single deletion up to 2 minutes? So if I\u0027m recursively trying to delete a tree with 1,000 files, I could be waiting 1,000 * delay ms?\n\nMight be better to add the timeout only to the top level delete() call; try once from the top, then do the timeout, then do a second attempt.",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 8
+      },
       "revId": "b51f61e3bb3ffccb663ffbbf426073c2175c9edc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
