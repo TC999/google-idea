@@ -38,6 +38,15 @@ public class Utils {
     myTempDir = null;
   }
 
+  /**
+   * Deletes a file or directory with a default timeout of 100 milliseconds.
+   * Directories are deleted recursively. The timeout occurs on each file.
+   * If one of the files fails to be deleted, the recursive directory deletion
+   * is aborted and not retried.
+   *
+   * @param file The file or directory to delete.
+   * @throws IOException
+   */
   public static void delete(File file) throws IOException {
     if (file.isDirectory()) {
       File[] files = file.listFiles();
@@ -47,15 +56,71 @@ public class Utils {
         }
       }
     }
+
     for (int i = 0; i < 10; i++) {
-      if (file.delete() || !file.exists()) return;
+      if (file.delete() || !file.exists()) {
+        return;
+      }
       try {
         Thread.sleep(10);
-      }
-      catch (InterruptedException ignore) {
-      }
+      } catch (InterruptedException ignore) {}
     }
-    if (file.exists()) throw new IOException("Cannot delete file " + file);
+    if (file.exists()) {
+      throw new IOException("Cannot delete file " + file);
+    }
+  }
+
+  /**
+   * Deletes a file or directory, retrying as many times as necessary with an incremental
+   * delay within the specified timeout.
+   * Directories are deleted recursively. If the directory fails to be recursively deleted,
+   * it is retried too.
+   *
+   * @param file The file or directory to delete.
+   * @param maxTimeout The max timeout to wait, in milliseconds.
+   * @throws IOException
+   */
+  public static void deleteWithTimeout(File file, long maxTimeout) throws IOException {
+    long delay = 10;
+    long start = System.currentTimeMillis();
+    long total;
+    Exception cause = null;
+
+    do {
+      boolean failed = false;
+      if (file.isDirectory()) {
+        File[] files = file.listFiles();
+        if (files != null) {
+          for (File each : files) {
+            try {
+              delete(each);
+            } catch (Exception ignore) {
+              // One of the inner deletions failed when recursively deleting a directory.
+              // We'll retry if the timeout hasn't expired.
+              failed = true;
+              break;
+            }
+          }
+        }
+      }
+
+      if (!failed && !file.exists() || file.delete()) {
+        return;
+      }
+
+      try {
+        Thread.sleep(delay);
+        delay = delay >= 1000 ? delay : delay * 2;
+      }
+      catch (Exception e) {
+        cause = e;
+      }
+      total = System.currentTimeMillis() - start;
+    } while (total < maxTimeout);
+
+    if (file.exists()) {
+      throw new IOException(String.format("Cannot delete file %s in %.1f s", file, total / 1000.0f), cause);
+    }
   }
 
   public static void setExecutable(File file, boolean executable) throws IOException {

@@ -43,15 +43,20 @@ public class DeleteAction extends PatchAction {
 
   @Override
   protected void doApply(ZipFile patchFile, File toFile) throws IOException {
-    Utils.delete(toFile);
+    // Delete the file with a timeout of 2 minutes. Cf bug: http://b.android.com/63927
+    Utils.deleteWithTimeout(toFile, 120 * 1000);
   }
 
+  @Override
   protected void doBackup(File toFile, File backupFile) throws IOException {
     Utils.copy(toFile, backupFile);
   }
 
+  @Override
   protected void doRevert(File toFile, File backupFile) throws IOException {
-    Utils.delete(toFile); // make sure there is no directory remained on this path (may remain from previous 'create' actions
+    // make sure there is no directory remained on this path (may remain from previous 'create' actions
+    // Delete the file with a timeout of 2 minutes. Cf bug: http://b.android.com/63927
+    Utils.deleteWithTimeout(toFile, 120 * 1000);
     Utils.copy(backupFile, toFile);
   }
 }
