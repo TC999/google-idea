@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48631fc4_3a8c3ddb",
+        "filename": "updater/src/com/intellij/updater/CreateAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2013-12-19T19:54:14Z",
+      "side": 1,
+      "message": "Rather than the \"give it 2 minutes\", could we add a comment as to why we are modifying this particular location, and a link to the bug.",
+      "revId": "b51f61e3bb3ffccb663ffbbf426073c2175c9edc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c86e2fb0_b62a260f",
+        "filename": "updater/src/com/intellij/updater/CreateAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2013-12-19T19:54:14Z",
+      "side": 1,
+      "message": "nit: IJ source code doesn\u0027t use override annotations. So if you don\u0027t have a strong preference, I\u0027d suggest not adding them.",
+      "range": {
+        "startLine": 73,
+        "startChar": 3,
+        "endLine": 73,
+        "endChar": 11
+      },
+      "revId": "b51f61e3bb3ffccb663ffbbf426073c2175c9edc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e871338d_f73adaab",
+        "filename": "updater/src/com/intellij/updater/Utils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2013-12-19T19:54:14Z",
+      "side": 1,
+      "message": "nit: I think this comment could be improved to specify:\n\n - it retries deleting a file with progressively longer delays in between, until it is actually deleted or it times out\n - that this is an attempt to fix a particular bug and a link to that bug.",
+      "revId": "b51f61e3bb3ffccb663ffbbf426073c2175c9edc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
