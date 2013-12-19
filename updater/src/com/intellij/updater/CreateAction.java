@@ -58,7 +58,8 @@ public class CreateAction extends PatchAction {
 
   private static void prepareToWriteFile(File file) throws IOException {
     if (file.exists()) {
-      Utils.delete(file);
+      // Delete the file with a timeout of 2 minutes. Cf bug: http://b.android.com/63927
+      Utils.deleteWithTimeout(file, 120 * 1000);
       return;
     }
 
@@ -70,11 +71,14 @@ public class CreateAction extends PatchAction {
     }
   }
 
+  @Override
   protected void doBackup(File toFile, File backupFile) {
     // do nothing
   }
 
+  @Override
   protected void doRevert(File toFile, File backupFile) throws IOException {
-    Utils.delete(toFile);
+    // Delete the file with a timeout of 2 minutes. Cf bug: http://b.android.com/63927
+    Utils.deleteWithTimeout(toFile, 120 * 1000);
   }
 }
