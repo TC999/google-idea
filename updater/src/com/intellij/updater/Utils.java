@@ -38,24 +38,54 @@ public class Utils {
     myTempDir = null;
   }
 
+  /**
+   * Deletes a file or directory with a default timeout of 100 milliseconds.
+   * Directories are deleted recursively. The timeout occurs on each file.
+   *
+   * @param file The file or directory to delete.
+   * @throws IOException
+   */
   public static void delete(File file) throws IOException {
+    deleteWithTimeout(file, 100);
+  }
+
+  /**
+   * Deletes a file or directory and a specified timeout.
+   * Directories are deleted recursively. The timeout occurs on each file.
+   *
+   * @param file The file or directory to delete.
+   * @param maxTimeout The max timeout to wait, in milliseconds.
+   * @throws IOException
+   */
+  public static void deleteWithTimeout(File file, long maxTimeout) throws IOException {
     if (file.isDirectory()) {
       File[] files = file.listFiles();
       if (files != null) {
         for (File each : files) {
-          delete(each);
+          deleteWithTimeout(each, maxTimeout);
         }
       }
     }
-    for (int i = 0; i < 10; i++) {
+
+    long delay = 10;
+    long start = System.currentTimeMillis();
+    long total = 0;
+    Exception cause = null;
+    do {
       if (file.delete() || !file.exists()) return;
       try {
-        Thread.sleep(10);
+        Thread.sleep(delay);
+        delay = delay >= 1000 ? delay : delay * 2;
       }
-      catch (InterruptedException ignore) {
+      catch (Exception e) {
+        cause = e;
       }
+      total = System.currentTimeMillis() - start;
+    } while (total < maxTimeout);
+
+    if (file.exists()) {
+      throw new IOException(String.format("Cannot delete file %s in %.1f s", file, total / 1000.0f), cause);
     }
-    if (file.exists()) throw new IOException("Cannot delete file " + file);
   }
 
   public static void setExecutable(File file, boolean executable) throws IOException {

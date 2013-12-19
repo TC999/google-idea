@@ -58,7 +58,7 @@ public class CreateAction extends PatchAction {
 
   private static void prepareToWriteFile(File file) throws IOException {
     if (file.exists()) {
-      Utils.delete(file);
+      Utils.deleteWithTimeout(file, 120 * 1000);  // give it 2 minutes
       return;
     }
 
@@ -70,11 +70,13 @@ public class CreateAction extends PatchAction {
     }
   }
 
+  @Override
   protected void doBackup(File toFile, File backupFile) {
     // do nothing
   }
 
+  @Override
   protected void doRevert(File toFile, File backupFile) throws IOException {
-    Utils.delete(toFile);
+    Utils.deleteWithTimeout(toFile, 120 * 1000);  // give it 2 minutes
   }
 }
