@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "088cc7b8_8c734ffb",
+        "filename": "updater/src/com/intellij/updater/CreateAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-12-20T01:18:03Z",
+      "side": 1,
+      "message": "Is this method called for every single file being replaced in the update? Does that mean that the delay would accumulate (one 2 minute wait per file?)\n\nI wonder if we should keep a static flag in this updater code and only attempt the two minute wait once. Presumably if waiting for one file didn\u0027t work, waiting for another won\u0027t either (unless we think the interval could benefit from being longer, but in that case we should just make the interval longer.)",
+      "revId": "7b08ece7c62e3e43c3d59a088d3c61960942c88a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8649bc8_6912716e",
+        "filename": "updater/tests/com/intellij/updater/UtilsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2013-12-20T01:18:03Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 6
+      },
+      "revId": "7b08ece7c62e3e43c3d59a088d3c61960942c88a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
