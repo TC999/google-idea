@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "685e23ff_8cc6f77f",
+        "filename": "updater/src/com/intellij/updater/CreateAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2013-12-20T01:24:40Z",
+      "side": 1,
+      "message": "My original idea was to detect the exception at the upper level and offer a \"retry\" button to the user. That\u0027s more or less what you\u0027re suggesting.\n\nThe current approach has the advantage of fixing the current issue and be simpler to implement but has the downside that yes times could potentially accumulate. In the case we\u0027re trying to solve though, the gradle process seems to quit in about 1 minute so all the files would be unlocked by then.\n\nOf course the actual proper fix would be to make sure that daemon is stopped before Studio restarts to run the updater.",
+      "parentUuid": "088cc7b8_8c734ffb",
+      "revId": "7b08ece7c62e3e43c3d59a088d3c61960942c88a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8649bc8_6912716e",
         "filename": "updater/tests/com/intellij/updater/UtilsTest.java",
         "patchSetId": 4
