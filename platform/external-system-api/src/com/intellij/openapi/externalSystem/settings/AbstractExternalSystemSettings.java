@@ -101,8 +101,17 @@ public abstract class AbstractExternalSystemSettings<
   @Nullable
   public PS getLinkedProjectSettings(@NotNull String linkedProjectPath) {
     PS ps = myLinkedProjectsSettings.get(linkedProjectPath);
+<<<<<<< HEAD   (9dc61f Merge "Fix Gradle notification lookup on Windows." into idea)
     if (ps == null) {
       ps = myLinkedProjectsSettings.get(FileUtil.toSystemIndependentName(linkedProjectPath));
+=======
+    if(ps == null) {
+      for (PS ps1 : myLinkedProjectsSettings.values()) {
+        for (String modulePath : ps1.getModules()) {
+          if(linkedProjectPath.equals(modulePath)) return ps1;
+        }
+      }
+>>>>>>> BRANCH (8668e1 Snapshot 020d29497847701e84e383d965abf543b80758e2 from idea/)
     }
     return ps;
   }
