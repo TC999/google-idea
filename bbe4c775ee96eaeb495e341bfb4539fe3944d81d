@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "685e23ff_c2dc3389",
+        "filename": ".idea/libraries/bouncy_castle.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001414
+      },
+      "writtenOn": "2013-12-21T00:17:11Z",
+      "side": 0,
+      "message": "this should be used by builder",
+      "revId": "bbe4c775ee96eaeb495e341bfb4539fe3944d81d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
