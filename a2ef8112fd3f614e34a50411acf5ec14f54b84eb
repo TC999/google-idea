@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2d80bdc3_bcf8895f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-01-03T23:36:26Z",
+      "side": 1,
+      "message": "Could you just make the test be a no-op if java.awt.GraphicsEnvironment#isHeadless() ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 8
+      },
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d299d85_51eb96d3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +36,23 @@
       "writtenOn": "2014-01-03T17:52:46Z",
       "side": 1,
       "message": "- Is there a bug to make sure that we do the correct fix as well (terminate Gradle when the IDE is terminated)?\n- When we do the proper fix, do we plan to remove our changes here, or are we considering this to be good regardless of whether the real issue is fixed or not?\n- That changes to the IJ sources are minimal, but I worry that we keep making changes with no intention of even submitting to IDEA. This is not a big deal for this patch since it mostly adds tests that won\u0027t cause conflicts, but I\u0027m going to let Tor +2 this just so he is aware of all changes in tools/idea.",
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d7db99f_7b03d7a0",
+        "filename": "updater/src/com/intellij/updater/CreateAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-01-03T23:36:26Z",
+      "side": 1,
+      "message": "I think we should try to have as few diffs in tools/idea code as possible, so while I think we should use @Override on our own code that we add there, I think we should avoid going in and fixing warnings like this in code we\u0027re not otherwise touching (to make future merging etc easier).",
       "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -48,6 +88,24 @@
       "side": 1,
       "message": "Don\u0027t we configure IJ to remove the EOL whitespace on saving?",
       "parentUuid": "2d299d85_5142762d",
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dd609da_b473aefb",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-01-03T23:36:26Z",
+      "side": 1,
+      "message": "We do. Note that it doesn\u0027t do this if the caret itself is in the trailing space. (That would be really annoying if you had indented in order to write some code, and then you hit Ctrl-S (reflexively, or the IDE does it automatically) and suddenly your caret moves to the left margin sine the space was stripped.)  (Not sure if that\u0027s what happened here.)",
+      "parentUuid": "8dd609da_313d90db",
       "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
