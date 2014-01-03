@@ -51,8 +51,9 @@ test {
 
 //---
 
-task testUI(dependsOn: jar) << {
-  println "## Running UI test"
+task testUI1(dependsOn: jar) << {
+  // Tests updater create + install in the default normal case
+  println "## Running UI test 1"
   println "## Jar file: " + jar.archivePath.getAbsolutePath()
 
   // Create a temp dir inside the gradle build/tmp dir
@@ -112,6 +113,90 @@ task testUI(dependsOn: jar) << {
   }
 }
 
+task testUI2(dependsOn: jar) << {
+  // Tests updater create + install with a locked file
+  println "## Running UI test 2"
+  println "## Jar file: " + jar.archivePath.getAbsolutePath()
+
+  // Create a temp dir inside the gradle build/tmp dir
+  //noinspection GroovyAssignabilityCheck
+  def buildTmpDir = new File(project.buildDir, "tmp");
+  def tmpDir = _createTempDir(buildTmpDir)
+  def closeableFiles = []
+
+  try {
+    // create a "from version 1" and "to version 2" directories
+    def dataDir1 = _createTestData(tmpDir, "1")
+    assert  _mkFile(dataDir1, "plugins", "v1", "myplugin.jar").exists()
+    assert !_mkFile(dataDir1, "plugins", "v2", "myplugin.jar").exists()
+    assert _getFileContent(_mkFile(dataDir1, "build.txt")).equals("AI-123.45678-1")
+
+    def dataDir2 = _createTestData(tmpDir, "2")
+    assert !_mkFile(dataDir2, "plugins", "v1", "myplugin.jar").exists()
+    assert  _mkFile(dataDir2, "plugins", "v2", "myplugin.jar").exists()
+    assert _getFileContent(_mkFile(dataDir2, "build.txt")).equals("AI-123.45678-2")
+
+    def patch    = _createFileContent(tmpDir, "patch.jar", "patch jar placeholder");
+    patch.delete()
+    assert !patch.exists()
+
+    // keep a couple file open, preventing from being deleted or replaced
+    closeableFiles << _openFile(_mkFile(dataDir1, "build.txt"))
+    closeableFiles << _openFile(_mkFile(dataDir1, "plugins", "v1", "myplugin.jar"))
+
+    // call updater jar to create a diff, resulting in a patch jar.
+    println "## Invoke updater <create>"
+    javaexec {
+      classpath jar.archivePath
+      main = "com.intellij.updater.Runner"
+      args "create"
+      args "AI-123.45678-1"
+      args "AI-123.45678-2"
+      args dataDir1.getAbsolutePath()
+      args dataDir2.getAbsolutePath()
+      args patch.getAbsolutePath()
+    }
+    assert patch.exists()
+
+    Thread.start {
+      sleep(5 * 1000) // 5 seconds
+      synchronized(closeableFiles) {
+        println "## Closing pending open files"
+        closeableFiles.each { it.close() }
+        closeableFiles.clear()
+      }
+    }
+
+    // that patch jar is self-executable. use it to update dir1 into dir2 in-place.
+    println "## Invoke updater <install>"
+    javaexec {
+      classpath patch
+      main = "com.intellij.updater.Runner"
+      args "install"
+      args "--exit0"
+      args dataDir1.getAbsolutePath()
+    }
+    // build.txt should have changed to v2
+    assert _getFileContent(_mkFile(dataDir1, "build.txt")).equals("AI-123.45678-2")
+    // plugin v1 should have been replaced by pluging v2 in the dataDir1 directory.
+    assert !_mkFile(dataDir1, "plugins", "v1", "myplugin.jar").exists()
+    assert  _mkFile(dataDir1, "plugins", "v2", "myplugin.jar").exists()
+
+
+  } finally {
+    // Cleanup on exit
+    synchronized(closeableFiles) {
+      closeableFiles.each { it.close() }
+      closeableFiles.clear()
+    }
+    tmpDir.deleteDir()
+  }
+}
+
+task testSuite(dependsOn: [testUI1, testUI2]) << {
+}
+
+
 // Creates a temp dir with a random name in the build/tmp directory.
 File _createTempDir(File parent) {
   def d = File.createTempFile("test", "", new File(project.buildDir, "tmp"))
@@ -139,14 +224,24 @@ File _createFileContent(File parentDir, String fileName, String fileContent) thr
   return f
 }
 
+// Opens a file for writing (thus locking it on Windows) but does not close it.
+// Caller should call File.close() on the returned File object.
+Closeable _openFile(File file) throws IOException {
+  if (!file.exists()) throw new IOException("File not found, expected file: " + file.getName())
+  FileWriter fw = new FileWriter(file, true /*append*/);
+  fw.append('a');
+  println("## Open file " + file.getName());
+  return fw   // file is not closed
+}
+
 // Returns the first line of the file. Thorws IOException if file does not exist.
 String _getFileContent(File file) throws IOException {
-  if (!file.exists()) throw new IOException("File not found, expected file: " + file.getName());
-  BufferedReader br = new BufferedReader(new FileReader(file));
+  if (!file.exists()) throw new IOException("File not found, expected file: " + file.getName())
+  BufferedReader br = new BufferedReader(new FileReader(file))
   try {
-    return br.readLine();
+    return br.readLine()
   } finally {
-    br.close();
+    br.close()
   }
 }
 
