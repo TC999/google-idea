@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8dd609da_313d90db",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-01-03T18:24:38Z",
+      "side": 1,
+      "message": "Don\u0027t we configure IJ to remove the EOL whitespace on saving?",
+      "parentUuid": "2d299d85_5142762d",
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d3f15b6_f375ea5b",
         "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
         "patchSetId": 1
