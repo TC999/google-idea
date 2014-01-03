@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d299d85_51eb96d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-01-03T17:52:46Z",
+      "side": 1,
+      "message": "- Is there a bug to make sure that we do the correct fix as well (terminate Gradle when the IDE is terminated)?\n- When we do the proper fix, do we plan to remove our changes here, or are we considering this to be good regardless of whether the real issue is fixed or not?\n- That changes to the IJ sources are minimal, but I worry that we keep making changes with no intention of even submitting to IDEA. This is not a big deal for this patch since it mostly adds tests that won\u0027t cause conflicts, but I\u0027m going to let Tor +2 this just so he is aware of all changes in tools/idea.",
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d299d85_5142762d",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-01-03T17:52:46Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d3f15b6_f375ea5b",
+        "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-01-03T17:52:46Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d441157_92f8da5f",
+        "filename": "updater/testUI/build.gradle",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-01-03T17:52:46Z",
+      "side": 1,
+      "message": "move below copyright?",
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
