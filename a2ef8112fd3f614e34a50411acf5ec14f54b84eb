@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8dd609da_97e22cba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-01-06T17:03:01Z",
+      "side": 1,
+      "message": "The point of the gradle test is to invoke the updater as a \"black box\" -- the updater is a self-executing jar so conventional unit tests don\u0027t exercise the same code path as a real run. That\u0027s why it has a specific task name so that \"gradle test\" won\u0027t invoke it.",
+      "parentUuid": "2d80bdc3_bcf8895f",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 8
+      },
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d299d85_51eb96d3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -53,6 +77,24 @@
       "writtenOn": "2014-01-03T23:36:26Z",
       "side": 1,
       "message": "I think we should try to have as few diffs in tools/idea code as possible, so while I think we should use @Override on our own code that we add there, I think we should avoid going in and fixing warnings like this in code we\u0027re not otherwise touching (to make future merging etc easier).",
+      "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d80bdc3_ff4d9357",
+        "filename": "updater/src/com/intellij/updater/CreateAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-01-06T17:03:01Z",
+      "side": 1,
+      "message": "That\u0027s a left over of that CL before xmas where you told me it was a good idea to add these, except in between I reverted my changes to the apply method so only the @override changes are left. Note that the original source has 2 methods tagged and 3 methods not tagged with override, which is annoying.\nAnyway...",
+      "parentUuid": "0d7db99f_7b03d7a0",
       "revId": "a2ef8112fd3f614e34a50411acf5ec14f54b84eb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
