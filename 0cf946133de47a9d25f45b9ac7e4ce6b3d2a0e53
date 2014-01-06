@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "0d7db99f_9efca18d",
+        "filename": "updater/src/com/intellij/updater/RetryException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-01-06T16:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dc2191e_b32e6074",
+      "revId": "0cf946133de47a9d25f45b9ac7e4ce6b3d2a0e53",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcea54a_75145a0e",
         "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "8dd609da_d7bf5491",
+        "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-01-06T16:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcea54a_75145a0e",
+      "revId": "0cf946133de47a9d25f45b9ac7e4ce6b3d2a0e53",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcea54a_95fc668d",
         "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2014-01-06T15:46:28Z",
       "side": 1,
       "message": "In our case, we have a strong suspicion that the other application is the gradle daemon (which casual users of the IDE may not even be aware exists, since they didn\u0027t manually start it). Should we add a clue about this? If we\u0027re planning to suggest this patch to JetBrains, then clearly it doesn\u0027t belong here, but at least in the Studio fork I think that will benefit many users.",
+      "revId": "0cf946133de47a9d25f45b9ac7e4ce6b3d2a0e53",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dc2191e_934a443d",
+        "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-01-06T16:48:18Z",
+      "side": 1,
+      "message": "I tried to leave the message generic for 3 reasons:\n- to ease merging back in the IJ trunk\n- because although we know right now the main culprit is the gradle daemon, first I hope we independently fix that soon and second it\u0027s not necessarily the only issue on Windows. Any Explorer or Cmd Prompt open in AS folders would cause problems too.\n- for the case when the gradle daemon sticks around, my measurement say it stays around for 60 seconds exactly, starting when AS was shutdown to run the updater. That means by the time the user is reading the message, the daemon will be soon gone anyway and by the time they hit retry, it should work just fine. That\u0027s a sufficiently hairy and complex heuristic that I don\u0027t want to drag it into the message :-)",
+      "parentUuid": "edcea54a_95fc668d",
       "revId": "0cf946133de47a9d25f45b9ac7e4ce6b3d2a0e53",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
