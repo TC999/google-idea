@@ -745,6 +745,7 @@ public final class UpdateChecker {
 
     OutputStream out = new BufferedOutputStream(new FileOutputStream(tempFile));
     try {
+<<<<<<< HEAD   (853951 Merge "Temporarily disable errors in project structure dialo)
       URL requestUrl = new URL(new URL(getPatchesUrl()), fileName);
       URLConnection connection;
 
@@ -766,6 +767,9 @@ public final class UpdateChecker {
         break;
       }
 
+=======
+      URLConnection connection = HttpConfigurable.getInstance().openConnection(new URL(new URL(getPatchesUrl()), fileName).toString());
+>>>>>>> BRANCH (e2d608 Snapshot b9931c55d2175b6552f90b2225eb09c13bd6dfed from idea/)
       try {
         InputStream in = UrlConnectionUtil.getConnectionInputStreamWithException(connection, i);
         try {
