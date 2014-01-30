@@ -922,7 +922,24 @@ public class ConsoleViewImpl extends JPanel implements ConsoleView, ObservableCo
     if (group == null) {
       group = (ActionGroup)actionManager.getAction(CONSOLE_VIEW_POPUP_MENU);
     }
-    final ActionPopupMenu menu = actionManager.createActionPopupMenu(ActionPlaces.EDITOR_POPUP, group);
+
+    /** process actions just like in {@link #createConsoleActions()} below. */
+    ConsoleActionsPostProcessor[] postProcessors = Extensions.getExtensions(ConsoleActionsPostProcessor.EP_NAME);
+    AnAction[] result = group.getChildren(null);
+    for (ConsoleActionsPostProcessor postProcessor : postProcessors) {
+      result = postProcessor.postProcess(this, result);
+    }
+
+    final AnAction[] processedActions = result;
+    ActionGroup processedGroup = new ActionGroup() {
+      @NotNull
+      @Override
+      public AnAction[] getChildren(@Nullable AnActionEvent e) {
+        return processedActions;
+      }
+    };
+
+    final ActionPopupMenu menu = actionManager.createActionPopupMenu(ActionPlaces.EDITOR_POPUP, processedGroup);
     menu.getComponent().show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
   }
 
