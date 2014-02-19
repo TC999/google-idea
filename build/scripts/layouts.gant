@@ -53,7 +53,6 @@ String patchAppDescriptor(String targetDirectory) {
 def layoutFull(String home, String targetDirectory, String patchedDescriptorDir = null) {
   projectBuilder.stage("layout to $targetDirectory")
 
-  //noinspection GroovyAssignabilityCheck
   List<String> openapiModules = [platformApiModules,
     "compiler-openapi",
     "debugger-openapi",
@@ -68,10 +67,8 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
     "remote-servers-api",
     "remote-servers-java-api",
     "testFramework-java",
-    "xml-analysis-api",
   ].flatten()
 
-  //noinspection GroovyAssignabilityCheck
   List<String> implementationModules = [platformImplementationModules,
     "compiler-impl",
     "debugger-impl",
@@ -91,7 +88,6 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
     "remote-servers-java-impl",
     "testFramework",
     "tests_bootstrap",
-    "xml-analysis-impl",
           ].flatten()
 
   ant.patternset(id: "resources.included") {
@@ -118,12 +114,6 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
     dir("lib") {
       dir("rt") {
         fileset(dir: "${home}/lib/rt", includesfile: "${home}/lib/rt/required_for_dist.txt")
-      }
-
-      dir("groovy") {
-        dir("lib") {
-          fileset(dir:"$home/lib/groovy/lib")
-        }
       }
 
       dir("libpty") {
@@ -233,6 +223,8 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
             module("common-javaFX-plugin")
           }
         }
+
+        fileset(dir: "${home}/plugins/javaFX/FxBuilderEmbedder/lib", includes: "embedder.jar");
       }
     }
 
@@ -263,12 +255,13 @@ public def layoutCommunityPlugins(String home) {
   layoutCloud()
 
   dir("plugins") {
-    def simplePlugins = ["commander", "copyright", "properties", "java-i18n", "hg4idea", "github", "ui-designer-core"] //, "tasks-time-tracking"]
+    def simplePlugins = ["commander", "copyright", "java-i18n", "hg4idea", "github", "ui-designer-core"] //, "tasks-time-tracking"]
 
     simplePlugins.each {
       layoutPlugin it
     }
 
+<<<<<<< HEAD   (1c11d1 Merge "Gradle: respect build classpath order and use both cl)
     // ant not needed in AS
     // layoutPlugin("ant", "ant", "antIntegration") {
     //   jar("ant-jps-plugin.jar") {
@@ -284,6 +277,30 @@ public def layoutCommunityPlugins(String home) {
     //     }
     //   }
     // }
+=======
+    layoutPlugin("ant", "ant", "antIntegration") {
+      jar("ant-jps-plugin.jar") {
+        module("ant-jps-plugin")
+      }
+    }
+    layoutPlugin("uiDesigner", "ui-designer", "uiDesigner") {
+      dir("jps") {
+        jar("ui-designer-jps-plugin.jar") {
+          module("ui-designer-jps-plugin")
+        }
+      }
+    }
+
+    pluginDir("properties") {
+      dir("lib") {
+        jar("properties.jar") {
+          module("properties-psi-api")
+          module("properties-psi-impl")
+          module("properties")
+        }
+      }
+    }
+>>>>>>> BRANCH (0ecdb5 Snapshot c50a8ad26a72432f26e39046d6a6f21fd7a190ee from idea/)
 
     layoutPlugin("maven") {
       jar("maven-jps-plugin.jar") {
@@ -335,6 +352,15 @@ public def layoutCommunityPlugins(String home) {
     layoutPlugin("gradle") {
       jar("gradle.jar") {
         module("gradle")
+      }
+      jar("gradle-tooling-extension.jar") {
+        module("gradle-tooling-extension")
+      }
+      def gradleToolingVersions = ["1.9", "1.11", "1.12"]
+      gradleToolingVersions.each { ver ->
+        jar("gradle-tooling-extension-v" + ver + ".jar") {
+          module("gradle-tooling-extension-v" + ver)
+        }
       }
       fileset(dir: "$home/plugins/gradle/lib") { include(name: "*.jar") }
     }
@@ -677,6 +703,42 @@ def layoutAndroid() {
         module("android-rt")
       }
 
+<<<<<<< HEAD   (1c11d1 Merge "Gradle: respect build classpath order and use both cl)
+=======
+      jar("common.jar") {
+        module("common")
+      }
+      jar("sdklib.jar") {
+        module("sdklib")
+      }
+      jar("layoutlib-api.jar") {
+        module("layoutlib-api")
+      }
+      jar("manifest-merger.jar") {
+        module("manifest-merger")
+      }
+      jar("sdk-tools.jar") {
+        module("assetstudio")
+        module("ddmlib")
+        module("dvlib")
+        module("draw9patch")
+        module("lint-api")
+        module("lint-checks")
+        module("ninepatch")
+        module("sdk-common")
+        module("perflib")
+      }
+      jar("androidAnnotations.jar") {
+        fileset(dir: "$androidHome/android/annotations")
+      }
+      dir("jps") {
+        jar("android-gradle-jps.jar") { module("android-gradle-jps") }
+      }
+      dir("device-art-resources") {
+        fileset(dir: "$androidHome/android/device-art-resources")
+      }
+
+>>>>>>> BRANCH (0ecdb5 Snapshot c50a8ad26a72432f26e39046d6a6f21fd7a190ee from idea/)
       dir("jps") {
         jar("android-jps-plugin.jar") { module("android-jps-plugin") }
         jar("android-gradle-jps.jar") { module("android-gradle-jps") }

@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="http-client">
     <CLASSES>
+<<<<<<< HEAD   (1c11d1 Merge "Gradle: respect build classpath order and use both cl)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/http-client/commons-codec-1.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/http-client/commons-logging-1.1.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/http-client/httpclient-4.1.1.jar!/" />
@@ -21,6 +22,22 @@
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/http-client/src/httpcomponents-core-4.1-src.zip!/httpcomponents-core-4.1/httpcore-benchmark/src/main/java" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/http-client/src/httpcomponents-core-4.1-src.zip!/httpcomponents-core-4.1/httpcore/src/main/java" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/http-client/src/httpcomponents-core-4.1-src.zip!/httpcomponents-core-4.1/httpcore-ab/src/main/java" />
+=======
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpmime-4.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/fluent-hc-4.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/src/httpcomponents-client-4.3.1-src.zip!/httpcomponents-client-4.3.1/httpmime/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/lib/src/httpcomponents-client-4.3.1-src.zip!/httpcomponents-client-4.3.1/httpmime/src/main/java-deprecated" />
+      <root url="jar://$PROJECT_DIR$/lib/src/httpcomponents-client-4.3.1-src.zip!/httpcomponents-client-4.3.1/httpclient/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/lib/src/httpcomponents-client-4.3.1-src.zip!/httpcomponents-client-4.3.1/httpclient/src/main/java-deprecated" />
+      <root url="jar://$PROJECT_DIR$/lib/src/httpcomponents-core-4.3-src.zip!/httpcomponents-core-4.3/httpcore/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/lib/src/httpcomponents-core-4.3-src.zip!/httpcomponents-core-4.3/httpcore/src/main/java-deprecated" />
+      <root url="jar://$PROJECT_DIR$/lib/src/httpcomponents-client-4.3.1-src.zip!/httpcomponents-client-4.3.1/fluent-hc/src/main/java" />
+>>>>>>> BRANCH (0ecdb5 Snapshot c50a8ad26a72432f26e39046d6a6f21fd7a190ee from idea/)
     </SOURCES>
   </library>
 </component>

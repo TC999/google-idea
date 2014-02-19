@@ -33,10 +33,15 @@
     <attribute name="test.patterns" default="" />
     <sequential>
       <java failonerror="true" jar="${project.home}/lib/ant/lib/ant-launcher.jar" fork="true">
+<<<<<<< HEAD   (1c11d1 Merge "Gradle: respect build classpath order and use both cl)
         <jvmarg line="-Xmx1424m -XX:MaxPermSize=352m"/>
         <jvmarg value="-Dout=${out.dir}" />
         <jvmarg value="-DbuildNumber=${buildId}" />
 
+=======
+        <jvmarg line="-Xmx612m -XX:MaxPermSize=152m"/>
+        <sysproperty key="java.awt.headless" value="true"/>
+>>>>>>> BRANCH (0ecdb5 Snapshot c50a8ad26a72432f26e39046d6a6f21fd7a190ee from idea/)
         <arg line="&quot;-Dgant.script=@{script}&quot;"/>
         <arg line="&quot;-Dteamcity.build.tempDir=${tmp.dir}&quot;"/>
         <arg line="&quot;-Didea.test.patterns=@{test.patterns}&quot;"/>
