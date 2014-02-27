@@ -24,22 +24,7 @@ public class Runner {
   private static final String NEW_BUILD_DESCRIPTION = "new.build.description";
 
   public static void main(String[] args) throws Exception {
-<<<<<<< HEAD
     if (args.length >= 7 && "create".equals(args[0])) {
-=======
-    if (args.length < 1) {
-      printUsage();
-      return;
-    }
-
-    String command = args[0];
-
-    if ("create".equals(command)) {
-      if (args.length < 6) {
-        printUsage();
-        return;
-      }
->>>>>>> ab73dad... Updater: add unit tests.
       String oldVersionDesc = args[1];
       String newVersionDesc = args[2];
       String oldFolder = args[3];
@@ -54,34 +39,27 @@ public class Runner {
       List<String> optionalFiles = extractFiles(args, "optional");
       create(oldVersionDesc, newVersionDesc, oldFolder, newFolder, patchFile, ignoredFiles, criticalFiles, optionalFiles);
     }
-<<<<<<< HEAD
     else if (args.length >= 2 && "install".equals(args[0])) {
-      String destFolder = args[1];
-
-      String logFolder = args.length >= 3 ? args[2] : null;
-      initLogger(logFolder);
-      logger.info("destFolder: " + destFolder);
-
-      install(destFolder);
-=======
-    else if ("install".equals(command)) {
-      int n = 2;
+      // install [--exit0] <destination_folder> [log_directory]
+      int max = 3;
+      int nextArg = 1;
 
       // Default install exit code is SwingUpdaterUI.RESULT_REQUIRES_RESTART (42) unless overridden to be 0.
       // This is used by testUI/build.gradle as gradle expects a javaexec to exit with code 0.
       boolean useExitCode0 = false;
-      if (args.length == 3 && args[1].equals("--exit0")) {
-        n++;
+      if (args[nextArg].equals("--exit0")) {
         useExitCode0 = true;
-      }
-      if (args.length < n) {
-        printUsage();
-        return;
+        nextArg++;
+        max++;
       }
 
-      String destFolder = args[n - 1];
+      String destFolder = args[nextArg++];
+
+      String logFolder = args.length >= max ? args[nextArg] : null;
+      initLogger(logFolder);
+      logger.info("destFolder: " + destFolder);
+
       install(useExitCode0, destFolder);
->>>>>>> ab73dad... Updater: add unit tests.
     }
     else {
       printUsage();
@@ -132,6 +110,10 @@ public class Runner {
     }
   }
 
+  public static void infoStackTrace(String msg, Throwable e){
+    logger.info(msg, e);
+  }
+
   public static void printStackTrace(Throwable e){
     logger.error(e.getMessage(), e);
   }
@@ -154,12 +136,8 @@ public class Runner {
   private static void printUsage() {
     System.err.println("Usage:\n" +
                        "create <old_version_description> <new_version_description> <old_version_folder> <new_version_folder>" +
-                       " <patch_file_name> [ignored=file1;file2;...] [critical=file1;file2;...] [optional=file1;file2;...]\n" +
-<<<<<<< HEAD
-                       "install <destination_folder> [log_directory]\n");
-=======
-                       "install [--exit0] <destination_folder>\n");
->>>>>>> ab73dad... Updater: add unit tests.
+                       " <patch_file_name> <log_directory> [ignored=file1;file2;...] [critical=file1;file2;...] [optional=file1;file2;...]\n" +
+                       "install [--exit0] <destination_folder> [log_directory]\n");
   }
 
   private static void create(String oldBuildDesc,
@@ -203,12 +181,8 @@ public class Runner {
                               optionalFiles,
                               ui);
 
-<<<<<<< HEAD
-      logger.info("Packing jar file: " + patchFile );
-      ui.startProcess("Packing jar file '" + patchFile + "'...");
-=======
+      logger.info("Packing jar file: " + outPatchJar );
       ui.startProcess("Packing jar file '" + outPatchJar + "'...");
->>>>>>> ab73dad... Updater: add unit tests.
 
       FileOutputStream fileOut = new FileOutputStream(outPatchJar);
       try {

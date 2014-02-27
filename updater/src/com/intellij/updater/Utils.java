@@ -83,17 +83,12 @@ public class Utils {
       }
       try {
         Thread.sleep(10);
-<<<<<<< HEAD
-      }
-      catch (InterruptedException ignore) {
+      } catch (InterruptedException ignore) {
         Runner.printStackTrace(ignore);
       }
-=======
-      } catch (InterruptedException ignore) {}
     }
     if (file.exists()) {
       throw new IOException("Cannot delete file " + file);
->>>>>>> ab73dad... Updater: add unit tests.
     }
   }
 
