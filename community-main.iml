@@ -99,7 +99,11 @@
     <orderEntry type="module" module-name="ui-designer-jps-plugin" scope="TEST" />
     <orderEntry type="module" module-name="java-tests" scope="TEST" />
     <orderEntry type="module" module-name="community-tests" scope="TEST" />
+<<<<<<< HEAD   (108603 Merge "Revert "Temporarily remove GCT tests"" into idea133)
     <orderEntry type="module" module-name="google-cloud-tools" />
+=======
+    <orderEntry type="module" module-name="jira" />
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
   </component>
 </module>
 

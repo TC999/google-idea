@@ -17,12 +17,14 @@ import java.util.zip.ZipInputStream;
 
 public class Runner {
   public static Logger logger = null;
+
   private static final String PATCH_FILE_NAME = "patch-file.zip";
   private static final String PATCH_PROPERTIES_ENTRY = "patch.properties";
   private static final String OLD_BUILD_DESCRIPTION = "old.build.description";
   private static final String NEW_BUILD_DESCRIPTION = "new.build.description";
 
   public static void main(String[] args) throws Exception {
+<<<<<<< HEAD   (108603 Merge "Revert "Temporarily remove GCT tests"" into idea133)
     if (args.length < 1) {
       printUsage();
       return;
@@ -34,11 +36,15 @@ public class Runner {
         printUsage();
         return;
       }
+=======
+    if (args.length >= 7 && "create".equals(args[0])) {
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
       String oldVersionDesc = args[1];
       String newVersionDesc = args[2];
       String oldFolder = args[3];
       String newFolder = args[4];
       String patchFile = args[5];
+
       String logFolder = args[6];
       initLogger(logFolder);
 
@@ -47,6 +53,7 @@ public class Runner {
       List<String> optionalFiles = extractFiles(args, "optional");
       create(oldVersionDesc, newVersionDesc, oldFolder, newFolder, patchFile, ignoredFiles, criticalFiles, optionalFiles);
     }
+<<<<<<< HEAD   (108603 Merge "Revert "Temporarily remove GCT tests"" into idea133)
     else if ("install".equals(command)) {
       int n = 3;
 
@@ -64,34 +71,39 @@ public class Runner {
 
       String destFolder = args[n - 2];
       String logFolder = args[n - 1];
+=======
+    else if (args.length >= 2 && "install".equals(args[0])) {
+      String destFolder = args[1];
+
+      String logFolder = args.length >= 3 ? args[2] : null;
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
       initLogger(logFolder);
       logger.info("destFolder: " + destFolder);
+<<<<<<< HEAD   (108603 Merge "Revert "Temporarily remove GCT tests"" into idea133)
       install(useExitCode0, destFolder);
+=======
+
+      install(destFolder);
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
     }
     else {
       printUsage();
-      return;
     }
   }
 
-  private static boolean validateLogDir(String logFolder){
+  // checks that log directory 1)exists 2)has write perm. and 3)has 1MB+ free space
+  private static boolean isValidLogDir(String logFolder) {
     File fileLogDir = new File(logFolder);
-    /* check if the dir for log file
-      1)exists 2)has write perm. and 5)has 1MB+ free space */
-    if (!fileLogDir.exists() || !fileLogDir.canWrite() || fileLogDir.getUsableSpace() < 1000000){
-      return false;
-    }
-    return true;
+    return fileLogDir.isDirectory() && fileLogDir.canWrite() && fileLogDir.getUsableSpace() >= 1000000;
   }
 
-  private static String getLogDir(String logFolder){
-    if (!validateLogDir(logFolder)){
+  private static String getLogDir(String logFolder) {
+    if (logFolder == null || !isValidLogDir(logFolder)) {
       logFolder = System.getProperty("java.io.tmpdir");
-      if (!validateLogDir(logFolder)){
+      if (!isValidLogDir(logFolder)) {
         logFolder = System.getProperty("user.home");
       }
     }
-    System.out.println("Log dir: " + logFolder);
     return logFolder;
   }
 
@@ -141,11 +153,16 @@ public class Runner {
     return result;
   }
 
+  @SuppressWarnings("UseOfSystemOutOrSystemErr")
   private static void printUsage() {
     System.err.println("Usage:\n" +
                        "create <old_version_description> <new_version_description> <old_version_folder> <new_version_folder>" +
                        " <patch_file_name> [ignored=file1;file2;...] [critical=file1;file2;...] [optional=file1;file2;...]\n" +
+<<<<<<< HEAD   (108603 Merge "Revert "Temporarily remove GCT tests"" into idea133)
                        "install [--exit0] <destination_folder>\n");
+=======
+                       "install <destination_folder> [log_directory]\n");
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
   }
 
   private static void create(String oldBuildDesc,
