@@ -33,10 +33,15 @@
     <attribute name="test.patterns" default="" />
     <sequential>
       <java failonerror="true" jar="${project.home}/lib/ant/lib/ant-launcher.jar" fork="true">
+<<<<<<< HEAD   (b557fd Merge "Add Gradle import module")
         <jvmarg line="-Xmx768m -XX:MaxPermSize=152m"/>
         <jvmarg value="-Dout=${out.dir}" />
         <jvmarg value="-DbuildNumber=${buildId}" />
 
+=======
+        <jvmarg line="-Xmx612m -XX:MaxPermSize=152m"/>
+        <sysproperty key="java.awt.headless" value="true"/>
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
         <arg line="&quot;-Dgant.script=@{script}&quot;"/>
         <arg line="&quot;-Dteamcity.build.tempDir=${tmp.dir}&quot;"/>
         <arg line="&quot;-Didea.test.patterns=@{test.patterns}&quot;"/>

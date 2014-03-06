@@ -1,8 +1,12 @@
 <component name="CopyrightManager">
+<<<<<<< HEAD   (b557fd Merge "Add Gradle import module")
   <settings default="aosp">
     <module2copyright>
       <element module="aosp-code" copyright="aosp" />
     </module2copyright>
+=======
+  <settings default="apache 2 license">
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
     <LanguageOptions name="__TEMPLATE__">
       <option name="addBlankAfter" value="false" />
     </LanguageOptions>

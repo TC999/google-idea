@@ -171,6 +171,7 @@ private layoutWin(Map _args, String home, Paths paths) {
 
   ant.copy(file: "$home/../adt/idea/adt-branding/src/artwork/androidstudio.ico", tofile: "$target/bin/idea.ico")
 
+<<<<<<< HEAD   (b557fd Merge "Add Gradle import module")
   // The 0.1.1 win launcher.
   ant.copy(  file: "$home/../adt/idea/native/WinLauncher/out/Release-Win32/studio.exe",
            tofile: "$target/bin/studio.exe")
@@ -186,6 +187,15 @@ private layoutWin(Map _args, String home, Paths paths) {
 
   winScripts(target, home, "studio.bat", args)
   winVMOptions(target, args, "studio.exe", "studio64.exe")
+=======
+  winScripts(target, home, "idea.bat", args)
+  winVMOptions(target, null, "idea.exe", "idea64.exe")
+  List resourcePaths = ["$home/community-resources/src", "$home/platform/icons/src"]
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/idea.exe", appInfoFile(),
+                   "$home/build/conf/ideaCE-launcher.properties", args.ce_exe_selector, resourcePaths)
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/idea64.exe", appInfoFile(),
+                   "$home/build/conf/ideaCE64-launcher.properties", args.ce_exe_selector, resourcePaths)
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
 }
 
 private layoutMac(Map _args, String home, Paths paths) {

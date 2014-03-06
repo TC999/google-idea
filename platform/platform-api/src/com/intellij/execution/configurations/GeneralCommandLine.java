@@ -107,13 +107,17 @@ public class GeneralCommandLine implements UserDataHolder {
     return myEnvParams;
   }
 
-  /** @deprecated use {@link #getEnvironment()} (to remove in IDEA 14) */
+  /**
+   * @deprecated use {@link #getEnvironment()} (to remove in IDEA 14)
+   */
   @SuppressWarnings("unused")
   public Map<String, String> getEnvParams() {
     return getEnvironment();
   }
 
-  /** @deprecated use {@link #getEnvironment()} (to remove in IDEA 14) */
+  /**
+   * @deprecated use {@link #getEnvironment()} (to remove in IDEA 14)
+   */
   @SuppressWarnings("unused")
   public void setEnvParams(@Nullable Map<String, String> envParams) {
     myEnvParams.clear();
@@ -126,7 +130,9 @@ public class GeneralCommandLine implements UserDataHolder {
     myPassParentEnvironment = passParentEnvironment;
   }
 
-  /** @deprecated use {@link #setPassParentEnvironment(boolean)} (to remove in IDEA 14) */
+  /**
+   * @deprecated use {@link #setPassParentEnvironment(boolean)} (to remove in IDEA 14)
+   */
   @SuppressWarnings({"unused", "SpellCheckingInspection"})
   public void setPassParentEnvs(boolean passParentEnvironment) {
     setPassParentEnvironment(passParentEnvironment);
@@ -163,6 +169,10 @@ public class GeneralCommandLine implements UserDataHolder {
 
   public void setCharset(@NotNull final Charset charset) {
     myCharset = charset;
+  }
+
+  public boolean isRedirectErrorStream() {
+    return myRedirectErrorStream;
   }
 
   public void setRedirectErrorStream(final boolean redirectErrorStream) {
@@ -235,6 +245,7 @@ public class GeneralCommandLine implements UserDataHolder {
     }
 
     try {
+<<<<<<< HEAD   (b557fd Merge "Add Gradle import module")
       ProcessBuilder builder = new ProcessBuilder(commands);
       setupEnvironment(builder.environment());
       builder.directory(myWorkDirectory);
@@ -245,11 +256,22 @@ public class GeneralCommandLine implements UserDataHolder {
       LOG.info("Environment: " + builder.environment());
 
       return builder.start();
+=======
+      return startProcess(commands);
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
     }
     catch (IOException e) {
       LOG.warn(e);
       throw new ProcessNotCreatedException(e.getMessage(), e, this);
     }
+  }
+
+  protected Process startProcess(@NotNull List<String> commands) throws IOException {
+    ProcessBuilder builder = new ProcessBuilder(commands);
+    setupEnvironment(builder.environment());
+    builder.directory(myWorkDirectory);
+    builder.redirectErrorStream(myRedirectErrorStream);
+    return builder.start();
   }
 
   private void checkWorkingDirectory() throws ExecutionException {
@@ -265,11 +287,15 @@ public class GeneralCommandLine implements UserDataHolder {
     }
   }
 
+<<<<<<< HEAD   (b557fd Merge "Add Gradle import module")
   void setupEnvironment(final Map<String, String> environment) {
+=======
+  protected void setupEnvironment(@NotNull Map<String, String> environment) {
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
     environment.clear();
 
     if (myPassParentEnvironment) {
-      environment.putAll(PlatformUtils.isAppCode() ? System.getenv() // Temporarily fix for OC-8606 
+      environment.putAll(PlatformUtils.isAppCode() ? System.getenv() // Temporarily fix for OC-8606
                                                    : EnvironmentUtil.getEnvironmentMap());
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,6 @@ String patchAppDescriptor(String targetDirectory) {
 def layoutFull(String home, String targetDirectory, String patchedDescriptorDir = null) {
   projectBuilder.stage("layout to $targetDirectory")
 
-  //noinspection GroovyAssignabilityCheck
   List<String> openapiModules = [platformApiModules,
     "compiler-openapi",
     "debugger-openapi",
@@ -68,10 +67,8 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
     "remote-servers-api",
     "remote-servers-java-api",
     "testFramework-java",
-    "xml-analysis-api",
   ].flatten()
 
-  //noinspection GroovyAssignabilityCheck
   List<String> implementationModules = [platformImplementationModules,
     "compiler-impl",
     "debugger-impl",
@@ -84,6 +81,7 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
     "java-indexing-impl",
     "java-impl",
     "java-psi-impl",
+    "java-structure-view",
     "jsp-spi",
     "manifest",
     "platform-main",
@@ -91,7 +89,6 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
     "remote-servers-java-impl",
     "testFramework",
     "tests_bootstrap",
-    "xml-analysis-impl",
           ].flatten()
 
   ant.patternset(id: "resources.included") {
@@ -118,12 +115,6 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
     dir("lib") {
       dir("rt") {
         fileset(dir: "${home}/lib/rt", includesfile: "${home}/lib/rt/required_for_dist.txt")
-      }
-
-      dir("groovy") {
-        dir("lib") {
-          fileset(dir:"$home/lib/groovy/lib")
-        }
       }
 
       dir("libpty") {
@@ -233,6 +224,8 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
             module("common-javaFX-plugin")
           }
         }
+
+        fileset(dir: "${home}/plugins/javaFX/FxBuilderEmbedder/lib", includes: "embedder.jar");
       }
     }
 
@@ -263,12 +256,13 @@ public def layoutCommunityPlugins(String home) {
   layoutCloud()
 
   dir("plugins") {
-    def simplePlugins = ["commander", "copyright", "properties", "java-i18n", "hg4idea", "github", "ui-designer-core"] //, "tasks-time-tracking"]
+    def simplePlugins = ["commander", "copyright", "java-i18n", "hg4idea", "github", "ui-designer-core"] //, "tasks-time-tracking"]
 
     simplePlugins.each {
       layoutPlugin it
     }
 
+<<<<<<< HEAD   (b557fd Merge "Add Gradle import module")
     // ant not needed in AS
     // layoutPlugin("ant", "ant", "antIntegration") {
     //   jar("ant-jps-plugin.jar") {
@@ -284,6 +278,30 @@ public def layoutCommunityPlugins(String home) {
     //     }
     //   }
     // }
+=======
+    layoutPlugin("ant", "ant", "antIntegration") {
+      jar("ant-jps-plugin.jar") {
+        module("ant-jps-plugin")
+      }
+    }
+    layoutPlugin("uiDesigner", "ui-designer", "uiDesigner") {
+      dir("jps") {
+        jar("ui-designer-jps-plugin.jar") {
+          module("ui-designer-jps-plugin")
+        }
+      }
+    }
+
+    pluginDir("properties") {
+      dir("lib") {
+        jar("properties.jar") {
+          module("properties-psi-api")
+          module("properties-psi-impl")
+          module("properties")
+        }
+      }
+    }
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
 
     layoutPlugin("maven") {
       jar("maven-jps-plugin.jar") {
@@ -310,6 +328,13 @@ public def layoutCommunityPlugins(String home) {
         }
       }
 
+      jar("artifact-resolver-m31.jar") {
+        module("maven-artifact-resolver-m31")
+        module("maven-artifact-resolver-m2") {
+          include(name: 'org/jetbrains/idea/maven/artifactResolver/common/*')
+        }
+      }
+
       dir("maven3") {
         fileset(dir: "$home/plugins/maven/maven3-server-impl/lib") {include(name: "*.jar")}
         fileset(dir: "$home/plugins/maven/maven3-server-impl/lib/maven3/lib") {include(name: "*.jar")}
@@ -328,6 +353,15 @@ public def layoutCommunityPlugins(String home) {
     layoutPlugin("gradle") {
       jar("gradle.jar") {
         module("gradle")
+      }
+      jar("gradle-tooling-extension.jar") {
+        module("gradle-tooling-extension")
+      }
+      def gradleToolingVersions = ["1.9", "1.11", "1.12"]
+      gradleToolingVersions.each { ver ->
+        jar("gradle-tooling-extension-v" + ver + ".jar") {
+          module("gradle-tooling-extension-v" + ver)
+        }
       }
       fileset(dir: "$home/plugins/gradle/lib") { include(name: "*.jar") }
     }
@@ -469,7 +503,9 @@ public def layoutCommunityPlugins(String home) {
     pluginDir("tasks") {
       dir("lib") {
         jar("tasks-api.jar") { module("tasks-api") }
+        jar("jira.jar") { module("jira") }
         jar("tasks-core.jar") { module("tasks-core") }
+        jar("jira.jar") { module("jira") }
         jar("tasks-java.jar") { moduleOptional("tasks-java") }
         fileset(dir: "${home}/plugins/tasks/tasks-core/lib") {
           include(name: "**/*.jar")
@@ -669,6 +705,42 @@ def layoutAndroid() {
         module("android-rt")
       }
 
+<<<<<<< HEAD   (b557fd Merge "Add Gradle import module")
+=======
+      jar("common.jar") {
+        module("common")
+      }
+      jar("sdklib.jar") {
+        module("sdklib")
+      }
+      jar("layoutlib-api.jar") {
+        module("layoutlib-api")
+      }
+      jar("manifest-merger.jar") {
+        module("manifest-merger")
+      }
+      jar("sdk-tools.jar") {
+        module("assetstudio")
+        module("ddmlib")
+        module("dvlib")
+        module("draw9patch")
+        module("lint-api")
+        module("lint-checks")
+        module("ninepatch")
+        module("sdk-common")
+        module("perflib")
+      }
+      jar("androidAnnotations.jar") {
+        fileset(dir: "$androidHome/android/annotations")
+      }
+      dir("jps") {
+        jar("android-gradle-jps.jar") { module("android-gradle-jps") }
+      }
+      dir("device-art-resources") {
+        fileset(dir: "$androidHome/android/device-art-resources")
+      }
+
+>>>>>>> BRANCH (88f318 Snapshot 34f078c3452e79ba209d28a551962857e0970e5d from idea/)
       dir("jps") {
         jar("android-jps-plugin.jar") { module("android-jps-plugin") }
         jar("android-gradle-jps.jar") { module("android-gradle-jps") }
@@ -782,11 +854,13 @@ def layoutCommunityJps(String home, String target) {
       include(name: "nanoxml-*.jar")
       include(name: "protobuf-*.jar")
       include(name: "cli-parser-*.jar")
-      include(name: "optimizedFileManager.jar")
       include(name: "log4j.jar")
       include(name: "jgoodies-forms.jar")
       include(name: "ecj*.jar")
       include(name: "jsr166e.jar")
+    }
+    fileset(dir: "$home/jps/lib") {
+      include(name: "optimizedFileManager.jar")
     }
     dir("test") {
       jar("jps-build-test.jar") {
