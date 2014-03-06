@@ -159,6 +159,9 @@ public class ModuleExtendedModelBuilderImpl implements ModelBuilderService {
       contentRoot.addTestResourceDirectory(new IdeaSourceDirectoryImpl(new File(testResourceDir)));
     }
     for (File excludeDir : excludeDirectories) {
+      if (excludeDir.getPath().equals(project.getBuildDir().getPath())) {
+        continue;
+      }
       contentRoot.addExcludeDirectory(excludeDir);
     }
 
