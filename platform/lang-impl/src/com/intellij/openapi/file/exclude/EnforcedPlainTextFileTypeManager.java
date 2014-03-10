@@ -26,9 +26,12 @@ import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.project.ProjectManagerListener;
 import com.intellij.openapi.roots.ex.ProjectRootManagerEx;
 import com.intellij.openapi.util.EmptyRunnable;
-import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.vfs.VirtualFile;
+<<<<<<< HEAD   (b7a64e Merge "Fix for IDEA-121307 Cannot create new file (StubVirtu)
 import com.intellij.openapi.vfs.newvfs.impl.StubVirtualFile;
+=======
+import com.intellij.openapi.vfs.VirtualFileWithId;
+>>>>>>> BRANCH (1fff8e Snapshot ae49fc0ed43dd87b534931e62fceae2bcac4fdf1 from idea/)
 import com.intellij.util.containers.ConcurrentHashMap;
 import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.NotNull;
@@ -45,18 +48,29 @@ import java.util.Map;
  */
 public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener {
   private final Map<Project, Collection<VirtualFile>> myPlainTextFileSets = new ConcurrentHashMap<Project, Collection<VirtualFile>>();
-  private final Ref<Boolean> mySetsInitialized = new Ref<Boolean>(false);
+  private volatile boolean mySetsInitialized = false;
+  private static final Object LOCK = new Object();
 
   public EnforcedPlainTextFileTypeManager() {
     ProjectManager.getInstance().addProjectManagerListener(this);
   }
 
   public boolean isMarkedAsPlainText(VirtualFile file) {
+<<<<<<< HEAD   (b7a64e Merge "Fix for IDEA-121307 Cannot create new file (StubVirtu)
     if (file instanceof StubVirtualFile || file.isDirectory()) return false;
     synchronized (mySetsInitialized) {
       if (!mySetsInitialized.get()) {
         initPlainTextFileSets();
         mySetsInitialized.set(true);
+=======
+    if (!(file instanceof VirtualFileWithId) || file.isDirectory()) return false;
+    if (!mySetsInitialized) {
+      synchronized (LOCK) {
+        if (!mySetsInitialized) {
+          initPlainTextFileSets();
+          mySetsInitialized = true;
+        }
+>>>>>>> BRANCH (1fff8e Snapshot ae49fc0ed43dd87b534931e62fceae2bcac4fdf1 from idea/)
       }
     }
     for (Project project : myPlainTextFileSets.keySet()) {
@@ -74,7 +88,11 @@ public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener 
   }
 
   public static boolean isApplicableFor(@NotNull VirtualFile file) {
+<<<<<<< HEAD   (b7a64e Merge "Fix for IDEA-121307 Cannot create new file (StubVirtu)
     if (file instanceof StubVirtualFile || file.isDirectory()) return false;
+=======
+    if (!(file instanceof VirtualFileWithId) || file.isDirectory()) return false;
+>>>>>>> BRANCH (1fff8e Snapshot ae49fc0ed43dd87b534931e62fceae2bcac4fdf1 from idea/)
     FileType originalType = FileTypeManager.getInstance().getFileTypeByFileName(file.getName());
     return !originalType.isBinary() && originalType != FileTypes.PLAIN_TEXT && originalType != StdFileTypes.JAVA;
   }
@@ -96,7 +114,7 @@ public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener 
     fireRootsChanged(filesToSync, isPlainText);
   }
 
-  private static void fireRootsChanged(final Collection<VirtualFile> files, final boolean isAdded) {
+  private void fireRootsChanged(final Collection<VirtualFile> files, final boolean isAdded) {
     ApplicationManager.getApplication().runWriteAction(new Runnable() {
       @Override
       public void run() {
@@ -105,6 +123,7 @@ public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener 
           ProjectPlainTextFileTypeManager projectPlainTextFileTypeManager = ProjectPlainTextFileTypeManager.getInstance(project);
           for (VirtualFile file : files) {
             if (projectPlainTextFileTypeManager.hasProjectContaining(file)) {
+              ensureProjectFileSetAdded(project, projectPlainTextFileTypeManager);
               if (isAdded) {
                 projectPlainTextFileTypeManager.addFile(file);
               }
@@ -116,6 +135,13 @@ public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener 
         }
       }
     });
+  }
+
+  private void ensureProjectFileSetAdded(@NotNull Project project,
+                                         @NotNull ProjectPlainTextFileTypeManager projectPlainTextFileTypeManager) {
+    if (!myPlainTextFileSets.containsKey(project)) {
+      myPlainTextFileSets.put(project, projectPlainTextFileTypeManager.getFiles());
+    }
   }
 
   private static class EnforcedPlainTextFileTypeManagerHolder {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -135,14 +135,15 @@ public class Main {
     String platform = System.getProperty(PLATFORM_PREFIX_PROPERTY, "idea");
     String patchFileName = ("jetbrains.patch.jar." + platform).toLowerCase();
     String tempDir = System.getProperty("java.io.tmpdir");
-    File originalPatchFile = new File(tempDir, patchFileName);
-    File copyPatchFile = new File(tempDir, patchFileName + "_copy");
 
     // always delete previous patch copy
-    if (!FileUtilRt.delete(copyPatchFile)) {
-      throw new IOException("Cannot create temporary patch file");
+    File patchCopy = new File(tempDir, patchFileName + "_copy");
+    File log4jCopy = new File(tempDir, "log4j.jar." + platform + "_copy");
+    if (!FileUtilRt.delete(patchCopy) || !FileUtilRt.delete(log4jCopy)) {
+      throw new IOException("Cannot delete temporary files in " + tempDir);
     }
 
+<<<<<<< HEAD   (b7a64e Merge "Fix for IDEA-121307 Cannot create new file (StubVirtu)
     appendLog("[Patch] Original patch %s: %s\n", originalPatchFile.exists() ? "exists" : "does not exist",
               originalPatchFile.getAbsolutePath());
 
@@ -154,6 +155,14 @@ public class Main {
       appendLog("[Patch] Cannot create temporary patch file\n");
       throw new IOException("Cannot create temporary patch file");
     }
+=======
+    File patch = new File(tempDir, patchFileName);
+    if (!patch.exists()) return;
+    File log4j = new File(PathManager.getLibPath(), "log4j.jar");
+    if (!log4j.exists()) throw new IOException("Log4J missing: " + log4j);
+    copyFile(patch, patchCopy, true);
+    copyFile(log4j, log4jCopy, false);
+>>>>>>> BRANCH (1fff8e Snapshot ae49fc0ed43dd87b534931e62fceae2bcac4fdf1 from idea/)
 
     int status = 0;
     if (Restarter.isSupported()) {
@@ -168,13 +177,18 @@ public class Main {
                          System.getProperty("java.home") + "/bin/java".replace('/', File.separatorChar),
                          "-Xmx500m",
                          "-classpath",
+<<<<<<< HEAD   (b7a64e Merge "Fix for IDEA-121307 Cannot create new file (StubVirtu)
                          copyPatchFile.getPath() + File.pathSeparator +
                             PathManager.getLibPath() + File.separator + "log4j.jar",
+=======
+                         patchCopy.getPath() + File.pathSeparator + log4jCopy.getPath(),
+>>>>>>> BRANCH (1fff8e Snapshot ae49fc0ed43dd87b534931e62fceae2bcac4fdf1 from idea/)
                          "-Djava.io.tmpdir=" + tempDir,
+                         "-Didea.updater.log=" + PathManager.getLogPath(),
+                         "-Dswing.defaultlaf=" + UIManager.getSystemLookAndFeelClassName(),
                          "com.intellij.updater.Runner",
                          "install",
-                         PathManager.getHomePath(),
-                         PathManager.getLogPath());
+                         PathManager.getHomePath());
 
       appendLog("[Patch] Restarted cmd: %s\n", args.toString());
 
@@ -189,6 +203,20 @@ public class Main {
     }
 
     exit(status);
+  }
+
+  private static void copyFile(File original, File copy, boolean move) throws IOException {
+    if (move) {
+      if (!original.renameTo(copy) || !FileUtilRt.delete(original)) {
+        throw new IOException("Cannot create temporary file: " + copy);
+      }
+    }
+    else {
+      FileUtilRt.copy(original, copy);
+      if (!copy.exists()) {
+        throw new IOException("Cannot create temporary file: " + copy);
+      }
+    }
   }
 
   public static void showMessage(String title, Throwable t) {

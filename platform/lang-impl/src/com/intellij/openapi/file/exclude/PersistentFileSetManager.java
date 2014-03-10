@@ -19,7 +19,11 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
+<<<<<<< HEAD   (b7a64e Merge "Fix for IDEA-121307 Cannot create new file (StubVirtu)
 import com.intellij.openapi.vfs.newvfs.impl.StubVirtualFile;
+=======
+import com.intellij.openapi.vfs.VirtualFileWithId;
+>>>>>>> BRANCH (1fff8e Snapshot ae49fc0ed43dd87b534931e62fceae2bcac4fdf1 from idea/)
 import com.intellij.util.containers.HashSet;
 import org.jdom.Attribute;
 import org.jdom.Element;
@@ -37,7 +41,11 @@ public class PersistentFileSetManager implements PersistentStateComponent<Elemen
   private final Set<VirtualFile> myFiles = new HashSet<VirtualFile>();
   
   protected boolean addFile(VirtualFile file) {
+<<<<<<< HEAD   (b7a64e Merge "Fix for IDEA-121307 Cannot create new file (StubVirtu)
     if (file instanceof StubVirtualFile || file.isDirectory()) return false;
+=======
+    if (!(file instanceof VirtualFileWithId) || file.isDirectory()) return false;
+>>>>>>> BRANCH (1fff8e Snapshot ae49fc0ed43dd87b534931e62fceae2bcac4fdf1 from idea/)
     myFiles.add(file);
     return true;
   }

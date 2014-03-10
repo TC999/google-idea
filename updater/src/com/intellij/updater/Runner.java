@@ -24,15 +24,13 @@ public class Runner {
   private static final String NEW_BUILD_DESCRIPTION = "new.build.description";
 
   public static void main(String[] args) throws Exception {
-    if (args.length >= 7 && "create".equals(args[0])) {
+    if (args.length >= 6 && "create".equals(args[0])) {
       String oldVersionDesc = args[1];
       String newVersionDesc = args[2];
       String oldFolder = args[3];
       String newFolder = args[4];
       String patchFile = args[5];
-
-      String logFolder = args[6];
-      initLogger(logFolder);
+      initLogger();
 
       List<String> ignoredFiles = extractFiles(args, "ignored");
       List<String> criticalFiles = extractFiles(args, "critical");
@@ -40,6 +38,7 @@ public class Runner {
       create(oldVersionDesc, newVersionDesc, oldFolder, newFolder, patchFile, ignoredFiles, criticalFiles, optionalFiles);
     }
     else if (args.length >= 2 && "install".equals(args[0])) {
+<<<<<<< HEAD   (b7a64e Merge "Fix for IDEA-121307 Cannot create new file (StubVirtu)
       // install [--exit0] <destination_folder> [log_directory]
       int max = 3;
       int nextArg = 1;
@@ -57,6 +56,10 @@ public class Runner {
 
       String logFolder = args.length >= max ? args[nextArg] : null;
       initLogger(logFolder);
+=======
+      String destFolder = args[1];
+      initLogger();
+>>>>>>> BRANCH (1fff8e Snapshot ae49fc0ed43dd87b534931e62fceae2bcac4fdf1 from idea/)
       logger.info("destFolder: " + destFolder);
 
       install(useExitCode0, destFolder);
@@ -72,7 +75,8 @@ public class Runner {
     return fileLogDir.isDirectory() && fileLogDir.canWrite() && fileLogDir.getUsableSpace() >= 1000000;
   }
 
-  private static String getLogDir(String logFolder) {
+  private static String getLogDir() {
+    String logFolder = System.getProperty("idea.updater.log");
     if (logFolder == null || !isValidLogDir(logFolder)) {
       logFolder = System.getProperty("java.io.tmpdir");
       if (!isValidLogDir(logFolder)) {
@@ -82,9 +86,9 @@ public class Runner {
     return logFolder;
   }
 
-  public static void initLogger(String logFolder) {
+  public static void initLogger() {
     if (logger == null) {
-      logFolder = getLogDir(logFolder);
+      String logFolder = getLogDir();
       FileAppender update = new FileAppender();
 
       update.setFile(new File(logFolder, "idea_updater.log").getAbsolutePath());
@@ -97,7 +101,6 @@ public class Runner {
       updateError.setFile(new File(logFolder, "idea_updater_error.log").getAbsolutePath());
       updateError.setLayout(new PatternLayout("%d{dd MMM yyyy HH:mm:ss} %-5p %C{1}.%M - %m%n"));
       updateError.setThreshold(Level.ERROR);
-      // The error(s) from an old run of the updater (if there were) could be found in idea_updater.log file
       updateError.setAppend(false);
       updateError.activateOptions();
 
@@ -239,17 +242,20 @@ public class Runner {
       in.close();
     }
 
-    SwingUtilities.invokeAndWait(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    // todo[r.sh] to delete in IDEA 14 (after a full circle of platform updates)
+    if (System.getProperty("swing.defaultlaf") == null) {
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+          }
+          catch (Exception ignore) {
+            printStackTrace(ignore);
+          }
         }
-        catch (Exception ignore) {
-          printStackTrace(ignore);
-        }
-      }
-    });
+      });
+    }
 
     new SwingUpdaterUI(props.getProperty(OLD_BUILD_DESCRIPTION),
                   props.getProperty(NEW_BUILD_DESCRIPTION),
