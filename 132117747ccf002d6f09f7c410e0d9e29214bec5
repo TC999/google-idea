@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dcf7d997_e0441ed9",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-03-11T17:59:24Z",
+      "side": 1,
+      "message": "Sounds good to me -- the sooner we can take their current version and write a patch for them to adapt, the better. They seem to be working pretty actively on this so there are conflicts in every merge and I worry that I\u0027ll introduce a bug.",
+      "parentUuid": "fce81dcd_0ba7a99e",
+      "range": {
+        "startLine": 154,
+        "startChar": 5,
+        "endLine": 154,
+        "endChar": 55
+      },
+      "revId": "132117747ccf002d6f09f7c410e0d9e29214bec5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fce81dcd_eb5b5de3",
         "filename": "updater/src/com/intellij/updater/Runner.java",
         "patchSetId": 1
