@@ -39,6 +39,24 @@
       "revId": "132117747ccf002d6f09f7c410e0d9e29214bec5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c2ba1c2_b780aa9e",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-03-11T17:58:00Z",
+      "side": 1,
+      "message": "Yes. See\nhttp://webcache.googleusercontent.com/search?q\u003dcache:LKdCHEw1RUkJ:git.jetbrains.org/?p%3Didea/community.git;a%3Dcommitdiff;h%3Dac6700bffb291aae7824bde545714be7f5d408b0+\u0026cd\u003d1\u0026hl\u003den\u0026ct\u003dclnk\u0026gl\u003dus\n(though there are several CLs after it which tweaks additional things, so you\u0027ll see print statements added in the above CL which are not in the final merged version).",
+      "parentUuid": "fce81dcd_eb5b5de3",
+      "revId": "132117747ccf002d6f09f7c410e0d9e29214bec5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
