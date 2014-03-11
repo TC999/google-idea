@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fce81dcd_0ba7a99e",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-03-11T17:34:41Z",
+      "side": 1,
+      "message": "Note: the merge is fine. However IMHO the strategy they are adopting for the installer is all wrong. Instead of making sure the installer is self-contained, they are deciding to not run it if it misses a jar. We should propose to them to adopt our jarjar solution and not do this. As I was say they need to write it with backward compatibility in mind, not the other way around.",
+      "range": {
+        "startLine": 154,
+        "startChar": 5,
+        "endLine": 154,
+        "endChar": 55
+      },
+      "revId": "132117747ccf002d6f09f7c410e0d9e29214bec5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fce81dcd_eb5b5de3",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-03-11T17:34:41Z",
+      "side": 1,
+      "message": "I\u0027m confused by this -- I thought the latest merge added the optional log-directory argument and called initLogger with a possibly null folder. As this been reverted?",
+      "revId": "132117747ccf002d6f09f7c410e0d9e29214bec5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
