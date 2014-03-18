@@ -47,18 +47,18 @@ import java.util.*;
 public class RootModelImpl extends RootModelBase implements ModifiableRootModel {
   private static final Logger LOG = Logger.getInstance("#com.intellij.openapi.roots.impl.RootModelImpl");
 
-  private final Set<ContentEntry> myContent = new TreeSet<ContentEntry>(ContentComparator.INSTANCE);
+  protected final Set<ContentEntry> myContent = new TreeSet<ContentEntry>(ContentComparator.INSTANCE);
 
-  private final List<OrderEntry> myOrderEntries = new Order();
+  protected final List<OrderEntry> myOrderEntries = new Order();
   // cleared by myOrderEntries modification, see Order
   @Nullable private OrderEntry[] myCachedOrderEntries;
 
   @NotNull private final ModuleLibraryTable myModuleLibraryTable;
-  final ModuleRootManagerImpl myModuleRootManager;
+  protected final ModuleRootManagerImpl myModuleRootManager;
   private boolean myWritable;
   private final VirtualFilePointerManager myFilePointerManager;
   private boolean myDisposed = false;
-  private final Set<ModuleExtension> myExtensions = new TreeSet<ModuleExtension>();
+  protected final Set<ModuleExtension> myExtensions = new TreeSet<ModuleExtension>();
 
   private final RootConfigurationAccessor myConfigurationAccessor;
 
@@ -66,9 +66,9 @@ public class RootModelImpl extends RootModelBase implements ModifiableRootModel 
   // have to register all child disposables using this fake object since all clients just call ModifiableModel.dispose()
   private final CompositeDisposable myDisposable = new CompositeDisposable();
 
-  RootModelImpl(@NotNull ModuleRootManagerImpl moduleRootManager,
-                ProjectRootManagerImpl projectRootManager,
-                VirtualFilePointerManager filePointerManager) {
+  protected RootModelImpl(@NotNull ModuleRootManagerImpl moduleRootManager,
+                          ProjectRootManagerImpl projectRootManager,
+                          VirtualFilePointerManager filePointerManager) {
     myModuleRootManager = moduleRootManager;
     myProjectRootManager = projectRootManager;
     myFilePointerManager = filePointerManager;
@@ -90,10 +90,10 @@ public class RootModelImpl extends RootModelBase implements ModifiableRootModel 
     myOrderEntries.add(new ModuleSourceOrderEntryImpl(this));
   }
 
-  RootModelImpl(@NotNull Element element,
-                @NotNull ModuleRootManagerImpl moduleRootManager,
-                ProjectRootManagerImpl projectRootManager,
-                VirtualFilePointerManager filePointerManager) throws InvalidDataException {
+  protected RootModelImpl(@NotNull Element element,
+                          @NotNull ModuleRootManagerImpl moduleRootManager,
+                          ProjectRootManagerImpl projectRootManager,
+                          VirtualFilePointerManager filePointerManager) throws InvalidDataException {
     myProjectRootManager = projectRootManager;
     myFilePointerManager = filePointerManager;
     myModuleRootManager = moduleRootManager;
@@ -146,12 +146,12 @@ public class RootModelImpl extends RootModelBase implements ModifiableRootModel 
   }
 
   //creates modifiable model
-  RootModelImpl(@NotNull RootModelImpl rootModel,
-                ModuleRootManagerImpl moduleRootManager,
-                final boolean writable,
-                final RootConfigurationAccessor rootConfigurationAccessor,
-                @NotNull VirtualFilePointerManager filePointerManager,
-                ProjectRootManagerImpl projectRootManager) {
+  protected RootModelImpl(@NotNull RootModelImpl rootModel,
+                          ModuleRootManagerImpl moduleRootManager,
+                          final boolean writable,
+                          final RootConfigurationAccessor rootConfigurationAccessor,
+                          @NotNull VirtualFilePointerManager filePointerManager,
+                          ProjectRootManagerImpl projectRootManager) {
     myFilePointerManager = filePointerManager;
     myModuleRootManager = moduleRootManager;
     myProjectRootManager = projectRootManager;
@@ -534,11 +534,11 @@ public class RootModelImpl extends RootModelBase implements ModifiableRootModel 
     return areOrderEntriesChanged() || areContentEntriesChanged();
   }
 
-  private boolean areContentEntriesChanged() {
+  protected boolean areContentEntriesChanged() {
     return ArrayUtil.lexicographicCompare(getContentEntries(), getSourceModel().getContentEntries()) != 0;
   }
 
-  private boolean areOrderEntriesChanged() {
+  protected boolean areOrderEntriesChanged() {
     OrderEntry[] orderEntries = getOrderEntries();
     OrderEntry[] sourceOrderEntries = getSourceModel().getOrderEntries();
     if (orderEntries.length != sourceOrderEntries.length) return true;
@@ -727,7 +727,7 @@ public class RootModelImpl extends RootModelBase implements ModifiableRootModel 
     }
   }
 
-  private RootModelImpl getSourceModel() {
+  protected RootModelImpl getSourceModel() {
     assertWritable();
     return myModuleRootManager.getRootModel();
   }

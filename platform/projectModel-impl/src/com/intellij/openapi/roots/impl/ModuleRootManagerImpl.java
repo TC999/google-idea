@@ -47,14 +47,14 @@ public class ModuleRootManagerImpl extends ModuleRootManager implements ModuleCo
   private static final Logger LOG = Logger.getInstance("#com.intellij.openapi.roots.impl.ModuleRootManagerImpl");
 
   private final Module myModule;
-  private final ProjectRootManagerImpl myProjectRootManager;
-  private final VirtualFilePointerManager myFilePointerManager;
-  private RootModelImpl myRootModel;
+  protected final ProjectRootManagerImpl myProjectRootManager;
+  protected final VirtualFilePointerManager myFilePointerManager;
+  protected RootModelImpl myRootModel;
   private final ModuleFileIndexImpl myFileIndex;
   private boolean myIsDisposed = false;
   private boolean isModuleAdded = false;
   private final OrderRootsCache myOrderRootsCache;
-  private final Map<RootModelImpl, Throwable> myModelCreations = new THashMap<RootModelImpl, Throwable>();
+  protected final Map<RootModelImpl, Throwable> myModelCreations = new THashMap<RootModelImpl, Throwable>();
 
 
   public ModuleRootManagerImpl(Module module,

@@ -31,6 +31,26 @@ public abstract class ModuleRootManager implements ModuleRootModel {
    * @return the root manager instance.
    */
   public static ModuleRootManager getInstance(@NotNull Module module) {
+    try {
+      Class clazz = Class.forName("com.android.tools.idea.gradle.AndroidGradleModuleRootManager");
+      //return (ModuleRootManager)clazz.getConstructor(Module.class).newInstance(module);
+      return (ModuleRootManager)module.getComponent(clazz);
+    }
+    catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    //catch (InvocationTargetException e) {
+    //e.printStackTrace();
+    //}
+    //catch (NoSuchMethodException e) {
+    //e.printStackTrace();
+    //}
+    //catch (InstantiationException e) {
+    //e.printStackTrace();
+    //}
+    //catch (IllegalAccessException e) {
+    //e.printStackTrace();
+    //}
     return module.getComponent(ModuleRootManager.class);
   }
 
