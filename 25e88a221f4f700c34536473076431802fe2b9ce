@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b92f97b4_2be0c962",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-04-01T23:07:50Z",
+      "side": 0,
+      "message": "The diff view in gerrit looks a little weird, but essentially, everything here has just been indented two levels. i.e. current code:\n\n layoutPlugin(\"android\") {\n   xxx\n }\n\nbecomes:\n\n dir(androidModule) {\n   dir(\"lib\") {\n     jar(\"android.jar\") {\n     }\n     \n     xxx     \n   }\n }",
+      "revId": "25e88a221f4f700c34536473076431802fe2b9ce",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
