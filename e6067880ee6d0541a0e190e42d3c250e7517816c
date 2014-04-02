@@ -16,6 +16,24 @@
       "revId": "e6067880ee6d0541a0e190e42d3c250e7517816c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99349308_8009ebc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-04-02T17:52:18Z",
+      "side": 1,
+      "message": "I think the issue is I don\u0027t know at what point we are going to decide that it is ok to remove this plugin. Maybe we should remove it at that time.",
+      "parentUuid": "99bf338c_8c4227ca",
+      "revId": "e6067880ee6d0541a0e190e42d3c250e7517816c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
