@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99bf338c_8c4227ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-04-02T07:18:01Z",
+      "side": 1,
+      "message": "It shouldn\u0027t need to; the plugin xml no longer references it. (I suppose it\u0027s possible that auto update somehow would require it, but that doesn\u0027t seem likely.)",
+      "revId": "e6067880ee6d0541a0e190e42d3c250e7517816c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
