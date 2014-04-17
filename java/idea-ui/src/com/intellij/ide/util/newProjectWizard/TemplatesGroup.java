@@ -17,6 +17,10 @@ package com.intellij.ide.util.newProjectWizard;
 
 import com.intellij.ide.projectWizard.ProjectCategory;
 import com.intellij.ide.util.projectWizard.ModuleBuilder;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.util.Comparing;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,12 +56,21 @@ public class TemplatesGroup implements Comparable<TemplatesGroup> {
    * @param category
    */
   public TemplatesGroup(ProjectCategory category) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     this(category.getDisplayName(), category.getDescription(), null, 0, category.getGroupName(), category.getId(), category.createModuleBuilder());
     myProjectCategory = category;
   }
 
   public TemplatesGroup(ModuleBuilder builder) {
     this(builder.getPresentableName(), builder.getDescription(), builder.getBigIcon(), 0, builder.getParentGroup(), builder.getBuilderId(), builder);
+=======
+    this(category.getDisplayName(), category.getDescription(), category.getIcon(), category.getWeight(), category.getGroupName(), category.getId(), category.createModuleBuilder());
+    myProjectCategory = category;
+  }
+
+  public TemplatesGroup(ModuleBuilder builder) {
+    this(builder.getPresentableName(), builder.getDescription(), builder.getNodeIcon(), builder.getWeight(), builder.getParentGroup(), builder.getBuilderId(), builder);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable
@@ -91,6 +104,10 @@ public class TemplatesGroup implements Comparable<TemplatesGroup> {
     return true;
   }
 
+  public int getWeight() {
+    return myWeight;
+  }
+
   @Override
   public int hashCode() {
     return myName.hashCode();
@@ -104,7 +121,18 @@ public class TemplatesGroup implements Comparable<TemplatesGroup> {
   @Override
   public int compareTo(@NotNull TemplatesGroup o) {
     int i = o.myWeight - myWeight;
-    return i == 0 ? o.getName().compareTo(getName()) : i;
+    if (i != 0) return i;
+    int i1 = Comparing.compare(o.getParentGroup(), getParentGroup());
+    if (i1 != 0) return i1;
+    return o.getName().compareTo(getName());
+  }
+
+  public String getParentGroup() {
+    return myParentGroup;
+  }
+
+  public String getId() {
+    return myId;
   }
 
   public String getParentGroup() {

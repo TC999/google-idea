@@ -169,9 +169,16 @@ public class BuildOperations {
           final Collection<String> outputs = srcToOut.getOutputs(srcPath);
           if (outputs != null) {
             final boolean shouldPruneOutputDirs = target instanceof ModuleBasedTarget;
+            final List<String> deletedForThisSource = new ArrayList<String>(outputs.size());
             for (String output : outputs) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
               deleteRecursively(output, deletedPaths, shouldPruneOutputDirs ? dirsToDelete : null);
+=======
+              deleteRecursively(output, deletedForThisSource, shouldPruneOutputDirs ? dirsToDelete : null);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             }
+            deletedPaths.addAll(deletedForThisSource);
+            dataManager.getOutputToSourceRegistry().removeMapping(deletedForThisSource, srcPath);
             Set<File> cleaned = cleanedSources.get(target);
             if (cleaned == null) {
               cleaned = new THashSet<File>(FileUtil.FILE_HASHING_STRATEGY);

@@ -15,6 +15,7 @@
  */
 package com.intellij.remoteServer.util;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import git4idea.repo.GitRemote;
 import git4idea.repo.GitRepository;
 import org.jetbrains.annotations.NotNull;
@@ -47,4 +48,63 @@ public class CloudGitDeploymentDetector {
     }
     return result;
   }
+=======
+import com.intellij.openapi.extensions.ExtensionPointName;
+import com.intellij.remoteServer.ServerType;
+import com.intellij.util.containers.ContainerUtil;
+import git4idea.repo.GitRemote;
+import git4idea.repo.GitRepository;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * @author michael.golubev
+ */
+public abstract class CloudGitDeploymentDetector {
+
+  public static final ExtensionPointName<CloudGitDeploymentDetector> EP_NAME
+    = ExtensionPointName.create("com.intellij.remoteServer.util.deploymentDetector");
+
+  public static CloudGitDeploymentDetector getInstance(ServerType cloudType) {
+    for (CloudGitDeploymentDetector deploymentDetector : EP_NAME.getExtensions()) {
+      if (deploymentDetector.getCloudType() == cloudType) {
+        return deploymentDetector;
+      }
+    }
+    throw new IllegalArgumentException("Deployment detector is not registered for: " + cloudType.getPresentableName());
+  }
+
+  private final Pattern myGitUrlPattern;
+
+  protected CloudGitDeploymentDetector(Pattern gitUrlPattern) {
+    myGitUrlPattern = gitUrlPattern;
+  }
+
+  @Nullable
+  public String getFirstApplicationName(@NotNull GitRepository repository) {
+    return ContainerUtil.getFirstItem(collectApplicationNames(repository));
+  }
+
+  public List<String> collectApplicationNames(@NotNull GitRepository repository) {
+    List<String> result = new ArrayList<String>();
+    for (GitRemote remote : repository.getRemotes()) {
+      for (String url : remote.getUrls()) {
+        Matcher matcher = myGitUrlPattern.matcher(url);
+        if (matcher.matches()) {
+          result.add(matcher.group(1));
+        }
+      }
+    }
+    return result;
+  }
+
+  public abstract ServerType getCloudType();
+
+  public abstract CloudDeploymentNameConfiguration createDeploymentConfiguration();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

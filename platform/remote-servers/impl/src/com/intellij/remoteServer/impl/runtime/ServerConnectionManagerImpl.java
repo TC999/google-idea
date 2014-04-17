@@ -26,12 +26,28 @@ public class ServerConnectionManagerImpl extends ServerConnectionManager {
     ApplicationManager.getApplication().assertIsDispatchThread();
     ServerConnection connection = myConnections.get(server);
     if (connection == null) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       ServerTaskExecutorImpl executor = new ServerTaskExecutorImpl();
       connection = new ServerConnectionImpl(server, server.getType().createConnector(server, executor), this);
+=======
+      connection = doCreateConnection(server, this);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       myConnections.put(server, connection);
       myEventDispatcher.fireConnectionCreated(connection);
     }
     return connection;
+  }
+
+  @NotNull
+  @Override
+  public <C extends ServerConfiguration> ServerConnection createTemporaryConnection(@NotNull RemoteServer<C> server) {
+    return doCreateConnection(server, null);
+  }
+
+  private <C extends ServerConfiguration> ServerConnection doCreateConnection(@NotNull RemoteServer<C> server,
+                                                                              ServerConnectionManagerImpl manager) {
+    ServerTaskExecutorImpl executor = new ServerTaskExecutorImpl();
+    return new ServerConnectionImpl(server, server.getType().createConnector(server, executor), manager, getEventDispatcher());
   }
 
   @Nullable

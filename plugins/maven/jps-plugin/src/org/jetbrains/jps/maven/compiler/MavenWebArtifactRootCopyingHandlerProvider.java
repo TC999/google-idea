@@ -48,7 +48,11 @@ public class MavenWebArtifactRootCopyingHandlerProvider extends ArtifactRootCopy
     if (!mavenExtensionService.hasMavenProjectConfiguration(buildDataPaths)) return null;
 
     MavenProjectConfiguration projectConfiguration = mavenExtensionService.getMavenProjectConfiguration(buildDataPaths);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     MavenArtifactResourceConfiguration artifactResourceConfiguration = projectConfiguration.artifactsResources.get(artifact.getName());
+=======
+    MavenWebArtifactConfiguration artifactResourceConfiguration = projectConfiguration.webArtifactConfigs.get(artifact.getName());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (artifactResourceConfiguration == null) return null;
 
     ResourceRootConfiguration rootConfiguration = artifactResourceConfiguration.getRootConfiguration(root);

@@ -17,93 +17,51 @@ package com.intellij.openapi.roots.impl;
 
 import com.intellij.ProjectTopics;
 import com.intellij.openapi.Disposable;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.fileTypes.FileTypeEvent;
 import com.intellij.openapi.fileTypes.FileTypeListener;
 import com.intellij.openapi.fileTypes.FileTypeManager;
-import com.intellij.openapi.fileTypes.FileTypeRegistry;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.progress.EmptyProgressIndicator;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.ProgressIndicatorProvider;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectBundle;
-import com.intellij.openapi.roots.*;
-import com.intellij.openapi.roots.impl.libraries.LibraryEx;
-import com.intellij.openapi.roots.libraries.Library;
-import com.intellij.openapi.startup.StartupManager;
-import com.intellij.openapi.util.*;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.registry.Registry;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.*;
-import com.intellij.openapi.vfs.impl.BulkVirtualFileListenerAdapter;
+import com.intellij.openapi.roots.ModuleRootAdapter;
+import com.intellij.openapi.roots.ModuleRootEvent;
+import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.openapi.vfs.newvfs.BulkFileListener;
-import com.intellij.openapi.vfs.newvfs.ManagingFS;
 import com.intellij.openapi.vfs.newvfs.NewVirtualFile;
-import com.intellij.openapi.vfs.newvfs.events.VFileCreateEvent;
-import com.intellij.openapi.vfs.newvfs.events.VFileDeleteEvent;
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent;
-import com.intellij.openapi.vfs.newvfs.impl.FileNameCache;
-import com.intellij.util.*;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.MultiMap;
-import com.intellij.util.containers.Stack;
+import com.intellij.util.Query;
 import com.intellij.util.messages.MessageBusConnection;
-import gnu.trove.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 import org.jetbrains.jps.model.module.JpsModuleSourceRootType;
 
-import java.util.*;
+import java.util.List;
 
 public class DirectoryIndexImpl extends DirectoryIndex {
   private static final Logger LOG = Logger.getInstance("#com.intellij.openapi.roots.impl.DirectoryIndexImpl");
-  private static final boolean CHECK = ApplicationManager.getApplication().isUnitTestMode();
-  private static final TObjectHashingStrategy<int[]> INT_ARRAY_STRATEGY = new TObjectHashingStrategy<int[]>() {
-    @Override
-    public int computeHashCode(int[] object) {
-      return Arrays.hashCode(object);
-    }
 
-    @Override
-    public boolean equals(int[] o1, int[] o2) {
-      return Arrays.equals(o1, o2);
-    }
-  };
-
-  private final ManagingFS myPersistence;
   private final Project myProject;
   private final MessageBusConnection myConnection;
-  private final DirectoryIndexExcludePolicy[] myExcludePolicies;
 
-  private volatile IndexState myState = new IndexState();
-  private volatile boolean myInitialized = false;
   private volatile boolean myDisposed = false;
-  private final PackageSink mySink = new PackageSink();
-  private static final boolean ourUseRootIndexOnly = Registry.is("directory.index.use.root.index");
-  private static final boolean ourCompareImplementations = Registry.is("directory.index.compare.implementations");
   private volatile RootIndex myRootIndex = null;
 
-  public DirectoryIndexImpl(@NotNull ManagingFS managingFS, @NotNull Project project, @NotNull StartupManager startupManager) {
-    myPersistence = managingFS;
+  public DirectoryIndexImpl(@NotNull Project project) {
     myProject = project;
     myConnection = project.getMessageBus().connect(project);
-    myExcludePolicies = Extensions.getExtensions(DirectoryIndexExcludePolicy.EP_NAME, myProject);
-    startupManager.registerPreStartupActivity(new Runnable() {
-      @Override
-      public void run() {
-        initialize();
-      }
-    });
+    subscribeToFileChanges();
+    markContentRootsForRefresh();
     Disposer.register(project, new Disposable() {
       @Override
       public void dispose() {
         myDisposed = true;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         myState.multiDirPackages.clear();
         myState.myDirToInfoMap.clear();
         myState.myDirToPackageName.clear();
@@ -112,52 +70,41 @@ public class DirectoryIndexImpl extends DirectoryIndex {
         myState.myProjectExcludeRoots.clear();
         myState.myRootTypeId.clear();
         myState.myRootTypes.clear();
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         myRootIndex = null;
       }
     });
   }
 
-  public void initialize() {
-    subscribeToFileChanges();
-
-    if (myInitialized) {
-      LOG.error("Directory index is already initialized.");
-      return;
-    }
-
-    if (myDisposed) {
-      LOG.error("Directory index is already disposed for this project");
-      return;
-    }
-
-    myInitialized = true;
-    long l = System.currentTimeMillis();
-    doInitialize();
-    LOG.info("Directory index initialized in " +
-             (System.currentTimeMillis() - l) +
-             " ms, indexed " +
-             myState.myDirToInfoMap.size() +
-             " directories");
-
-    markContentRootsForRefresh();
-  }
-
   private void subscribeToFileChanges() {
     myConnection.subscribe(FileTypeManager.TOPIC, new FileTypeListener.Adapter() {
       @Override
-      public void fileTypesChanged(FileTypeEvent event) {
-        doInitialize();
+      public void fileTypesChanged(@NotNull FileTypeEvent event) {
+        myRootIndex = null;
       }
     });
 
     myConnection.subscribe(ProjectTopics.PROJECT_ROOTS, new ModuleRootAdapter() {
       @Override
       public void rootsChanged(ModuleRootEvent event) {
-        doInitialize();
+        myRootIndex = null;
       }
     });
 
-    myConnection.subscribe(VirtualFileManager.VFS_CHANGES, new MyVirtualFileListener());
+    myConnection.subscribe(VirtualFileManager.VFS_CHANGES, new BulkFileListener() {
+      @Override
+      public void before(@NotNull List<? extends VFileEvent> events) {
+      }
+
+      @Override
+      public void after(@NotNull List<? extends VFileEvent> events) {
+        RootIndex rootIndex = myRootIndex;
+        if (rootIndex != null && rootIndex.resetOnEvents(events)) {
+          myRootIndex = null;
+        }
+      }
+    });
   }
 
   private void markContentRootsForRefresh() {
@@ -176,6 +123,7 @@ public class DirectoryIndexImpl extends DirectoryIndex {
     myConnection.deliverImmediately();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private class MyVirtualFileListener extends VirtualFileAdapter implements BulkFileListener {
     @Override
     public void fileCreated(@NotNull VirtualFileEvent event) {
@@ -442,38 +390,16 @@ public class DirectoryIndexImpl extends DirectoryIndex {
     }
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Override
   @NotNull
   public Query<VirtualFile> getDirectoriesByPackageName(@NotNull String packageName, boolean includeLibrarySources) {
-
-    RootIndex rootIndex = getRootIndex();
-    if (rootIndex != null) {
-      Collection<VirtualFile> riResult = rootIndex.getDirectoriesByPackageName(packageName, includeLibrarySources);
-      if (ourUseRootIndexOnly) {
-        return new CollectionQuery<VirtualFile>(riResult);
-      }
-
-      Query<VirtualFile> standardResult = mySink.search(packageName, includeLibrarySources);
-      Collection<VirtualFile> standard = standardResult.findAll();
-      if (!new HashSet<VirtualFile>(riResult).equals(new HashSet<VirtualFile>(standard))) {
-        for (VirtualFile file : standard) {
-          String path = file.getPath();
-          if (path.substring(path.length() - packageName.length()).contains(".")) {
-            return standardResult; // standard and rootIndex return different results for directories with dot in name
-          }
-        }
-        assertConsistentResult(packageName, riResult, standard);
-      }
-    }
-
-    return mySink.search(packageName, includeLibrarySources);
+    return getRootIndex().getDirectoriesByPackageName(packageName, includeLibrarySources);
   }
 
-  @Nullable
+  @NotNull
   private RootIndex getRootIndex() {
-    if (!ourUseRootIndexOnly && !ourCompareImplementations) {
-      return null;
-    }
     RootIndex rootIndex = myRootIndex;
     if (rootIndex == null) {
       myRootIndex = rootIndex = new RootIndex(myProject);
@@ -484,97 +410,7 @@ public class DirectoryIndexImpl extends DirectoryIndex {
   @Override
   @TestOnly
   public void checkConsistency() {
-    RootIndex rootIndex = getRootIndex();
-    if (rootIndex != null) {
-      rootIndex.checkConsistency();
-    }
-    if (ourUseRootIndexOnly) {
-      return;
-    }
-
-    doCheckConsistency(false);
-    doCheckConsistency(true);
-  }
-
-  @TestOnly
-  public void assertAncestorConsistent() {
-    myState.assertAncestorsConsistent();
-  }
-
-  @TestOnly
-  private void doCheckConsistency(boolean reverseAllSets) {
-    assert myInitialized;
-    assert !myDisposed;
-    myState.assertNotWritable();
-
-    final IndexState oldState = myState;
-    myState.assertAncestorsConsistent();
-    replaceState(myState.copy(null));
-    myState.writable = true;
-
-    myState.doInitialize(reverseAllSets);
-    myState.writable = false;
-
-    int[] keySet = myState.myDirToInfoMap.keys();
-    assert keySet.length == oldState.myDirToInfoMap.keys().length;
-    for (int file : keySet) {
-      DirectoryInfo info1 = myState.getInfo(file);
-      DirectoryInfo info2 = oldState.getInfo(file);
-      assert info1 != null;
-      assert info1.equals(info2);
-      info1.assertConsistency();
-    }
-
-    assert myState.myPackageNameToDirsMap.size() == oldState.myPackageNameToDirsMap.size();
-    myState.myPackageNameToDirsMap.forEachEntry(new TObjectIntProcedure<int[]>() {
-      @Override
-      public boolean execute(int[] packageName, int i) {
-        int[] dirs = oldState.getDirsForPackage(packageName);
-        int[] dirs1 = myState.getDirsForPackage(packageName);
-
-        TIntHashSet set1 = new TIntHashSet(dirs);
-        TIntHashSet set2 = new TIntHashSet(dirs1);
-        assert set1.equals(set2);
-        return true;
-      }
-    });
-  }
-
-  @Override
-  public boolean isInitialized() {
-    return myInitialized;
-  }
-
-  private void doInitialize() {
-    myRootIndex = null;
-    if (ourUseRootIndexOnly) {
-      return;
-    }
-
-    IndexState newState = new IndexState();
-    newState.doInitialize(false);
-    replaceState(newState);
-  }
-
-  private boolean isExcludeRootForModule(@NotNull Module module, VirtualFile excludeRoot) {
-    for (DirectoryIndexExcludePolicy policy : myExcludePolicies) {
-      if (policy.isExcludeRootForModule(module, excludeRoot)) return true;
-    }
-    return false;
-  }
-
-  @NotNull
-  private static ContentEntry[] getContentEntries(@NotNull Module module) {
-    return ModuleRootManager.getInstance(module).getContentEntries();
-  }
-
-  @NotNull
-  private static OrderEntry[] getOrderEntries(@NotNull Module module) {
-    return ModuleRootManager.getInstance(module).getOrderEntries();
-  }
-
-  private static boolean isIgnored(@NotNull VirtualFile f) {
-    return FileTypeRegistry.getInstance().isFileIgnored(f);
+    getRootIndex().checkConsistency();
   }
 
   @Override
@@ -584,6 +420,7 @@ public class DirectoryIndexImpl extends DirectoryIndex {
 
     if (!(dir instanceof NewVirtualFile)) return null;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     RootIndex rootIndex = getRootIndex();
     DirectoryInfo riInfo = rootIndex != null ? rootIndex.getInfoForDirectory(dir) : null;
     if (ourUseRootIndexOnly) {
@@ -626,19 +463,16 @@ public class DirectoryIndexImpl extends DirectoryIndex {
       LOG.error(msg);
     }
     return standardResult;
+=======
+    return getRootIndex().getInfoForDirectory(dir);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
   @Nullable
   public JpsModuleSourceRootType<?> getSourceRootType(@NotNull DirectoryInfo info) {
     if (info.isInModuleSource()) {
-      RootIndex rootIndex = getRootIndex();
-      JpsModuleSourceRootType<?> riType = rootIndex != null ? rootIndex.getSourceRootType(info) : null;
-      if (ourUseRootIndexOnly) {
-        return riType;
-      }
-
-      return assertConsistentResult(info, riType, myState.getRootTypeById(info.getSourceRootTypeId()));
+      return getRootIndex().getSourceRootType(info);
     }
     return null;
   }
@@ -648,6 +482,7 @@ public class DirectoryIndexImpl extends DirectoryIndex {
     checkAvailability();
     if (!(dir instanceof NewVirtualFile)) return false;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (ourUseRootIndexOnly) {
       //noinspection ConstantConditions
       return getRootIndex().isProjectExcludeRoot(dir);
@@ -661,10 +496,17 @@ public class DirectoryIndexImpl extends DirectoryIndex {
     assertConsistentResult(dir, riResult, standardResult);
 */
     return standardResult;
+=======
+    return getRootIndex().isProjectExcludeRoot(dir);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
-  private VirtualFile findFileById(int dir) {
-    return myPersistence.findFileById(dir);
+  @Override
+  public boolean isModuleExcludeRoot(@NotNull VirtualFile dir) {
+    checkAvailability();
+    if (!(dir instanceof NewVirtualFile)) return false;
+
+    return getRootIndex().isModuleExcludeRoot(dir);
   }
 
   @Override
@@ -672,73 +514,17 @@ public class DirectoryIndexImpl extends DirectoryIndex {
     checkAvailability();
     if (!(dir instanceof NewVirtualFile)) return null;
 
-    RootIndex rootIndex = getRootIndex();
-    String riResult = rootIndex != null ? rootIndex.getPackageName(dir) : null;
-    if (ourUseRootIndexOnly) {
-      return riResult;
-    }
-
-    return assertConsistentResult(dir, riResult, myState.getPackageNameForDirectory((NewVirtualFile)dir));
-  }
-
-  private static String decodePackageName(@NotNull int[] interned) {
-    if (interned.length == 0) {
-      return "";
-    }
-
-    StringBuilder result = new StringBuilder(interned[0]);
-    for (int i = 1; i < interned.length; i++) {
-      if (i > 1) {
-        result.append('.');
-      }
-      result.append(FileNameCache.getVFileName(interned[i]));
-    }
-    return result.toString();
-  }
-
-  private static int[] internPackageName(@Nullable String packageName, @Nullable TObjectIntHashMap<String> alreadyEnumerated) {
-    if (packageName == null) {
-      return null;
-    }
-
-    if (packageName.isEmpty()) {
-      return ArrayUtil.EMPTY_INT_ARRAY;
-    }
-
-    int dotCount = StringUtil.countChars(packageName, '.');
-    int[] result = new int[dotCount + 2];
-    result[0] = packageName.length();
-
-    int tokenStart = 0;
-    int tokenIndex = 0;
-    while (tokenStart < packageName.length()) {
-      int tokenEnd = packageName.indexOf('.', tokenStart);
-      if (tokenEnd < 0) {
-        tokenEnd = packageName.length();
-      }
-      String nextName = packageName.substring(tokenStart, tokenEnd);
-      int internedId = alreadyEnumerated != null ? alreadyEnumerated.get(nextName) : 0;
-      if (internedId == 0) {
-        internedId = FileNameCache.storeName(nextName);
-        if (alreadyEnumerated != null) alreadyEnumerated.put(nextName, internedId);
-      }
-      result[tokenIndex + 1] = internedId;
-      tokenStart = tokenEnd + 1;
-      tokenIndex++;
-    }
-    return result;
+    return getRootIndex().getPackageName(dir);
   }
 
   private void checkAvailability() {
-    if (!myInitialized) {
-      LOG.error("Directory index is not initialized yet for " + myProject);
-    }
-
     if (myDisposed) {
+      ProgressManager.checkCanceled();
       LOG.error("Directory index is already disposed for " + myProject);
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @Nullable
   private static String getPackageNameForSubdir(String parentPackageName, String subdirName) {
     if (parentPackageName == null) return null;
@@ -1671,4 +1457,6 @@ public class DirectoryIndexImpl extends DirectoryIndex {
     }
     return counter;
   }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

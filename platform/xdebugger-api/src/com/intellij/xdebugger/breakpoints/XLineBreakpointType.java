@@ -102,7 +102,12 @@ public abstract class XLineBreakpointType<P extends XBreakpointProperties> exten
   }
 
   /**
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    * Higher priority wins if several types available for the line(s)
+=======
+   * Priority is considered when several breakpoint types can be set on the same code line,
+   * in this case we choose type with the highest priority
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
    */
   public int getPriority() {
     return 0;

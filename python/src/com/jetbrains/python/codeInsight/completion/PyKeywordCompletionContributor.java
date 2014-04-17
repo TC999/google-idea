@@ -311,6 +311,9 @@ public class PyKeywordCompletionContributor extends CompletionContributor {
   private static final PsiElementPattern.Capture<PsiElement> IN_ELSE_BODY_OF_TRY =
     psiElement().inside(psiElement(PyStatementList.class).inside(psiElement(PyElsePart.class).inside(PyTryExceptStatement.class)));
 
+  private static final PsiElementPattern.Capture<PsiElement> IN_ELSE_BODY_OF_TRY =
+    psiElement().inside(psiElement(PyStatementList.class).inside(psiElement(PyElsePart.class).inside(PyTryExceptStatement.class)));
+
   private static final PsiElementPattern.Capture<PsiElement> AFTER_IF = afterStatement(psiElement(PyIfStatement.class).withLastChild(
     psiElement(PyIfPart.class)));
   private static final PsiElementPattern.Capture<PsiElement> AFTER_TRY = afterStatement(psiElement(PyTryExceptStatement.class));
@@ -329,6 +332,14 @@ public class PyKeywordCompletionContributor extends CompletionContributor {
 
   private static final PsiElementPattern.Capture<PsiElement> AFTER_EXCEPT = afterStatement(
     psiElement().withLastChild(psiElement(PyExceptPart.class))
+  );
+
+  private static final PsiElementPattern.Capture<PsiElement> AFTER_FINALLY = afterStatement(
+    psiElement().withLastChild(psiElement(PyFinallyPart.class))
+  );
+
+  private static final PsiElementPattern.Capture<PsiElement> AFTER_ELSE = afterStatement(
+    psiElement().withLastChild(psiElement(PyElsePart.class))
   );
 
   private static final PsiElementPattern.Capture<PsiElement> IN_FINALLY_NO_LOOP =
@@ -485,13 +496,35 @@ public class PyKeywordCompletionContributor extends CompletionContributor {
       .andOr(IN_TRY_BODY, IN_EXCEPT_BODY, AFTER_TRY, IN_ELSE_BODY_OF_TRY)
         //.andNot(RIGHT_AFTER_COLON)
       .andNot(AFTER_QUALIFIER).andNot(IN_STRING_LITERAL)
+      .andNot(AFTER_FINALLY)
+      ,
+      new CompletionProvider<CompletionParameters>() {
+        protected void addCompletions(
+          @NotNull final CompletionParameters parameters, final ProcessingContext context, @NotNull final CompletionResultSet result
+        ) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+          putKeyword(PyNames.EXCEPT, PyUnindentingInsertHandler.INSTANCE, TailType.NONE, result);
+          putKeyword(PyNames.FINALLY, PyUnindentingInsertHandler.INSTANCE, TailType.CASE_COLON, result);
+=======
+          putKeyword(PyNames.FINALLY, PyUnindentingInsertHandler.INSTANCE, TailType.CASE_COLON, result);
+        }
+      }
+    );
+    extend(
+      CompletionType.BASIC, psiElement()
+      .withLanguage(PythonLanguage.getInstance())
+      .and(FIRST_ON_LINE)
+      .andOr(IN_TRY_BODY, IN_EXCEPT_BODY, AFTER_TRY, IN_ELSE_BODY_OF_TRY)
+        //.andNot(RIGHT_AFTER_COLON)
+      .andNot(AFTER_QUALIFIER).andNot(IN_STRING_LITERAL)
+      .andNot(AFTER_FINALLY).andNot(AFTER_ELSE)
       ,
       new CompletionProvider<CompletionParameters>() {
         protected void addCompletions(
           @NotNull final CompletionParameters parameters, final ProcessingContext context, @NotNull final CompletionResultSet result
         ) {
           putKeyword(PyNames.EXCEPT, PyUnindentingInsertHandler.INSTANCE, TailType.NONE, result);
-          putKeyword(PyNames.FINALLY, PyUnindentingInsertHandler.INSTANCE, TailType.CASE_COLON, result);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
       }
     );

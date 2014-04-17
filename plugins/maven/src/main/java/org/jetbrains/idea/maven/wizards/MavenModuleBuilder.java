@@ -16,10 +16,7 @@
 package org.jetbrains.idea.maven.wizards;
 
 import com.intellij.icons.AllIcons;
-import com.intellij.ide.util.projectWizard.ModuleBuilder;
-import com.intellij.ide.util.projectWizard.ModuleWizardStep;
-import com.intellij.ide.util.projectWizard.SourcePathsBuilder;
-import com.intellij.ide.util.projectWizard.WizardContext;
+import com.intellij.ide.util.projectWizard.*;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.StdModuleTypes;
@@ -98,7 +95,16 @@ public class MavenModuleBuilder extends ModuleBuilder implements SourcePathsBuil
 
   @Override
   public String getParentGroup() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return getModuleTypeName();
+=======
+    return JavaModuleType.BUILD_TOOLS_GROUP;
+  }
+
+  @Override
+  public int getWeight() {
+    return JavaModuleBuilder.BUILD_SYSTEM_WEIGHT;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

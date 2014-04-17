@@ -57,11 +57,19 @@ public class XBreakpointActionsPanel<B extends XBreakpoint<?>> extends XBreakpoi
 
       if (debuggerEditorsProvider instanceof XDebuggerComboBoxProvider) {
         logExpressionPanel = ((XDebuggerComboBoxProvider<B>)debuggerEditorsProvider).createLogExpressionComboBoxPanel(
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           project, debuggerEditorsProvider, "breakpointCondition", myBreakpoint.getSourcePosition());
       }
       else {
         logExpressionPanel =
           new DefaultLogExpressionComboBoxPanel<B>(project, debuggerEditorsProvider, "breakpointCondition", myBreakpoint.getSourcePosition());
+=======
+          project, debuggerEditorsProvider, DefaultLogExpressionComboBoxPanel.HISTORY_KEY, myBreakpoint.getSourcePosition());
+      }
+      else {
+        logExpressionPanel =
+          new DefaultLogExpressionComboBoxPanel<B>(project, debuggerEditorsProvider, myBreakpoint.getSourcePosition());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
 
       JComponent logExpressionComponent = logExpressionPanel.getComponent();

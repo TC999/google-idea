@@ -22,8 +22,14 @@ import com.intellij.util.PairConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.List;
+
 public class AsyncResult<T> extends ActionCallback {
   private static final Logger LOG = Logger.getInstance(AsyncResult.class);
+
+  private static final AsyncResult REJECTED = new Rejected();
+  private static final AsyncResult DONE_LIST = new Done<Object>(Collections.EMPTY_LIST);
 
   private static final AsyncResult REJECTED = new Rejected();
 
@@ -171,6 +177,7 @@ public class AsyncResult<T> extends ActionCallback {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public static <R> AsyncResult<R> rejected() {
     //noinspection unchecked
     return REJECTED;
@@ -178,6 +185,23 @@ public class AsyncResult<T> extends ActionCallback {
 
   public static <R> AsyncResult<R> done(@NotNull R result) {
     return new AsyncResult<R>().setDone(result);
+=======
+  @NotNull
+  public static <R> AsyncResult<R> rejected() {
+    //noinspection unchecked
+    return REJECTED;
+  }
+
+  @NotNull
+  public static <R> AsyncResult<R> done(@Nullable R result) {
+    return new AsyncResult<R>().setDone(result);
+  }
+
+  @NotNull
+  public static <R extends List> AsyncResult<R> doneList() {
+    //noinspection unchecked
+    return DONE_LIST;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   // we don't use inner class, avoid memory leak, we don't want to hold this result while dependent is computing

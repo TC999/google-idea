@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.intellij.vcs.log.graph.render.PrintParameters.HEIGHT_CELL;
+import static com.intellij.vcs.log.printer.idea.PrintParameters.HEIGHT_CELL;
 
 /**
  * @author erokhins
@@ -30,7 +30,7 @@ public class RefPainter {
 
   private static final int ROUND_RADIUS = 5;
 
-  private static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 12);
+  public static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 12);
   private static final Color DEFAULT_FONT_COLOR = JBColor.BLACK;
 
   @NotNull private final VcsLogColorManager myColorManager;
@@ -85,10 +85,17 @@ public class RefPainter {
     g2.drawPolygon(polygon);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public int padding(@NotNull Collection<String> refs, @NotNull Graphics2D g2) {
     int p = 0;
     for (String ref : refs) {
       XAndWidth xAndWidth = getXAndWidth(ref, 0, g2.getFontMetrics(DEFAULT_FONT));
+=======
+  public int padding(@NotNull Collection<String> refs, FontMetrics fontMetrics) {
+    int p = 0;
+    for (String ref : refs) {
+      XAndWidth xAndWidth = getXAndWidth(ref, 0, fontMetrics);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       p += xAndWidth.x + xAndWidth.width + LABEL_PADDING;
     }
     if (p > 0) { // additional padding after all references looks better

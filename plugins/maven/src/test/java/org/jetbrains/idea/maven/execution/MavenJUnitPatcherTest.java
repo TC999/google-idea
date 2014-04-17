@@ -19,10 +19,27 @@ import com.intellij.execution.configurations.JavaParameters;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.idea.maven.MavenImportingTestCase;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
 import static java.util.Arrays.asList;
 
 public class MavenJUnitPatcherTest extends MavenImportingTestCase {
+=======
+import org.jetbrains.idea.maven.project.MavenProjectSettings;
+
+import static java.util.Arrays.asList;
+
+public class MavenJUnitPatcherTest extends MavenImportingTestCase {
+
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    MavenProjectSettings.getInstance(myProject).getTestRunningSettings().setPassArgLine(true);
+    MavenProjectSettings.getInstance(myProject).getTestRunningSettings().setPassEnvironmentVariables(true);
+    MavenProjectSettings.getInstance(myProject).getTestRunningSettings().setPassSystemProperties(true);
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void testArgList() throws Exception {
     VirtualFile m1 = createModulePom("m1", "<groupId>test</groupId>" +
                                            "<artifactId>m1</artifactId>" +

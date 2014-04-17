@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.List;
 
 /**
@@ -32,6 +33,17 @@ class PluginUpdateInfoDialog extends AbstractUpdateDialog {
   private final List<PluginDownloader> myUploadedPlugins;
 
   protected PluginUpdateInfoDialog(@NotNull List<PluginDownloader> updatePlugins, boolean enableLink) {
+=======
+import java.util.Collection;
+
+/**
+ * @author pti
+ */
+class PluginUpdateInfoDialog extends AbstractUpdateDialog {
+  private final Collection<PluginDownloader> myUploadedPlugins;
+
+  protected PluginUpdateInfoDialog(@NotNull Collection<PluginDownloader> updatePlugins, boolean enableLink) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     super(enableLink);
     myUploadedPlugins = updatePlugins;
     init();

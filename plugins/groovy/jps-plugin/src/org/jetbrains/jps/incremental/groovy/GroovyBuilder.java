@@ -18,6 +18,7 @@ package org.jetbrains.jps.incremental.groovy;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Key;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.ArrayUtil;
@@ -50,6 +51,7 @@ import org.jetbrains.jps.incremental.messages.BuildMessage;
 import org.jetbrains.jps.incremental.messages.CompilerMessage;
 import org.jetbrains.jps.incremental.messages.ProgressMessage;
 import org.jetbrains.jps.javac.OutputFileObject;
+import org.jetbrains.jps.model.JpsDummyElement;
 import org.jetbrains.jps.model.java.JpsJavaExtensionService;
 import org.jetbrains.jps.model.java.JpsJavaSdkType;
 import org.jetbrains.jps.model.java.compiler.JpsJavaCompilerConfiguration;
@@ -110,7 +112,15 @@ public class GroovyBuilder extends ModuleLevelBuilder {
 
       start = System.currentTimeMillis();
       final Set<String> toCompilePaths = getPathsToCompile(toCompile);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       boolean optimizeClassLoading = ourOptimizeThreshold != 0 && toCompilePaths.size() >= ourOptimizeThreshold;
+=======
+
+      JpsSdk<JpsDummyElement> jdk = getJdk(chunk);
+      String version = jdk == null ? SystemInfo.JAVA_RUNTIME_VERSION : jdk.getVersionString();
+      boolean mayDependOnUtilJar = version != null && StringUtil.compareVersionNumbers(version, "1.6") >= 0;
+      boolean optimizeClassLoading = mayDependOnUtilJar && ourOptimizeThreshold != 0 && toCompilePaths.size() >= ourOptimizeThreshold;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
       Map<String, String> class2Src = buildClassToSourceMap(chunk, context, toCompilePaths, finalOutputs);
 
@@ -124,8 +134,11 @@ public class GroovyBuilder extends ModuleLevelBuilder {
       Map<ModuleBuildTarget, String> generationOutputs = myForStubs ? getStubGenerationOutputs(chunk, context) : finalOutputs;
       String compilerOutput = generationOutputs.get(chunk.representativeTarget());
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       String finalOutput = FileUtil.toSystemDependentName(finalOutputs.get(chunk.representativeTarget()));
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       Collection<String> classpath = generateClasspath(context, chunk);
       if (LOG.isDebugEnabled()) {
         LOG.debug("Optimized class loading: " + optimizeClassLoading);
@@ -133,7 +146,11 @@ public class GroovyBuilder extends ModuleLevelBuilder {
       }
 
       final File tempFile = GroovycOSProcessHandler.fillFileWithGroovycParameters(
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         compilerOutput, toCompilePaths, finalOutput, class2Src, encoding, patchers,
+=======
+        compilerOutput, toCompilePaths, finalOutputs.values(), class2Src, encoding, patchers,
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         optimizeClassLoading ? StringUtil.join(classpath, File.pathSeparator) : ""
       );
       final GroovycOSProcessHandler handler = runGroovyc(context, chunk, tempFile, settings, classpath, optimizeClassLoading);
@@ -377,11 +394,12 @@ public class GroovyBuilder extends ModuleLevelBuilder {
   }
 
   private static String getJavaExecutable(ModuleChunk chunk) {
-    JpsSdk<?> sdk = chunk.getModules().iterator().next().getSdk(JpsJavaSdkType.INSTANCE);
-    if (sdk != null) {
-      return JpsJavaSdkType.getJavaExecutable(sdk);
-    }
-    return SystemProperties.getJavaHome() + "/bin/java";
+    JpsSdk<?> sdk = getJdk(chunk);
+    return sdk != null ? JpsJavaSdkType.getJavaExecutable(sdk) : SystemProperties.getJavaHome() + "/bin/java";
+  }
+
+  private static JpsSdk<JpsDummyElement> getJdk(ModuleChunk chunk) {
+    return chunk.getModules().iterator().next().getSdk(JpsJavaSdkType.INSTANCE);
   }
 
   private List<File> collectChangedFiles(CompileContext context,

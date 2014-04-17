@@ -55,7 +55,7 @@ import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.encoding.EncodingProjectManager;
 import com.intellij.psi.PsiFile;
@@ -166,10 +166,14 @@ public abstract class GroovyCompilerBase implements TranslatingCompiler {
 
     parameters.setMainClass(GroovycRunner.class.getName());
 
-    final VirtualFile finalOutputDir = getMainOutput(compileContext, module, tests);
-    if (finalOutputDir == null) {
-      compileContext.addMessage(CompilerMessageCategory.ERROR, "No output directory for module " + module.getName() + (tests ? " tests" : " production"), null, -1, -1);
-      return;
+    List<String> finalOutputs = ContainerUtil.newArrayList();
+    for (Module eachModule : chunk.getModules()) {
+      final VirtualFile finalOutputDir = getMainOutput(compileContext, eachModule, tests);
+      if (finalOutputDir == null) {
+        compileContext.addMessage(CompilerMessageCategory.ERROR, "No output directory for module " + eachModule.getName() + (tests ? " tests" : " production"), null, -1, -1);
+        return;
+      }
+      finalOutputs.add(FileUtil.toSystemDependentName(finalOutputDir.getPath()));
     }
 
     final Charset ideCharset = EncodingProjectManager.getInstance(myProject).getDefaultCharset();
@@ -193,7 +197,11 @@ public abstract class GroovyCompilerBase implements TranslatingCompiler {
     final File fileWithParameters;
     try {
       fileWithParameters = GroovycOSProcessHandler
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         .fillFileWithGroovycParameters(outputDir.getPath(), paths2Compile, FileUtil.toSystemDependentName(finalOutputDir.getPath()),
+=======
+        .fillFileWithGroovycParameters(outputDir.getPath(), paths2Compile, finalOutputs,
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                                        class2Src, encoding, patchers, "");
     }
     catch (IOException e) {
@@ -228,7 +236,7 @@ public abstract class GroovyCompilerBase implements TranslatingCompiler {
       for (CompilerMessage compilerMessage : processHandler.getCompilerMessages(module.getName())) {
         final String url = compilerMessage.getSourcePath();
         compileContext.addMessage(getMessageCategory(compilerMessage), compilerMessage.getMessageText(),
-                                  url == null ? null : VfsUtil.pathToUrl(FileUtil.toSystemIndependentName(url)),
+                                  url == null ? null : VfsUtilCore.pathToUrl(FileUtil.toSystemIndependentName(url)),
                                   (int)compilerMessage.getLine(),
                                   (int)compilerMessage.getColumn());
       }
@@ -280,7 +288,7 @@ public abstract class GroovyCompilerBase implements TranslatingCompiler {
         }
       }
 
-      sink.add(outputDir.getPath(), items, VfsUtil.toVirtualFileArray(toRecompile));
+      sink.add(outputDir.getPath(), items, VfsUtilCore.toVirtualFileArray(toRecompile));
     }
     catch (ExecutionException e) {
       LOG.info(e);

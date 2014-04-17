@@ -23,6 +23,7 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import com.intellij.testFramework.TestDataPath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -42,6 +43,15 @@ public class EditorMultiCaretActionTest extends LightPlatformCodeInsightTestCase
     EditorTestUtil.disableMultipleCarets();
   }
 
+=======
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@SuppressWarnings("JUnit4AnnotatedMethodInJUnit3TestCase")
+@RunWith(com.intellij.testFramework.Parameterized.class)
+@TestDataPath("/testData/../../../platform/platform-tests/testData/editor/multiCaret/")
+public class EditorMultiCaretActionTest extends LightPlatformCodeInsightTestCase implements FileBasedTestCaseHelper {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Test
   public void testAction() {
     new WriteCommandAction<Void>(null) {

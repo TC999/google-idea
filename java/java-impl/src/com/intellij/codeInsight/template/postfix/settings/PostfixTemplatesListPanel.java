@@ -29,6 +29,7 @@ public class PostfixTemplatesListPanel {
       @NotNull
       @Override
       public String fun(@NotNull PostfixTemplate template) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         return template.getKey();
       }
     };
@@ -62,6 +63,42 @@ public class PostfixTemplatesListPanel {
     myTemplatesTableView.setModelAndUpdateColumns(templatesTableModel);
     myTemplatesTableView.setShowGrid(false);
     myTemplatesTableView.setStriped(true);
+=======
+        return template.getKey().replaceFirst(".", "");
+      }
+    };
+
+  private static final NotNullFunction<PostfixTemplate, String> GET_DESCRIPTION_FUNCTION =
+    new NotNullFunction<PostfixTemplate, String>() {
+      @NotNull
+      @Override
+      public String fun(@NotNull PostfixTemplate template) {
+        return template.getDescription();
+      }
+    };
+
+  private static final NotNullFunction<PostfixTemplate, String> GET_EXAMPLE_FUNCTION =
+    new NotNullFunction<PostfixTemplate, String>() {
+      @NotNull
+      @Override
+      public String fun(@NotNull PostfixTemplate template) {
+        return template.getExample();
+      }
+    };
+
+  @NotNull private final Map<String, Boolean> myTemplatesState = ContainerUtil.newHashMap();
+  @NotNull private final JPanel myPanelWithTableView;
+  private final TableView<PostfixTemplate> myTemplatesTableView;
+
+  public PostfixTemplatesListPanel(@NotNull List<PostfixTemplate> templates) {
+    ColumnInfo[] columns = generateColumns(templates);
+    ListTableModel<PostfixTemplate> templatesTableModel = new ListTableModel<PostfixTemplate>(columns, templates, 0);
+    templatesTableModel.setSortable(true);
+    myTemplatesTableView = new TableView<PostfixTemplate>();
+    myTemplatesTableView.setModelAndUpdateColumns(templatesTableModel);
+    myTemplatesTableView.setAutoCreateRowSorter(true);
+    myTemplatesTableView.setShowGrid(false);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myTemplatesTableView.setBorder(null);
 
     new TableViewSpeedSearch<PostfixTemplate>(myTemplatesTableView) {

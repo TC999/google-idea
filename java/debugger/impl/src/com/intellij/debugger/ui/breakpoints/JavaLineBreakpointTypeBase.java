@@ -15,6 +15,7 @@
  */
 package com.intellij.debugger.ui.breakpoints;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.debugger.DebuggerManagerEx;
 import com.intellij.debugger.engine.DebuggerUtils;
 import com.intellij.debugger.ui.JavaDebuggerSupport;
@@ -97,6 +98,82 @@ public abstract class JavaLineBreakpointTypeBase<P extends JavaBreakpointPropert
     if (!StdFileTypes.CLASS.equals(fileType) &&
         !DebuggerUtils.supportsJVMDebugging(fileType) &&
         !DebuggerUtils.supportsJVMDebugging(psiFile)) {
+=======
+import com.intellij.debugger.engine.DebuggerUtils;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.fileTypes.StdFileTypes;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Ref;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.*;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.util.Processor;
+import com.intellij.xdebugger.XDebuggerUtil;
+import com.intellij.xdebugger.breakpoints.XLineBreakpoint;
+import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
+import com.intellij.xdebugger.breakpoints.ui.XBreakpointCustomPropertiesPanel;
+import com.intellij.xdebugger.evaluation.XDebuggerEditorsProvider;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.java.debugger.JavaDebuggerEditorsProvider;
+import org.jetbrains.java.debugger.breakpoints.JavaBreakpointFiltersPanel;
+import org.jetbrains.java.debugger.breakpoints.properties.JavaBreakpointProperties;
+
+/**
+ * Base class for java line-connected exceptions (line, method, field)
+ * @author egor
+ */
+public abstract class JavaLineBreakpointTypeBase<P extends JavaBreakpointProperties> extends XLineBreakpointType<P> {
+  public JavaLineBreakpointTypeBase(@NonNls @NotNull String id, @Nls @NotNull String title) {
+    super(id, title);
+  }
+
+  @Override
+  public boolean isAddBreakpointButtonVisible() {
+    return false;
+  }
+
+  @Override
+  public final boolean isSuspendThreadSupported() {
+    return true;
+  }
+
+  @Nullable
+  @Override
+  public final XBreakpointCustomPropertiesPanel<XLineBreakpoint<P>> createCustomRightPropertiesPanel(@NotNull Project project) {
+    return new JavaBreakpointFiltersPanel<P, XLineBreakpoint<P>>(project);
+  }
+
+  @Nullable
+  @Override
+  public final XDebuggerEditorsProvider getEditorsProvider(@NotNull XLineBreakpoint<P> breakpoint, @NotNull Project project) {
+    return new JavaDebuggerEditorsProvider();
+  }
+
+  @Override
+  public String getDisplayText(XLineBreakpoint<P> breakpoint) {
+    BreakpointWithHighlighter javaBreakpoint = (BreakpointWithHighlighter)BreakpointManager.findBreakpoint(breakpoint);
+    if (javaBreakpoint != null) {
+      return javaBreakpoint.getDescription();
+    }
+    else {
+      return super.getDisplayText(breakpoint);
+    }
+  }
+
+  @Override
+  public final boolean canPutAt(@NotNull VirtualFile file, final int line, @NotNull Project project) {
+    PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+    // JSPX supports jvm debugging, but not in XHTML files
+    if (psiFile == null || psiFile.getVirtualFile().getFileType() == StdFileTypes.XHTML) {
+      return false;
+    }
+
+    if (!StdFileTypes.CLASS.equals(psiFile.getFileType()) && !DebuggerUtils.isBreakpointAware(psiFile)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return false;
     }
 

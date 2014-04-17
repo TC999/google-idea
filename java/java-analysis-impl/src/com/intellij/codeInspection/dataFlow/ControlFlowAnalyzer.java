@@ -1414,11 +1414,22 @@ public class ControlFlowAnalyzer extends JavaElementVisitor {
       return false;
     }
 
+    PsiMethod method = expression.resolveMethod();
+    if (method == null) {
+      return false;
+    }
+
+    final int paramCount = method.getParameterList().getParametersCount();
+    boolean varArgs = method.isVarArgs();
     final PsiExpression[] args = expression.getArgumentList().getExpressions();
+    if (varArgs && args.length < paramCount - 1 || !varArgs && args.length != paramCount) {
+      return false;
+    }
+    
     List<MethodContract> contracts = ContainerUtil.findAll(_contracts, new Condition<MethodContract>() {
       @Override
       public boolean value(MethodContract contract) {
-        return args.length == contract.arguments.length;
+        return paramCount == contract.arguments.length;
       }
     });
     if (contracts.isEmpty()) {
@@ -1428,24 +1439,38 @@ public class ControlFlowAnalyzer extends JavaElementVisitor {
     for (PsiExpression arg : args) {
       arg.accept(this);
     }
+    if (varArgs) {
+      for (int i = 0; i < args.length - paramCount + 1; i++) {
+        addInstruction(new PopInstruction());
+      }
+      pushUnknown();
+    }
 
     if (contracts.size() > 1) {
       addInstruction(new DupInstruction(args.length, contracts.size() - 1));
     }
     for (int i = 0; i < contracts.size(); i++) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       handleContract(expression, contracts.get(i), contracts.size() - 1 - i);
+=======
+      handleContract(expression, contracts.get(i), contracts.size() - 1 - i, paramCount);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     pushUnknownReturnValue(expression); // goto here if all contracts are false
     return true;
   }
   
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private void handleContract(PsiMethodCallExpression expression, MethodContract contract, int remainingContracts) {
     PsiExpression[] args = expression.getArgumentList().getExpressions();
 
+=======
+  private void handleContract(PsiMethodCallExpression expression, MethodContract contract, int remainingContracts, int paramCount) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final ControlFlow.ControlFlowOffset exitPoint = getEndOffset(expression);
 
     List<GotoInstruction> gotoContractFalse = new SmartList<GotoInstruction>();
-    for (int i = args.length - 1; i >= 0; i--) {
+    for (int i = paramCount - 1; i >= 0; i--) {
       ValueConstraint arg = contract.arguments[i];
       if (arg == ValueConstraint.NULL_VALUE || arg == ValueConstraint.NOT_NULL_VALUE) {
         addInstruction(new PushInstruction(myFactory.getConstFactory().getNull(), null));
@@ -1466,7 +1491,11 @@ public class ControlFlowAnalyzer extends JavaElementVisitor {
       continueCheckingContract.setOffset(myCurrentFlow.getInstructionCount());
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (int j = 0; j < remainingContracts * args.length; j++) {
+=======
+    for (int j = 0; j < remainingContracts * paramCount; j++) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       addInstruction(new PopInstruction());
     }
 
@@ -1602,6 +1631,7 @@ public class ControlFlowAnalyzer extends JavaElementVisitor {
     return Collections.emptyList();
   }
 
+  @Nullable
   public static PsiAnnotation findContractAnnotation(PsiMethod method) {
     return AnnotationUtil.findAnnotation(method, ORG_JETBRAINS_ANNOTATIONS_CONTRACT);
   }
@@ -1741,6 +1771,9 @@ public class ControlFlowAnalyzer extends JavaElementVisitor {
       if (psiVariable != null) {
         DfaVariableValue dfaVariable = myFactory.getVarFactory().createVariableValue(psiVariable, false);
         addInstruction(new FlushVariableInstruction(dfaVariable));
+        if (psiVariable instanceof PsiField) {
+          addInstruction(new FlushVariableInstruction(null));
+        }
       }
     }
 
@@ -1774,6 +1807,9 @@ public class ControlFlowAnalyzer extends JavaElementVisitor {
             if (psiVariable != null) {
               DfaVariableValue dfaVariable = myFactory.getVarFactory().createVariableValue(psiVariable, false);
               addInstruction(new FlushVariableInstruction(dfaVariable));
+              if (psiVariable instanceof PsiField) {
+                addInstruction(new FlushVariableInstruction(null));
+              }
             }
           }
         }

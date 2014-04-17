@@ -101,6 +101,7 @@ public class ConsoleExecuteAction extends DumbAwareAction {
                       (myExecuteActionHandler.isEmptyCommandExecutionAllowed() || !StringUtil.isEmptyOrSpaces(editor.getDocument().getCharsSequence()));
     if (enabled) {
       Lookup lookup = LookupManager.getActiveLookup(editor);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       enabled = lookup == null || !lookup.isCompletion();
     }
 
@@ -156,6 +157,69 @@ public class ConsoleExecuteAction extends DumbAwareAction {
     }
 
     final void runExecuteAction(@NotNull LanguageConsoleImpl console, @Nullable LanguageConsoleView consoleView) {
+=======
+      // we should check getCurrentItem() also - fast typing could produce outdated lookup, such lookup reports isCompletion() true
+      enabled = lookup == null || !lookup.isCompletion() || lookup.getCurrentItem() == null;
+    }
+
+    e.getPresentation().setEnabled(enabled);
+  }
+
+  @Override
+  public final void actionPerformed(AnActionEvent e) {
+    myExecuteActionHandler.runExecuteAction(myConsole, myConsoleView);
+  }
+
+  public boolean isEnabled() {
+    return myEnabledCondition.value(myConsole);
+  }
+
+  public void execute(@Nullable TextRange range, @NotNull String text, @Nullable EditorEx editor) {
+    if (range == null) {
+      myConsole.doAddPromptToHistory();
+      DocumentEx document = myConsole.getHistoryViewer().getDocument();
+      document.insertString(document.getTextLength(), text);
+      if (!text.endsWith("\n")) {
+        document.insertString(document.getTextLength(), "\n");
+      }
+    }
+    else {
+      assert editor != null;
+      myConsole.addTextRangeToHistory(range, editor, myExecuteActionHandler.myPreserveMarkup);
+    }
+    myExecuteActionHandler.addToCommandHistoryAndExecute(myConsole, myConsoleView, text);
+  }
+
+  static abstract class ConsoleExecuteActionHandler {
+    private final ConsoleHistoryModel myCommandHistoryModel;
+
+    private boolean myAddToHistory = true;
+    final boolean myPreserveMarkup;
+
+    public ConsoleExecuteActionHandler(boolean preserveMarkup) {
+      myCommandHistoryModel = new ConsoleHistoryModel();
+      myPreserveMarkup = preserveMarkup;
+    }
+
+    public ConsoleHistoryModel getConsoleHistoryModel() {
+      return myCommandHistoryModel;
+    }
+
+    public boolean isEmptyCommandExecutionAllowed() {
+      return true;
+    }
+
+    public final void setAddCurrentToHistory(boolean addCurrentToHistory) {
+      myAddToHistory = addCurrentToHistory;
+    }
+
+    protected void beforeExecution(@NotNull LanguageConsoleImpl console) {
+    }
+
+    final void runExecuteAction(@NotNull LanguageConsoleImpl console, @Nullable LanguageConsoleView consoleView) {
+      beforeExecution(console);
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       String text = console.prepareExecuteAction(myAddToHistory, myPreserveMarkup, true);
       ((UndoManagerImpl)UndoManager.getInstance(console.getProject())).invalidateActionsFor(DocumentReferenceManager.getInstance().create(console.getCurrentEditor().getDocument()));
       addToCommandHistoryAndExecute(console, consoleView, text);

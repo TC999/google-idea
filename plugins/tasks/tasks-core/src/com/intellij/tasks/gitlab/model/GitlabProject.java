@@ -36,6 +36,7 @@ public class GitlabProject {
   }
 
   /**
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    * For serialization purposed only
    */
   public void setId(int id) {
@@ -50,5 +51,26 @@ public class GitlabProject {
   @Nullable
   public String getWebUrl() {
     return webUrl;
+=======
+   * For serialization purposes only
+   */
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  @Nullable
+  public String getName() {
+    return name;
+  }
+
+  @Nullable
+  public String getWebUrl() {
+    return webUrl;
+  }
+
+  @Override
+  public final String toString() {
+    return getName();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

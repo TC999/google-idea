@@ -1,6 +1,10 @@
 class IntStream {
   private void foo(IntStream s) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     s.map(i -> <error descr="Operator '<<' cannot be applied to 'int', '<lambda parameter>'">1 << i</error>);
+=======
+    s.map<error descr="Ambiguous method call: both 'IntStream.map(IntUnaryOperator)' and 'IntStream.map(ObjIntFunction<Integer>)' match">(i -> 1 << i)</error>;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     s.map<error descr="Ambiguous method call: both 'IntStream.map(IntUnaryOperator)' and 'IntStream.map(ObjIntFunction<Integer>)' match">(i -> 1)</error>;
     s.map<error descr="Ambiguous method call: both 'IntStream.map(IntUnaryOperator)' and 'IntStream.map(ObjIntFunction<T>)' match">(i -> i)</error>;
   }

@@ -52,9 +52,12 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.text.CharArrayUtil;
 import com.intellij.util.ui.tree.TreeModelAdapter;
 import com.intellij.xdebugger.XDebuggerBundle;
+import com.intellij.xdebugger.frame.XStackFrame;
 import com.sun.jdi.*;
 import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TObjectProcedure;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.event.TreeModelEvent;
 import javax.swing.tree.TreeModel;
@@ -62,13 +65,22 @@ import javax.swing.tree.TreePath;
 import java.util.*;
 
 public class FrameVariablesTree extends DebuggerTree {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.debugger.ui.impl.FrameDebuggerTree");
+  private static final Logger LOG = Logger.getInstance(FrameVariablesTree.class);
+
   private boolean myAnyNewLocals;
   private boolean myAutoWatchMode = false;
 
-  public FrameVariablesTree(Project project) {
+  private final VariablesPanel myVariablesPanel;
+
+  public FrameVariablesTree(@NotNull Project project) {
+    this(project, null);
+  }
+
+  public FrameVariablesTree(@NotNull Project project, @Nullable VariablesPanel variablesPanel) {
     super(project);
+
     getEmptyText().setText(XDebuggerBundle.message("debugger.variables.not.available"));
+    myVariablesPanel = variablesPanel;
   }
 
   public boolean isAutoWatchMode() {
@@ -110,7 +122,11 @@ public class FrameVariablesTree extends DebuggerTree {
 
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   protected DebuggerCommandImpl getBuildNodeCommand(final DebuggerTreeNodeImpl node) {
+=======
+  protected DebuggerCommandImpl getBuildNodeCommand(@NotNull DebuggerTreeNodeImpl node) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (node.getDescriptor() instanceof StackFrameDescriptorImpl) {
       return new BuildFrameTreeVariablesCommand(node);
     }
@@ -121,7 +137,25 @@ public class FrameVariablesTree extends DebuggerTree {
     public BuildFrameTreeVariablesCommand(DebuggerTreeNodeImpl stackNode) {
       super(stackNode);
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     
+=======
+
+    @Override
+    public void threadAction() {
+      if (myVariablesPanel != null) {
+        StackFrameDescriptorImpl stackDescriptor = (StackFrameDescriptorImpl)getNode().getDescriptor();
+        XStackFrame xStackFrame = stackDescriptor.getXStackFrame();
+        myVariablesPanel.stackChanged(xStackFrame);
+        if (xStackFrame != null) {
+          return;
+        }
+      }
+
+      super.threadAction();
+    }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     @Override
     protected void buildVariables(final StackFrameDescriptorImpl stackDescriptor, final EvaluationContextImpl evaluationContext) throws EvaluateException {
       final DebuggerContextImpl debuggerContext = getDebuggerContext();
@@ -129,6 +163,7 @@ public class FrameVariablesTree extends DebuggerTree {
       if (sourcePosition == null) {
         return;
       }
+
       try {
         if (!ViewsGeneralSettings.getInstance().ENABLE_AUTO_EXPRESSIONS && !myAutoWatchMode) {
           // optimization
@@ -165,9 +200,7 @@ public class FrameVariablesTree extends DebuggerTree {
       catch (EvaluateException e) {
         if (e.getCause() instanceof AbsentInformationException) {
           final StackFrameProxyImpl frame = stackDescriptor.getFrameProxy();
-          if (frame == null) {
-            throw e;
-          }
+
           final Collection<Value> argValues = frame.getArgumentValues();
           int index = 0;
           for (Value argValue : argValues) {
@@ -206,6 +239,7 @@ public class FrameVariablesTree extends DebuggerTree {
     }
     try {
       final Location location = frame.location();
+      LOG.assertTrue(location != null);
       final Method method = location.method();
       final Location methodLocation = method.location();
       if (methodLocation == null || methodLocation.codeIndex() < 0) {
@@ -252,9 +286,6 @@ public class FrameVariablesTree extends DebuggerTree {
 
   private static Map<String, LocalVariableProxyImpl> getVisibleVariables(final StackFrameDescriptorImpl stackDescriptor) throws EvaluateException {
     final StackFrameProxyImpl frame = stackDescriptor.getFrameProxy();
-    if (frame == null) {
-      return Collections.emptyMap();
-    }
     final Map<String, LocalVariableProxyImpl> vars = new HashMap<String, LocalVariableProxyImpl>();
     for (LocalVariableProxyImpl localVariableProxy : frame.visibleVariables()) {
       vars.put(localVariableProxy.name(), localVariableProxy);
@@ -413,7 +444,6 @@ public class FrameVariablesTree extends DebuggerTree {
 
       try {
         StackFrameProxyImpl frame = debuggerContext.getFrameProxy();
-
         if (frame != null) {
           NodeManagerImpl nodeManager = getNodeFactory();
           rootNode = nodeManager.createNode(nodeManager.getStackFrameDescriptor(null, frame), debuggerContext.createEvaluationContext());

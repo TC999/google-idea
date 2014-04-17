@@ -28,7 +28,11 @@ public abstract class GutterContentProvider {
 
   public abstract void doAction(int line, @NotNull Editor editor);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public abstract void drawIcon(int line, @NotNull Graphics g, int y, @NotNull Editor editor);
+=======
+  public abstract boolean drawIcon(int line, @NotNull Graphics g, int y, @NotNull Editor editor);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public boolean isShowSeparatorLine(int line, @NotNull Editor editor) {
     return true;

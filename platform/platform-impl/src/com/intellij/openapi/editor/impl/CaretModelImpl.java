@@ -229,7 +229,12 @@ public class CaretModelImpl implements CaretModel, PrioritizedDocumentListener, 
   @Override
   @NotNull
   public CaretImpl getCurrentCaret() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return ApplicationManager.getApplication().isDispatchThread() && myCurrentCaret != null ? myCurrentCaret : getPrimaryCaret();
+=======
+    CaretImpl currentCaret = myCurrentCaret;
+    return ApplicationManager.getApplication().isDispatchThread() && currentCaret != null ? currentCaret : getPrimaryCaret();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
@@ -283,6 +288,7 @@ public class CaretModelImpl implements CaretModel, PrioritizedDocumentListener, 
     else {
       Disposer.dispose(caret);
       return null;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     }
   }
 
@@ -311,13 +317,92 @@ public class CaretModelImpl implements CaretModel, PrioritizedDocumentListener, 
       if (!myCarets.remove(caret)) {
         return false;
       }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     fireCaretRemoved(caret);
     Disposer.dispose(caret);
+=======
+  }
+
+  boolean addCaret(CaretImpl caretToAdd) {
+    for (CaretImpl caret : myCarets) {
+      VisualPosition newVisualPosition = caretToAdd.getVisualPosition();
+      int newOffset = myEditor.logicalPositionToOffset(myEditor.visualToLogicalPosition(newVisualPosition));
+      if (caret.getVisualPosition().equals(newVisualPosition) || newOffset >= caret.getSelectionStart() && newOffset <= caret.getSelectionEnd()) {
+        return false;
+      }
+    }
+    synchronized (myCarets) {
+      myCarets.add(caretToAdd);
+    }
+    fireCaretAdded(caretToAdd);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return true;
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+  public void removeSecondaryCarets() {
+    myEditor.assertIsDispatchThread();
+    if (!supportsMultipleCarets()) {
+      return;
+    }
+    ListIterator<CaretImpl> caretIterator = myCarets.listIterator(myCarets.size() - 1);
+    while (caretIterator.hasPrevious()) {
+      CaretImpl caret = caretIterator.previous();
+      synchronized (myCarets) {
+        caretIterator.remove();
+      }
+      fireCaretRemoved(caret);
+      Disposer.dispose(caret);
+    }
+=======
+  public boolean removeCaret(@NotNull Caret caret) {
+    myEditor.assertIsDispatchThread();
+    if (myCarets.size() <= 1 || !(caret instanceof CaretImpl)) {
+      return false;
+    }
+    synchronized (myCarets) {
+      if (!myCarets.remove(caret)) {
+        return false;
+      }
+    }
+    fireCaretRemoved(caret);
+    Disposer.dispose(caret);
+    return true;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+  }
+
+  @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+  public void runForEachCaret(@NotNull final CaretAction action) {
+    myEditor.assertIsDispatchThread();
+    if (!supportsMultipleCarets()) {
+      action.perform(getPrimaryCaret());
+      return;
+    }
+    if (myCurrentCaret != null) {
+      throw new IllegalStateException("Current caret is defined, cannot operate on other ones");
+    }
+    doWithCaretMerging(new Runnable() {
+      public void run() {
+        try {
+          Collection<Caret> sortedCarets = getAllCarets();
+          for (Caret caret : sortedCarets) {
+            myCurrentCaret = (CaretImpl)caret;
+            action.perform(caret);
+          }
+        }
+        finally {
+          myCurrentCaret = null;
+        }
+      }
+    });
+  }
+
+=======
   public void removeSecondaryCarets() {
     myEditor.assertIsDispatchThread();
     if (!supportsMultipleCarets()) {
@@ -407,6 +492,155 @@ public class CaretModelImpl implements CaretModel, PrioritizedDocumentListener, 
   }
 
   private static boolean selectionsIntersect(CaretImpl firstCaret, CaretImpl secondCaret) {
+    int firstStart = firstCaret.getSelectionStart();
+    int secondStart = secondCaret.getSelectionStart();
+    int firstEnd = firstCaret.getSelectionEnd();
+    int secondEnd = secondCaret.getSelectionEnd();
+    return firstStart < secondStart && firstEnd > secondStart
+      || firstStart > secondStart && firstStart < secondEnd
+      || firstStart == secondStart && secondEnd != secondStart && firstEnd > firstStart
+      || (hasPureVirtualSelection(firstCaret) || hasPureVirtualSelection(secondCaret)) && (firstStart == secondStart || firstEnd == secondEnd);
+  }
+
+  private static boolean hasPureVirtualSelection(CaretImpl firstCaret) {
+    return firstCaret.getSelectionStart() == firstCaret.getSelectionEnd() && firstCaret.hasVirtualSelection();
+  }
+
+  void doWithCaretMerging(Runnable runnable) {
+    if (myPerformCaretMergingAfterCurrentOperation) {
+      runnable.run();
+    }
+    else {
+      myPerformCaretMergingAfterCurrentOperation = true;
+      try {
+        runnable.run();
+        mergeOverlappingCaretsAndSelections();
+      }
+      finally {
+        myPerformCaretMergingAfterCurrentOperation = false;
+      }
+    }
+  }
+
+  @Override
+  public void setCaretsAndSelections(@NotNull final List<CaretState> caretStates) {
+    myEditor.assertIsDispatchThread();
+    if (caretStates.isEmpty()) {
+      throw new IllegalArgumentException("At least one caret should exist");
+    }
+    doWithCaretMerging(new Runnable() {
+      public void run() {
+        int index = 0;
+        int oldCaretCount = myCarets.size();
+        Iterator<CaretImpl> caretIterator = myCarets.iterator();
+        for (CaretState caretState : caretStates) {
+          CaretImpl caret;
+          boolean caretAdded;
+          if (index++ < oldCaretCount) {
+            caret = caretIterator.next();
+            caretAdded = false;
+          }
+          else {
+            caret = new CaretImpl(myEditor);
+            if (caretState != null && caretState.getCaretPosition() != null) {
+              caret.moveToLogicalPosition(caretState.getCaretPosition(), false, null, false);
+            }
+            synchronized (myCarets) {
+              myCarets.add(caret);
+            }
+            fireCaretAdded(caret);
+            caretAdded = true;
+          }
+          if (caretState != null && caretState.getCaretPosition() != null && !caretAdded) {
+            caret.moveToLogicalPosition(caretState.getCaretPosition());
+          }
+          if (caretState != null && caretState.getSelectionStart() != null && caretState.getSelectionEnd() != null) {
+            caret.setSelection(myEditor.logicalToVisualPosition(caretState.getSelectionStart()), myEditor.logicalPositionToOffset(caretState.getSelectionStart()),
+                               myEditor.logicalToVisualPosition(caretState.getSelectionEnd()), myEditor.logicalPositionToOffset(
+              caretState.getSelectionEnd()));
+          }
+        }
+        int caretsToRemove = myCarets.size() - caretStates.size();
+        for (int i = 0; i < caretsToRemove; i++) {
+          CaretImpl caret;
+          synchronized (myCarets) {
+            caret = myCarets.removeLast();
+          }
+          fireCaretRemoved(caret);
+          Disposer.dispose(caret);
+        }
+      }
+    });
+  }
+
+  @NotNull
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+  @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+  public void runBatchCaretOperation(@NotNull Runnable runnable) {
+    myEditor.assertIsDispatchThread();
+    doWithCaretMerging(runnable);
+=======
+  public List<CaretState> getCaretsAndSelections() {
+    synchronized (myCarets) {
+      List<CaretState> states = new ArrayList<CaretState>(myCarets.size());
+      for (CaretImpl caret : myCarets) {
+        states.add(new CaretState(caret.getLogicalPosition(),
+                                  myEditor.visualToLogicalPosition(caret.getSelectionStartPosition()),
+                                  myEditor.visualToLogicalPosition(caret.getSelectionEndPosition())));
+      }
+      return states;
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+  }
+
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+  private void mergeOverlappingCaretsAndSelections() {
+    if (!supportsMultipleCarets() || myCarets.size() <= 1) {
+      return;
+    }
+    LinkedList<CaretImpl> carets = new LinkedList<CaretImpl>(myCarets);
+    Collections.sort(carets, CaretPositionComparator.INSTANCE);
+    ListIterator<CaretImpl> it = carets.listIterator();
+    while (it.hasNext()) {
+      CaretImpl prevCaret = null;
+      if (it.hasPrevious()) {
+        prevCaret = it.previous();
+        it.next();
+      }
+      CaretImpl currCaret = it.next();
+      if (prevCaret != null && (currCaret.getVisualPosition().equals(prevCaret.getVisualPosition())
+                                || selectionsIntersect(currCaret, prevCaret))) {
+        int newSelectionStart = Math.min(currCaret.getSelectionStart(), prevCaret.getSelectionStart());
+        int newSelectionEnd = Math.max(currCaret.getSelectionEnd(), prevCaret.getSelectionEnd());
+        CaretImpl toRetain, toRemove;
+        if (currCaret.getOffset() >= prevCaret.getSelectionStart() && currCaret.getOffset() <= prevCaret.getSelectionEnd()) {
+          toRetain = prevCaret;
+          toRemove = currCaret;
+          it.remove();
+          it.previous();
+        }
+        else {
+          toRetain = currCaret;
+          toRemove = prevCaret;
+          it.previous();
+          it.previous();
+          it.remove();
+        }
+        removeCaret(toRemove);
+        if (newSelectionStart < newSelectionEnd) {
+          toRetain.setSelection(newSelectionStart, newSelectionEnd);
+        }
+      }
+    }
+=======
+  void fireCaretPositionChanged(CaretEvent caretEvent) {
+    myCaretListeners.getMulticaster().caretPositionChanged(caretEvent);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+  }
+
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+  private static boolean selectionsIntersect(CaretImpl firstCaret, CaretImpl secondCaret) {
     return firstCaret.getSelectionStart() < secondCaret.getSelectionStart() && firstCaret.getSelectionEnd() > secondCaret.getSelectionStart()
       || firstCaret.getSelectionStart() > secondCaret.getSelectionStart() && firstCaret.getSelectionStart() < secondCaret.getSelectionEnd()
       || firstCaret.getSelectionStart() == secondCaret.getSelectionStart() && secondCaret.getSelectionEnd() > secondCaret.getSelectionStart() && firstCaret.getSelectionEnd() > firstCaret.getSelectionStart()
@@ -485,6 +719,8 @@ public class CaretModelImpl implements CaretModel, PrioritizedDocumentListener, 
     myCaretListeners.getMulticaster().caretPositionChanged(caretEvent);
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   void fireCaretAdded(@NotNull Caret caret) {
     myCaretListeners.getMulticaster().caretAdded(new CaretEvent(myEditor, caret, caret.getLogicalPosition(), caret.getLogicalPosition()));
   }

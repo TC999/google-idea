@@ -149,6 +149,7 @@ public final class UpdateChecker {
 
   private static void doUpdateAndShowResult(final @Nullable Project project,
                                             final boolean enableLink,
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                                             final boolean showDialog,
                                             final @Nullable PluginHostsConfigurable hostsConfigurable,
                                             final UpdateSettings updateSettings,
@@ -185,6 +186,44 @@ public final class UpdateChecker {
                                                       @Nullable PluginHostsConfigurable hostsConfigurable,
                                                       @Nullable ProgressIndicator indicator) {
     final List<PluginDownloader> downloaded = new ArrayList<PluginDownloader>();
+=======
+                                            final boolean manualCheck,
+                                            final @Nullable PluginHostsConfigurable hostsConfigurable,
+                                            final UpdateSettings updateSettings,
+                                            final @Nullable ProgressIndicator indicator,
+                                            final @Nullable ActionCallback callback) {
+    final CheckForUpdateResult result = checkForUpdates(updateSettings);
+
+    if (result.getState() == UpdateStrategy.State.LOADED) {
+      UpdateSettings settings = UpdateSettings.getInstance();
+      settings.saveLastCheckedInfo();
+      settings.setKnownChannelIds(result.getAllChannelsIds());
+    }
+    else if (result.getState() == UpdateStrategy.State.CONNECTION_ERROR) {
+      showErrorMessage(manualCheck, project, IdeBundle.message("updates.error.connection.failed"));
+      return;
+    }
+
+    boolean platformUpdate = newChannelReady(result.getChannelToPropose()) || result.getUpdatedChannel() != null;
+    final Collection<PluginDownloader> updatedPlugins = platformUpdate ? null : updatePlugins(manualCheck, project, hostsConfigurable, indicator);
+
+    ApplicationManager.getApplication().invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        showUpdateResult(project, result, updatedPlugins, enableLink, manualCheck);
+        if (callback != null) {
+          callback.setDone();
+        }
+      }
+    });
+  }
+
+  private static Collection<PluginDownloader> updatePlugins(boolean manualCheck,
+                                                            @Nullable Project project,
+                                                            @Nullable PluginHostsConfigurable hostsConfigurable,
+                                                            @Nullable ProgressIndicator indicator) {
+    final Map<PluginId, PluginDownloader> downloaded = new HashMap<PluginId, PluginDownloader>();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final Set<String> failed = new HashSet<String>();
     for (String host : getPluginHosts(hostsConfigurable)) {
       try {
@@ -207,8 +246,8 @@ public final class UpdateChecker {
       }
     }
 
-    for (Iterator<PluginDownloader> iterator = downloaded.iterator(); iterator.hasNext(); ) {
-      if (!toUpdate.containsKey(iterator.next().getPluginId())) {
+    for (Iterator<PluginId> iterator = downloaded.keySet().iterator(); iterator.hasNext(); ) {
+      if (!toUpdate.containsKey(iterator.next().getIdString())) {
         iterator.remove();
       }
     }
@@ -238,11 +277,11 @@ public final class UpdateChecker {
           if (!toUpdate.containsKey(idString)) continue;
           final IdeaPluginDescriptor installedPlugin = toUpdate.get(idString);
           if (installedPlugin == null) {
-            prepareToInstall(downloaded, loadedPlugin);
+            prepareToInstall(downloaded, loadedPlugin, indicator);
           } else if (StringUtil.compareVersionNumbers(loadedPlugin.getVersion(), installedPlugin.getVersion()) > 0) {
             updateSettings.myOutdatedPlugins.add(idString);
             if (!disabledPlugins.contains(idString)) {
-              prepareToInstall(downloaded, loadedPlugin);
+              prepareToInstall(downloaded, loadedPlugin, indicator);
             }
           }
         }
@@ -251,21 +290,39 @@ public final class UpdateChecker {
         return null;
       }
       catch (Exception e) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         showErrorMessage(showDialog, project, e.getMessage());
+=======
+        showErrorMessage(manualCheck, project, e.getMessage());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
 
     if (!failed.isEmpty()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       showErrorMessage(showDialog, project, IdeBundle.message("updates.error.plugin.description.failed", StringUtil.join(failed, ",")));
+=======
+      showErrorMessage(manualCheck, project, IdeBundle.message("updates.error.plugin.description.failed", StringUtil.join(failed, ",")));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return downloaded.isEmpty() ? null : downloaded;
+=======
+    return downloaded.isEmpty() ? null : downloaded.values();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
-  private static void prepareToInstall(List<PluginDownloader> downloaded, IdeaPluginDescriptor loadedPlugin) throws IOException {
-    final PluginDownloader downloader = PluginDownloader.createDownloader(loadedPlugin);
-    if (downloader.prepareToInstall()) {
-      downloaded.add(downloader);
+  private static void prepareToInstall(Map<PluginId, PluginDownloader> downloaded,
+                                       IdeaPluginDescriptor loadedPlugin,
+                                       ProgressIndicator indicator) throws IOException {
+    final PluginId pluginId = loadedPlugin.getPluginId();
+    //prefer plugins from plugin hosts
+    if (!downloaded.containsKey(pluginId)) {
+      final PluginDownloader downloader = PluginDownloader.createDownloader(loadedPlugin);
+      if (downloader.prepareToInstall(indicator)) {
+        downloaded.put(pluginId, downloader);
+      }
     }
   }
 
@@ -279,7 +336,10 @@ public final class UpdateChecker {
       });
     }
     else {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       showNotification(project, message, true, null);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       LOG.warn(message);
     }
   }
@@ -299,7 +359,7 @@ public final class UpdateChecker {
     return hosts;
   }
 
-  public static boolean checkPluginsHost(final String host, final List<PluginDownloader> downloaded) throws Exception {
+  public static boolean checkPluginsHost(final String host, final Map<PluginId, PluginDownloader> downloaded) throws Exception {
     try {
       return checkPluginsHost(host, downloaded, true, null);
     }
@@ -309,7 +369,7 @@ public final class UpdateChecker {
   }
 
   public static boolean checkPluginsHost(final String host,
-                                         final List<PluginDownloader> downloaded,
+                                         final Map<PluginId, PluginDownloader> downloaded,
                                          final boolean collectToUpdate, @Nullable ProgressIndicator indicator) throws Exception {
     InputStream inputStream = loadVersionInfo(host);
     if (inputStream == null) return false;
@@ -326,7 +386,7 @@ public final class UpdateChecker {
     final List<IdeaPluginDescriptor> descriptors = RepositoryHelper.loadPluginsFromDescription(inputStream, indicator);
     for (IdeaPluginDescriptor descriptor : descriptors) {
       ((PluginNode)descriptor).setRepositoryName(host);
-      downloaded.add(PluginDownloader.createDownloader(descriptor));
+      downloaded.put(descriptor.getPluginId(), PluginDownloader.createDownloader(descriptor));
     }
 
     boolean success = true;
@@ -374,8 +434,8 @@ public final class UpdateChecker {
                 progressIndicator.setText2(finalPluginUrl);
               }
               final PluginDownloader downloader = new PluginDownloader(pluginId, finalPluginUrl, pluginVersion);
-              if (downloader.prepareToInstall()) {
-                downloaded.add(downloader);
+              if (downloader.prepareToInstall(progressIndicator)) {
+                downloaded.put(PluginId.getId(pluginId), downloader);
               }
             }
             catch (IOException e) {
@@ -394,7 +454,7 @@ public final class UpdateChecker {
         final PluginDownloader downloader = new PluginDownloader(pluginId, pluginUrl, pluginVersion);
         downloader.setDescription(description);
         downloader.setDepends(dependsPlugins);
-        downloaded.add(downloader);
+        downloaded.put(PluginId.getId(pluginId), downloader);
       }
     }
     return success;
@@ -449,7 +509,11 @@ public final class UpdateChecker {
   @SuppressWarnings("AssignmentToStaticFieldFromInstanceMethod")
   private static void showUpdateResult(@Nullable final Project project,
                                        final CheckForUpdateResult checkForUpdateResult,
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                                        final List<PluginDownloader> updatedPlugins,
+=======
+                                       final Collection<PluginDownloader> updatedPlugins,
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                                        final boolean enableLink,
                                        final boolean alwaysShowResults) {
     final UpdateChannel channelToPropose = checkForUpdateResult.getChannelToPropose();
@@ -651,7 +715,7 @@ public final class UpdateChecker {
     return "";
   }
 
-  public static boolean install(List<PluginDownloader> downloaders) {
+  public static boolean install(Collection<PluginDownloader> downloaders) {
     boolean installed = false;
     for (PluginDownloader downloader : downloaders) {
       if (getDisabledToUpdatePlugins().contains(downloader.getPluginId())) continue;
@@ -713,6 +777,7 @@ public final class UpdateChecker {
 
     OutputStream out = new BufferedOutputStream(new FileOutputStream(tempFile));
     try {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       String requestUrl = new URL(new URL(getPatchesUrl()), fileName).toString();
       URLConnection connection;
 
@@ -734,6 +799,9 @@ public final class UpdateChecker {
         break;
       }
 
+=======
+      URLConnection connection = HttpConfigurable.getInstance().openConnection(new URL(new URL(getPatchesUrl()), fileName).toString());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       try {
         InputStream in = UrlConnectionUtil.getConnectionInputStreamWithException(connection, i);
         try {

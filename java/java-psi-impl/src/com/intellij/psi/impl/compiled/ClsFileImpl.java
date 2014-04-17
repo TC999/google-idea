@@ -16,7 +16,10 @@
 package com.intellij.psi.impl.compiled;
 
 import com.intellij.diagnostic.PluginException;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.ide.caches.FileContent;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.ide.highlighter.JavaClassFileType;
 import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.plugins.PluginManagerCore;
@@ -34,6 +37,10 @@ import com.intellij.openapi.project.DefaultProjectFactory;
 import com.intellij.openapi.roots.FileIndexFacade;
 import com.intellij.openapi.ui.Queryable;
 import com.intellij.openapi.util.Comparing;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.util.Computable;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.util.ModificationTracker;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.pom.java.LanguageLevel;
@@ -50,6 +57,8 @@ import com.intellij.psi.impl.source.SourceTreeToPsiMap;
 import com.intellij.psi.impl.source.resolve.FileContextUtil;
 import com.intellij.psi.impl.source.tree.JavaElementType;
 import com.intellij.psi.impl.source.tree.TreeElement;
+import com.intellij.psi.scope.ElementClassHint;
+import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.search.PsiElementProcessor;
 import com.intellij.psi.stubs.*;
 import com.intellij.psi.util.CachedValueProvider;
@@ -62,7 +71,11 @@ import com.intellij.util.cls.ClsFormatException;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.jetbrains.asm4.ClassReader;
+=======
+import org.jetbrains.org.objectweb.asm.ClassReader;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 import java.io.IOException;
 import java.util.Collections;
@@ -85,6 +98,7 @@ public class ClsFileImpl extends ClsRepositoryPsiElement<PsiClassHolderFileStub>
   private volatile SoftReference<StubTree> myStub;
   private volatile TreeElement myMirrorFileElement;
   private volatile ClsPackageStatementImpl myPackageStatement = null;
+  private volatile LanguageLevel myLanguageLevel = null;
   private boolean myIsPhysical = true;
 
   public ClsFileImpl(@NotNull FileViewProvider viewProvider) {
@@ -234,8 +248,22 @@ public class ClsFileImpl extends ClsRepositoryPsiElement<PsiClassHolderFileStub>
   @Override
   @NotNull
   public LanguageLevel getLanguageLevel() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     List stubs = getStub().getChildrenStubs();
     return !stubs.isEmpty() ? ((PsiClassStub<?>)stubs.get(0)).getLanguageLevel() : LanguageLevel.HIGHEST;
+=======
+    LanguageLevel level = myLanguageLevel;
+    if (level == null) {
+      List classes = ApplicationManager.getApplication().runReadAction(new Computable<List>() {
+        @Override
+        public List compute() {
+          return getStub().getChildrenStubs();
+        }
+      });
+      myLanguageLevel = level = !classes.isEmpty() ? ((PsiClassStub<?>)classes.get(0)).getLanguageLevel() : LanguageLevel.HIGHEST;
+    }
+    return level;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
@@ -417,6 +445,22 @@ public class ClsFileImpl extends ClsRepositoryPsiElement<PsiClassHolderFileStub>
   }
 
   @Override
+  public boolean processDeclarations(@NotNull PsiScopeProcessor processor,
+                                     @NotNull ResolveState state,
+                                     PsiElement lastParent,
+                                     @NotNull PsiElement place) {
+    processor.handleEvent(PsiScopeProcessor.Event.SET_DECLARATION_HOLDER, this);
+    final ElementClassHint classHint = processor.getHint(ElementClassHint.KEY);
+    if (classHint == null || classHint.shouldProcess(ElementClassHint.DeclarationKind.CLASS)) {
+      final PsiClass[] classes = getClasses();
+      for (PsiClass aClass : classes) {
+        if (!processor.execute(aClass, state)) return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
   @NotNull
   public StubTree getStubTree() {
     ApplicationManager.getApplication().assertReadAccessAllowed();
@@ -474,11 +518,8 @@ public class ClsFileImpl extends ClsRepositoryPsiElement<PsiClassHolderFileStub>
       myMirrorFileElement = null;
       myPackageStatement = packageStatement;
     }
-  }
 
-  @Override
-  public PsiFile cacheCopy(final FileContent content) {
-    return this;
+    myLanguageLevel = null;
   }
 
   @Override
@@ -525,6 +566,7 @@ public class ClsFileImpl extends ClsRepositoryPsiElement<PsiClassHolderFileStub>
 
     try {
       PsiJavaFileStubImpl stub = new PsiJavaFileStubImpl("do.not.know.yet", true);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       StubBuildingVisitor<VirtualFile> visitor = new StubBuildingVisitor<VirtualFile>(file, STRATEGY, stub, 0, file.getNameWithoutExtension());
       try {
         new ClassReader(bytes).accept(visitor, ClassReader.SKIP_FRAMES);
@@ -563,6 +605,45 @@ public class ClsFileImpl extends ClsRepositoryPsiElement<PsiClassHolderFileStub>
       catch (IOException e) {
         return null;
       }
+=======
+      String className = file.getNameWithoutExtension();
+      StubBuildingVisitor<VirtualFile> visitor = new StubBuildingVisitor<VirtualFile>(file, STRATEGY, stub, 0, className);
+      try {
+        new ClassReader(bytes).accept(visitor, ClassReader.SKIP_FRAMES);
+      }
+      catch (OutOfOrderInnerClassException e) {
+        return null;
+      }
+
+      PsiClassStub<?> result = visitor.getResult();
+      if (result == null) return null;
+
+      stub.setPackageName(getPackageName(result));
+      return stub;
+    }
+    catch (Exception e) {
+      throw new ClsFormatException(file.getPath() + ": " + e.getMessage(), e);
+    }
+  }
+
+  private static final InnerClassSourceStrategy<VirtualFile> STRATEGY = new InnerClassSourceStrategy<VirtualFile>() {
+    @Nullable
+    @Override
+    public VirtualFile findInnerClass(String innerName, VirtualFile outerClass) {
+      String baseName = outerClass.getNameWithoutExtension();
+      VirtualFile dir = outerClass.getParent();
+      assert dir != null : outerClass;
+      return dir.findChild(baseName + "$" + innerName + ".class");
+    }
+
+    @Override
+    public void accept(VirtualFile innerClass, StubBuildingVisitor<VirtualFile> visitor) {
+      try {
+        byte[] bytes = innerClass.contentsToByteArray();
+        new ClassReader(bytes).accept(visitor, ClassReader.SKIP_FRAMES);
+      }
+      catch (IOException ignored) { }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   };
 

@@ -218,7 +218,7 @@ public class ActionInstallPlugin extends AnAction implements DumbAware {
           }, ", ") + ".";
         }
       }
-      message += " Disabled plugins and plugins which depends on disabled plugins won't be activated after restart.";
+      message += " Disabled plugins " + (disabled.isEmpty() ? "and plugins which depend on disabled " :"") + "won't be activated after restart.";
 
       int result;
       if (!disabled.isEmpty() && !disabledDependants.isEmpty()) {
@@ -237,8 +237,13 @@ public class ActionInstallPlugin extends AnAction implements DumbAware {
           //noinspection SpellCheckingInspection
           message += "plugin dependenc" + (disabledDependants.size() > 1 ? "ies" : "y");
         }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         message += "?</body></html>";
         result = Messages.showYesNoDialog(message, CommonBundle.getWarningTitle(), Messages.getQuestionIcon());
+=======
+        message += "?";
+        result = Messages.showYesNoDialog(XmlStringUtil.wrapInHtml(message), CommonBundle.getWarningTitle(), Messages.getQuestionIcon());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         if (result == Messages.NO) return false;
       }
 

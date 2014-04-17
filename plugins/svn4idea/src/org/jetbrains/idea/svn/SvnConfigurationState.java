@@ -40,6 +40,7 @@ public class SvnConfigurationState {
   public int maxAnnotateRevisions = SvnConfiguration.ourMaxAnnotateRevisionsDefault;
 
   @Attribute("myUseAcceleration")
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public SvnConfiguration.UseAcceleration accelerationType = SvnConfiguration.UseAcceleration.nothing;
 
   @Attribute("myAutoUpdateAfterCommit")
@@ -56,6 +57,22 @@ public class SvnConfigurationState {
     SystemInfo.JAVA_RUNTIME_VERSION.startsWith("1.7") || SystemInfo.JAVA_RUNTIME_VERSION.startsWith("1.8")
     ? SvnConfiguration.SSLProtocols.all
     : SvnConfiguration.SSLProtocols.sslv3;
+=======
+  public SvnConfiguration.UseAcceleration accelerationType = SvnConfiguration.UseAcceleration.commandLine;
+
+  @Attribute("myAutoUpdateAfterCommit")
+  public boolean autoUpdateAfterCommit;
+
+  @Attribute("cleanupOnStartRun")
+  public boolean cleanupOnStartRun;
+
+  @Attribute("TREE_CONFLICT_MERGE_THEIRS_NEW_INTO_OLD_PLACE")
+  public Boolean keepNewFilesAsIsForTreeConflictMerge;
+
+  @Attribute("SSL_PROTOCOLS")
+  public SvnConfiguration.SSLProtocols sslProtocols =
+    SystemInfo.isJavaVersionAtLeast("1.7") ? SvnConfiguration.SSLProtocols.all : SvnConfiguration.SSLProtocols.sslv3;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @OptionTag("mySSHConnectionTimeout")
   public long sshConnectionTimeout = 30 * 1000;

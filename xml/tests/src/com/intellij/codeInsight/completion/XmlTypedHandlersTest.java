@@ -25,6 +25,7 @@ import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCa
  *         Date: 30.08.13
  */
 public class XmlTypedHandlersTest extends LightPlatformCodeInsightFixtureTestCase {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @Override
   protected void setUp() throws Exception {
     super.setUp();
@@ -37,6 +38,8 @@ public class XmlTypedHandlersTest extends LightPlatformCodeInsightFixtureTestCas
     super.tearDown();
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void testClosingTag() {
     doTest("<foo><<caret>", '/', "<foo></foo>");
   }
@@ -45,6 +48,13 @@ public class XmlTypedHandlersTest extends LightPlatformCodeInsightFixtureTestCas
     doTest("<foo bar<caret>><foo bar<caret>>", '=', "<foo bar=\"<caret>\"><foo bar=\"<caret>\">");
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void testValueQuotesWithMultiCaretsMultiline() {
+    doTest("<foo bar<caret>\n<foo bar<caret>", '=', "<foo bar=\"<caret>\"\n<foo bar=\"<caret>\"");
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void testValueQuotesWithMultiCaretsWithDifferentContexts() {
     doTest("<foo bar <caret>><foo bar<caret>>", '=', "<foo bar =<caret>><foo bar=\"<caret>\">");
   }

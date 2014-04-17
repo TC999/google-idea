@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2000-2013 JetBrains s.r.o.
+=======
+ * Copyright 2000-2014 JetBrains s.r.o.
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,9 +33,13 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+=======
+import java.util.*;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 import static org.junit.Assert.assertEquals;
 
@@ -58,8 +66,17 @@ public class DateFormatUtilTest {
       assertEquals("17:10:15", DateFormatUtil.formatTimeWithSeconds(Clock.getTime()));
     }
     else if (SystemInfo.isUnix) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       assertEquals("5:10:15 PM", printTimeForLocale("en_US.UTF-8"));
       assertEquals("17:10:15", printTimeForLocale("de_DE.UTF-8"));
+=======
+      assertEquals("5:10:15 PM", printTimeForLocale("en_US.UTF-8", Clock.getTime()));
+      assertEquals("17:10:15", printTimeForLocale("de_DE.UTF-8", Clock.getTime()));
+    }
+    else if (SystemInfo.isWinVistaOrNewer) {
+      long time = new Date().getTime();
+      assertEquals(printWindowsTime(time), DateFormatUtil.formatTimeWithSeconds(time));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     else {
       assertEquals(DateFormat.getTimeInstance(DateFormat.SHORT).format(Clock.getTime()),
@@ -109,6 +126,7 @@ public class DateFormatUtilTest {
     return new GregorianCalendar(year, month - 1, day, hour, minute, second).getTime();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static String printTimeForLocale(String locale) throws IOException {
     List<String> classpath = ContainerUtil.newArrayList();
     classpath.addAll(PathManager.getUtilClassPath());
@@ -123,6 +141,31 @@ public class DateFormatUtilTest {
     builder.environment().put("LC_TIME", locale);
     Process process = builder.start();
 
+=======
+  private static String printTimeForLocale(String locale, long time) throws IOException {
+    List<String> classpath = ContainerUtil.newArrayList();
+    classpath.addAll(PathManager.getUtilClassPath());
+    classpath.add(PathManager.getJarPathForClass(PrintTime.class));
+    ProcessBuilder builder = new ProcessBuilder()
+      .command(System.getProperty("java.home") + "/bin/java",
+               "-classpath",
+               StringUtil.join(classpath, File.pathSeparator),
+               PrintTime.class.getName(),
+               String.valueOf(time));
+    builder.environment().put("LC_TIME", locale);
+    return execAndGetOutput(builder);
+  }
+
+  private static String printWindowsTime(long time) throws IOException {
+    String script = DateFormatUtil.class.getResource("PrintTime.js").getPath();
+    if (StringUtil.startsWithChar(script, '/')) script = script.substring(1);
+    ProcessBuilder builder = new ProcessBuilder().command("cscript", "//Nologo", script, String.valueOf(time));
+    return execAndGetOutput(builder);
+  }
+
+  private static String execAndGetOutput(ProcessBuilder builder) throws IOException {
+    Process process = builder.redirectErrorStream(true).start();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
     try {
       return reader.readLine();

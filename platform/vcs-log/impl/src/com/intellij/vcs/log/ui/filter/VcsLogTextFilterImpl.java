@@ -15,6 +15,7 @@
  */
 package com.intellij.vcs.log.ui.filter;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.vcs.log.VcsFullCommitDetails;
 import com.intellij.vcs.log.VcsLogTextFilter;
 import com.intellij.vcs.log.VcsLogDetailsFilter;
@@ -30,6 +31,23 @@ public class VcsLogTextFilterImpl implements VcsLogDetailsFilter, VcsLogTextFilt
 
   @Override
   public boolean matches(@NotNull VcsFullCommitDetails details) {
+=======
+import com.intellij.vcs.log.VcsCommitMetadata;
+import com.intellij.vcs.log.VcsLogTextFilter;
+import com.intellij.vcs.log.VcsLogDetailsFilter;
+import org.jetbrains.annotations.NotNull;
+
+public class VcsLogTextFilterImpl implements VcsLogDetailsFilter, VcsLogTextFilter {
+
+  @NotNull private final String myText;
+
+  public VcsLogTextFilterImpl(@NotNull String text) {
+    myText = text;
+  }
+
+  @Override
+  public boolean matches(@NotNull VcsCommitMetadata details) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return details.getFullMessage().toLowerCase().contains(myText.toLowerCase());
   }
 

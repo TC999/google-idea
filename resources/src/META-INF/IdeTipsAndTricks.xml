@@ -147,9 +147,23 @@
     <tipAndTrick file="FinishBySmartEnter.html" feature-id="editing.completion.finishBySmartEnter"/>
     <tipAndTrick file="FinishByExclamation.html" feature-id="editing.completion.finishByExclamation"/>
     <tipAndTrick file="CompletionImportStatic.html" feature-id="editing.completion.global.member.name"/>
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     <tipAndTrick file="FinishByControlEnter.html" feature-id="editing.completion.finishByControlEnter"/>
     <tipAndTrick file="SecondBasicClassNameCompletion.html" feature-id="editing.completion.second.basic"/>
     <tipAndTrick file="SecondSmartCompletionToar.html" feature-id="editing.completion.second.smarttype.toar"/>
     <tipAndTrick file="ChangeSorting.html" feature-id="editing.completion.changeSorting"/>
+=======
+    <tipAndTrick file="SecondBasicClassNameCompletion.html" feature-id="editing.completion.second.basic"/>
+    <tipAndTrick file="SecondSmartCompletionToar.html" feature-id="editing.completion.second.smarttype.toar"/>
+    <tipAndTrick file="ChangeSorting.html" feature-id="editing.completion.changeSorting"/>
+
+    <tipAndTrick file="PostfixCompletion.html" feature-id="editing.completion.postfix"/>
+    <tipAndTrick file="LiveTemplatesRestore.html"/>
+    <tipAndTrick file="Multicursor.html"/>
+    <tipAndTrick file="Multicursor1.html"/>
+    <tipAndTrick file="QuickDocInSuggestionList.html"/>
+    <tipAndTrick file="QuickDocOnMouseMove.html"/>
+    <tipAndTrick file="TerminalOpen.html"/>
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   </extensions>
 </idea-plugin>

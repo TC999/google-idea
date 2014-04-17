@@ -178,6 +178,7 @@ public class PsiPackageImpl extends PsiPackageBase implements PsiPackage, Querya
 
   @NotNull
   private PsiClass[] getCachedClassesByName(String name) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     SoftReference<Map<String, PsiClass[]>> ref = myClassCache;
     Map<String, PsiClass[]> map = SoftReference.dereference(ref);
     if (map == null) {
@@ -204,10 +205,47 @@ public class PsiPackageImpl extends PsiPackageBase implements PsiPackage, Querya
       return classes == null ? PsiClass.EMPTY_ARRAY : classes;
     }
     
+=======
+    if (DumbService.getInstance(getProject()).isDumb()) {
+      return getCachedClassInDumbMode(name);
+    }
+
+    Map<String, PsiClass[]> map = SoftReference.dereference(myClassCache);
+    if (map == null) {
+      myClassCache = new SoftReference<Map<String, PsiClass[]>>(map = new ConcurrentSoftValueHashMap<String, PsiClass[]>());
+    }
+    PsiClass[] classes = map.get(name);
+    if (classes != null) {
+      return classes;
+    }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final String qName = getQualifiedName();
     final String classQName = !qName.isEmpty() ? qName + "." + name : name;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     map.put(name, classes = getFacade().findClasses(classQName, scope));
     return classes;
+=======
+    map.put(name, classes = getFacade().findClasses(classQName, new EverythingGlobalScope(getProject())));
+    return classes;
+  }
+
+  private PsiClass[] getCachedClassInDumbMode(String name) {
+    Map<String, PsiClass[]> map = SoftReference.dereference(myClassCache);
+    if (map == null) {
+      map = new HashMap<String, PsiClass[]>();
+      for (PsiClass psiClass : getClasses(new EverythingGlobalScope(getProject()))) {
+        String psiClassName = psiClass.getName();
+        if (psiClassName != null) {
+          PsiClass[] existing = map.get(psiClassName);
+          map.put(psiClassName, existing == null ? new PsiClass[]{psiClass} : ArrayUtil.append(existing, psiClass));
+        }
+      }
+      myClassCache = new SoftReference<Map<String, PsiClass[]>>(map);
+    }
+    PsiClass[] classes = map.get(name);
+    return classes == null ? PsiClass.EMPTY_ARRAY : classes;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
   
   @Override

@@ -812,7 +812,7 @@ class Foo {
     }
     def l = lookup
     edt {
-      assert lookup.calculating
+      if (!lookup.calculating) println "testRestartWithVisibleLookup couldn't be faster than LongContributor"
       myFixture.type 'c'
     }
     joinCommit {
@@ -1179,6 +1179,7 @@ class Foo {{
   }
 
   private doTestMulticaret(final String textBefore, final String toType, final String textAfter) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     EditorTestUtil.enableMultipleCarets()
     try {
       myFixture.configureByText "a.java", textBefore
@@ -1193,20 +1194,36 @@ class Foo {{
   }
 
   private doTestBlockSelection(final String textBefore, final String toType, final String textAfter) {
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myFixture.configureByText "a.java", textBefore
-    edt {
-      def caret = myFixture.editor.offsetToLogicalPosition(myFixture.editor.caretModel.offset)
-      myFixture.editor.selectionModel.setBlockSelection(caret, new LogicalPosition(caret.line + 1, caret.column + 1))
-    }
     type 'toStr'
     assert lookup
     type toType
     myFixture.checkResult textAfter
-    def start = myFixture.editor.selectionModel.blockStart
-    def end = myFixture.editor.selectionModel.blockEnd
-    assert start.line == end.line - 1
-    assert start.column == end.column
-    assert end == myFixture.editor.caretModel.logicalPosition
+  }
+
+  private doTestBlockSelection(final String textBefore, final String toType, final String textAfter) {
+    EditorTestUtil.disableMultipleCarets()
+    try {
+      myFixture.configureByText "a.java", textBefore
+      edt {
+        def caret = myFixture.editor.offsetToLogicalPosition(myFixture.editor.caretModel.offset)
+        myFixture.editor.selectionModel.setBlockSelection(caret, new LogicalPosition(caret.line + 1, caret.column + 1))
+      }
+      type 'toStr'
+      assert lookup
+      type toType
+      myFixture.checkResult textAfter
+      def start = myFixture.editor.selectionModel.blockStart
+      def end = myFixture.editor.selectionModel.blockEnd
+      assert start.line == end.line - 1
+      assert start.column == end.column
+      assert end == myFixture.editor.caretModel.logicalPosition
+    }
+    finally {
+      EditorTestUtil.enableMultipleCarets()
+    }
   }
 
   public void "test two non-imported classes when space selects first autopopup item"() {

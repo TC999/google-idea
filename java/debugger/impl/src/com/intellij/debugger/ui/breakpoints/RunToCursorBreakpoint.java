@@ -32,7 +32,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public class RunToCursorBreakpoint extends LineBreakpoint {
   private final boolean myRestoreBreakpoints;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private final SourcePosition myCustomPosition;
+=======
+  @NotNull
+  protected final SourcePosition myCustomPosition;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private String mySuspendPolicy;
 
   protected RunToCursorBreakpoint(@NotNull Project project, @NotNull SourcePosition pos, boolean restoreBreakpoints) {

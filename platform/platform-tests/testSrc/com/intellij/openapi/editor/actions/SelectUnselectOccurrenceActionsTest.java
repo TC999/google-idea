@@ -23,6 +23,7 @@ import com.intellij.openapi.editor.FoldRegion;
 import com.intellij.openapi.editor.FoldingModel;
 import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.testFramework.EditorTestUtil;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import com.intellij.ui.LightweightHint;
@@ -191,6 +192,177 @@ public class SelectUnselectOccurrenceActionsTest extends LightPlatformCodeInsigh
     executeReverseAction();
     executeAction();
     checkResult("text <selection><caret>text</selection> <selection><caret>text</selection>");
+=======
+import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+import com.intellij.ui.LightweightHint;
+
+public class SelectUnselectOccurrenceActionsTest extends LightPlatformCodeInsightFixtureTestCase {
+  private int hintCount;
+
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    EditorHintListener listener = new EditorHintListener() {
+      @Override
+      public void hintShown(Project project, LightweightHint hint, int flags) {
+        hintCount++;
+      }
+    };
+    ApplicationManager.getApplication().getMessageBus().connect(myTestRootDisposable).subscribe(EditorHintListener.TOPIC, listener);
+  }
+
+  public void testAllWithoutInitialSelection() throws Exception {
+    init("some t<caret>ext\n" +
+         "some texts\n" +
+         "another text here"
+    );
+    executeSelectAllAction();
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "some texts\n" +
+                "another <selection>t<caret>ext</selection> here");
+  }
+
+  public void testAllWithInitialWholeWordSelection() throws Exception {
+    init("some <selection>t<caret>ext</selection>\n" +
+         "some texts\n" +
+         "some texts\n" +
+         "another text here");
+    executeSelectAllAction();
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "some texts\n" +
+                "some texts\n" +
+                "another <selection>t<caret>ext</selection> here");
+    assertEquals(0, hintCount);
+  }
+
+  public void testNoInitialSelection() throws Exception {
+    init("some t<caret>ext\n" +
+         "some texts\n" +
+         "another text here"
+    );
+    executeAction();
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "some texts\n" +
+                "another text here");
+    executeAction();
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "some texts\n" +
+                "another <selection>t<caret>ext</selection> here");
+    assertEquals(0, hintCount);
+  }
+
+  public void testInitialWholeWordSelection() throws Exception {
+    init("some <selection>t<caret>ext</selection>\n" +
+         "some texts\n" +
+         "another text here");
+    executeAction();
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "some <selection>t<caret>ext</selection>s\n" +
+                "another text here");
+    assertEquals(0, hintCount);
+  }
+
+  public void testShowingHint() throws Exception {
+    init("some <selection>t<caret>ext</selection>\n" +
+         "another <selection>t<caret>ext</selection> here");
+    executeAction();
+    assertEquals(1, hintCount);
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "another <selection>t<caret>ext</selection> here");
+    executeAction();
+    assertEquals(1, hintCount);
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "another <selection>t<caret>ext</selection> here");
+  }
+
+  public void testRevert() throws Exception {
+    init("some <selection>t<caret>ext</selection>\n" +
+         "another <selection>t<caret>ext</selection> here");
+    executeReverseAction();
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "another text here");
+    assertEquals(0, hintCount);
+  }
+
+  public void testRevertSingleSelection() throws Exception {
+    init("some <selection>t<caret>ext</selection>\n" +
+         "some texts\n" +
+         "another text here");
+    executeReverseAction();
+    checkResult("some t<caret>ext\n" +
+                "some texts\n" +
+                "another text here");
+    assertEquals(0, hintCount);
+  }
+
+  public void testSelectAfterHint() throws Exception {
+    init("some text\n" +
+         "some texts\n" +
+         "another <selection>t<caret>ext</selection> here");
+    executeAction();
+    checkResult("some text\n" +
+                "some texts\n" +
+                "another <selection>t<caret>ext</selection> here");
+    assertEquals(1, hintCount);
+    executeAction();
+    checkResult("some <selection>t<caret>ext</selection>\n" +
+                "some texts\n" +
+                "another <selection>t<caret>ext</selection> here");
+    assertEquals(1, hintCount);
+  }
+
+  public void testInitialNonWholeWordSelection() throws Exception {
+    init("some <selection>t<caret>ex</selection>t\n" +
+         "some texts\n" +
+         "another text here");
+    executeAction();
+    checkResult("some <selection>t<caret>ex</selection>t\n" +
+                "some <selection>t<caret>ex</selection>ts\n" +
+                "another text here");
+    executeAction();
+    checkResult("some <selection>t<caret>ex</selection>t\n" +
+                "some <selection>t<caret>ex</selection>ts\n" +
+                "another <selection>t<caret>ex</selection>t here");
+    assertEquals(0, hintCount);
+  }
+
+  public void testOccurrenceInCollapsedRegion() throws Exception {
+    init("normal <selection><caret>line</selection>\n" +
+         "collapsed line");
+    final FoldingModel foldingModel = myFixture.getEditor().getFoldingModel();
+    final Document document = myFixture.getEditor().getDocument();
+    foldingModel.runBatchFoldingOperation(new Runnable() {
+      @Override
+      public void run() {
+        FoldRegion foldRegion = foldingModel.addFoldRegion(document.getLineStartOffset(1), document.getLineEndOffset(1), "...");
+        assertNotNull(foldRegion);
+        foldRegion.setExpanded(false);
+      }
+    });
+    executeAction();
+    checkResult("normal <selection><caret>line</selection>\n" +
+                "collapsed <selection><caret>line</selection>");
+    FoldRegion[] foldRegions = foldingModel.getAllFoldRegions();
+    assertEquals(1, foldRegions.length);
+    assertTrue(foldRegions[0].isExpanded());
+  }
+
+  public void testSelectAfterNotFoundAndUnselect() throws Exception {
+    init("text <selection><caret>text</selection> <selection><caret>text</selection>");
+    executeAction();
+    executeReverseAction();
+    executeAction();
+    checkResult("text <selection><caret>text</selection> <selection><caret>text</selection>");
+  }
+
+  public void testEscapeReturnsToInitialPosition() throws Exception {
+    init("l<caret>ine\n" +
+         "another line");
+    executeAction();
+    myFixture.performEditorAction("EditorEscape");
+    checkResult("l<caret>ine\n" +
+                "another line");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private void init(String text) {

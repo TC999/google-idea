@@ -279,6 +279,7 @@ public class PythonSdkType extends SdkType {
 
   public void showCustomCreateUI(SdkModel sdkModel, final JComponent parentComponent, final Consumer<Sdk> sdkCreatedCallback) {
     Project project = CommonDataKeys.PROJECT.getData(DataManager.getInstance().getDataContext(parentComponent));
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final Point point = parentComponent.getMousePosition();
     SwingUtilities.convertPointToScreen(point, parentComponent);
     PythonSdkDetailsStep
@@ -288,6 +289,17 @@ public class PythonSdkType extends SdkType {
           if (sdk != null) {
             sdk.putUserData(SDK_CREATOR_COMPONENT_KEY, new WeakReference<Component>(parentComponent));
             sdkCreatedCallback.consume(sdk);
+=======
+    final PointerInfo pointerInfo = MouseInfo.getPointerInfo();
+    if (pointerInfo == null) return;
+    final Point point = pointerInfo.getLocation();
+    PythonSdkDetailsStep
+      .show(project, sdkModel.getSdks(), null, parentComponent, point, new NullableConsumer<Sdk>() {
+        @Override
+        public void consume(@Nullable Sdk sdk) {
+          if (sdk != null) {
+            sdk.putUserData(SDK_CREATOR_COMPONENT_KEY, new WeakReference<Component>(parentComponent));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
         }
       });

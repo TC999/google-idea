@@ -23,7 +23,10 @@ import com.intellij.codeInsight.daemon.HighlightDisplayKey;
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightVisitorImpl;
 import com.intellij.codeInspection.InspectionProfile;
 import com.intellij.codeInspection.deadCode.UnusedDeclarationInspection;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.codeInspection.unusedImport.UnusedImportLocalInspection;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
@@ -84,6 +87,7 @@ public class PostHighlightingPassFactory extends AbstractProjectComponent implem
     return create(file, document, null, highlightInfoProcessor);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private PostHighlightingPass create(@NotNull PsiFile file,
                                       @NotNull Document document, Editor editor,
                                       @NotNull HighlightInfoProcessor highlightInfoProcessor) {
@@ -111,5 +115,31 @@ public class PostHighlightingPassFactory extends AbstractProjectComponent implem
       }
     }
     return unusedImportEnabled;
+=======
+  private PostHighlightingPass create(@NotNull final PsiFile file,
+                                      @NotNull Document document, Editor editor,
+                                      @NotNull HighlightInfoProcessor highlightInfoProcessor) {
+    InspectionProfile profile = InspectionProjectProfileManager.getInstance(file.getProject()).getInspectionProfile();
+    final UnusedDeclarationInspection myDeadCodeInspection = (UnusedDeclarationInspection)profile.getUnwrappedTool(UnusedDeclarationInspection.SHORT_NAME, file);
+    HighlightDisplayKey myDeadCodeKey = HighlightDisplayKey.find(UnusedDeclarationInspection.SHORT_NAME);
+    final boolean myDeadCodeEnabled = profile.isToolEnabled(myDeadCodeKey, file);
+
+    return new PostHighlightingPass(myProject, file, editor, document, highlightInfoProcessor, new Predicate<PsiElement>() {
+      @Override
+      public boolean apply(PsiElement member) {
+        return !myDeadCodeEnabled || myDeadCodeInspection.isEntryPoint(member);
+      }
+    }) {
+      @Override
+      protected boolean isUnusedImportEnabled(HighlightDisplayKey unusedImportKey) {
+        return super.isUnusedImportEnabled(unusedImportKey) && PostHighlightingPassFactory.isUnusedImportEnabled(file);
+      }
+    };
+  }
+
+  private static boolean isUnusedImportEnabled(PsiElement file) {
+    final JspFile jspFile = JspPsiUtil.getJspFile(file);
+    return jspFile == null || !JspSpiUtil.isIncludedOrIncludesSomething(jspFile);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

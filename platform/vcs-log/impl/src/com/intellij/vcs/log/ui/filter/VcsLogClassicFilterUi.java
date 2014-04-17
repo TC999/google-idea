@@ -24,22 +24,35 @@ import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.ui.SearchTextField;
 import com.intellij.ui.SearchTextFieldWithStoredHistory;
 import com.intellij.util.ui.UIUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.vcs.log.VcsLogFilterCollection;
 import com.intellij.vcs.log.VcsLogTextFilter;
 import com.intellij.vcs.log.impl.VcsLogFilterCollectionImpl;
 import com.intellij.vcs.log.ui.VcsLogUI;
+=======
+import com.intellij.vcs.log.*;
+import com.intellij.vcs.log.data.DataPack;
+import com.intellij.vcs.log.data.VcsLogDataHolder;
+import com.intellij.vcs.log.data.VcsLogUiProperties;
+import com.intellij.vcs.log.impl.VcsLogFilterCollectionImpl;
+import com.intellij.vcs.log.ui.VcsLogUiImpl;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import java.util.Collection;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 /**
  */
 public class VcsLogClassicFilterUi implements VcsLogFilterUi {
 
   @NotNull private final SearchTextField myTextFilter;
-  @NotNull private final VcsLogUI myUi;
+  @NotNull private final VcsLogUiImpl myUi;
   @NotNull private final DefaultActionGroup myActionGroup;
 
   @NotNull private final BranchFilterPopupComponent myBranchFilterComponent;
@@ -47,10 +60,21 @@ public class VcsLogClassicFilterUi implements VcsLogFilterUi {
   @NotNull private final DateFilterPopupComponent myDateFilterComponent;
   @NotNull private final StructureFilterPopupComponent myStructureFilterComponent;
 
-  public VcsLogClassicFilterUi(@NotNull VcsLogUI ui) {
+  @NotNull private final BranchFilterPopupComponent myBranchFilterComponent;
+  @NotNull private final UserFilterPopupComponent myUserFilterComponent;
+  @NotNull private final DateFilterPopupComponent myDateFilterComponent;
+  @NotNull private final StructureFilterPopupComponent myStructureFilterComponent;
+
+  public VcsLogClassicFilterUi(@NotNull VcsLogUiImpl ui, @NotNull VcsLogDataHolder logDataHolder, @NotNull VcsLogUiProperties uiProperties,
+                               @NotNull DataPack initialDataPack) {
     myUi = ui;
 
-    myTextFilter = new SearchTextFieldWithStoredHistory("Vcs.Log.Text.Filter.History");
+    myTextFilter = new SearchTextFieldWithStoredHistory("Vcs.Log.Text.Filter.History") {
+      @Override
+      protected void onFieldCleared() {
+        applyFilters();
+      }
+    };
     myTextFilter.getTextEditor().addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -59,10 +83,17 @@ public class VcsLogClassicFilterUi implements VcsLogFilterUi {
       }
     });
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myBranchFilterComponent = new BranchFilterPopupComponent(this, ui);
     myUserFilterComponent = new UserFilterPopupComponent(this, ui.getLogDataHolder(), ui.getUiProperties());
     myDateFilterComponent  = new DateFilterPopupComponent(this);
     myStructureFilterComponent = new StructureFilterPopupComponent(this, ui.getLogDataHolder().getRoots());
+=======
+    myBranchFilterComponent = new BranchFilterPopupComponent(this, initialDataPack, uiProperties);
+    myUserFilterComponent = new UserFilterPopupComponent(this, logDataHolder, uiProperties);
+    myDateFilterComponent  = new DateFilterPopupComponent(this);
+    myStructureFilterComponent = new StructureFilterPopupComponent(this, logDataHolder.getRoots());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     myActionGroup = new DefaultActionGroup();
     myActionGroup.add(new TextFilterComponent(myTextFilter));
@@ -72,7 +103,14 @@ public class VcsLogClassicFilterUi implements VcsLogFilterUi {
     myActionGroup.add(new FilterActionComponent(myStructureFilterComponent));
   }
 
-  @Override
+  public void updateDataPack(@NotNull DataPack dataPack) {
+    myBranchFilterComponent.updateDataPack(dataPack);
+  }
+
+  /**
+   * Returns filter components which will be added to the Log toolbar.
+   */
+  @NotNull
   public ActionGroup getFilterActionComponents() {
     return myActionGroup;
   }
@@ -80,15 +118,29 @@ public class VcsLogClassicFilterUi implements VcsLogFilterUi {
   @NotNull
   @Override
   public VcsLogFilterCollection getFilters() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     VcsLogTextFilter textFilter = !myTextFilter.getText().isEmpty() ? new VcsLogTextFilterImpl(myTextFilter.getText()) : null;
     return new VcsLogFilterCollectionImpl(myBranchFilterComponent.getFilter(), myUserFilterComponent.getFilter(),
                                           myDateFilterComponent.getFilter(), textFilter, myStructureFilterComponent.getFilter());
+=======
+    VcsLogTextFilter textFilter = !myTextFilter.getText().isEmpty() ? new VcsLogTextFilterImpl(myTextFilter.getText().trim()) : null;
+    return new VcsLogFilterCollectionImpl(myBranchFilterComponent.getFilter(), myUserFilterComponent.getFilter(),
+                                          myDateFilterComponent.getFilter(), textFilter, myStructureFilterComponent.getFilter());
+  }
+
+  @Override
+  public void setFilter(@NotNull VcsLogFilter filter) {
+    if (filter instanceof VcsLogBranchFilter) {
+      Collection<String> values = ((VcsLogBranchFilter)filter).getBranchNames();
+      myBranchFilterComponent.apply(values, MultipleValueFilterPopupComponent.displayableText(values),
+                                    MultipleValueFilterPopupComponent.tooltip(values));
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   void applyFilters() {
     myUi.applyFiltersAndUpdateUi();
   }
-
 
   private static class TextFilterComponent extends DumbAwareAction implements CustomComponentAction {
 

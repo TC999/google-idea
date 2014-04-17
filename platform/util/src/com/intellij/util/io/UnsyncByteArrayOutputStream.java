@@ -31,7 +31,10 @@ public class UnsyncByteArrayOutputStream extends OutputStream {
   }
 
   public UnsyncByteArrayOutputStream(int size) {
-    myBuffer = new byte[size];
+    this(new byte[size]);
+  }
+  public UnsyncByteArrayOutputStream(byte[] buffer) {
+    myBuffer = buffer;
   }
 
   @Override

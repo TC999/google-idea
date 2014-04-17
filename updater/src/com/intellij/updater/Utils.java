@@ -83,7 +83,12 @@ public class Utils {
       }
       try {
         Thread.sleep(10);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       } catch (InterruptedException ignore) {
+=======
+      }
+      catch (InterruptedException ignore) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         Runner.printStackTrace(ignore);
       }
     }
@@ -93,7 +98,11 @@ public class Utils {
   }
 
   public static void setExecutable(File file, boolean executable) throws IOException {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (executable && !file.setExecutable(true)) {
+=======
+    if (executable && !file.setExecutable(true, false)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       Runner.logger.error("Can't set executable permissions for file");
       throw new IOException("Cannot set executable permissions for: " + file);
     }

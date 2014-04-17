@@ -39,7 +39,11 @@ public class SelectNextOccurrenceAction extends EditorAction {
     }
 
     @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     public void execute(Editor editor, @Nullable Caret c, DataContext dataContext) {
+=======
+    public void doExecute(Editor editor, @Nullable Caret c, DataContext dataContext) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       Caret caret = c == null ? editor.getCaretModel().getPrimaryCaret() : c;
       TextRange wordSelectionRange = getSelectionRange(editor, caret);
       boolean notFoundPreviously = getAndResetNotFoundStatus(editor);

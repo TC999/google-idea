@@ -165,6 +165,7 @@ class UsageViewTreeCellRenderer extends ColoredTreeCellRenderer {
     if (value instanceof Node) {
       Node node = (Node)value;
       if (!node.isValid()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         result.append(UsageViewBundle.message("node.invalid") + " ");
       }
       if (myPresentation.isShowReadOnlyStatusAsRed() && node.isReadOnly()) {
@@ -209,6 +210,52 @@ class UsageViewTreeCellRenderer extends ColoredTreeCellRenderer {
 
         if (showAsReadOnly) {
           result.append(UsageViewBundle.message("node.readonly") + " ");
+=======
+        result.append(UsageViewBundle.message("node.invalid")).append(" ");
+      }
+      if (myPresentation.isShowReadOnlyStatusAsRed() && node.isReadOnly()) {
+        showAsReadOnly = true;
+      }
+    }
+
+    if (value instanceof DefaultMutableTreeNode) {
+      DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)value;
+      Object userObject = treeNode.getUserObject();
+
+      if (userObject instanceof UsageTarget) {
+        UsageTarget usageTarget = (UsageTarget)userObject;
+        if (usageTarget.isValid()) {
+          final ItemPresentation presentation = usageTarget.getPresentation();
+          LOG.assertTrue(presentation != null);
+          if (showAsReadOnly) {
+            result.append(UsageViewBundle.message("node.readonly")).append(" ");
+          }
+          final String text = presentation.getPresentableText();
+          result.append(text == null ? "" : text);
+        }
+        else {
+          result.append(UsageViewBundle.message("node.invalid"));
+        }
+      }
+      else if (treeNode instanceof GroupNode) {
+        GroupNode node = (GroupNode)treeNode;
+
+        if (node.isRoot()) {
+          result.append(StringUtil.capitalize(myPresentation.getUsagesWord()));
+        }
+        else {
+          result.append(node.getGroup().getText(myView));
+        }
+
+        int count = node.getRecursiveUsageCount();
+        result.append(" (" + StringUtil.pluralize(count + " " + myPresentation.getUsagesWord(), count) + ")");
+      }
+      else if (treeNode instanceof UsageNode) {
+        UsageNode node = (UsageNode)treeNode;
+
+        if (showAsReadOnly) {
+          result.append(UsageViewBundle.message("node.readonly")).append(" ");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
 
         if (node.isValid()) {

@@ -175,9 +175,7 @@ public class FileDocumentManagerImpl extends FileDocumentManager implements Appl
         return null;
       }
       if (isBinaryWithoutDecompiler(file)) {
-        FileType fileType = file.getFileType();
-        if (fileType == UnknownFileType.INSTANCE) fileType = FileTypeManager.getInstance().detectFileTypeFromContent(file);
-        if (fileType.isBinary()) return null;
+        return null;
       }
       final CharSequence text = LoadTextUtil.loadText(file);
 
@@ -563,11 +561,7 @@ public class FileDocumentManagerImpl extends FileDocumentManager implements Appl
     else if (VirtualFile.PROP_NAME.equals(event.getPropertyName())) {
       Document document = getCachedDocument(file);
       if (document != null) {
-        FileType type = file.getFileType();
-        if (type == UnknownFileType.INSTANCE) {
-          // a file is linked to a document - chances are it is an "unknown text file" now
-          FileTypeManager.getInstance().detectFileTypeFromContent(file);
-        }
+        // a file is linked to a document - chances are it is an "unknown text file" now
         if (isBinaryWithoutDecompiler(file)) {
           file.putUserData(DOCUMENT_KEY, null);
           document.putUserData(FILE_KEY, null);
@@ -745,6 +739,7 @@ public class FileDocumentManagerImpl extends FileDocumentManager implements Appl
     VirtualFile virtualFile = event.getFile();
     if (virtualFile.getFileType() == UnknownFileType.INSTANCE && virtualFile.getLength() == 0) {
       virtualFile.putUserData(MUST_RECOMPUTE_FILE_TYPE, Boolean.TRUE);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     }
   }
 
@@ -775,12 +770,28 @@ public class FileDocumentManagerImpl extends FileDocumentManager implements Appl
           return true;
         }
       });
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
-    */
+  }
 
+  public static boolean recomputeFileTypeIfNecessary(@NotNull VirtualFile virtualFile) {
+    if (virtualFile.getUserData(MUST_RECOMPUTE_FILE_TYPE) != null) {
+      virtualFile.getFileType();
+      virtualFile.putUserData(MUST_RECOMPUTE_FILE_TYPE, null);
+      return true;
+    }
+    return false;
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void beforeFileDeletion(@NotNull VirtualFileEvent event) {
+  }
+
+  @Override
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void beforeFileMovement(@NotNull VirtualFileMoveEvent event) {
   }
 

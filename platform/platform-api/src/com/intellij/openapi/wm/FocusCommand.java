@@ -19,6 +19,10 @@ import com.intellij.openapi.ui.popup.util.PopupUtil;
 import com.intellij.openapi.util.ActionCallback;
 import com.intellij.openapi.util.ActiveRunnable;
 import com.intellij.openapi.util.Expirable;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.util.SystemInfo;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.util.registry.Registry;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +42,16 @@ public abstract class FocusCommand extends ActiveRunnable implements Expirable {
   private ActionCallback myCallback;
   private boolean myInvalidatesPendingFurtherRequestors = true;
   private Expirable myExpirable;
+
+  public boolean isForced() {
+    return myForced;
+  }
+
+  public void setForced(boolean forced) {
+    myForced = forced;
+  }
+
+  private boolean myForced;
 
   protected FocusCommand() {
     saveAllocation();
@@ -168,8 +182,18 @@ public abstract class FocusCommand extends ActiveRunnable implements Expirable {
           }
 
         } else {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           if (!myToFocus.requestFocusInWindow()) {
             myToFocus.requestFocus();
+=======
+          // This change seems reasonable to me. But as far as some implementations
+          // can ignore the "forced" parameter we can get bad focus behaviour.
+          // So let's start from mac.
+          if (!(myToFocus.requestFocusInWindow())) {
+            if (!SystemInfo.isMac || isForced() ) {
+              myToFocus.requestFocus();
+            }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
         }
       }

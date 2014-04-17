@@ -74,7 +74,13 @@ public class InferenceIncorporationPhase {
   }
 
   public boolean incorporate() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (InferenceVariable inferenceVariable : mySession.getInferenceVariables()) {
+=======
+    final Collection<InferenceVariable> inferenceVariables = mySession.getInferenceVariables();
+    final PsiSubstitutor substitutor = mySession.retrieveNonPrimitiveEqualsBounds(inferenceVariables);
+    for (InferenceVariable inferenceVariable : inferenceVariables) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (inferenceVariable.getInstantiation() != PsiType.NULL) continue;
       final List<PsiType> eqBounds = inferenceVariable.getBounds(InferenceBound.EQ);
       final List<PsiType> upperBounds = inferenceVariable.getBounds(InferenceBound.UPPER);
@@ -82,6 +88,7 @@ public class InferenceIncorporationPhase {
 
       eqEq(eqBounds);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       upDown(lowerBounds, upperBounds);
       upDown(eqBounds, upperBounds);
       upDown(lowerBounds, eqBounds);
@@ -91,6 +98,16 @@ public class InferenceIncorporationPhase {
       for (PsiType eqBound : eqBounds) {
         if (mySession.isProperType(eqBound)) {
           final PsiSubstitutor substitutor = PsiSubstitutor.EMPTY.put(inferenceVariable.getParameter(), eqBound);
+=======
+      upDown(lowerBounds, upperBounds, substitutor);
+      upDown(eqBounds, upperBounds, substitutor);
+      upDown(lowerBounds, eqBounds, substitutor);
+
+      upUp(upperBounds);
+
+      for (PsiType eqBound : eqBounds) {
+        if (mySession.isProperType(eqBound)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           for (PsiType upperBound : upperBounds) {
             if (!mySession.isProperType(upperBound)) {
               addConstraint(new StrictSubtypingConstraint(substitutor.substitute(upperBound), eqBound));
@@ -274,12 +291,21 @@ public class InferenceIncorporationPhase {
    *           or
    * S <: a & a <: T imply S <: T
    */
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private void upDown(List<PsiType> eqBounds, List<PsiType> upperBounds) {
     for (PsiType upperBound : upperBounds) {
       if (upperBound == null) continue;
       for (PsiType eqBound : eqBounds) {
         if (eqBound == null) continue;
         addConstraint(new StrictSubtypingConstraint(upperBound, eqBound));
+=======
+  private void upDown(List<PsiType> eqBounds, List<PsiType> upperBounds, PsiSubstitutor substitutor) {
+    for (PsiType upperBound : upperBounds) {
+      if (upperBound == null) continue;
+      for (PsiType eqBound : eqBounds) {
+        if (eqBound == null) continue;
+        addConstraint(new StrictSubtypingConstraint(substitutor.substitute(upperBound), substitutor.substitute(eqBound)));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
   }
@@ -289,7 +315,11 @@ public class InferenceIncorporationPhase {
    */
   private void eqEq(List<PsiType> eqBounds) {
     for (int i = 0; i < eqBounds.size(); i++) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       PsiType sBound= eqBounds.get(i);
+=======
+      PsiType sBound = eqBounds.get(i);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       for (int j = i + 1; j < eqBounds.size(); j++) {
         final PsiType tBound = eqBounds.get(j);
         addConstraint(new TypeEqualityConstraint(tBound, sBound));

@@ -205,6 +205,7 @@
       <option name="OTHER" value="false" />
     </context>
   </template>
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   <template name="compd" value="{$KEY_EXPR$: $VAL_EXPR$ for $VAR$ in $ITERABLE$}" description="Generator comprehension" toReformat="false" toShortenFQNames="true">
     <variable name="ITERABLE" expression="pyIterableVariable()" defaultValue="" alwaysStopAt="true" />
     <variable name="VAR" expression="collectionElementName(ITERABLE)" defaultValue="" alwaysStopAt="true" />
@@ -229,6 +230,32 @@
     </context>
   </template>
   <template name="compdi" value="{$KEY_EXPR$: $VAL_EXPR$ for $VAR$ in $ITERABLE$ if $VAR_EXPR_IF$}" description="Generator comprehension with 'if'" toReformat="false" toShortenFQNames="true">
+=======
+  <template name="compd" value="{$KEY_EXPR$: $VAL_EXPR$ for $VAR$ in $ITERABLE$}" description="Dict comprehension" toReformat="false" toShortenFQNames="true">
+    <variable name="ITERABLE" expression="pyIterableVariable()" defaultValue="" alwaysStopAt="true" />
+    <variable name="VAR" expression="collectionElementName(ITERABLE)" defaultValue="" alwaysStopAt="true" />
+    <variable name="KEY_EXPR" expression="" defaultValue="VAR" alwaysStopAt="true" />
+    <variable name="VAL_EXPR" expression="" defaultValue="VAR" alwaysStopAt="true" />
+    <context>
+      <option name="HTML_TEXT" value="false" />
+      <option name="HTML" value="false" />
+      <option name="XSL_TEXT" value="false" />
+      <option name="XML" value="false" />
+      <option name="Python" value="true" />
+      <option name="Django" value="false" />
+      <option name="CSS_PROPERTY_VALUE" value="false" />
+      <option name="CSS_DECLARATION_BLOCK" value="false" />
+      <option name="CSS_RULESET_LIST" value="false" />
+      <option name="CSS" value="false" />
+      <option name="JAVA_SCRIPT" value="false" />
+      <option name="TypeScript" value="false" />
+      <option name="SQL" value="false" />
+      <option name="CoffeeScript" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="compdi" value="{$KEY_EXPR$: $VAL_EXPR$ for $VAR$ in $ITERABLE$ if $VAR_EXPR_IF$}" description="Dict comprehension with 'if'" toReformat="false" toShortenFQNames="true">
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     <variable name="ITERABLE" expression="pyIterableVariable()" defaultValue="" alwaysStopAt="true" />
     <variable name="VAR" expression="collectionElementName(ITERABLE)" defaultValue="" alwaysStopAt="true" />
     <variable name="KEY_EXPR" expression="" defaultValue="VAR" alwaysStopAt="true" />

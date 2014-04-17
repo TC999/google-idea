@@ -8,6 +8,7 @@ import com.intellij.openapi.application.AccessToken;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
@@ -53,7 +54,14 @@ public class StartBrowserPanel {
             @Override
             public void consume(DataContext context) {
               Project project = CommonDataKeys.PROJECT.getData(context);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
               assert project != null;
+=======
+              if (project == null) {
+                // IDEA-118202
+                project = ProjectManager.getInstance().getDefaultProject();
+              }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
               setupUrlField(myUrlField, project);
             }
           });
@@ -115,7 +123,11 @@ public class StartBrowserPanel {
   }
 
   @Nullable
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static Url virtualFileToUrl(VirtualFile file, Project project) {
+=======
+  private static Url virtualFileToUrl(@NotNull VirtualFile file, @NotNull Project project) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     PsiFile psiFile;
     AccessToken token = ReadAction.start();
     try {
@@ -137,6 +149,16 @@ public class StartBrowserPanel {
     return browserSettings;
   }
 
+  @NotNull
+  public StartBrowserSettings createSettings() {
+    StartBrowserSettings browserSettings = new StartBrowserSettings();
+    browserSettings.setSelected(isSelected());
+    browserSettings.setBrowser(myBrowserSelector.getSelected());
+    browserSettings.setStartJavaScriptDebugger(myStartJavaScriptDebuggerCheckBox.isSelected());
+    browserSettings.setUrl(getUrl());
+    return browserSettings;
+  }
+
   public static void setupUrlField(@NotNull TextFieldWithBrowseButton field, @NotNull final Project project) {
     FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, false, false, false, false) {
       @Override
@@ -146,13 +168,19 @@ public class StartBrowserPanel {
     };
     descriptor.setTitle(XmlBundle.message("javascript.debugger.settings.choose.file.title"));
     descriptor.setDescription(XmlBundle.message("javascript.debugger.settings.choose.file.subtitle"));
-    //descriptor.setShowFileSystemRoots(false);
     descriptor.setRoots(ProjectRootManager.getInstance(project).getContentRoots());
 
     field.addBrowseFolderListener(new TextBrowseFolderListener(descriptor, project) {
       @NotNull
       @Override
       protected String chosenFileToResultingText(@NotNull VirtualFile chosenFile) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+        if (chosenFile.isDirectory()) {
+          return chosenFile.getPath();
+        }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         Url url = virtualFileToUrl(chosenFile, project);
         return url == null ? chosenFile.getUrl() : url.toDecodedForm();
       }

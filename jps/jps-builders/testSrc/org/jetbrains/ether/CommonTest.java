@@ -15,7 +15,13 @@
  */
 package org.jetbrains.ether;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.jetbrains.jps.model.JpsModuleRootModificationUtil;
+=======
+import org.jetbrains.jps.model.JpsDummyElement;
+import org.jetbrains.jps.model.JpsModuleRootModificationUtil;
+import org.jetbrains.jps.model.library.sdk.JpsSdk;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.jps.model.module.JpsModule;
 
 /**
@@ -132,6 +138,18 @@ public class CommonTest extends IncrementalTestCase {
     doTestBuild(1).assertSuccessful();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void testMoveClassToDependentModuleWithSameOutput() throws Exception {
+    final JpsSdk<JpsDummyElement> sdk = getOrCreateJdk();
+    final String commonOutput = getAbsolutePath("out");
+    JpsModule moduleA = addModule("moduleA", new String[]{getAbsolutePath("moduleA/src")}, commonOutput, commonOutput, sdk);
+    JpsModule moduleB = addModule("moduleB", new String[]{getAbsolutePath("moduleB/src")}, commonOutput, commonOutput, sdk);
+    JpsModuleRootModificationUtil.addDependency(moduleB, moduleA);
+    doTestBuild(1).assertSuccessful();
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void testMoveClassFromJavaFileToDependentModule() throws Exception {
     JpsModule moduleA = addModule("moduleA", "moduleA/src");
     JpsModule moduleB = addModule("moduleB", "moduleB/src");

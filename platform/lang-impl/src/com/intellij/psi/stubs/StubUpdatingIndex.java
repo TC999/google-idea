@@ -86,7 +86,11 @@ public class StubUpdatingIndex extends CustomImplementationFileBasedIndexExtensi
         if (((IStubFileElementType)elementType).shouldBuildStubFor(file)) {
           return true;
         }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         if (IndexingStamp.isFileIndexed(file, INDEX_ID, IndexInfrastructure.getIndexCreationStamp(INDEX_ID))) {
+=======
+        if (IndexingStamp.isFileIndexedStateCurrent(file, INDEX_ID)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           return true;
         }
       }
@@ -293,7 +297,11 @@ public class StubUpdatingIndex extends CustomImplementationFileBasedIndexExtensi
 
     @Override
     protected void updateWithMap(final int inputId,
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                                  @NotNull final Map<Integer, SerializedStubTree> newData,
+=======
+                                 int savedInputId, @NotNull final Map<Integer, SerializedStubTree> newData,
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                                  @NotNull NotNullComputable<Collection<Integer>> oldKeysGetter)
       throws StorageException {
 
@@ -327,7 +335,7 @@ public class StubUpdatingIndex extends CustomImplementationFileBasedIndexExtensi
             throw new StorageException(e);
           }
 
-          super.updateWithMap(inputId, newData, oldKeysGetter);
+          super.updateWithMap(inputId, savedInputId, newData, oldKeysGetter);
 
           updateStubIndices(getAffectedIndices(oldStubTree, newStubTree), inputId, oldStubTree, newStubTree);
         }

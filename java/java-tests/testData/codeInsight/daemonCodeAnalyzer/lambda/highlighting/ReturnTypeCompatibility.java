@@ -25,7 +25,11 @@ class ReturnTypeIncompatibility {
     }
 
     public static void main(String[] args) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         call<error descr="Ambiguous method call: both 'ReturnTypeIncompatibility.call(I1<P>)' and 'ReturnTypeIncompatibility.call(I2<P>)' match">(i-> {return i;})</error>;
+=======
+        call<error descr="Ambiguous method call: both 'ReturnTypeIncompatibility.call(I1<Integer>)' and 'ReturnTypeIncompatibility.call(I2<P>)' match">(i-> {return i;})</error>;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 }
 

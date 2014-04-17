@@ -1120,9 +1120,15 @@ public class ControlFlowBuilder extends GroovyRecursiveElementVisitor {
   private void finishNode(InstructionImpl instruction) {
     final InstructionImpl popped = myProcessingStack.pop();
     if (!instruction.equals(popped)) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       String description = "popped: " + popped.toString() + " : " + popped.hashCode() +
                            "   ,  expected: " + instruction.toString() + " : " + instruction.hashCode() +
                            "same objects:" + (popped == instruction);
+=======
+      String description = "popped  : " + popped.toString() + " : " + popped.hashCode() + ", " + popped.getClass() + "\n" +
+                           "expected: " + instruction.toString() + " : " + instruction.hashCode() + ", " + instruction.getClass() + "\n" +
+                           "same objects: " + (popped == instruction) + "\n";
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       error(description);
     }
   }

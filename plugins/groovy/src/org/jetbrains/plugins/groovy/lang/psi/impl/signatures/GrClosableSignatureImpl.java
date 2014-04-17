@@ -28,6 +28,7 @@ import org.jetbrains.plugins.groovy.lang.psi.api.signatures.GrClosureSignature;
 import org.jetbrains.plugins.groovy.lang.psi.api.signatures.GrSignature;
 import org.jetbrains.plugins.groovy.lang.psi.api.signatures.GrSignatureVisitor;
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.blocks.GrClosableBlock;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrExpression;
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.params.GrParameter;
 import org.jetbrains.plugins.groovy.lang.psi.api.types.GrClosureParameter;
@@ -133,5 +134,80 @@ class GrClosableSignatureImpl implements GrClosureSignature {
     public String getName() {
       return myParameter.getName();
     }
+=======
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.params.GrParameter;
+import org.jetbrains.plugins.groovy.lang.psi.api.types.GrClosureParameter;
+
+/**
+* Created by Max Medvedev on 26/02/14
+*/
+class GrClosableSignatureImpl implements GrClosureSignature {
+  private final GrClosableBlock myBlock;
+
+  public GrClosableSignatureImpl(GrClosableBlock block) {
+    myBlock = block;
+  }
+
+  @NotNull
+  @Override
+  public PsiSubstitutor getSubstitutor() {
+    return PsiSubstitutor.EMPTY;
+  }
+
+  @NotNull
+  @Override
+  public GrClosureParameter[] getParameters() {
+    GrParameter[] parameters = myBlock.getAllParameters();
+
+    return ContainerUtil.map(parameters, new Function<GrParameter, GrClosureParameter>() {
+      @Override
+      public GrClosureParameter fun(final GrParameter parameter) {
+        return createClosureParameter(parameter);
+      }
+    }, new GrClosureParameter[parameters.length]);
+  }
+
+  @NotNull
+  protected GrClosureParameter createClosureParameter(@NotNull GrParameter parameter) {
+    return new GrClosureParameterImpl(parameter);
+  }
+
+  @Override
+  public int getParameterCount() {
+    return myBlock.getAllParameters().length;
+  }
+
+  @Override
+  public boolean isVarargs() {
+    GrParameter last = ArrayUtil.getLastElement(myBlock.getAllParameters());
+    return last != null && last.getType() instanceof PsiArrayType;
+  }
+
+  @Nullable
+  @Override
+  public PsiType getReturnType() {
+    return myBlock.getReturnType();
+  }
+
+  @Override
+  public boolean isCurried() {
+    return false;
+  }
+
+  @Override
+  public boolean isValid() {
+    return myBlock.isValid();
+  }
+
+  @Nullable
+  @Override
+  public GrSignature curry(@NotNull PsiType[] args, int position, @NotNull PsiElement context) {
+    return GrClosureSignatureUtil.curryImpl(this, args, position, context);
+  }
+
+  @Override
+  public void accept(@NotNull GrSignatureVisitor visitor) {
+    visitor.visitClosureSignature(this);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

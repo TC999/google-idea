@@ -137,4 +137,11 @@ public abstract class MavenCompilingTestCase extends MavenImportingTestCase {
   protected void assertDirectory(String relativePath, TestFileSystemBuilder fileSystemBuilder) {
     fileSystemBuilder.build().assertDirectoryEqual(new File(myProjectPom.getParent().getPath(), relativePath));
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  protected void assertJar(String relativePath, TestFileSystemBuilder fileSystemBuilder) {
+    fileSystemBuilder.build().assertFileEqual(new File(myProjectPom.getParent().getPath(), relativePath));
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

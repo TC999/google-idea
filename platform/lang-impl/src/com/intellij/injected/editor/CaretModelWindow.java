@@ -214,11 +214,40 @@ public class CaretModelWindow implements CaretModel {
   public void setCaretsAndSelections(@NotNull List<CaretState> caretStates) {
     List<CaretState> convertedStates = new ArrayList<CaretState>(caretStates.size());
     for (CaretState state : caretStates) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       convertedStates.add(new CaretState(state.getCaretPosition() == null ? null : myEditorWindow.injectedToHost(state.getCaretPosition()),
                                          state.getSelectionStart() == null ? null : myEditorWindow.injectedToHost(state.getSelectionStart()),
                                          state.getSelectionEnd() == null ? null : myEditorWindow.injectedToHost(state.getSelectionEnd())));
     }
     myDelegate.setCaretsAndSelections(convertedStates);
+=======
+      convertedStates.add(new CaretState(injectedToHost(state.getCaretPosition()),
+                                         injectedToHost(state.getSelectionStart()),
+                                         injectedToHost(state.getSelectionEnd())));
+    }
+    myDelegate.setCaretsAndSelections(convertedStates);
+  }
+
+  private LogicalPosition injectedToHost(@Nullable LogicalPosition position) {
+    return position == null ? null : myEditorWindow.injectedToHost(position);
+  }
+
+  @NotNull
+  @Override
+  public List<CaretState> getCaretsAndSelections() {
+    List<CaretState> caretsAndSelections = myDelegate.getCaretsAndSelections();
+    List<CaretState> convertedStates = new ArrayList<CaretState>(caretsAndSelections.size());
+    for (CaretState state : caretsAndSelections) {
+      convertedStates.add(new CaretState(hostToInjected(state.getCaretPosition()),
+                                         hostToInjected(state.getSelectionStart()),
+                                         hostToInjected(state.getSelectionEnd())));
+    }
+    return convertedStates;
+  }
+
+  private LogicalPosition hostToInjected(@Nullable LogicalPosition position) {
+    return position == null ? null : myEditorWindow.hostToInjected(position);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private InjectedCaret createInjectedCaret(Caret caret) {

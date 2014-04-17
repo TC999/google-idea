@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2009 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ package com.intellij.debugger.ui.breakpoints;
 
 import com.intellij.debugger.DebuggerBundle;
 import com.intellij.debugger.DebuggerInvocationUtil;
-import com.intellij.debugger.SourcePosition;
+import com.intellij.debugger.DebuggerManagerEx;
 import com.intellij.debugger.engine.BreakpointStepMethodFilter;
 import com.intellij.debugger.engine.DebugProcessImpl;
 import com.intellij.debugger.engine.requests.RequestManagerImpl;
@@ -41,12 +41,17 @@ import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.startup.StartupManager;
 import com.intellij.openapi.ui.MessageType;
-import com.intellij.openapi.util.*;
+import com.intellij.openapi.util.Comparing;
+import com.intellij.openapi.util.Computable;
+import com.intellij.openapi.util.InvalidDataException;
+import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.psi.PsiDocumentManager;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiFile;
 import com.intellij.util.Alarm;
 import com.intellij.util.EventDispatcher;
 import com.intellij.xdebugger.XDebuggerManager;
@@ -54,13 +59,19 @@ import com.intellij.xdebugger.XDebuggerUtil;
 import com.intellij.xdebugger.breakpoints.*;
 import com.intellij.xdebugger.impl.DebuggerSupport;
 import com.intellij.xdebugger.impl.XDebugSessionImpl;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.xdebugger.impl.breakpoints.XBreakpointManagerImpl;
 import com.intellij.xdebugger.impl.breakpoints.XDependentBreakpointManager;
+=======
+import com.intellij.xdebugger.impl.breakpoints.XBreakpointBase;
+import com.intellij.xdebugger.impl.breakpoints.XBreakpointManagerImpl;
+import com.intellij.xdebugger.impl.breakpoints.XDependentBreakpointManager;
+import com.intellij.xdebugger.impl.breakpoints.XLineBreakpointImpl;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.sun.jdi.InternalException;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.request.*;
 import gnu.trove.THashMap;
-import gnu.trove.TIntHashSet;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -85,44 +96,14 @@ public class BreakpointManager {
   private final Map<XBreakpoint, Breakpoint> myBreakpoints = new HashMap<XBreakpoint, Breakpoint>(); // breakpoints storage, access should be synchronized
   @Nullable private List<Breakpoint> myBreakpointsListForIteration = null; // another list for breakpoints iteration, unsynchronized access ok
   private final Map<String, String> myUIProperties = new LinkedHashMap<String, String>();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   //private final Map<Key<? extends Breakpoint>, BreakpointDefaults> myBreakpointDefaults = new LinkedHashMap<Key<? extends Breakpoint>, BreakpointDefaults>();
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private final EventDispatcher<BreakpointManagerListener> myDispatcher = EventDispatcher.create(BreakpointManagerListener.class);
 
   private final StartupManager myStartupManager;
-
-  private void update(@NotNull List<BreakpointWithHighlighter> breakpoints) {
-    final TIntHashSet intHash = new TIntHashSet();
-    for (BreakpointWithHighlighter breakpoint : breakpoints) {
-      SourcePosition sourcePosition = breakpoint.getSourcePosition();
-      breakpoint.reload();
-
-      if (breakpoint.isValid()) {
-        if (sourcePosition == null || breakpoint.getSourcePosition().getLine() != sourcePosition.getLine()) {
-          fireBreakpointChanged(breakpoint);
-        }
-
-        if (intHash.contains(breakpoint.getLineIndex())) {
-          remove(breakpoint);
-        }
-        else {
-          intHash.add(breakpoint.getLineIndex());
-        }
-      }
-      else {
-        remove(breakpoint);
-      }
-    }
-  }
-
-  private void remove(final BreakpointWithHighlighter breakpoint) {
-    DebuggerInvocationUtil.invokeLater(myProject, new Runnable() {
-      @Override
-      public void run() {
-        removeBreakpoint(breakpoint);
-      }
-    });
-  }
 
   public BreakpointManager(@NotNull Project project, @NotNull StartupManager startupManager, @NotNull DebuggerManagerImpl debuggerManager) {
     myProject = project;
@@ -132,12 +113,29 @@ public class BreakpointManager {
 
       @Override
       public void changeEvent(@NotNull DebuggerContextImpl newContext, int event) {
+        if (event == DebuggerSession.EVENT_ATTACHED) {
+          for (XBreakpoint breakpoint : getXBreakpointManager().getAllBreakpoints()) {
+            if (checkAndNotifyPossiblySlowBreakpoint(breakpoint)) break;
+          }
+        }
         if (newContext.getDebuggerSession() != myPreviousSession || event == DebuggerSession.EVENT_DETACHED) {
           updateBreakpointsUI();
           myPreviousSession = newContext.getDebuggerSession();
         }
       }
     });
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  private boolean checkAndNotifyPossiblySlowBreakpoint(XBreakpoint breakpoint) {
+    if (breakpoint.isEnabled() &&
+        (breakpoint.getType() instanceof JavaMethodBreakpointType || breakpoint.getType() instanceof JavaWildcardMethodBreakpointType)) {
+      XDebugSessionImpl.NOTIFICATION_GROUP.createNotification("Method breakpoints may dramatically slow down debugging", MessageType.WARNING).notify(myProject);
+      return true;
+    }
+    return false;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public void init() {
@@ -173,19 +171,23 @@ public class BreakpointManager {
     DebuggerInvocationUtil.swingInvokeLater(myProject, new Runnable() {
       @Override
       public void run() {
-        final RangeHighlighter highlighter = ((BreakpointWithHighlighter)breakpoint).getHighlighter();
-        if (highlighter != null) {
-          final GutterIconRenderer renderer = highlighter.getGutterIconRenderer();
-          if (renderer != null) {
-            DebuggerSupport.getDebuggerSupport(JavaDebuggerSupport.class).getEditBreakpointAction().editBreakpoint(
-              myProject, editor, breakpoint, renderer
-            );
+        XBreakpoint xBreakpoint = breakpoint.myXBreakpoint;
+        if (xBreakpoint instanceof XLineBreakpointImpl) {
+          RangeHighlighter highlighter = ((XLineBreakpointImpl)xBreakpoint).getHighlighter();
+          if (highlighter != null) {
+            GutterIconRenderer renderer = highlighter.getGutterIconRenderer();
+            if (renderer != null) {
+              DebuggerSupport.getDebuggerSupport(JavaDebuggerSupport.class).getEditBreakpointAction().editBreakpoint(
+                myProject, editor, breakpoint.myXBreakpoint, renderer
+              );
+            }
           }
         }
       }
     });
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   //@NotNull
   //public BreakpointDefaults getBreakpointDefaults(Key<? extends Breakpoint> category) {
   //  BreakpointDefaults defaults = myBreakpointDefaults.get(category);
@@ -195,6 +197,8 @@ public class BreakpointManager {
   //  return defaults;
   //}
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void setBreakpointDefaults(Key<? extends Breakpoint> category, BreakpointDefaults defaults) {
     Class typeCls = null;
     if (LineBreakpoint.CATEGORY.toString().equals(category.toString())) {
@@ -213,9 +217,11 @@ public class BreakpointManager {
       XBreakpointType<XBreakpoint<?>, ?> type = XDebuggerUtil.getInstance().findBreakpointType(typeCls);
       ((XBreakpointManagerImpl)getXBreakpointManager()).getBreakpointDefaults(type).setSuspendPolicy(Breakpoint.transformSuspendPolicy(defaults.getSuspendPolicy()));
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     //myBreakpointDefaults.put(category, defaults);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
-
 
   @Nullable
   public RunToCursorBreakpoint addRunToCursorBreakpoint(Document document, int lineIndex, final boolean ignoreBreakpoints) {
@@ -242,6 +248,7 @@ public class BreakpointManager {
     addBreakpoint(breakpoint);
     return breakpoint;
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
   //@Nullable
   //public FieldBreakpoint addFieldBreakpoint(Field field, ObjectReference object) {
@@ -252,6 +259,8 @@ public class BreakpointManager {
   //  }
   //  return fieldBreakpoint;
   //}
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @Nullable
   public FieldBreakpoint addFieldBreakpoint(@NotNull Document document, int offset) {
@@ -309,8 +318,6 @@ public class BreakpointManager {
       return null;
     }
 
-    XDebugSessionImpl.NOTIFICATION_GROUP.createNotification("Method breakpoints may dramatically slow down debugging", MessageType.WARNING).notify(myProject);
-
     addBreakpoint(breakpoint);
     return breakpoint;
   }
@@ -324,6 +331,7 @@ public class BreakpointManager {
         return XDebuggerManager.getInstance(myProject).getBreakpointManager()
           .addLineBreakpoint((XLineBreakpointType)type, file.getUrl(), lineIndex,
                              ((XLineBreakpointType)type).createBreakpointProperties(file, lineIndex));
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       }
     });
   }
@@ -349,27 +357,10 @@ public class BreakpointManager {
     for (final Breakpoint breakpoint : getBreakpoints()) {
       if (breakpoint instanceof BreakpointWithHighlighter && ((BreakpointWithHighlighter)breakpoint).isAt(document, offset)) {
         result.add((BreakpointWithHighlighter)breakpoint);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
-    }
-
-    return result;
-  }
-
-  @NotNull
-  public List<BreakpointWithHighlighter> findBreakpoints(@NotNull Document document, @NotNull TextRange textRange) {
-    ApplicationManager.getApplication().assertIsDispatchThread();
-    List<BreakpointWithHighlighter> result = new ArrayList<BreakpointWithHighlighter>();
-    int startLine = document.getLineNumber(textRange.getStartOffset());
-    int endLine = document.getLineNumber(textRange.getEndOffset())+1;
-    TextRange lineRange = new TextRange(startLine, endLine);
-    for (final Breakpoint breakpoint : getBreakpoints()) {
-      if (breakpoint instanceof BreakpointWithHighlighter &&
-          lineRange.contains(((BreakpointWithHighlighter)breakpoint).getLineIndex())) {
-        result.add((BreakpointWithHighlighter)breakpoint);
-      }
-    }
-
-    return result;
+    });
   }
 
   /**
@@ -388,16 +379,34 @@ public class BreakpointManager {
     return null;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public Breakpoint findBreakpoint(XBreakpoint xBreakpoint) {
     return myBreakpoints.get(xBreakpoint);
   }
 
   private List<Element> myOriginalBreakpointsNodes = new ArrayList<Element>();
+=======
+  @Nullable
+  public static Breakpoint findBreakpoint(@NotNull XBreakpoint xBreakpoint) {
+    Project project = ((XBreakpointBase)xBreakpoint).getProject();
+    BreakpointManager breakpointManager = DebuggerManagerEx.getInstanceEx(project).getBreakpointManager();
+    return breakpointManager.myBreakpoints.get(xBreakpoint);
+  }
+
+  private HashMap<String, Element> myOriginalBreakpointsNodes = new HashMap<String, Element>();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public void readExternal(@NotNull final Element parentNode) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     // save old breakpoints
     for (Element element : parentNode.getChildren()) {
       myOriginalBreakpointsNodes.add(element.clone());
+=======
+    myOriginalBreakpointsNodes.clear();
+    // save old breakpoints
+    for (Element element : parentNode.getChildren()) {
+      myOriginalBreakpointsNodes.put(element.getName(), element.clone());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     if (myProject.isOpen()) {
       doRead(parentNode);
@@ -584,6 +593,7 @@ public class BreakpointManager {
   }
 
   //used in Fabrique
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public synchronized void addBreakpoint(Breakpoint breakpoint) {
     myBreakpoints.put(breakpoint.myXBreakpoint, breakpoint);
     myBreakpointsListForIteration = null;
@@ -593,6 +603,15 @@ public class BreakpointManager {
     if (breakpoint instanceof MethodBreakpoint || breakpoint instanceof WildcardMethodBreakpoint) {
       XDebugSessionImpl.NOTIFICATION_GROUP.createNotification("Method breakpoints may dramatically slow down debugging", MessageType.WARNING).notify(myProject);
     }
+=======
+  public synchronized void addBreakpoint(@NotNull Breakpoint breakpoint) {
+    myBreakpoints.put(breakpoint.myXBreakpoint, breakpoint);
+    myBreakpointsListForIteration = null;
+    breakpoint.updateUI();
+    RequestManagerImpl.createRequests(breakpoint);
+    myDispatcher.getMulticaster().breakpointsChanged();
+    checkAndNotifyPossiblySlowBreakpoint(breakpoint.myXBreakpoint);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private synchronized void onBreakpointAdded(XBreakpoint xBreakpoint) {
@@ -632,11 +651,16 @@ public class BreakpointManager {
 
   public void writeExternal(@NotNull final Element parentNode) {
     // restore old breakpoints
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (Element group : myOriginalBreakpointsNodes) {
+=======
+    for (Element group : myOriginalBreakpointsNodes.values()) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (group.getAttribute(CONVERTED_PARAM) == null) {
         group.setAttribute(CONVERTED_PARAM, "true");
       }
       group.detach();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     }
 
     parentNode.addContent(myOriginalBreakpointsNodes);
@@ -726,29 +750,11 @@ public class BreakpointManager {
       if (!breakpoint.isValid()) {
         toDelete.add(breakpoint);
       }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
-    for (final Breakpoint aToDelete : toDelete) {
-      removeBreakpoint(aToDelete);
-    }
-  }
-
-  /**
-   * @return breakpoints of one of the category:
-   *         LINE_BREAKPOINTS, EXCEPTION_BREAKPOINTS, FIELD_BREAKPOINTS, METHOD_BREAKPOINTS
-   */
-  public <T extends Breakpoint> Breakpoint[] getBreakpoints(@NotNull final Key<T> category) {
-    ApplicationManager.getApplication().assertIsDispatchThread();
-    removeInvalidBreakpoints();
-
-    final ArrayList<Breakpoint> breakpoints = new ArrayList<Breakpoint>();
-    for (Breakpoint breakpoint : getBreakpoints()) {
-      if (category.equals(breakpoint.getCategory())) {
-        breakpoints.add(breakpoint);
-      }
-    }
-
-    return breakpoints.toArray(new Breakpoint[breakpoints.size()]);
+    parentNode.addContent(myOriginalBreakpointsNodes.values());
   }
 
   @NotNull
@@ -951,6 +957,7 @@ public class BreakpointManager {
   public void setBreakpointEnabled(@NotNull final Breakpoint breakpoint, final boolean enabled) {
     if (breakpoint.isEnabled() != enabled) {
       breakpoint.setEnabled(enabled);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       //fireBreakpointChanged(breakpoint);
       //breakpoint.updateUI();
     }
@@ -988,6 +995,10 @@ public class BreakpointManager {
   //    }
   //  }
   //}
+=======
+    }
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   // copied from XDebugSessionImpl processDependencies
   public void processBreakpointHit(@NotNull final Breakpoint breakpoint) {
@@ -995,6 +1006,7 @@ public class BreakpointManager {
     XBreakpoint xBreakpoint = breakpoint.myXBreakpoint;
     if (!dependentBreakpointManager.isMasterOrSlave(xBreakpoint)) {
       return;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     }
     List<XBreakpoint<?>> breakpoints = dependentBreakpointManager.getSlaveBreakpoints(xBreakpoint);
     for (final XBreakpoint<?> slaveBreakpoint : breakpoints) {
@@ -1014,7 +1026,10 @@ public class BreakpointManager {
         }
       });
       //myDebuggerManager.getBreakpointManager().getLineBreakpointManager().queueBreakpointUpdate(breakpoint);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   public void setInitialBreakpointsState() {
@@ -1037,9 +1052,31 @@ public class BreakpointManager {
   public Breakpoint findMasterBreakpoint(@NotNull Breakpoint dependentBreakpoint) {
     XDependentBreakpointManager dependentBreakpointManager = ((XBreakpointManagerImpl)getXBreakpointManager()).getDependentBreakpointManager();
     return myBreakpoints.get(dependentBreakpointManager.getMasterBreakpoint(dependentBreakpoint.myXBreakpoint));
+=======
+    List<XBreakpoint<?>> breakpoints = dependentBreakpointManager.getSlaveBreakpoints(xBreakpoint);
+    for (final XBreakpoint<?> slaveBreakpoint : breakpoints) {
+      DebuggerInvocationUtil.invokeLater(myProject, new Runnable() {
+        @Override
+        public void run() {
+          slaveBreakpoint.setEnabled(true);
+        }
+      });
+    }
+
+    if (dependentBreakpointManager.getMasterBreakpoint(xBreakpoint) != null && !dependentBreakpointManager.isLeaveEnabled(xBreakpoint)) {
+      DebuggerInvocationUtil.invokeLater(myProject, new Runnable() {
+        @Override
+        public void run() {
+          breakpoint.setEnabled(false);
+        }
+      });
+      //myDebuggerManager.getBreakpointManager().getLineBreakpointManager().queueBreakpointUpdate(breakpoint);
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public EnableBreakpointRule findBreakpointRule(@NotNull Breakpoint dependentBreakpoint) {
     //for (final EnableBreakpointRule rule : myBreakpointRules) {
     //  if (dependentBreakpoint.equals(rule.getSlaveBreakpoint())) {
@@ -1047,6 +1084,11 @@ public class BreakpointManager {
     //  }
     //}
     return null;
+=======
+  public Breakpoint findMasterBreakpoint(@NotNull Breakpoint dependentBreakpoint) {
+    XDependentBreakpointManager dependentBreakpointManager = ((XBreakpointManagerImpl)getXBreakpointManager()).getDependentBreakpointManager();
+    return myBreakpoints.get(dependentBreakpointManager.getMasterBreakpoint(dependentBreakpoint.myXBreakpoint));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public String getProperty(String name) {

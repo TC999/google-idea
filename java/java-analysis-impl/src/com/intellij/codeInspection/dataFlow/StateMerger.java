@@ -118,9 +118,16 @@ class StateMerger {
 
   private static Set<DfaConstValue> getOtherInequalities(Fact removedFact, LinkedHashSet<Fact> memberFacts, DfaMemoryStateImpl state) {
     Set<DfaConstValue> otherInequalities = ContainerUtil.newLinkedHashSet();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (Fact candidate : memberFacts) {
       if (candidate.myType == FactType.equality && !candidate.myPositive && candidate.myVar == removedFact.myVar &&
           !state.areEquivalent((DfaValue)candidate.myArg, (DfaValue)removedFact.myArg) && 
+=======
+    Set<DfaValue> eqValues = ContainerUtil.newHashSet(state.getEquivalentValues((DfaValue)removedFact.myArg));
+    for (Fact candidate : memberFacts) {
+      if (candidate.myType == FactType.equality && !candidate.myPositive && candidate.myVar == removedFact.myVar &&
+          !eqValues.contains((DfaValue)candidate.myArg) &&
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           candidate.myArg instanceof DfaConstValue) {
         otherInequalities.add((DfaConstValue)candidate.myArg);
       }
@@ -255,8 +262,13 @@ class StateMerger {
     
     result = ContainerUtil.newLinkedHashSet();
     for (EqClass eqClass : state.getNonTrivialEqClasses()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       DfaConstValue constant = eqClass.findConstant(true);
       List<DfaVariableValue> vars = eqClass.getVariables();
+=======
+      DfaValue constant = eqClass.findConstant(true);
+      List<DfaVariableValue> vars = eqClass.getVariables(false);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       for (DfaVariableValue var : vars) {
         if (constant != null) {
           result.add(Fact.createEqualityFact(var, constant, true));
@@ -270,8 +282,13 @@ class StateMerger {
     }
     
     for (UnorderedPair<EqClass> classPair : state.getDistinctClassPairs()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       List<DfaVariableValue> vars1 = classPair.first.getVariables();
       List<DfaVariableValue> vars2 = classPair.second.getVariables();
+=======
+      List<DfaVariableValue> vars1 = classPair.first.getVariables(false);
+      List<DfaVariableValue> vars2 = classPair.second.getVariables(false);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       
       LinkedHashSet<DfaValue> firstSet = new LinkedHashSet<DfaValue>(vars1);
       ContainerUtil.addIfNotNull(firstSet, classPair.first.findConstant(true));

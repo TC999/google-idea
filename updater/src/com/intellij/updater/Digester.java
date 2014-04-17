@@ -28,8 +28,12 @@ public class Digester {
         zipFile = new ZipFile(file);
       }
       catch (IOException e) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         // If this isn't a zip file, this isn't really an error, merely an info.
         Runner.infoStackTrace("Can't open file as zip file: " + file.getPath() + "\n", e);
+=======
+        Runner.printStackTrace(e);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         return doDigestRegularFile(file);
       }
 

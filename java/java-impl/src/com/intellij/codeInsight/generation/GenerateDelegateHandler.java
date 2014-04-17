@@ -263,7 +263,7 @@ public class GenerateDelegateHandler implements LanguageCodeInsightActionHandler
         superSubstitutor = TypeConversionUtil.getSuperClassSubstitutor(superClass, targetClass, substitutor);
         superSubstitutors.put(superClass, superSubstitutor);
       }
-      PsiSubstitutor methodSubstitutor = OverrideImplementUtil.correctSubstitutor(method, superSubstitutor);
+      PsiSubstitutor methodSubstitutor = OverrideImplementExploreUtil.correctSubstitutor(method, superSubstitutor);
       MethodSignature signature = method.getSignature(methodSubstitutor);
       if (!signatures.contains(signature)) {
         signatures.add(signature);
@@ -357,14 +357,16 @@ public class GenerateDelegateHandler implements LanguageCodeInsightActionHandler
       final PsiType type = field.getType();
       if (helper.isAccessible(field, aClass, aClass) && type instanceof PsiClassType && !PsiTreeUtil.isAncestor(field, element, false)) {
         final PsiClass containingClass = field.getContainingClass();
-        result.add(new PsiFieldMember(field, TypeConversionUtil.getSuperClassSubstitutor(containingClass, aClass, PsiSubstitutor.EMPTY)));
+        if (containingClass != null) {
+          result.add(new PsiFieldMember(field, TypeConversionUtil.getSuperClassSubstitutor(containingClass, aClass, PsiSubstitutor.EMPTY)));
+        }
       }
     }
 
     final PsiMethod[] methods = aClass.getAllMethods();
     for (PsiMethod method : methods) {
       final PsiClass containingClass = method.getContainingClass();
-      if (CommonClassNames.JAVA_LANG_OBJECT.equals(containingClass.getQualifiedName())) continue;
+      if (containingClass == null || CommonClassNames.JAVA_LANG_OBJECT.equals(containingClass.getQualifiedName())) continue;
       final PsiType returnType = method.getReturnType();
       if (returnType != null && PropertyUtil.isSimplePropertyGetter(method) && helper.isAccessible(method, aClass, aClass) &&
           returnType instanceof PsiClassType && !PsiTreeUtil.isAncestor(method, element, false)) {

@@ -116,7 +116,7 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   layouts.layout_core(home, paths.artifacts_core)
   notifyArtifactBuilt(paths.artifacts_core)
   if (buildJps) {
-    layouts.layoutCommunityJps(home, paths.artifacts_jps)
+    layouts.layoutJps(home, paths.artifacts_jps, args.buildNumber, {})
     notifyArtifactBuilt(paths.artifacts_jps)
   }
 
@@ -171,6 +171,7 @@ private layoutWin(Map _args, String home, Paths paths) {
 
   ant.copy(file: "$home/../adt/idea/adt-branding/src/artwork/androidstudio.ico", tofile: "$target/bin/idea.ico")
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   // The 0.1.1 win launcher.
   ant.copy(  file: "$home/../adt/idea/native/WinLauncher/out/Release-Win32/studio.exe",
            tofile: "$target/bin/studio.exe")
@@ -186,6 +187,15 @@ private layoutWin(Map _args, String home, Paths paths) {
 
   winScripts(target, home, "studio.bat", args)
   winVMOptions(target, args, "studio.exe", "studio64.exe")
+=======
+  winScripts(target, home, "idea.bat", args)
+  winVMOptions(target, null, "idea.exe", "idea64.exe")
+  List resourcePaths = ["$home/community-resources/src", "$home/platform/icons/src"]
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/idea.exe", appInfoFile(),
+                   "$home/build/conf/ideaCE-launcher.properties", args.ce_exe_selector, resourcePaths)
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/idea64.exe", appInfoFile(),
+                   "$home/build/conf/ideaCE64-launcher.properties", args.ce_exe_selector, resourcePaths)
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }
 
 private layoutMac(Map _args, String home, Paths paths) {

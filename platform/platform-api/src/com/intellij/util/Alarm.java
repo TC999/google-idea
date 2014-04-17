@@ -23,6 +23,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.util.concurrency.QueueProcessor;
 import com.intellij.util.messages.MessageBus;
@@ -67,6 +68,10 @@ public class Alarm implements Disposable {
       myExecutorService.shutdown();
       ((ThreadPoolExecutor)myExecutorService).getQueue().clear();
     }
+  }
+
+  public void checkDisposed() {
+    LOG.assertTrue(!myDisposed, "Already disposed");
   }
 
   public void checkDisposed() {
@@ -227,6 +232,7 @@ public class Alarm implements Disposable {
   }
 
   public void flush() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     List<Request> requests;
     synchronized (LOCK) {
       if (myRequests.isEmpty()) {
@@ -244,6 +250,29 @@ public class Alarm implements Disposable {
 
     for (Request request : requests) {
       request.run();
+=======
+    List<Pair<Request, Runnable>> requests;
+    synchronized (LOCK) {
+      if (myRequests.isEmpty()) {
+        return;
+      }
+
+      requests = new SmartList<Pair<Request, Runnable>>();
+      for (Request request : myRequests) {
+        Runnable existingTask = request.cancel();
+        if (existingTask != null) {
+          requests.add(Pair.create(request, existingTask));
+        }
+      }
+      myRequests.clear();
+    }
+
+    for (Pair<Request, Runnable> request : requests) {
+      synchronized (LOCK) {
+        request.first.myTask = request.second;
+      }
+      request.first.run();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 
@@ -370,8 +399,16 @@ public class Alarm implements Disposable {
       return myModalityState;
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     private boolean cancel() {
       boolean result;
+=======
+    /**
+     * @return task if not yet executed
+     */
+    @Nullable
+    private Runnable cancel() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       synchronized (LOCK) {
         if (myFuture != null) {
           result = myFuture.cancel(false);
@@ -379,10 +416,15 @@ public class Alarm implements Disposable {
           ((ScheduledThreadPoolExecutor)JobScheduler.getScheduler()).remove((Runnable)myFuture);
           myFuture = null;
         }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         else {
           result = false;
         }
+=======
+        Runnable task = myTask;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         myTask = null;
+        return task;
       }
       return result;
     }

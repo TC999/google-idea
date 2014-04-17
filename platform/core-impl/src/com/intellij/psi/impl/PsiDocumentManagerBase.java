@@ -129,7 +129,7 @@ public abstract class PsiDocumentManagerBase extends PsiDocumentManager implemen
     return psiFile;
   }
 
-  public static void cachePsi(@NotNull Document document, @NotNull PsiFile file) {
+  public static void cachePsi(@NotNull Document document, @Nullable PsiFile file) {
     document.putUserData(HARD_REF_TO_PSI, file);
   }
 
@@ -179,8 +179,16 @@ public abstract class PsiDocumentManagerBase extends PsiDocumentManager implemen
     document = FileDocumentManager.getInstance().getDocument(viewProvider.getVirtualFile());
     if (document != null) {
       if (document.getTextLength() != file.getTextLength()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         throw new AssertionError("Modified PSI with no document: " + file + "; physical=" + viewProvider.isPhysical() +
                                  "; BFD=" + BinaryFileTypeDecompilers.INSTANCE.forFileType(file.getFileType()));
+=======
+        String message = "Modified PSI with no document: " + file + "; physical=" + viewProvider.isPhysical();
+        if (document.getTextLength() + file.getTextLength() < 8096) {
+          message += "\n=== document ===\n" + document.getText() + "\n=== PSI ===\n" + file.getText();
+        }
+        throw new AssertionError(message);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
 
       if (!viewProvider.isPhysical()) {

@@ -65,15 +65,24 @@ public class InferenceVariable {
 
   public Set<InferenceVariable> getDependencies(InferenceSession session) {
     final Set<InferenceVariable> dependencies = new LinkedHashSet<InferenceVariable>();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (InferenceBound inferenceBound : InferenceBound.values()) {
       for (PsiType bound : getBounds(inferenceBound)) {
         session.collectDependencies(bound, dependencies);
+=======
+    for (List<PsiType> boundTypes : myBounds.values()) {
+      if (boundTypes != null) {
+        for (PsiType bound : boundTypes) {
+          session.collectDependencies(bound, dependencies);
+        }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
 
     next:
     for (InferenceVariable variable : session.getInferenceVariables()) {
       if (!dependencies.contains(variable) && variable != this) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         for (InferenceBound inferenceBound : InferenceBound.values()) {
           for (PsiType bound : getBounds(inferenceBound)) {
             Set<InferenceVariable> deps = new HashSet<InferenceVariable>();
@@ -81,6 +90,22 @@ public class InferenceVariable {
             if (deps.contains(this)) {
               dependencies.add(variable);
               continue next;
+=======
+        nextBound:
+        for (List<PsiType> bounds : myBounds.values()) { //todo
+          if (bounds != null) {
+            for (PsiType bound : bounds) {
+              final Set<InferenceVariable> deps = new HashSet<InferenceVariable>();
+              session.collectDependencies(bound, deps);
+              if (deps.isEmpty()) {
+                continue nextBound;
+              }
+
+              if (deps.contains(this)) {
+                dependencies.add(variable);
+                continue next;
+              }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             }
           }
         }

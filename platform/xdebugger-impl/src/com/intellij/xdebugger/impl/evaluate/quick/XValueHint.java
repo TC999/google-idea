@@ -25,7 +25,10 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.util.TextRange;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.vcs.changes.issueLinks.LinkMouseListenerBase;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.SimpleColoredComponent;
@@ -34,6 +37,7 @@ import com.intellij.util.Consumer;
 import com.intellij.xdebugger.XDebugSession;
 import com.intellij.xdebugger.XDebuggerUtil;
 import com.intellij.xdebugger.XSourcePosition;
+import com.intellij.xdebugger.evaluation.ExpressionInfo;
 import com.intellij.xdebugger.evaluation.XDebuggerEvaluator;
 import com.intellij.xdebugger.frame.XDebuggerTreeNodeHyperlink;
 import com.intellij.xdebugger.frame.XFullValueEvaluator;
@@ -66,15 +70,17 @@ public class XValueHint extends AbstractValueHint {
   private final XDebuggerEvaluator myEvaluator;
   private final XDebugSession myDebugSession;
   private final String myExpression;
+  private final String myValueName;
   private final @Nullable XSourcePosition myExpressionPosition;
 
   public XValueHint(@NotNull Project project, @NotNull Editor editor, @NotNull Point point, @NotNull ValueHintType type,
-                    @NotNull Pair<TextRange, String> expressionData, @NotNull XDebuggerEvaluator evaluator,
+                    @NotNull ExpressionInfo expressionInfo, @NotNull XDebuggerEvaluator evaluator,
                     @NotNull XDebugSession session) {
-    super(project, editor, point, type, expressionData.first);
+    super(project, editor, point, type, expressionInfo.getTextRange());
 
     myEvaluator = evaluator;
     myDebugSession = session;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myExpression = XDebuggerEvaluateActionHandler.getExpressionText(expressionData, editor.getDocument());
 
     VirtualFile file;
@@ -88,6 +94,22 @@ public class XValueHint extends AbstractValueHint {
     }
 
     myExpressionPosition = file != null ? XDebuggerUtil.getInstance().createPositionByOffset(file, expressionData.first.getStartOffset()) : null;
+=======
+    myExpression = XDebuggerEvaluateActionHandler.getExpressionText(expressionInfo, editor.getDocument());
+    myValueName = XDebuggerEvaluateActionHandler.getDisplayText(expressionInfo, editor.getDocument());
+
+    VirtualFile file;
+    ConsoleView consoleView = ConsoleViewImpl.CONSOLE_VIEW_IN_EDITOR_VIEW.get(editor);
+    if (consoleView instanceof LanguageConsoleView) {
+      LanguageConsoleImpl console = ((LanguageConsoleView)consoleView).getConsole();
+      file = console.getHistoryViewer() == editor ? console.getVirtualFile() : null;
+    }
+    else {
+      file = FileDocumentManager.getInstance().getFile(editor.getDocument());
+    }
+
+    myExpressionPosition = file != null ? XDebuggerUtil.getInstance().createPositionByOffset(file, expressionInfo.getTextRange().getStartOffset()) : null;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
@@ -112,7 +134,7 @@ public class XValueHint extends AbstractValueHint {
             }
 
             SimpleColoredText text = new SimpleColoredText();
-            text.append(myExpression, XDebuggerUIConstants.VALUE_NAME_ATTRIBUTES);
+            text.append(myValueName, XDebuggerUIConstants.VALUE_NAME_ATTRIBUTES);
             XValueNodeImpl.buildText(valuePresenter, text);
 
             if (!hasChildren) {
@@ -130,13 +152,13 @@ public class XValueHint extends AbstractValueHint {
               showHint(component);
             }
             else if (getType() == ValueHintType.MOUSE_CLICK_HINT) {
-              showTree(result, myExpression);
+              showTree(result);
             }
             else {
               JComponent component = createExpandableHintComponent(text, new Runnable() {
                 @Override
                 public void run() {
-                  showTree(result, myExpression);
+                  showTree(result);
                 }
               });
               showHint(component);
@@ -162,11 +184,17 @@ public class XValueHint extends AbstractValueHint {
     }, myExpressionPosition);
   }
 
-  private void showTree(final XValue value, final String name) {
+  private void showTree(@NotNull XValue value) {
     XValueMarkers<?,?> valueMarkers = ((XDebugSessionImpl)myDebugSession).getValueMarkers();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     Pair<XValue, String> pair = Pair.create(value, name);
     XDebuggerTreeCreator creator = new XDebuggerTreeCreator(myDebugSession.getProject(), myDebugSession.getDebugProcess().getEditorsProvider(),
                                                             myDebugSession.getCurrentPosition(), valueMarkers);
     showTreePopup(creator, pair);
+=======
+    XDebuggerTreeCreator creator = new XDebuggerTreeCreator(myDebugSession.getProject(), myDebugSession.getDebugProcess().getEditorsProvider(),
+                                                            myDebugSession.getCurrentPosition(), valueMarkers);
+    showTreePopup(creator, Pair.create(value, myValueName));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

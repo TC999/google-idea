@@ -15,6 +15,7 @@
  */
 package com.intellij.codeInsight.template.postfix.templates;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.*;
@@ -31,6 +32,15 @@ public class ReturnStatementPostfixTemplate extends PostfixTemplate {
     if (expr == null) return false;
     PsiType type = expr.getType();
     return type != null && !PsiType.VOID.equals(type);
+=======
+import com.intellij.openapi.editor.Editor;
+import com.intellij.psi.*;
+import org.jetbrains.annotations.NotNull;
+
+public class ReturnStatementPostfixTemplate extends NonVoidPostfixTemplate {
+  public ReturnStatementPostfixTemplate() {
+    super("return", "Returns value from containing method", "return expr;");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

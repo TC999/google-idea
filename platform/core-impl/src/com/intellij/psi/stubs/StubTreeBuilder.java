@@ -58,6 +58,7 @@ public class StubTreeBuilder {
         final IFileElementType type = LanguageParserDefinitions.INSTANCE.forLanguage(l).getFileNodeType();
 
         PsiFile psi = null;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         CharSequence contentAsText = null;
         Document document = FileDocumentManager.getInstance().getCachedDocument(inputData.getFile());
         if (document != null) {
@@ -69,6 +70,20 @@ public class StubTreeBuilder {
         }
         if (contentAsText == null) {
           contentAsText = inputData.getContentAsText();
+=======
+        CharSequence contentAsText = inputData.getContentAsText();
+        Document document = FileDocumentManager.getInstance().getCachedDocument(inputData.getFile());
+        if (document != null) {
+          PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(inputData.getProject());
+          if (psiDocumentManager.isUncommited(document)) {
+            PsiFile existingPsi = psiDocumentManager.getPsiFile(document);
+            if(existingPsi != null) {
+              psi = existingPsi;
+            }
+          }
+        }
+        if (psi == null) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           psi = inputData.getPsiFile();
         }
         psi = psi.getViewProvider().getStubBindingRoot();

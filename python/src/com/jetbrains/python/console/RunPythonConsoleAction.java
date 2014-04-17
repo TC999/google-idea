@@ -23,7 +23,10 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.DumbAware;
@@ -35,7 +38,11 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.PathMappingSettings;
 import com.jetbrains.python.buildout.BuildoutFacet;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.jetbrains.python.remote.PyRemoteSdkCredentials;
+=======
+import com.jetbrains.python.remote.PyRemoteSdkAdditionalDataBase;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.jetbrains.python.remote.PythonRemoteInterpreterManager;
 import com.jetbrains.python.run.PythonCommandLineState;
 import com.jetbrains.python.sdk.PySdkUtil;
@@ -77,8 +84,6 @@ public class RunPythonConsoleAction extends AnAction implements DumbAware {
   @NotNull
   public static PydevConsoleRunner runPythonConsole(Project project, Module contextModule) {
     assert project != null : "Project is null";
-
-    FileDocumentManager.getInstance().saveAllDocuments();
 
     Pair<Sdk, Module> sdkAndModule = findPythonSdkAndModule(project, contextModule);
 
@@ -153,7 +158,11 @@ public class RunPythonConsoleAction extends AnAction implements DumbAware {
       PythonRemoteInterpreterManager instance = PythonRemoteInterpreterManager.getInstance();
       if (instance != null) {
         mappingSettings =
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           instance.setupMappings(project, (PyRemoteSdkCredentials)sdk.getSdkAdditionalData(), null);
+=======
+          instance.setupMappings(project, (PyRemoteSdkAdditionalDataBase)sdk.getSdkAdditionalData(), null);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
     return mappingSettings;

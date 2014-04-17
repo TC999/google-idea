@@ -52,6 +52,10 @@
     <completion.contributor implementationClass="org.jetbrains.plugins.javaFX.fxml.refs.JavaFxCompletionContributor" language="XML" order="before xmlNonFirst"/>
     <manifest.parser.provider implementation="org.jetbrains.plugins.javaFX.manifest.JavaFxManifestHeaderParsers"/>
     <projectTemplate projectType="Java FX" templatePath="resources/projectTemplates/Java/JavaFX Application.zip" category="true"/>
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    <javaMainMethodProvider implementation="org.jetbrains.plugins.javaFX.JavaFXApplicationMainMethodProvider"/>
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   </extensions>
 
   <actions>

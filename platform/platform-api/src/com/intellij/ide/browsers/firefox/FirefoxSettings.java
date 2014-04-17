@@ -19,6 +19,7 @@ import com.intellij.ide.browsers.BrowserSpecificSettings;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.io.FileUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.xmlb.annotations.Tag;
@@ -50,6 +51,39 @@ public final class FirefoxSettings extends BrowserSpecificSettings {
 
   public void setProfilesIniPath(@Nullable String value) {
     myProfilesIniPath = FileUtilRt.toSystemIndependentName(StringUtil.nullize(value));
+=======
+import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.util.PathUtil;
+import com.intellij.util.xmlb.annotations.Tag;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public final class FirefoxSettings extends BrowserSpecificSettings {
+  private String myProfilesIniPath;
+  private String myProfile;
+
+  public FirefoxSettings() {
+  }
+
+  public FirefoxSettings(@Nullable String profilesIniPath, @Nullable String profile) {
+    myProfilesIniPath = StringUtil.nullize(profilesIniPath);
+    myProfile = StringUtil.nullize(profile);
+  }
+
+  @Nullable
+  @Tag("profiles-ini-path")
+  public String getProfilesIniPath() {
+    return myProfilesIniPath;
+  }
+
+  public void setProfilesIniPath(@Nullable String value) {
+    myProfilesIniPath = PathUtil.toSystemIndependentName(StringUtil.nullize(value));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable

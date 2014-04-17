@@ -26,12 +26,22 @@ public class InternalDependencyVersionId extends DependencyVersionId {
   private final IdeDependency myIdeDependency;
 
   public InternalDependencyVersionId(IdeDependency dependency,
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                                      String name,
                                      String artifactName,
                                      String group,
                                      String version,
                                      String classifier) {
     super(name, artifactName, group, version, classifier);
+=======
+                                     String id,
+                                     String name,
+                                     String artifactName,
+                                     String group,
+                                     String version,
+                                     String classifier) {
+    super(id, name, artifactName, group, version, classifier);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myIdeDependency = dependency;
   }
 

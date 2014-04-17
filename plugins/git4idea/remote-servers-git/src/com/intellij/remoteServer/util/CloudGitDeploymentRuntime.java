@@ -272,6 +272,10 @@ public class CloudGitDeploymentRuntime extends CloudDeploymentRuntime {
       if (GitUtil.hasLocalChanges(true, getProject(), myContentRoot)) {
         GitSimpleHandler handler = new GitSimpleHandler(getProject(), myContentRoot, GitCommand.COMMIT);
         handler.setSilent(false);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+        handler.setStdoutSuppressed(false);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         handler.addParameters("-m", "Deploy");
         handler.endOptions();
         handler.run();
@@ -423,6 +427,7 @@ public class CloudGitDeploymentRuntime extends CloudDeploymentRuntime {
     public void doClone(File cloneDirParent, String cloneDirName, String gitUrl) throws ServerRuntimeException {
       final GitLineHandler handler = new GitLineHandler(getProject(), cloneDirParent, GitCommand.CLONE);
       handler.setSilent(false);
+      handler.setStdoutSuppressed(false);
       handler.setUrl(gitUrl);
       handler.addParameters("--progress");
       handler.addParameters(gitUrl);

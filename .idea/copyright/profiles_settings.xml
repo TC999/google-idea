@@ -1,8 +1,12 @@
 <component name="CopyrightManager">
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   <settings default="aosp">
     <module2copyright>
       <element module="aosp-code" copyright="aosp" />
     </module2copyright>
+=======
+  <settings default="apache 2 license">
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     <LanguageOptions name="__TEMPLATE__">
       <option name="addBlankAfter" value="false" />
     </LanguageOptions>

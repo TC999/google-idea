@@ -15,6 +15,7 @@
  */
 package com.intellij.ide.plugins;
 
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.TableUtil;
 import com.intellij.ui.table.JBTable;
@@ -56,6 +57,7 @@ public class PluginTable extends JBTable {
     setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     setShowGrid(false);
     setStriped(true);
+    this.setTableHeader(null);
     setTransferHandler(new TransferHandler() {
       @Nullable
       @Override
@@ -84,6 +86,12 @@ public class PluginTable extends JBTable {
     });
     if (model.getColumnCount() > 1) {
       setColumnWidth(1, new JCheckBox().getPreferredSize().width + 4);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+      if (SystemInfo.isMac && model.getColumnCount() == 3) {
+        setColumnWidth(2, 8);
+      }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 

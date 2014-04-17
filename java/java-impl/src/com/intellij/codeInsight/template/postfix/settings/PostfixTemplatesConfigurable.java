@@ -34,6 +34,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.Arrays;
 import java.util.Map;
 
@@ -91,6 +92,72 @@ public class PostfixTemplatesConfigurable implements SearchableConfigurable, Edi
   @Override
   public String getDisplayName() {
     return "Postfix Templates";
+=======
+import java.util.*;
+import java.util.List;
+
+public class PostfixTemplatesConfigurable implements SearchableConfigurable, EditorOptionsProvider, Configurable.NoScroll {
+  @Nullable
+  private PostfixTemplatesListPanel myTemplatesListPanel;
+  @NotNull
+  private final PostfixTemplatesSettings myTemplatesSettings;
+
+  private JComponent myPanel;
+  private JBCheckBox myCompletionEnabledCheckbox;
+  private JBCheckBox myPostfixTemplatesEnabled;
+  private JPanel myTemplatesListPanelContainer;
+  private ComboBox myShortcutComboBox;
+
+  private static final String SPACE = CodeInsightBundle.message("template.shortcut.space");
+  private static final String TAB = CodeInsightBundle.message("template.shortcut.tab");
+  private static final String ENTER = CodeInsightBundle.message("template.shortcut.enter");
+
+  @SuppressWarnings("unchecked")
+  public PostfixTemplatesConfigurable() {
+    PostfixTemplatesSettings settings = PostfixTemplatesSettings.getInstance();
+    if (settings == null) {
+      throw new RuntimeException("Can't retrieve postfix template settings");
+    }
+
+    myTemplatesSettings = settings;
+    List<PostfixTemplate> templates = Arrays.asList(PostfixTemplate.EP_NAME.getExtensions());
+    ContainerUtil.sort(templates, new Comparator<PostfixTemplate>() {
+      @Override
+      public int compare(PostfixTemplate o1, PostfixTemplate o2) {
+        return o1.getKey().compareTo(o2.getKey());
+      }
+    });
+    myTemplatesListPanel = new PostfixTemplatesListPanel(templates);
+    myTemplatesListPanelContainer.setLayout(new BorderLayout());
+    myTemplatesListPanelContainer.add(myTemplatesListPanel.getComponent(), BorderLayout.CENTER);
+    myPostfixTemplatesEnabled.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        updateComponents();
+      }
+    });
+    myShortcutComboBox.addItem(TAB);
+    myShortcutComboBox.addItem(SPACE);
+    myShortcutComboBox.addItem(ENTER);
+  }
+
+  @NotNull
+  @Override
+  public String getId() {
+    return "reference.settingsdialog.IDE.editor.postfix.templates";
+  }
+
+  @Nullable
+  @Override
+  public String getHelpTopic() {
+    return getId();
+  }
+
+  @Nls
+  @Override
+  public String getDisplayName() {
+    return "Postfix Completion";
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable

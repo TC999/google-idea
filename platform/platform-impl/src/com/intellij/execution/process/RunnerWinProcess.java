@@ -20,6 +20,7 @@ import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.util.SystemInfo;
 import org.jetbrains.annotations.NotNull;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -63,6 +64,12 @@ public class RunnerWinProcess extends Process {
 
   public Process getOriginalProcess() {
     return myOriginalProcess;
+=======
+public class RunnerWinProcess extends ProcessWrapper {
+
+  private RunnerWinProcess(@NotNull Process originalProcess) {
+    super(originalProcess);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   /**

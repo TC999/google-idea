@@ -81,14 +81,29 @@ public class AddTypeCastFix extends LocalQuickFixAndIntentionActionOnPsiElement 
     originalExpression.replace(typeCast);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   static PsiExpression createCastExpression(PsiExpression originalExpression, Project project, PsiType type) {
+=======
+  static PsiExpression createCastExpression(PsiExpression original, Project project, PsiType type) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     // remove nested casts
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     PsiElement expression = PsiUtil.deparenthesizeExpression(originalExpression);
     if (expression == null) return null;
 
     PsiElementFactory factory = JavaPsiFacade.getInstance(originalExpression.getProject()).getElementFactory();
     PsiTypeCastExpression typeCast = (PsiTypeCastExpression)factory.createExpressionFromText("(Type)value", null);
     assertNotNull(typeCast.getCastType()).replace(factory.createTypeElement(type));
+=======
+    PsiElement expression = PsiUtil.deparenthesizeExpression(original);
+    if (expression == null) return null;
+
+    if (type.equals(PsiType.NULL)) return null;
+    if (type instanceof PsiEllipsisType) type = ((PsiEllipsisType)type).toArrayType();
+    String text = "(" + type.getCanonicalText(false) + ")value";
+    PsiElementFactory factory = JavaPsiFacade.getInstance(original.getProject()).getElementFactory();
+    PsiTypeCastExpression typeCast = (PsiTypeCastExpression)factory.createExpressionFromText(text, original);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     typeCast = (PsiTypeCastExpression)CodeStyleManager.getInstance(project).reformat(typeCast);
 
     if (expression instanceof PsiConditionalExpression) {
@@ -124,5 +139,4 @@ public class AddTypeCastFix extends LocalQuickFixAndIntentionActionOnPsiElement 
   public boolean startInWriteAction() {
     return true;
   }
-
 }

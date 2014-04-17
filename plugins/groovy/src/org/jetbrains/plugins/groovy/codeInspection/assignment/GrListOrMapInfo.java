@@ -16,6 +16,7 @@
 package org.jetbrains.plugins.groovy.codeInspection.assignment;
 
 import com.intellij.psi.PsiClass;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiType;
 import org.jetbrains.annotations.NotNull;
@@ -115,6 +116,111 @@ public class GrListOrMapInfo implements ConstructorCallInfo<GrListOrMap> {
   @Override
   public GroovyResolveResult[] multiResolveClass() {
     return new GroovyResolveResult[]{new GroovyResolveResultImpl(myReference.getConstructedClassType().resolveGenerics())};
+=======
+import com.intellij.psi.PsiClassType;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.plugins.groovy.findUsages.LiteralConstructorReference;
+import org.jetbrains.plugins.groovy.lang.psi.api.GroovyResolveResult;
+import org.jetbrains.plugins.groovy.lang.psi.api.auxiliary.GrListOrMap;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.arguments.GrArgumentList;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.arguments.GrNamedArgument;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.blocks.GrClosableBlock;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrExpression;
+import org.jetbrains.plugins.groovy.lang.psi.impl.GroovyResolveResultImpl;
+import org.jetbrains.plugins.groovy.lang.psi.impl.PsiImplUtil;
+import org.jetbrains.plugins.groovy.lang.psi.util.PsiUtil;
+
+/**
+ * Created by Max Medvedev on 05/02/14
+ */
+public class GrListOrMapInfo implements ConstructorCallInfo<GrListOrMap> {
+  private final GrListOrMap myListOrMap;
+  private final LiteralConstructorReference myReference;
+
+  public GrListOrMapInfo(GrListOrMap listOrMap) {
+    myListOrMap = listOrMap;
+
+    assert listOrMap.getReference() instanceof LiteralConstructorReference;
+    myReference = ((LiteralConstructorReference)listOrMap.getReference());
+  }
+
+  @Nullable
+  @Override
+  public GrArgumentList getArgumentList() {
+    return null;
+  }
+
+  @Nullable
+  @Override
+  public PsiType[] getArgumentTypes() {
+    if (myListOrMap.isMap()) {
+      GrNamedArgument[] args = myListOrMap.getNamedArguments();
+      if (args.length == 0) return new PsiType[]{myListOrMap.getType()};
+
+      return PsiUtil.getArgumentTypes(args, GrExpression.EMPTY_ARRAY, GrClosableBlock.EMPTY_ARRAY, true, null, false);
+    }
+    else {
+      GrExpression[] args = myListOrMap.getInitializers();
+      return PsiUtil.getArgumentTypes(GrNamedArgument.EMPTY_ARRAY, args, GrClosableBlock.EMPTY_ARRAY, true, null, false);
+    }
+  }
+
+  @Nullable
+  @Override
+  public GrExpression getInvokedExpression() {
+    return null;
+  }
+
+  @Nullable
+  @Override
+  public PsiType getQualifierInstanceType() {
+    return null;
+  }
+
+  @NotNull
+  @Override
+  public PsiElement getHighlightElementForCategoryQualifier() throws UnsupportedOperationException {
+    throw new UnsupportedOperationException("not applicable");
+  }
+
+  @NotNull
+  @Override
+  public PsiElement getElementToHighlight() {
+    return myListOrMap;
+  }
+
+  @NotNull
+  @Override
+  public GroovyResolveResult advancedResolve() {
+    return PsiImplUtil.extractUniqueResult(multiResolve());
+  }
+
+  @NotNull
+  @Override
+  public GroovyResolveResult[] multiResolve() {
+    GroovyResolveResult[] results = myReference.multiResolve(false);
+    if (results.length == 1 && results[0].getElement() instanceof PsiClass) {
+      return GroovyResolveResult.EMPTY_ARRAY; //the same behaviour as constructor calls
+    }
+    return results;
+  }
+
+  @NotNull
+  @Override
+  public GrListOrMap getCall() {
+    return myListOrMap;
+  }
+
+  @Override
+  public GroovyResolveResult[] multiResolveClass() {
+    PsiClassType type = myReference.getConstructedClassType();
+    if (type == null) return GroovyResolveResult.EMPTY_ARRAY;
+
+    return new GroovyResolveResult[]{new GroovyResolveResultImpl(type.resolveGenerics())};
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull

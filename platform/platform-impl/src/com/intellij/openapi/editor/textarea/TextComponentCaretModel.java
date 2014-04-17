@@ -187,6 +187,15 @@ public class TextComponentCaretModel implements CaretModel {
     throw new UnsupportedOperationException("Multiple carets are not supported");
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @NotNull
+  @Override
+  public List<CaretState> getCaretsAndSelections() {
+    throw new UnsupportedOperationException("Multiple carets are not supported");
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Override
   public void runForEachCaret(@NotNull CaretAction action) {
     action.perform(myCaret);

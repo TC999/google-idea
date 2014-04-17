@@ -30,7 +30,11 @@ import java.util.List;
 public class ActionsTest extends IntegrationTestCase {
   public void testSavingDocumentBeforeAndAfterAction() throws Exception {
     VirtualFile f = createFile("f.txt", "file1");
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
+=======
+    loadContent(f);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     setContent(f, "file2");
 
     setDocumentTextFor(f, "doc1");

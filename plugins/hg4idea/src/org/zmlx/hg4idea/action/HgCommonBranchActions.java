@@ -22,6 +22,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +90,76 @@ public class HgCommonBranchActions extends ActionGroup {
             }
             else {
               notifier.notifyError(null, "Exception during merge", exception.getMessage());
+=======
+import com.intellij.openapi.vcs.VcsNotifier;
+import com.intellij.openapi.vcs.update.UpdatedFiles;
+import com.intellij.openapi.vfs.VirtualFile;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.zmlx.hg4idea.HgVcs;
+import org.zmlx.hg4idea.HgVcsMessages;
+import org.zmlx.hg4idea.command.HgMergeCommand;
+import org.zmlx.hg4idea.command.HgUpdateCommand;
+import org.zmlx.hg4idea.execution.HgCommandResult;
+import org.zmlx.hg4idea.provider.update.HgConflictResolver;
+import org.zmlx.hg4idea.provider.update.HgHeadMerger;
+import org.zmlx.hg4idea.repo.HgRepository;
+import org.zmlx.hg4idea.util.HgErrorUtil;
+
+public class HgCommonBranchActions extends ActionGroup {
+
+  @NotNull protected final Project myProject;
+  @NotNull protected String myBranchName;
+  @NotNull protected final HgRepository mySelectedRepository;
+
+  HgCommonBranchActions(@NotNull Project project, @NotNull HgRepository selectedRepository, @NotNull String branchName) {
+    super("", true);
+    myProject = project;
+    myBranchName = branchName;
+    mySelectedRepository = selectedRepository;
+    getTemplatePresentation().setText(myBranchName, false); // no mnemonics
+  }
+
+  @NotNull
+  @Override
+  public AnAction[] getChildren(@Nullable AnActionEvent e) {
+    return new AnAction[]{
+      new UpdateAction(myProject, mySelectedRepository, myBranchName),
+      new MergeAction(myProject, mySelectedRepository, myBranchName)
+    };
+  }
+
+  private static class MergeAction extends HgBranchAbstractAction {
+
+    public MergeAction(@NotNull Project project,
+                       @NotNull HgRepository selectedRepository,
+                       @NotNull String branchName) {
+      super(project, "Merge", selectedRepository, branchName);
+    }
+
+    @Override
+    public void actionPerformed(AnActionEvent e) {
+      final UpdatedFiles updatedFiles = UpdatedFiles.create();
+      final HgMergeCommand hgMergeCommand = new HgMergeCommand(myProject, mySelectedRepository.getRoot());
+      hgMergeCommand.setRevision(myBranchName);//there is no difference between branch or revision or bookmark as parameter to merge,
+      // we need just a string
+      new Task.Backgroundable(myProject, "Merging changes...") {
+        @Override
+        public void run(@NotNull ProgressIndicator indicator) {
+          try {
+            new HgHeadMerger(myProject, hgMergeCommand)
+              .merge(mySelectedRepository.getRoot());
+            new HgConflictResolver(myProject, updatedFiles).resolve(mySelectedRepository.getRoot());
+          }
+
+          catch (VcsException exception) {
+            assert myProject != null;  // myProject couldn't be null, see annotation for Merge action
+            if (exception.isWarning()) {
+              VcsNotifier.getInstance(myProject).notifyWarning("Warning during merge", exception.getMessage());
+            }
+            else {
+              VcsNotifier.getInstance(myProject).notifyError("Exception during merge", exception.getMessage());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             }
           }
           catch (Exception e1) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.intellij.psi.impl.source.tree.java;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Comparing;
@@ -22,36 +23,37 @@ import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.PsiManagerEx;
-import com.intellij.psi.impl.source.resolve.ParameterTypeInferencePolicy;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
 import com.intellij.psi.impl.source.resolve.graphInference.FunctionalInterfaceParameterizationUtil;
 import com.intellij.psi.impl.source.resolve.graphInference.InferenceSession;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.psi.impl.source.resolve.graphInference.constraints.TypeCompatibilityConstraint;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.impl.source.tree.ChildRole;
 import com.intellij.psi.impl.source.tree.FileElement;
 import com.intellij.psi.impl.source.tree.JavaElementType;
 import com.intellij.psi.impl.source.tree.SharedImplUtil;
-import com.intellij.psi.infos.CandidateInfo;
-import com.intellij.psi.infos.ClassCandidateInfo;
 import com.intellij.psi.infos.MethodCandidateInfo;
 import com.intellij.psi.scope.ElementClassFilter;
-import com.intellij.psi.scope.JavaScopeProcessorEvent;
 import com.intellij.psi.scope.PsiConflictResolver;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.scope.conflictResolvers.DuplicateConflictResolver;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.psi.scope.conflictResolvers.JavaMethodsConflictResolver;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.scope.processor.FilterScopeProcessor;
-import com.intellij.psi.scope.processor.MethodCandidatesProcessor;
 import com.intellij.psi.scope.util.PsiScopesUtil;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.*;
 import com.intellij.util.Function;
 import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.SmartList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import javax.swing.*;
+import java.util.Map;
 
 public class PsiMethodReferenceExpressionImpl extends PsiReferenceExpressionBase implements PsiMethodReferenceExpression {
   private static final Logger LOG = Logger.getInstance("#com.intellij.psi.impl.source.tree.java.PsiMethodReferenceExpressionImpl");
@@ -59,6 +61,7 @@ public class PsiMethodReferenceExpressionImpl extends PsiReferenceExpressionBase
   public PsiMethodReferenceExpressionImpl() {
     super(JavaElementType.METHOD_REF_EXPRESSION);
   }
+
 
   private static boolean arrayCreationSignature(MethodSignature signature) {
     if (arrayCompatibleSignature(signature.getParameterTypes(), new Function<PsiType[], PsiType>() {
@@ -104,7 +107,12 @@ public class PsiMethodReferenceExpressionImpl extends PsiReferenceExpressionBase
 
     final MethodReferenceResolver resolver = new MethodReferenceResolver() {
       @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       protected PsiConflictResolver createResolver(PsiMethodReferenceUtil.QualifierResolveResult qualifierResolveResult,
+=======
+      protected PsiConflictResolver createResolver(PsiMethodReferenceExpression referenceExpression,
+                                                   PsiMethodReferenceUtil.QualifierResolveResult qualifierResolveResult,
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                                                    PsiMethod interfaceMethod,
                                                    MethodSignature signature) {
         return DuplicateConflictResolver.INSTANCE;
@@ -161,7 +169,7 @@ public class PsiMethodReferenceExpressionImpl extends PsiReferenceExpressionBase
     if (containingClass != null) {
       PsiMethod[] methods = null;
       if (element instanceof PsiIdentifier) {
-        methods = containingClass.findMethodsByName(element.getText(), false);
+        methods = containingClass.findMethodsByName(element.getText(), !qualifierResolveResult.isReferenceTypeQualified());
       }
       else if (isConstructor()) {
         final PsiElementFactory factory = JavaPsiFacade.getElementFactory(getProject());
@@ -388,20 +396,117 @@ public class PsiMethodReferenceExpressionImpl extends PsiReferenceExpressionBase
     return "PsiMethodReferenceExpression:" + getText();
   }
 
-  private boolean isLocatedInStaticContext(PsiClass containingClass) {
-    final PsiClass gContainingClass = containingClass.getContainingClass();
-    if (gContainingClass == null || !containingClass.hasModifierProperty(PsiModifier.STATIC)) {
-      PsiClass aClass = null;
-      if (PsiTreeUtil.isAncestor(gContainingClass != null ? gContainingClass : containingClass, this, false)) {
-        aClass = gContainingClass != null ? gContainingClass : containingClass;
+  @Override
+  public boolean isAcceptable(PsiType left) {
+    if (left instanceof PsiIntersectionType) {
+      for (PsiType conjunct : ((PsiIntersectionType)left).getConjuncts()) {
+        if (isAcceptable(conjunct)) return true;
       }
-      if (PsiUtil.getEnclosingStaticElement(this, aClass) != null) {
+      return false;
+    }
+
+    final PsiElement argsList = PsiTreeUtil.getParentOfType(this, PsiExpressionList.class);
+    final boolean isExact = isExact();
+    if (MethodCandidateInfo.ourOverloadGuard.currentStack().contains(argsList) && isExact) {
+      final MethodCandidateInfo.CurrentCandidateProperties candidateProperties = MethodCandidateInfo.getCurrentMethod(argsList);
+      if (candidateProperties != null && !InferenceSession.isPertinentToApplicability(this, candidateProperties.getMethod())) {
         return true;
       }
+    }
+
+    left = FunctionalInterfaceParameterizationUtil.getGroundTargetType(left);
+    if (!isPotentiallyCompatible(left)) {
+      return false;
+    }
+
+    if (MethodCandidateInfo.ourOverloadGuard.currentStack().contains(argsList)) {
+      if (!isExact) {
+        return true;
+      }
+    }
+
+     // A method reference is congruent with a function type if the following are true:
+     //   The function type identifies a single compile-time declaration corresponding to the reference.
+     //   One of the following is true:
+     //      i)The return type of the function type is void.
+     //     ii)The return type of the function type is R; 
+     //        the result of applying capture conversion (5.1.10) to the return type of the invocation type (15.12.2.6) of the chosen declaration is R', 
+     //        where R is the target type that may be used to infer R'; neither R nor R' is void; and R' is compatible with R in an assignment context.
+
+    Map<PsiMethodReferenceExpression, PsiType> map = PsiMethodReferenceUtil.getFunctionalTypeMap();
+    final JavaResolveResult result;
+    try {
+      if (map.put(this, left) != null) {
+        return false;
+      }
+      result = advancedResolve(false);
+    }
+    finally {
+      map.remove(this);
+    }
+
+    final PsiElement resolve = result.getElement();
+    if (resolve == null) {
+      return false;
+    }
+
+    final PsiClassType.ClassResolveResult resolveResult = PsiUtil.resolveGenericsClassInType(left);
+    final PsiMethod interfaceMethod = LambdaUtil.getFunctionalInterfaceMethod(resolveResult);
+    if (interfaceMethod != null) {
+      final PsiType interfaceReturnType = LambdaUtil.getFunctionalInterfaceReturnType(left);
+
+      LOG.assertTrue(interfaceReturnType != null);
+
+      if (interfaceReturnType == PsiType.VOID) {
+        return true;
+      }
+
+      final PsiSubstitutor subst = result.getSubstitutor();
+
+      PsiType methodReturnType = null;
+      PsiClass containingClass = null;
+      if (resolve instanceof PsiMethod) {
+        containingClass = ((PsiMethod)resolve).getContainingClass();
+
+        PsiType returnType = PsiTypesUtil.patchMethodGetClassReturnType(this, this, (PsiMethod)resolve, null, PsiUtil.getLanguageLevel(this));
+
+        if (returnType == null) {
+          returnType = ((PsiMethod)resolve).getReturnType();
+        }
+
+        if (returnType == PsiType.VOID) {
+          return false;
+        }
+
+        methodReturnType = subst.substitute(returnType);
+      }
+      else if (resolve instanceof PsiClass) {
+        if (resolve == JavaPsiFacade.getElementFactory(resolve.getProject()).getArrayClass(PsiUtil.getLanguageLevel(resolve))) {
+          final PsiTypeParameter[] typeParameters = ((PsiClass)resolve).getTypeParameters();
+          if (typeParameters.length == 1) {
+            final PsiType arrayComponentType = subst.substitute(typeParameters[0]);
+            if (arrayComponentType == null) {
+              return false;
+            }
+            methodReturnType = arrayComponentType.createArrayType();
+          }
+        }
+        containingClass = (PsiClass)resolve;
+      }
+
+      if (methodReturnType == null) {
+        if (containingClass == null) {
+          return false;
+        }
+        methodReturnType = JavaPsiFacade.getElementFactory(getProject()).createType(containingClass, subst);
+      }
+
+      return TypeConversionUtil.isAssignable(interfaceReturnType, methodReturnType, false);
     }
     return false;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private class MethodReferenceResolver implements ResolveCache.PolyVariantResolver<PsiMethodReferenceExpression> {
     @NotNull
     @Override
@@ -739,7 +844,11 @@ public class PsiMethodReferenceExpressionImpl extends PsiReferenceExpressionBase
     }
   }
 
+=======
+  @Nullable
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public boolean isAcceptable(PsiType left) {
     if (left instanceof PsiIntersectionType) {
       for (PsiType conjunct : ((PsiIntersectionType)left).getConjuncts()) {
@@ -844,5 +953,9 @@ public class PsiMethodReferenceExpressionImpl extends PsiReferenceExpressionBase
       return TypeConversionUtil.isAssignable(interfaceReturnType, methodReturnType, false);
     }
     return false;
+=======
+  public Icon getIcon(int flags) {
+    return AllIcons.Nodes.AnonymousClass;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

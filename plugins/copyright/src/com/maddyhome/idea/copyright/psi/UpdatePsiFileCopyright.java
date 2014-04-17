@@ -72,13 +72,17 @@ public abstract class UpdatePsiFileCopyright extends AbstractUpdateCopyright {
 
   @Override
   public void complete() throws Exception {
+    complete(true);
+  }
+
+  public void complete(boolean allowReplacement) throws Exception {
     if (file == null) {
       logger.info("No file for root: " + getRoot());
       return;
     }
 
     if (accept()) {
-      processActions();
+      processActions(allowReplacement);
     }
   }
 
@@ -315,7 +319,11 @@ public abstract class UpdatePsiFileCopyright extends AbstractUpdateCopyright {
     return element == null ? null : element.getNextSibling();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   protected void processActions() throws IncorrectOperationException {
+=======
+  protected void processActions(final boolean allowReplacement) throws IncorrectOperationException {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     new WriteCommandAction.Simple(file.getProject(), "Update copyright") {
       @Override
       protected void run() throws Throwable {
@@ -334,10 +342,17 @@ public abstract class UpdatePsiFileCopyright extends AbstractUpdateCopyright {
                 }
                 break;
               case CommentAction.ACTION_REPLACE:
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                 doc.replaceString(start, end, getCommentText("", ""));
                 break;
               case CommentAction.ACTION_DELETE:
                 doc.deleteString(start, end);
+=======
+                if (allowReplacement) doc.replaceString(start, end, getCommentText("", ""));
+                break;
+              case CommentAction.ACTION_DELETE:
+                if (allowReplacement) doc.deleteString(start, end);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                 break;
             }
           }

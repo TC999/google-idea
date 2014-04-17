@@ -15,6 +15,7 @@
  */
 package org.jetbrains.plugins.groovy.lang.psi.impl.signatures;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.*;
 import com.intellij.psi.util.TypeConversionUtil;
@@ -67,6 +68,57 @@ public class GrImmediateClosureParameterImpl implements GrClosureParameter {
 
   public static boolean isVararg(GrClosureParameter[] closureParams) {
     return closureParams.length > 0 && closureParams[closureParams.length - 1].getType() instanceof PsiArrayType;
+=======
+import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.util.Comparing;
+import com.intellij.psi.PsiCompiledElement;
+import com.intellij.psi.PsiParameter;
+import com.intellij.psi.PsiSubstitutor;
+import com.intellij.psi.PsiType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrExpression;
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.params.GrParameter;
+import org.jetbrains.plugins.groovy.lang.psi.api.types.GrClosureParameter;
+
+/**
+ * @author Maxim.Medvedev
+ */
+public class GrImmediateClosureParameterImpl implements GrClosureParameter {
+  private static final Logger LOG = Logger.getInstance(GrImmediateClosureParameterImpl.class);
+
+  private final PsiType myType;
+  private final String myName;
+  private final boolean myOptional;
+  private final GrExpression myDefaultInitializer;
+
+  public GrImmediateClosureParameterImpl(@Nullable PsiType type, @Nullable String name, boolean optional, @Nullable GrExpression defaultInitializer) {
+    LOG.assertTrue(type == null || type.isValid());
+    LOG.assertTrue(defaultInitializer == null || defaultInitializer.isValid());
+
+    myType = type;
+    myName = name;
+    myOptional = optional;
+    myDefaultInitializer = optional ? defaultInitializer : null;
+  }
+
+  public GrImmediateClosureParameterImpl(@NotNull PsiParameter parameter, @NotNull PsiSubstitutor substitutor) {
+    this(substitutor.substitute(getParameterType(parameter)), getParameterName(parameter), isParameterOptional(parameter), getDefaultInitializer(parameter));
+  }
+
+  @Nullable
+  private static PsiType getParameterType(@NotNull PsiParameter parameter) {
+    return parameter instanceof GrParameter ? ((GrParameter)parameter).getDeclaredType() : parameter.getType();
+  }
+
+  @Nullable
+  public static GrExpression getDefaultInitializer(PsiParameter parameter) {
+    return parameter instanceof GrParameter ? ((GrParameter)parameter).getInitializerGroovy() : null;
+  }
+
+  public static boolean isParameterOptional(PsiParameter parameter) {
+    return parameter instanceof GrParameter && ((GrParameter)parameter).isOptional();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable

@@ -22,6 +22,7 @@ import com.intellij.openapi.editor.impl.event.DocumentEventImpl;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.MarkupModel;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.util.DocumentUtil;
 import com.intellij.util.diff.FilesTooBigForDiffException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -73,7 +74,11 @@ class PersistentRangeHighlighterImpl extends RangeHighlighterImpl implements Ran
       }
     }
     if (isValid() && getTargetArea() == HighlighterTargetArea.LINES_IN_RANGE) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       setIntervalStart(MarkupModelImpl.getFirstNonSpaceCharOffset(getDocument(), getLine()));
+=======
+      setIntervalStart(DocumentUtil.getFirstNonSpaceCharOffset(getDocument(), getLine()));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       setIntervalEnd(getDocument().getLineEndOffset(getLine()));
     }
   }

@@ -53,6 +53,10 @@
     <orderEntry type="library" name="Velocity" level="project" />
     <orderEntry type="module" module-name="testFramework-java" scope="TEST" />
     <orderEntry type="module" module-name="java-structure-view" exported="" />
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    <orderEntry type="module" module-name="spellchecker" />
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   </component>
   <component name="copyright">
     <Base>

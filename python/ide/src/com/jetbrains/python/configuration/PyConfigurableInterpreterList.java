@@ -24,10 +24,14 @@ import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil;
 import com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectSdksModel;
 import com.intellij.openapi.util.Comparing;
 import com.jetbrains.python.psi.LanguageLevel;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.jetbrains.python.sdk.PyDetectedSdk;
 import com.jetbrains.python.sdk.PySdkUtil;
 import com.jetbrains.python.sdk.PythonSdkAdditionalData;
 import com.jetbrains.python.sdk.PythonSdkType;
+=======
+import com.jetbrains.python.sdk.*;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.jetbrains.python.sdk.flavors.PythonSdkFlavor;
 import com.jetbrains.python.sdk.flavors.VirtualEnvSdkFlavor;
 import org.jetbrains.annotations.Nullable;
@@ -112,6 +116,7 @@ public class PyConfigurableInterpreterList {
       }
     });
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final List<String> sdkHomes = new ArrayList<String>();
     sdkHomes.addAll(VirtualEnvSdkFlavor.INSTANCE.suggestHomePaths());
     for (PythonSdkFlavor flavor : PythonSdkFlavor.getApplicableFlavors()) {
@@ -126,6 +131,26 @@ public class PyConfigurableInterpreterList {
       @Override
       public boolean apply(@Nullable Sdk input) {
         return input != null && PyRemovedSdkService.getInstance().isRemoved(input);
+=======
+    final PySdkService sdkService = PySdkService.getInstance();
+    final List<String> sdkHomes = new ArrayList<String>();
+    sdkHomes.addAll(VirtualEnvSdkFlavor.INSTANCE.suggestHomePaths());
+    for (PythonSdkFlavor flavor : PythonSdkFlavor.getApplicableFlavors()) {
+      if (flavor instanceof VirtualEnvSdkFlavor) continue;
+      sdkHomes.addAll(flavor.suggestHomePaths());
+    }
+    Collections.sort(sdkHomes);
+    for (String sdkHome : SdkConfigurationUtil.filterExistingPaths(PythonSdkType.getInstance(), sdkHomes, getModel().getSdks())) {
+      result.add(new PyDetectedSdk(sdkHome));
+    }
+    for (String sdkHome : SdkConfigurationUtil.filterExistingPaths(PythonSdkType.getInstance(), sdkService.getAddedSdks(), getModel().getSdks())) {
+      result.add(new PyDetectedSdk(sdkHome));
+    }
+    Iterables.removeIf(result, new Predicate<Sdk>() {
+      @Override
+      public boolean apply(@Nullable Sdk input) {
+        return input != null && sdkService.isRemoved(input);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     });
     return result;

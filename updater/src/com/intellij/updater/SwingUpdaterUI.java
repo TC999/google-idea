@@ -384,6 +384,7 @@ public class SwingUpdaterUI implements UpdaterUI {
   @Override
   public void showError(final Throwable e) {
     hasError.set(true);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     StringWriter w = new StringWriter();
 
     if (e instanceof RetryException) {
@@ -401,12 +402,26 @@ public class SwingUpdaterUI implements UpdaterUI {
     e.printStackTrace(new PrintWriter(w));
 
     final String content = w.getBuffer().toString();
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     myQueue.add(new UpdateRequest() {
       @Override
       public void perform() {
         StringWriter w = new StringWriter();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
         if (!myConsolePane.isVisible()) {
+          w.write("Temp. directory: ");
+          w.write(System.getProperty("java.io.tmpdir"));
+          w.write("\n\n");
+        }
+        e.printStackTrace(new PrintWriter(w));
+        w.append("\n");
+        myConsole.append(w.getBuffer().toString());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+        if (!myConsolePane.isVisible()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           w.write("Temp. directory: ");
           w.write(System.getProperty("java.io.tmpdir"));
           w.write("\n\n");
@@ -414,6 +429,8 @@ public class SwingUpdaterUI implements UpdaterUI {
         myConsole.append(w.getBuffer().toString());
         myConsole.append(content);
         if (!myConsolePane.isVisible()) {
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           myConsole.setCaretPosition(0);
           myConsolePane.setVisible(true);
           myConsolePane.setPreferredSize(new Dimension(10, 200));

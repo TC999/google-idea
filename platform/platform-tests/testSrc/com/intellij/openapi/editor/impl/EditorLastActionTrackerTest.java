@@ -69,7 +69,11 @@ public class EditorLastActionTrackerTest extends LightPlatformCodeInsightFixture
 
   private class MyActionHandler extends EditorActionHandler {
     @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     public void execute(Editor editor, @Nullable Caret caret, DataContext dataContext) {
+=======
+    public void doExecute(Editor editor, @Nullable Caret caret, DataContext dataContext) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       assertNull(myTracker.getLastActionId());
     }
   }

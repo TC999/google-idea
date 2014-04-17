@@ -28,7 +28,11 @@ import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileTypes.FileTypes;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.fileTypes.impl.FileTypeManagerImpl;
+=======
+import com.intellij.openapi.fileTypes.PlainTextFileType;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.ProperTextRange;
 import com.intellij.openapi.util.io.FileUtil;
@@ -302,6 +306,7 @@ public class FindManagerTest extends DaemonAnalyzerTestCase {
     }.execute().getResultObject();
     
     assertNull(FileDocumentManager.getInstance().getCachedDocument(custom));
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     assertEquals(FileTypes.UNKNOWN, custom.getFileType());
     assertFalse(FileTypeManagerImpl.isFileTypeDetectedFromContent(custom));
 
@@ -319,6 +324,23 @@ public class FindManagerTest extends DaemonAnalyzerTestCase {
     assertNotNull(FileDocumentManager.getInstance().getDocument(custom));
     assertEquals(FileTypes.PLAIN_TEXT, custom.getFileType());
     assertTrue(FileTypeManagerImpl.isFileTypeDetectedFromContent(custom));
+=======
+    assertEquals(PlainTextFileType.INSTANCE, custom.getFileType());
+
+    FindModel findModel = new FindModel();
+    findModel.setWholeWordsOnly(true);
+    findModel.setFromCursor(false);
+    findModel.setGlobal(true);
+    findModel.setMultipleFiles(true);
+    findModel.setProjectScope(true);
+
+    findModel.setStringToFind("fo");
+    assertSize(2, findUsages(findModel));
+    
+    // and we should get the same with text loaded
+    assertNotNull(FileDocumentManager.getInstance().getDocument(custom));
+    assertEquals(FileTypes.PLAIN_TEXT, custom.getFileType());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     assertSize(2, findUsages(findModel));
   }
@@ -539,6 +561,25 @@ public class FindManagerTest extends DaemonAnalyzerTestCase {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void testFindInDirectoryOutsideProject() throws Exception {
+    final TempDirTestFixture tempDirFixture = new TempDirTestFixtureImpl();
+    tempDirFixture.setUp();
+    try {
+      tempDirFixture.createFile("a.txt", "foo bar foo");
+      FindModel findModel = FindManagerTestUtils.configureFindModel("foo");
+      findModel.setWholeWordsOnly(true);
+      findModel.setProjectScope(false);
+      findModel.setDirectoryName(tempDirFixture.getFile("").getPath());
+      assertSize(2, findUsages(findModel));
+    }
+    finally {
+      tempDirFixture.tearDown();
+    }
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void testFindInJavaDocs() {
     FindModel findModel = FindManagerTestUtils.configureFindModel("done");
     String text = "/** done done done */";
@@ -599,5 +640,20 @@ public class FindManagerTest extends DaemonAnalyzerTestCase {
 
     findModel.setInCommentsOnly(true);
     FindManagerTestUtils.runFindForwardAndBackward(myFindManager, findModel, text, "java");
+  }
+
+  public void testPlusWholeWordsOnly() throws Exception {
+    createFile(myModule, "A.java", "3 + '+' + 2");
+
+    FindModel findModel = FindManagerTestUtils.configureFindModel("'+' +");
+    findModel.setMultipleFiles(true);
+
+    assertSize(1, findUsages(findModel));
+
+    findModel.setCaseSensitive(true);
+    assertSize(1, findUsages(findModel));
+
+    findModel.setWholeWordsOnly(true);
+    assertSize(1, findUsages(findModel));
   }
 }

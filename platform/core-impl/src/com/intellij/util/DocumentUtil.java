@@ -65,4 +65,24 @@ public final class DocumentUtil {
       }
     });
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  public static int getFirstNonSpaceCharOffset(@NotNull Document document, int line) {
+    int startOffset = document.getLineStartOffset(line);
+    int endOffset = document.getLineEndOffset(line);
+    return getFirstNonSpaceCharOffset(document, startOffset, endOffset);
+  }
+
+  public static int getFirstNonSpaceCharOffset(@NotNull Document document, int startOffset, int endOffset) {
+    CharSequence text = document.getImmutableCharSequence();
+    for (int i = startOffset; i < endOffset; i++) {
+      char c = text.charAt(i);
+      if (c != ' ' && c != '\t') {
+        return i;
+      }
+    }
+    return startOffset;
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

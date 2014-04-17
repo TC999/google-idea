@@ -97,10 +97,18 @@ public abstract class ApplicationInfoEx extends ApplicationInfo {
 
   public abstract List<PluginChooserPage> getPluginChooserPages();
 
-  public abstract boolean isEssentialPlugin(String pluginId);
 
   /** @deprecated to remove in IDEA 14 */
   @SuppressWarnings("UnusedDeclaration")
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public boolean isEssentialPlugin(String pluginId) {
+    return false;
+  }
+
+  /** @deprecated to remove in IDEA 14 */
+  @SuppressWarnings("UnusedDeclaration")
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public abstract String getOpaqueIconUrl();
 
   /** @deprecated to remove in IDEA 14 */

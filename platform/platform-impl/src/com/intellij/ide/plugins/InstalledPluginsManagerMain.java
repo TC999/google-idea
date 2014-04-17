@@ -61,7 +61,7 @@ public class InstalledPluginsManagerMain extends PluginManagerMain {
     myActionsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
     final JButton jbButton = new JButton("Install JetBrains plugin...");
     jbButton.setMnemonic('j');
-    jbButton.addActionListener(new BrowseRepoListener("JetBrains"));
+    jbButton.addActionListener(new BrowseRepoListener(JETBRAINS_VENDOR));
     myActionsPanel.add(jbButton);
 
     final JButton button = new JButton("Browse repositories...");
@@ -251,7 +251,11 @@ public class InstalledPluginsManagerMain extends PluginManagerMain {
       //actionGroup.add(new MyFilterBundleAction());
     } else {
       actionGroup.add(new RefreshAction());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       actionGroup.addAction(new SortByStatusAction("Sort by Status"));
+=======
+      actionGroup.addAction(createSortersGroup());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       actionGroup.add(Separator.getInstance());
       actionGroup.add(new ActionInstallPlugin(getAvailable(), getInstalled()));
       actionGroup.add(new UninstallPluginAction(this, pluginTable));

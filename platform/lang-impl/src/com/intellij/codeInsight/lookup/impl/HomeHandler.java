@@ -31,10 +31,18 @@ public class HomeHandler extends EditorActionHandler {
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void execute(Editor editor, Caret caret, DataContext dataContext){
+=======
+  public void doExecute(Editor editor, Caret caret, DataContext dataContext){
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     LookupImpl lookup = (LookupImpl)LookupManager.getActiveLookup(editor);
     if (lookup == null || !lookup.isFocused()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       myOriginalHandler.executeInCaretContext(editor, caret, dataContext);
+=======
+      myOriginalHandler.execute(editor, caret, dataContext);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return;
     }
 

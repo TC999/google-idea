@@ -40,6 +40,7 @@ public class EncodingEnvironmentUtil {
    * Sets default encoding on Mac if it's undefined. <br/>
    * On Mac default character encoding is defined by several environment variables: LC_ALL, LC_CTYPE and LANG.
    * See <a href='http://www.gnu.org/software/gettext/manual/html_node/Locale-Environment-Variables.html'>details</a>.
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    * <p>
    * Unfortunately, Mac OSX has a special behavior:<br/>
    * These environment variables aren't passed to an IDE, if the IDE is launched from Spotlight.<br/>
@@ -102,4 +103,82 @@ public class EncodingEnvironmentUtil {
   }
 
 
+=======
+   * <p/>
+   * Unfortunately, Mac OSX has a special behavior:<br/>
+   * These environment variables aren't passed to an IDE, if the IDE is launched from Spotlight.<br/>
+   * Unfortunately, even {@link com.intellij.util.EnvironmentUtil#getEnvironment()} doesn't have these variables.<p/>
+   * As a result, no encoding environment variables are passed to Ruby/Node.js/Python/other processes that are launched from IDE.
+   * Thus, these processes wrongly assume that the default encoding is US-ASCII.
+   * <p/>
+   * <p/>
+   * The workaround this method applies is to set LC_CTYPE environment variable if LC_ALL, LC_CTYPE or LANG aren't set before. <br/>
+   * LC_CTYPE value is taken from "Settings | File Encodings".
+   *
+   * @param commandLine GeneralCommandLine instance
+   * @param project     Project instance if any
+   */
+  public static void fixDefaultEncodingIfMac(@NotNull GeneralCommandLine commandLine, @Nullable Project project) {
+    if (SystemInfo.isMac) {
+      if (!isLocaleDefined(commandLine)) {
+        fixLocale(commandLine.getEnvironment(), project);
+      }
+    }
+  }
+
+  private static void fixLocale(@NotNull Map<String, String> env, @Nullable Project project) {
+    Charset charset = getCharset(project);
+    env.put(LC_CTYPE, charset.name());
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Fixed mac locale: " + charset.name());
+    }
+  }
+
+
+  /**
+   * Sets default encoding on Mac if it's undefined. <br/>
+   */
+  public static void fixDefaultEncodingIfMac(@NotNull Map<String, String> env, @Nullable Project project) {
+    if (SystemInfo.isMac) {
+      if (!isLocaleDefined(env)) {
+        fixLocale(env, project);
+      }
+    }
+  }
+
+  private static boolean isLocaleDefined(@NotNull GeneralCommandLine commandLine) {
+    Map<String, String> env = commandLine.getEnvironment();
+    if (isLocaleDefined(env)) {
+      return true;
+    }
+    if (commandLine.isPassParentEnvironment()) {
+      // 'parentEnv' calculation logic should be kept in sync with GeneralCommandLine.setupEnvironment
+      Map<String, String> parentEnv = PlatformUtils.isAppCode() ? System.getenv() // Temporarily fix for OC-8606
+                                                                : EnvironmentUtil.getEnvironmentMap();
+      if (isLocaleDefined(parentEnv)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean isLocaleDefined(@NotNull Map<String, String> env) {
+    return env.containsKey(LC_ALL) || env.containsKey(LC_CTYPE) || env.containsKey(LANG);
+  }
+
+  @NotNull
+  private static Charset getCharset(@Nullable Project project) {
+    Charset charset = null;
+    if (project != null) {
+      charset = EncodingProjectManager.getInstance(project).getDefaultCharset();
+    }
+    if (charset == null) {
+      charset = EncodingManager.getInstance().getDefaultCharset();
+    }
+    if (charset == null) {
+      charset = CharsetToolkit.UTF8_CHARSET;
+    }
+    return charset;
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

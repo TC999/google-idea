@@ -246,7 +246,11 @@ public class GroovycOSProcessHandler extends BaseOSProcessHandler {
 
   public static File fillFileWithGroovycParameters(final String outputDir,
                                                    final Collection<String> changedSources,
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                                                    String finalOutput,
+=======
+                                                   Collection<String> finalOutputs,
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                                                    Map<String, String> class2Src,
                                                    @Nullable final String encoding,
                                                    List<String> patchers,
@@ -284,7 +288,7 @@ public class GroovycOSProcessHandler extends BaseOSProcessHandler {
       writer.write(outputDir);
       writer.write("\n");
       writer.write(GroovyRtConstants.FINAL_OUTPUTPATH + "\n");
-      writer.write(finalOutput);
+      writer.write(StringUtil.join(finalOutputs, File.pathSeparator));
       writer.write("\n");
     }
     finally {

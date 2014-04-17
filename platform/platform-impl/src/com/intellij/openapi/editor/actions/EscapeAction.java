@@ -17,12 +17,17 @@
 package com.intellij.openapi.editor.actions;
 
 import com.intellij.openapi.actionSystem.DataContext;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.editor.Caret;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.ex.EditorEx;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author max
@@ -35,15 +40,25 @@ public class EscapeAction extends EditorAction {
 
   private static class Handler extends EditorActionHandler {
     @Override
-    public void execute(Editor editor, DataContext dataContext) {
+    public void doExecute(Editor editor, @Nullable Caret caret, DataContext dataContext) {
       if (editor instanceof EditorEx) {
         EditorEx editorEx = (EditorEx)editor;
         if (editorEx.isStickySelection()) {
           editorEx.setStickySelection(false);
         }
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       editor.getCaretModel().removeSecondaryCarets();
+=======
+      retainOldestCaret(editor.getCaretModel());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       editor.getSelectionModel().removeSelection();
+    }
+
+    private static void retainOldestCaret(CaretModel caretModel) {
+      while(caretModel.getCaretCount() > 1) {
+        caretModel.removeCaret(caretModel.getPrimaryCaret());
+      }
     }
 
     @Override

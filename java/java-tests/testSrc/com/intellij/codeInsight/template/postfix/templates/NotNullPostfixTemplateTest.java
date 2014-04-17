@@ -17,6 +17,7 @@ package com.intellij.codeInsight.template.postfix.templates;
 
 import org.jetbrains.annotations.NotNull;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 /**
  * @author ignatov
  */
@@ -29,4 +30,16 @@ public class NotNullPostfixTemplateTest extends PostfixTemplateTestCase {
   public void testPrimitive()         { doTest(); }
   public void testNn()                { doTest(); }
   public void testSecondStatement()   { doTest(); }
+=======
+public class NotNullPostfixTemplateTest extends PostfixTemplateTestCase {
+  @NotNull
+  @Override
+  protected String getSuffix() { return "notnull"; }
+
+  public void testSimple()            { doTest(); }
+  public void testPrimitive()         { doTest(); }
+  public void testNn()                { doTest(); }
+  public void testSecondStatement()   { doTest(); }
+  public void testElseStatement()     { doTest(); }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

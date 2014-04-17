@@ -55,7 +55,11 @@ public class GrStubFileElementType extends IStubFileElementType<GrFileStub> {
 
   @Override
   public int getStubVersion() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return super.getStubVersion() + 20;
+=======
+    return super.getStubVersion() + 21;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull

@@ -163,12 +163,16 @@ public class HgPushDialog extends DialogWrapper {
     final Collection<String> branches = repo.getOpenedBranches();
     final Collection<String> bookmarkNames = HgUtil.getNamesWithoutHashes(repo.getBookmarks());
     branchComboBox.setModel(new DefaultComboBoxModel(branches.toArray()));
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    branchComboBox.setSelectedItem(repo.getCurrentBranch());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myBookmarkComboBox.setModel(new DefaultComboBoxModel(bookmarkNames.toArray()));
   }
 
   private void updateRepositoryUrlText(String defaultPath) {
     if (defaultPath != null) {
-      myRepositoryURL.setText(defaultPath);
+      myRepositoryURL.setSelectedItem(defaultPath);
       update();
     }
   }
@@ -177,7 +181,10 @@ public class HgPushDialog extends DialogWrapper {
     setOKActionEnabled(validateOptions());
     revisionTxt.setEnabled(revisionCbx.isSelected());
     branchComboBox.setEnabled(branchCheckBox.isSelected());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     newBranchCheckBox.setEnabled(branchCheckBox.isSelected());
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myBookmarkComboBox.setEnabled(myBookmarkCheckBox.isSelected());
   }
 

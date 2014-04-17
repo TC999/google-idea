@@ -398,7 +398,15 @@ public class RequestManagerImpl extends DebugProcessAdapterImpl implements Reque
         Project project = myDebugProcess.getProject();
         final BreakpointManager breakpointManager = DebuggerManagerEx.getInstanceEx(project).getBreakpointManager();
         for (final Breakpoint breakpoint : breakpointManager.getBreakpoints()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           breakpoint.createRequest(myDebugProcess);
+=======
+          try {
+            breakpoint.createRequest(myDebugProcess);
+          } catch (Exception e) {
+            LOG.error(e);
+          }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
 
         //AccessToken token = ReadAction.start();

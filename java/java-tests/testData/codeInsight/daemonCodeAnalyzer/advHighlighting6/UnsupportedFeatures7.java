@@ -45,5 +45,9 @@ class UnsupportedFeatures {
 
   interface I {
     <error descr="Extension methods are not supported at this language level">default void m() { }</error>
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    <error descr="Extension methods are not supported at this language level">static void m() { }</error>
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

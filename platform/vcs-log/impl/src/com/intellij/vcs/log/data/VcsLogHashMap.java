@@ -19,7 +19,14 @@ import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.util.ThrowableComputable;
+=======
+import com.intellij.openapi.util.Condition;
+import com.intellij.openapi.util.Ref;
+import com.intellij.openapi.util.ThrowableComputable;
+import com.intellij.util.CommonProcessors;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.io.IOUtil;
 import com.intellij.util.io.KeyDescriptor;
 import com.intellij.util.io.Page;
@@ -77,6 +84,25 @@ class VcsLogHashMap implements Disposable {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @Nullable
+  Hash findHash(@NotNull final Condition<Hash> condition) throws IOException {
+    final Ref<Hash> hashRef = Ref.create();
+    myPersistentEnumerator.iterateData(new CommonProcessors.FindProcessor<Hash>() {
+      @Override
+      protected boolean accept(Hash hash) {
+        boolean matches = condition.value(hash);
+        if (matches) {
+          hashRef.set(hash);
+        }
+        return matches;
+      }
+    });
+    return hashRef.get();
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private static class MyHashKeyDescriptor implements KeyDescriptor<Hash> {
     @Override
     public void save(@NotNull DataOutput out, Hash value) throws IOException {

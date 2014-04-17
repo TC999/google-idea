@@ -25,6 +25,7 @@ import org.jetbrains.jps.builders.BuildTarget;
 import org.jetbrains.jps.builders.impl.BuildTargetChunk;
 import org.jetbrains.jps.builders.impl.storage.BuildTargetStorages;
 import org.jetbrains.jps.builders.java.dependencyView.Mappings;
+import org.jetbrains.jps.builders.storage.BuildDataCorruptedException;
 import org.jetbrains.jps.builders.storage.BuildDataPaths;
 import org.jetbrains.jps.builders.storage.SourceToOutputMapping;
 import org.jetbrains.jps.builders.storage.StorageProvider;
@@ -42,9 +43,14 @@ import java.util.concurrent.ConcurrentMap;
  *         Date: 10/7/11
  */
 public class BuildDataManager implements StorageOwner {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static final int VERSION = 22;
+=======
+  private static final int VERSION = 23;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private static final Logger LOG = Logger.getInstance("#org.jetbrains.jps.incremental.storage.BuildDataManager");
   private static final String SRC_TO_FORM_STORAGE = "src-form";
+  private static final String OUT_SRC_STORAGE = "out-src";
   private static final String MAPPINGS_STORAGE = "mappings";
   private static final int CONCURRENCY_LEVEL = BuildRunner.PARALLEL_BUILD_ENABLED? IncProjectBuilder.MAX_BUILDER_THREADS : 1;
 
@@ -57,6 +63,7 @@ public class BuildDataManager implements StorageOwner {
   private final Mappings myMappings;
   private final BuildDataPaths myDataPaths;
   private final BuildTargetsState myTargetsState;
+  private final OutputToSourceRegistry myOutputToSourceRegistry;
   private final File myVersionFile;
   private StorageOwner myTargetStoragesOwner = new CompositeStorageOwner() {
     @Override
@@ -126,12 +133,21 @@ public class BuildDataManager implements StorageOwner {
     myDataPaths = dataPaths;
     myTargetsState = targetsState;
     mySrcToFormMap = new OneToManyPathsMapping(new File(getSourceToFormsRoot(), "data"));
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    myOutputToSourceRegistry = new OutputToSourceRegistry(new File(getOutputToSourceRegistryRoot(), "data"));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myMappings = new Mappings(getMappingsRoot(myDataPaths.getDataStorageRoot()), useMemoryTempCaches);
     myVersionFile = new File(myDataPaths.getDataStorageRoot(), "version.dat");
   }
 
+  public OutputToSourceRegistry getOutputToSourceRegistry() {
+    return myOutputToSourceRegistry;
+  }
+
   public SourceToOutputMapping getSourceToOutputMap(final BuildTarget<?> target) throws IOException {
-    return fetchValue(mySourceToOutputs, target, SOURCE_OUTPUT_MAPPING_VALUE_FACTORY);
+    final SourceToOutputMappingImpl sourceToOutputMapping = fetchValue(mySourceToOutputs, target, SOURCE_OUTPUT_MAPPING_VALUE_FACTORY);
+    return new SourceToOutputMappingWrapper(sourceToOutputMapping);
   }
 
   @NotNull
@@ -183,14 +199,25 @@ public class BuildDataManager implements StorageOwner {
           wipeStorage(getSourceToFormsRoot(), mySrcToFormMap);
         }
         finally {
-          final Mappings mappings = myMappings;
-          if (mappings != null) {
-            synchronized (mappings) {
-              mappings.clean();
-            }
+          try {
+            wipeStorage(getOutputToSourceRegistryRoot(), myOutputToSourceRegistry);
           }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           else {
             FileUtil.delete(getMappingsRoot(myDataPaths.getDataStorageRoot()));
+=======
+          finally {
+            final Mappings mappings = myMappings;
+            if (mappings != null) {
+              synchronized (mappings) {
+                mappings.clean();
+              }
+            }
+            else {
+              FileUtil.delete(getMappingsRoot(myDataPaths.getDataStorageRoot()));
+            }
+            
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
         }
       }
@@ -204,6 +231,7 @@ public class BuildDataManager implements StorageOwner {
     for (AtomicNotNullLazyValue<SourceToOutputMappingImpl> mapping : mySourceToOutputs.values()) {
       mapping.getValue().flush(memoryCachesOnly);
     }
+    myOutputToSourceRegistry.flush(memoryCachesOnly);
     mySrcToFormMap.flush(memoryCachesOnly);
     final Mappings mappings = myMappings;
     if (mappings != null) {
@@ -226,6 +254,7 @@ public class BuildDataManager implements StorageOwner {
     finally {
       try {
         closeSourceToOutputStorages();
+        myOutputToSourceRegistry.close();
       }
       finally {
         try {
@@ -304,8 +333,19 @@ public class BuildDataManager implements StorageOwner {
     return new File(myDataPaths.getDataStorageRoot(), SRC_TO_FORM_STORAGE);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  private File getOutputToSourceRegistryRoot() {
+    return new File(myDataPaths.getDataStorageRoot(), OUT_SRC_STORAGE);
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public BuildDataPaths getDataPaths() {
     return myDataPaths;
+  }
+
+  public static File getMappingsRoot(final File dataStorageRoot) {
+    return new File(dataStorageRoot, MAPPINGS_STORAGE);
   }
 
   public static File getMappingsRoot(final File dataStorageRoot) {
@@ -374,6 +414,78 @@ public class BuildDataManager implements StorageOwner {
       }
       catch (IOException ignored) {
       }
+    }
+  }
+  
+  private final class SourceToOutputMappingWrapper implements SourceToOutputMapping {
+    private final SourceToOutputMapping myDelegate;
+
+    SourceToOutputMappingWrapper(SourceToOutputMapping delegate) {
+      myDelegate = delegate;
+    }
+
+    public void setOutputs(@NotNull String srcPath, @NotNull Collection<String> outputs) throws IOException {
+      try {
+        myDelegate.setOutputs(srcPath, outputs);
+      }
+      finally {
+        myOutputToSourceRegistry.addMapping(outputs, srcPath);
+      }
+    }
+
+    public void setOutput(@NotNull String srcPath, @NotNull String outputPath) throws IOException {
+      try {
+        myDelegate.setOutput(srcPath, outputPath);
+      }
+      finally {
+        myOutputToSourceRegistry.addMapping(outputPath, srcPath);
+      }
+    }
+
+    public void appendOutput(@NotNull String srcPath, @NotNull String outputPath) throws IOException {
+      try {
+        myDelegate.appendOutput(srcPath, outputPath);
+      }
+      finally {
+        myOutputToSourceRegistry.addMapping(outputPath, srcPath);
+      }
+    }
+
+    public void remove(@NotNull String srcPath) throws IOException {
+      final Collection<String> outputs = myDelegate.getOutputs(srcPath);
+      if (outputs == null) {
+        return;
+      }
+      try {
+        myDelegate.remove(srcPath);
+      }
+      finally {
+        myOutputToSourceRegistry.removeMapping(outputs, srcPath);
+      }
+    }
+
+    public void removeOutput(@NotNull String sourcePath, @NotNull String outputPath) throws IOException {
+      try {
+        myDelegate.removeOutput(sourcePath, outputPath);
+      }
+      finally {
+        myOutputToSourceRegistry.removeMapping(outputPath, sourcePath);
+      }
+    }
+
+    @NotNull 
+    public Collection<String> getSources() throws IOException {
+      return myDelegate.getSources();
+    }
+
+    @Nullable 
+    public Collection<String> getOutputs(@NotNull String srcPath) throws IOException {
+      return myDelegate.getOutputs(srcPath);
+    }
+
+    @NotNull 
+    public Iterator<String> getSourcesIterator() throws IOException {
+      return myDelegate.getSourcesIterator();
     }
   }
 }

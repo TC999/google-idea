@@ -5,7 +5,10 @@
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file url="file://$PROJECT_DIR$" />
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     <type id="android" />
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   </component>
   <component name="IdProvider" IDEtalkID="88DB5D232B345F18EEFB2825E88EC093" />
   <component name="JavadocGenerationManager">

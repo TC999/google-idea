@@ -73,6 +73,7 @@ public class GradleTaskManager extends AbstractExternalSystemTaskManager<GradleE
                            @Nullable final String debuggerSetup,
                            @NotNull final ExternalSystemTaskNotificationListener listener) throws ExternalSystemException {
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 //    if (settings != null) {
 //      myHelper.ensureInstalledWrapper(id, projectPath, settings, listener);
 //    }
@@ -85,6 +86,19 @@ public class GradleTaskManager extends AbstractExternalSystemTaskManager<GradleE
           return;
         }
       }
+=======
+    // TODO add support for external process mode
+    if (ExternalSystemApiUtil.isInProcessMode(GradleConstants.SYSTEM_ID)) {
+      for (GradleTaskManagerExtension gradleTaskManagerExtension : GradleTaskManagerExtension.EP_NAME.getExtensions()) {
+        if (gradleTaskManagerExtension.executeTasks(
+          id, taskNames, projectPath, settings, vmOptions, scriptParameters, debuggerSetup, listener)) {
+          return;
+        }
+      }
+    }
+    if(!scriptParameters.contains("--tests") && taskNames.contains("test")) {
+      ContainerUtil.addAll(scriptParameters, "--tests", "*");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     Function<ProjectConnection, Void> f = new Function<ProjectConnection, Void>() {

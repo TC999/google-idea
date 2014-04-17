@@ -18,6 +18,11 @@ package com.intellij.ide;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.util.ExecUtil;
 import com.intellij.ide.browsers.BrowserLauncher;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.ide.browsers.BrowserLauncherAppless;
+import com.intellij.openapi.application.ApplicationManager;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -68,7 +73,11 @@ public class BrowserUtil {
   }
 
   public static void browse(@NotNull File file) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     BrowserLauncher.getInstance().browse(file);
+=======
+    getBrowserLauncher().browse(file);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public static void browse(@NotNull URL url) {
@@ -85,18 +94,34 @@ public class BrowserUtil {
   }
 
   public static void browse(@NotNull @NonNls String url) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     BrowserLauncher.getInstance().browse(url, null);
+=======
+    getBrowserLauncher().browse(url, null);
+  }
+
+  private static BrowserLauncher getBrowserLauncher() {
+    return ApplicationManager.getApplication() == null ? new BrowserLauncherAppless() : BrowserLauncher.getInstance();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public static void open(@NotNull @NonNls String url) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     BrowserLauncher.getInstance().open(url);
+=======
+    getBrowserLauncher().open(url);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   /**
    * Main method: tries to launch a browser using every possible way
    */
   public static void browse(@NotNull URI uri) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     BrowserLauncher.getInstance().browse(uri);
+=======
+    getBrowserLauncher().browse(uri);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @SuppressWarnings("UnusedDeclaration")

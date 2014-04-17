@@ -165,6 +165,7 @@ public class PositionPanel extends EditorBasedWidget implements StatusBarWidget.
         );
       }
       else {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         List<Caret> carets = editor.getCaretModel().getAllCarets();
         if (carets.size() > 1) {
           message.append(carets.size()).append(" carets (");
@@ -176,10 +177,24 @@ public class PositionPanel extends EditorBasedWidget implements StatusBarWidget.
         else {
           Caret caret = carets.get(0);
           LogicalPosition caretPosition = caret.getLogicalPosition();
+=======
+        int caretCount = editor.getCaretModel().getCaretCount();
+        if (caretCount > 1) {
+          message.append(caretCount).append(" carets");
+        }
+        else {
+          LogicalPosition caret = editor.getCaretModel().getLogicalPosition();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           appendLogicalPosition(caretPosition, message);
           if (caret.hasSelection()) {
             int len = Math.abs(caret.getSelectionStart() - caret.getSelectionEnd());
+=======
+          appendLogicalPosition(caret, message);
+          if (selectionModel.hasSelection()) {
+            int len = Math.abs(selectionModel.getSelectionStart() - selectionModel.getSelectionEnd());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             if (len != 0) message.append("/").append(len);
           }
         }

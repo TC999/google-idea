@@ -16,11 +16,15 @@
 package org.jetbrains.idea.svn.commandLine;
 
 import com.intellij.execution.ExecutionException;
+import com.intellij.execution.configurations.EncodingEnvironmentUtil;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.*;
+import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Key;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.io.BaseDataReader;
 import com.intellij.util.io.BinaryOutputReader;
@@ -30,10 +34,18 @@ import org.jetbrains.annotations.Nullable;
 import org.tmatesoft.svn.core.SVNCancelException;
 
 import java.io.ByteArrayOutputStream;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import java.io.File;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.concurrent.Future;
+=======
+import java.util.List;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -47,13 +59,15 @@ public class CommandExecutor {
   static final Logger LOG = Logger.getInstance(CommandExecutor.class.getName());
   private final AtomicReference<Integer> myExitCodeReference;
 
+  @Nullable private String myMessage;
+  @Nullable private File myMessageFile;
   private boolean myIsDestroyed;
   private boolean myNeedsDestroy;
   private volatile String myDestroyReason;
   private volatile boolean myWasCancelled;
   protected final GeneralCommandLine myCommandLine;
   protected Process myProcess;
-  protected OSProcessHandler myHandler;
+  protected SvnProcessHandler myHandler;
   private OutputStreamWriter myProcessWriter;
   // TODO: Try to implement commands in a way that they manually indicate if they need full output - to prevent situations
   // TODO: when large amount of data needs to be stored instead of just sequential processing.
@@ -83,8 +97,31 @@ public class CommandExecutor {
       myCommandLine.addParameters("--config-dir", command.getConfigDir().getPath());
     }
     myCommandLine.addParameter(command.getName().getName());
-    myCommandLine.addParameters(command.getParameters());
+    myCommandLine.addParameters(prepareParameters(command));
     myExitCodeReference = new AtomicReference<Integer>();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  @NotNull
+  private List<String> prepareParameters(@NotNull Command command) {
+    List<String> parameters = command.getParameters();
+
+    detectAndRemoveMessage(parameters);
+
+    return parameters;
+  }
+
+  private void detectAndRemoveMessage(@NotNull List<String> parameters) {
+    int index = parameters.indexOf("-m");
+    index = index < 0 ? parameters.indexOf("--message") : index;
+
+    if (index >= 0 && index + 1 < parameters.size()) {
+      myMessage = parameters.get(index + 1);
+      parameters.remove(index + 1);
+      parameters.remove(index);
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   /**
@@ -105,6 +142,7 @@ public class CommandExecutor {
       checkNotStarted();
 
       try {
+        beforeCreateProcess();
         myProcess = createProcess();
         if (LOG.isDebugEnabled()) {
           LOG.debug(myCommandLine.toString());
@@ -112,7 +150,14 @@ public class CommandExecutor {
         myHandler = createProcessHandler();
         myProcessWriter = new OutputStreamWriter(myHandler.getProcessInput());
         startHandlingStreams();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       } catch (ExecutionException e) {
+        // TODO: currently startFailed() is not used for some real logic in svn4idea plugin
+        listeners().startFailed(e);
+        throw new SvnBindException(e);
+=======
+      }
+      catch (ExecutionException e) {
         // TODO: currently startFailed() is not used for some real logic in svn4idea plugin
         listeners().startFailed(e);
         throw new SvnBindException(e);
@@ -120,7 +165,63 @@ public class CommandExecutor {
     }
   }
 
+  protected void cleanup() {
+    cleanupMessageFile();
+  }
+
+  protected void beforeCreateProcess() throws SvnBindException {
+    EncodingEnvironmentUtil.fixDefaultEncodingIfMac(myCommandLine, null);
+    ensureMessageFile();
+  }
+
+  private void ensureMessageFile() throws SvnBindException {
+    if (myMessage != null) {
+      myMessageFile = createTempFile("commit-message", ".txt");
+      try {
+        FileUtil.writeToFile(myMessageFile, myMessage);
+      }
+      catch (IOException e) {
+        throw new SvnBindException(e);
+      }
+      myCommandLine.addParameters("-F", myMessageFile.getAbsolutePath());
+      myCommandLine.addParameters("--config-option", "config:miscellany:log-encoding=" + CharsetToolkit.UTF8);
+    }
+  }
+
+  private void cleanupMessageFile() {
+    deleteTempFile(myMessageFile);
+  }
+
   @NotNull
+  protected static File getSvnFolder() {
+    File vcsFolder = new File(PathManager.getSystemPath(), "vcs");
+
+    return new File(vcsFolder, "svn");
+  }
+
+  @NotNull
+  protected static File createTempFile(@NotNull String prefix, @NotNull String extension) throws SvnBindException {
+    try {
+      return FileUtil.createTempFile(getSvnFolder(), prefix, extension);
+    }
+    catch (IOException e) {
+      throw new SvnBindException(e);
+    }
+  }
+
+  protected static void deleteTempFile(@Nullable File file) {
+    if (file != null) {
+      boolean wasDeleted = FileUtil.delete(file);
+
+      if (!wasDeleted) {
+        LOG.info("Failed to delete temp file " + file.getAbsolutePath());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+      }
+    }
+  }
+
+  @NotNull
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   protected OSProcessHandler createProcessHandler() {
     return needsBinaryOutput()
            ? new BinaryOSProcessHandler(myProcess, myCommandLine.getCommandLineString())
@@ -129,6 +230,18 @@ public class CommandExecutor {
 
   private boolean needsBinaryOutput() {
     return SvnCommandName.cat.equals(myCommand.getName());
+=======
+  protected SvnProcessHandler createProcessHandler() {
+    return new SvnProcessHandler(myProcess, myCommandLine.getCommandLineString(), needsUtf8Output(), needsBinaryOutput());
+  }
+
+  protected boolean needsBinaryOutput() {
+    return SvnCommandName.cat.equals(myCommand.getName());
+  }
+
+  protected boolean needsUtf8Output() {
+    return myCommand.getParameters().contains("--xml");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull
@@ -153,9 +266,19 @@ public class CommandExecutor {
     return outputAdapter.getOutput().getStderr();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @Nullable
   public ByteArrayOutputStream getBinaryOutput() {
     return myHandler instanceof BinaryOSProcessHandler ? ((BinaryOSProcessHandler)myHandler).myBinaryOutput : null;
+=======
+  public ProcessOutput getProcessOutput() {
+    return outputAdapter.getOutput();
+  }
+
+  @NotNull
+  public ByteArrayOutputStream getBinaryOutput() {
+    return myHandler.getBinaryOutput();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   // TODO: Carefully here - do not modify command from threads other than the one started command execution
@@ -193,17 +316,49 @@ public class CommandExecutor {
   }
 
   public void run() throws SvnBindException {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     start();
     boolean finished;
     do {
       finished = waitFor(500);
       if (!finished && (wasError() || needsDestroy() || checkCancelled())) {
         waitFor(1000);
+=======
+    try {
+      start();
+      boolean finished;
+      do {
+        finished = waitFor(500);
+        if (!finished && (wasError() || needsDestroy() || checkCancelled())) {
+          waitFor(1000);
+          doDestroyProcess();
+          break;
+        }
+      }
+      while (!finished);
+    }
+    finally {
+      cleanup();
+    }
+  }
+
+  public void run(int timeout) throws SvnBindException {
+    try {
+      start();
+      boolean finished = waitFor(timeout);
+      if (!finished) {
+        outputAdapter.getOutput().setTimeout();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         doDestroyProcess();
-        break;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     while (!finished);
+=======
+    finally {
+      cleanup();
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public void addListener(final LineCommandListener listener) {

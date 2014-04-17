@@ -15,7 +15,6 @@
  */
 package com.intellij.refactoring;
 
-import com.intellij.JavaTestUtil;
 import com.intellij.codeInsight.TargetElementUtilBase;
 import com.intellij.psi.*;
 import com.intellij.refactoring.changeSignature.ChangeSignatureProcessor;
@@ -24,15 +23,13 @@ import com.intellij.refactoring.changeSignature.ParameterInfoImpl;
 import com.intellij.refactoring.changeSignature.ThrownExceptionInfo;
 import com.intellij.refactoring.util.CanonicalTypes;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
 /**
  * @author dsl
  */
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 public class ChangeSignatureTest extends LightRefactoringTestCase {
   private PsiElementFactory myFactory;
 
@@ -40,6 +37,9 @@ public class ChangeSignatureTest extends LightRefactoringTestCase {
     super.setUp();
     myFactory = JavaPsiFacade.getInstance(getProject()).getElementFactory();
   }
+=======
+public class ChangeSignatureTest extends ChangeSignatureBaseTest {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public void testSimple() {
     doTest(null, null, null, new ParameterInfoImpl[0], new ThrownExceptionInfo[0], false);
@@ -392,7 +392,11 @@ public class ChangeSignatureTest extends LightRefactoringTestCase {
   }
 
   public void testPropagateParameter() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     String basePath = "/refactoring/changeSignature/" + getTestName(false);
+=======
+    String basePath = getRelativePath() + getTestName(false);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     configureByFile(basePath + ".java");
     final PsiElement targetElement = TargetElementUtilBase.findTargetElement(getEditor(), TargetElementUtilBase.ELEMENT_NAME_ACCEPTED);
     assertTrue("<caret> is not on method name", targetElement instanceof PsiMethod);
@@ -411,6 +415,7 @@ public class ChangeSignatureTest extends LightRefactoringTestCase {
       new ParameterInfoImpl(-1, "b", PsiType.BOOLEAN)}, null, propagateParametersMethods, null
     ).run();
     checkResultByFile(basePath + "_after.java");
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   /* workers */
@@ -452,12 +457,20 @@ public class ChangeSignatureTest extends LightRefactoringTestCase {
                                  newName != null ? newName : method.getName(),
                                  newType, genParams.genParams(method), genExceptions.genExceptions(method)).run();
     checkResultByFile(basePath + "_after.java");
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
-  private interface GenParams {
-    ParameterInfoImpl[] genParams(PsiMethod method) throws IncorrectOperationException;
+  public void testTypeAnnotationsAllAround() {
+    //String[] ps = {"@TA(1) int @TA(2) []", "java.util.@TA(4) List<@TA(5) Class<@TA(6) ?>>", "@TA(7) String @TA(8) ..."};
+    //String[] ex = {"@TA(42) IllegalArgumentException", "java.lang.@TA(43) IllegalStateException"};
+    //doTest("java.util.@TA(0) List<@TA(1) C.@TA(1) Inner>", ps, ex, false);
+    String[] ps = {"@TA(2) int @TA(3) []", "@TA(4) List<@TA(5) Class<@TA(6) ?>>", "@TA(7) String @TA(8) ..."};
+    String[] ex = {};
+    doTest("@TA(0) List<@TA(1) Inner>", ps, ex, false);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static class SimpleParameterGen implements GenParams {
     private ParameterInfoImpl[] myInfos;
 
@@ -511,4 +524,7 @@ public class ChangeSignatureTest extends LightRefactoringTestCase {
   protected String getTestDataPath() {
     return JavaTestUtil.getJavaTestDataPath();
   }
+=======
+  /* workers */
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

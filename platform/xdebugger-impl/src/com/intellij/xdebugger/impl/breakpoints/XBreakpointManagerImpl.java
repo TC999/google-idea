@@ -60,7 +60,7 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
   private final XDebuggerManagerImpl myDebuggerManager;
   private final XDependentBreakpointManager myDependentBreakpointManager;
   private long myTime;
-
+  private String myDefaultGroup;
 
   public XBreakpointManagerImpl(final Project project, final XDebuggerManagerImpl debuggerManager, StartupManager startupManager) {
     myProject = project;
@@ -131,6 +131,10 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
                                                                                                            type.getId(),
                                                                                                            defaultBreakpoint ? 0 : myTime++);
     getBreakpointDefaults(type).applyDefaults(state);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    state.setGroup(myDefaultGroup);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return new XBreakpointBase<XBreakpoint<T>,T, BreakpointState<?,T,?>>(type, this, properties, state);
   }
 
@@ -220,6 +224,10 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
     LineBreakpointState<T> state = new LineBreakpointState<T>(true, type.getId(), fileUrl, line, temporary,
                                                               myTime++);
     getBreakpointDefaults(type).applyDefaults(state);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    state.setGroup(myDefaultGroup);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     XLineBreakpointImpl<T> breakpoint = new XLineBreakpointImpl<T>(type, this, properties,
                                                                    state);
     addBreakpoint(breakpoint, false, true);
@@ -368,6 +376,7 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
 
     state.setBreakpointsDialogProperties(myBreakpointsDialogSettings);
     state.setTime(myTime);
+    state.setDefaultGroup(myDefaultGroup);
     return state;
   }
 
@@ -420,6 +429,7 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
     myDependentBreakpointManager.loadState();
     myLineBreakpointManager.updateBreakpointsUI();
     myTime = state.getTime();
+    myDefaultGroup = state.getDefaultGroup();
   }
 
   private <P extends XBreakpointProperties> void addDefaultBreakpoint(XBreakpointType<?, P> type) {
@@ -456,6 +466,25 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
     myBreakpointsDialogSettings = breakpointsDialogSettings;
   }
 
+  public Set<String> getAllGroups() {
+    HashSet<String> res = new HashSet<String>();
+    for (XBreakpointBase breakpoint : myAllBreakpoints) {
+      String group = breakpoint.getGroup();
+      if (group != null) {
+        res.add(group);
+      }
+    }
+    return res;
+  }
+
+  public String getDefaultGroup() {
+    return myDefaultGroup;
+  }
+
+  public void setDefaultGroup(String defaultGroup) {
+    myDefaultGroup = defaultGroup;
+  }
+
   @Nullable
   private XBreakpointBase<?,?,?> createBreakpoint(final BreakpointState breakpointState) {
     XBreakpointType<?,?> type = XBreakpointUtil.findType(breakpointState.getTypeId());
@@ -487,6 +516,7 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
     private XBreakpointsDialogState myBreakpointsDialogProperties;
 
     private long myTime;
+    private String myDefaultGroup;
 
     @Tag("default-breakpoints")
     @AbstractCollection(surroundWithTag = false)
@@ -526,6 +556,10 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
       myBreakpointsDefaults = breakpointsDefaults;
     }
 
+    public void setBreakpointsDefaults(List<BreakpointState> breakpointsDefaults) {
+      myBreakpointsDefaults = breakpointsDefaults;
+    }
+
     public void setBreakpointsDialogProperties(XBreakpointsDialogState breakpointsDialogProperties) {
       myBreakpointsDialogProperties = breakpointsDialogProperties;
     }
@@ -536,6 +570,14 @@ public class XBreakpointManagerImpl implements XBreakpointManager, PersistentSta
 
     public void setTime(long time) {
       myTime = time;
+    }
+
+    public String getDefaultGroup() {
+      return myDefaultGroup;
+    }
+
+    public void setDefaultGroup(String defaultGroup) {
+      myDefaultGroup = defaultGroup;
     }
   }
 }

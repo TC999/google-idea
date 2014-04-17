@@ -17,7 +17,6 @@
 package com.intellij.codeInsight.actions;
 
 import com.intellij.codeInsight.CodeInsightBundle;
-import com.intellij.codeInsight.FileModificationService;
 import com.intellij.lang.LanguageFormatting;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
@@ -46,8 +45,12 @@ import com.intellij.util.SequentialTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.ArrayList;
 import java.util.List;
+=======
+import java.util.*;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -157,9 +160,16 @@ public abstract class AbstractLayoutCodeProcessor {
   }
 
   private static List<PsiFile> filterFilesTo(PsiFile[] files, List<PsiFile> list) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     GeneratedSourcesFilter[] filters = GeneratedSourcesFilter.EP_NAME.getExtensions();
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     for (PsiFile file : files) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       if (canBeFormatted(file, filters)) {
+=======
+      if (canBeFormatted(file)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         list.add(file);
       }
     }
@@ -203,21 +213,30 @@ public abstract class AbstractLayoutCodeProcessor {
   }
 
   public void run() {
-    if (myDirectory != null){
-      runProcessDirectory(myDirectory, myIncludeSubdirs);
-    }
-    else if (myFiles != null){
-      runProcessFiles(myFiles);
-    }
-    else if (myFile != null) {
+    if (myFile != null) {
       runProcessFile(myFile);
+      return;
+    }
+
+    FileTreeIterator iterator = buildFileTreeIterator();
+    runProcessFiles(iterator);
+  }
+
+  private FileTreeIterator buildFileTreeIterator() {
+    if (myDirectory != null) {
+      return new FileTreeIterator(myDirectory);
+    }
+    else if (myFiles != null) {
+      return new FileTreeIterator(myFiles);
     }
     else if (myModule != null) {
-      runProcessOnModule(myModule);
+      return new FileTreeIterator(myModule);
     }
     else if (myProject != null) {
-      runProcessOnProject(myProject);
+      return new FileTreeIterator(myProject);
     }
+
+    return new FileTreeIterator(Collections.<PsiFile>emptyList());
   }
 
   private void runProcessFile(@NotNull final PsiFile file) {
@@ -272,44 +291,13 @@ public abstract class AbstractLayoutCodeProcessor {
   }
 
   @Nullable
-  private Runnable preprocessFiles(List<PsiFile> files) {
-    ProgressIndicator progress = ProgressManager.getInstance().getProgressIndicator();
-    String oldText = null;
-    double oldFraction = 0;
-    if (progress != null){
-      oldText = progress.getText();
-      oldFraction = progress.getFraction();
-      progress.setText(myProgressText);
-    }
-
-    final List<FutureTask<Boolean>> tasks = new ArrayList<FutureTask<Boolean>>(files.size());
-    for(int i = 0; i < files.size(); i++) {
-      PsiFile file = files.get(i);
-      if (progress != null){
-        if (progress.isCanceled()) return null;
-        progress.setFraction((double)i / files.size());
-      }
-      if (file.isWritable()){
-        try{
-          tasks.add(preprocessFile(file, myProcessChangedTextOnly));
-        }
-        catch(IncorrectOperationException e){
-          LOG.error(e);
-        }
-      }
-      files.set(i, null);
-    }
-
-    if (progress != null){
-      progress.setText(oldText);
-      progress.setFraction(oldFraction);
-    }
-
+  private Runnable createIterativeFileProcessor(@NotNull final FileTreeIterator fileIterator) {
     return new Runnable() {
       @Override
       public void run() {
         SequentialModalProgressTask progressTask = new SequentialModalProgressTask(myProject, myCommandName);
-        ReformatFilesTask reformatFilesTask = new ReformatFilesTask(tasks);
+        progressTask.setMinIterationTime(100);
+        ReformatFilesTask reformatFilesTask = new ReformatFilesTask(fileIterator);
         reformatFilesTask.setCompositeTask(progressTask);
         progressTask.setTask(reformatFilesTask);
         ProgressManager.getInstance().run(progressTask);
@@ -317,10 +305,15 @@ public abstract class AbstractLayoutCodeProcessor {
     };
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private void runProcessFiles(final List<PsiFile> files) {
     // let's just ignore read-only files here
 
+=======
+  private void runProcessFiles(final @NotNull FileTreeIterator fileIterator) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final Runnable[] resultRunnable = new Runnable[1];
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     runLayoutCodeProcess(
       new Runnable() {
         @Override
@@ -338,7 +331,10 @@ public abstract class AbstractLayoutCodeProcessor {
       }, files.size() > 1
     );
   }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private void runProcessDirectory(final PsiDirectory directory, final boolean recursive) {
     final ArrayList<PsiFile> array = new ArrayList<PsiFile>();
     collectFilesToProcess(array, directory, recursive);
@@ -400,21 +396,32 @@ public abstract class AbstractLayoutCodeProcessor {
 
     final Runnable[] resultRunnable = new Runnable[1];
     runLayoutCodeProcess(new Runnable() {
+=======
+    Runnable readAction = new Runnable() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       @Override
       public void run() {
-        resultRunnable[0] = preprocessFiles(array);
+        resultRunnable[0] = createIterativeFileProcessor(fileIterator);
       }
-    }, new Runnable() {
+    };
+
+    Runnable writeAction = new Runnable() {
       @Override
       public void run() {
         if (resultRunnable[0] != null) {
           resultRunnable[0].run();
         }
       }
-    }, array.size() > 1);
+    };
+
+    runLayoutCodeProcess(readAction, writeAction, true);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static boolean canBeFormatted(PsiFile file, GeneratedSourcesFilter[] generatedSourcesFilters) {
+=======
+  private static boolean canBeFormatted(PsiFile file) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (LanguageFormatting.INSTANCE.forContext(file) == null) {
       return false;
     }
@@ -423,12 +430,17 @@ public abstract class AbstractLayoutCodeProcessor {
 
     if (ProjectCoreUtil.isProjectOrWorkspaceFile(virtualFile)) return false;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (GeneratedSourcesFilter filter : generatedSourcesFilters) {
+=======
+    for (GeneratedSourcesFilter filter : GeneratedSourcesFilter.EP_NAME.getExtensions()) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (filter.isGeneratedSource(virtualFile, file.getProject())) {
         return false;
       }
     }
     return true;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   private static void collectFilesToProcess(List<PsiFile> result, PsiDirectory dir, boolean recursive) {
@@ -438,6 +450,8 @@ public abstract class AbstractLayoutCodeProcessor {
         collectFilesToProcess(result, subdir, recursive);
       }
     }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private void runLayoutCodeProcess(final Runnable readAction, final Runnable writeAction, final boolean globalAction) {
@@ -458,7 +472,6 @@ public abstract class AbstractLayoutCodeProcessor {
       @Override
       public void run() {
         try {
-          //DaemonCodeAnalyzer.getInstance(myProject).setUpdateByTimerEnabled(false);
           ProgressManager.getInstance().runProcess(process, progressWindow);
         }
         catch(ProcessCanceledException e) {
@@ -467,11 +480,6 @@ public abstract class AbstractLayoutCodeProcessor {
         catch(IndexNotReadyException e) {
           return;
         }
-        /*
-        finally {
-          DaemonCodeAnalyzer.getInstance(myProject).setUpdateByTimerEnabled(true);
-        }
-        */
 
         final Runnable writeRunnable = new Runnable() {
           @Override
@@ -517,15 +525,19 @@ public abstract class AbstractLayoutCodeProcessor {
   }
 
   private class ReformatFilesTask implements SequentialTask {
-
-    private final List<FutureTask<Boolean>> myTasks;
-    private final int                       myTotalTasksNumber;
-
     private SequentialModalProgressTask myCompositeTask;
 
-    ReformatFilesTask(@NotNull List<FutureTask<Boolean>> tasks) {
-      myTasks = tasks;
-      myTotalTasksNumber = myTasks.size();
+    private final FileTreeIterator myFileTreeIterator;
+    private final FileTreeIterator myCountingIterator;
+
+    private int myTotalFiles = 0;
+    private int myFilesProcessed = 0;
+    private boolean myStopFormatting;
+    private boolean myFilesCountingFinished;
+
+    ReformatFilesTask(@NotNull FileTreeIterator fileIterator) {
+      myFileTreeIterator = fileIterator;
+      myCountingIterator = new FileTreeIterator(fileIterator);
     }
 
     @Override
@@ -534,50 +546,142 @@ public abstract class AbstractLayoutCodeProcessor {
 
     @Override
     public boolean isDone() {
-      return myTasks.isEmpty();
+      return myStopFormatting || !myFileTreeIterator.hasNext();
+    }
+
+    private void countingIteration() {
+      if (myCountingIterator.hasNext()) {
+        myCountingIterator.next();
+        myTotalFiles++;
+      }
+      else {
+        myFilesCountingFinished = true;
+      }
     }
 
     @Override
     public boolean iteration() {
-      if (myTasks.isEmpty()) {
+      if (myStopFormatting) {
         return true;
       }
-      FutureTask<Boolean> task = myTasks.remove(myTasks.size() - 1);
-      if (task == null) {
-        return myTasks.isEmpty();
+
+      if (!myFilesCountingFinished) {
+        countingIteration();
+        return true;
       }
+
+      updateIndicator(myFilesProcessed);
+
+      if (myFileTreeIterator.hasNext()) {
+        PsiFile file = myFileTreeIterator.next();
+        myFilesProcessed++;
+        if (file.isWritable() && canBeFormatted(file)) {
+          performFileProcessing(file);
+        }
+      }
+
+      return true;
+    }
+
+    private void performFileProcessing(@NotNull PsiFile file) {
+      FutureTask<Boolean> task = preprocessFile(file, myProcessChangedTextOnly);
       task.run();
       try {
         if (!task.get() || task.isCancelled()) {
-          myTasks.clear();
-          return true;
+          myStopFormatting = true;
         }
       }
       catch (InterruptedException e) {
         LOG.error("Got unexpected exception during formatting", e);
-        return true;
       }
       catch (ExecutionException e) {
         LOG.error("Got unexpected exception during formatting", e);
-        return true;
       }
+    }
+
+    private void updateIndicator(int filesProcessed) {
       if (myCompositeTask != null) {
         ProgressIndicator indicator = myCompositeTask.getIndicator();
-        if (indicator != null) {
-          indicator.setText(myProgressText + (myTotalTasksNumber - myTasks.size()) + "/" + myTotalTasksNumber);
-          indicator.setFraction((double)(myTotalTasksNumber - myTasks.size()) / myTotalTasksNumber);
-        }
+        if (indicator != null)
+          indicator.setFraction((double)filesProcessed / myTotalFiles);
       }
-      return myTasks.isEmpty();
     }
 
     @Override
     public void stop() {
-      myTasks.clear();
+      myStopFormatting = true;
     }
 
     public void setCompositeTask(@Nullable SequentialModalProgressTask compositeTask) {
       myCompositeTask = compositeTask;
+    }
+  }
+
+  private static class FileTreeIterator {
+    private Queue<PsiFile> myCurrentFiles = new LinkedList<PsiFile>();
+    private Queue<PsiDirectory> myCurrentDirectories = new LinkedList<PsiDirectory>();
+
+    public FileTreeIterator(@NotNull List<PsiFile> files) {
+      myCurrentFiles.addAll(files);
+    }
+
+    public FileTreeIterator(@NotNull Module module) {
+      addDirectoriesFrom(module);
+      expandDirectoriesUntilFilesNotEmpty();
+    }
+
+    public FileTreeIterator(@NotNull Project project) {
+      Module[] modules = ModuleManager.getInstance(project).getModules();
+      for (Module module : modules) {
+        addDirectoriesFrom(module);
+      }
+      expandDirectoriesUntilFilesNotEmpty();
+    }
+
+    public FileTreeIterator(@NotNull PsiDirectory directory) {
+      myCurrentDirectories.add(directory);
+      expandDirectoriesUntilFilesNotEmpty();
+    }
+
+    public FileTreeIterator(@NotNull FileTreeIterator fileTreeIterator) {
+      myCurrentFiles = new LinkedList<PsiFile>(fileTreeIterator.myCurrentFiles);
+      myCurrentDirectories = new LinkedList<PsiDirectory>(fileTreeIterator.myCurrentDirectories);
+    }
+
+    @NotNull
+    public PsiFile next() {
+      if (myCurrentFiles.isEmpty()) {
+        throw new NoSuchElementException();
+      }
+      PsiFile current = myCurrentFiles.poll();
+      expandDirectoriesUntilFilesNotEmpty();
+      return current;
+    }
+
+    public boolean hasNext() {
+      return !myCurrentFiles.isEmpty();
+    }
+
+    private void expandDirectoriesUntilFilesNotEmpty() {
+      while (myCurrentFiles.isEmpty() && !myCurrentDirectories.isEmpty()) {
+        PsiDirectory dir = myCurrentDirectories.poll();
+        expandDirectory(dir);
+      }
+    }
+
+    private void expandDirectory(@NotNull PsiDirectory dir) {
+      Collections.addAll(myCurrentFiles, dir.getFiles());
+      Collections.addAll(myCurrentDirectories, dir.getSubdirectories());
+    }
+
+    private void addDirectoriesFrom(Module module) {
+      VirtualFile[] contentRoots = ModuleRootManager.getInstance(module).getContentRoots();
+      for (VirtualFile root : contentRoots) {
+        PsiDirectory dir = PsiManager.getInstance(module.getProject()).findDirectory(root);
+        if (dir != null) {
+          myCurrentDirectories.add(dir);
+        }
+      }
     }
   }
 }

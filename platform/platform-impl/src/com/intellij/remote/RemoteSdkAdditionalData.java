@@ -40,4 +40,11 @@ public interface RemoteSdkAdditionalData<T extends RemoteSdkCredentials>
   void setSshCredentials(@NotNull RemoteCredentialsHolder credentials);
 
   void setDeploymentConnectionType(@NotNull WebDeploymentCredentialsHolder credentials);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  CredentialsType getRemoteConnectionType();
+
+  void switchOnConnectionType(RemoteSdkConnectionAcceptor acceptor);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

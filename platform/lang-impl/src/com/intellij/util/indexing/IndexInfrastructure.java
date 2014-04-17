@@ -21,27 +21,25 @@ package com.intellij.util.indexing;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.PathManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.FileUtilRt;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.ex.dummy.DummyFileSystem;
 import com.intellij.openapi.vfs.newvfs.persistent.PersistentFS;
 import com.intellij.psi.stubs.StubIndexKey;
 import com.intellij.psi.stubs.StubUpdatingIndex;
-import com.intellij.util.containers.ConcurrentHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.File;
 import java.util.Locale;
 
 @SuppressWarnings({"HardCodedStringLiteral"})
 public class IndexInfrastructure {
-  private static final int VERSION = 9;
-  private static final ConcurrentHashMap<ID<?, ?>, Long> ourIndexIdToCreationStamp = new ConcurrentHashMap<ID<?, ?>, Long>();
   private static final boolean ourUnitTestMode = ApplicationManager.getApplication().isUnitTestMode();
-  public static final long INVALID_STAMP = -1L;
-  public static final long INVALID_STAMP2 = -2L;
   private static final String STUB_VERSIONS = ".versions";
 
   private IndexInfrastructure() {
@@ -79,6 +77,7 @@ public class IndexInfrastructure {
     return indexDir;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static volatile long ourLastStamp; // ensure any file index stamp increases
 
   public static synchronized void rewriteVersion(@NotNull final File file, final int version) throws IOException {
@@ -141,6 +140,8 @@ public class IndexInfrastructure {
     }
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Nullable
   public static VirtualFile findFileById(@NotNull PersistentFS fs, final int id) {
     if (ourUnitTestMode) {

@@ -181,6 +181,65 @@ public class NewMethodRefHighlightingTest extends LightDaemonAnalyzerTestCase {
     doTest();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void testSuperClassPotentiallyApplicableMembers() throws Exception {
+    doTest();
+  }
+
+  public void testExactMethodReferencePertinentToApplicabilityCheck() throws Exception {
+    doTest();
+  }
+
+  public void testAmbiguityVarargs() throws Exception {
+    doTest();
+  }
+
+  public void testRawInnerClassQualifier() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122100() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122509() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122681() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA112191() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122018comment() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA123223() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA123248() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA123366() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA123366comment() throws Exception {
+    doTest();
+  }
+
+  public void testFromReferenceWithTypeArgs() throws Exception {
+    doTest();
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private void doTest() {
     doTest(false);
   }

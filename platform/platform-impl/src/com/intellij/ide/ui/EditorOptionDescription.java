@@ -16,6 +16,7 @@
 package com.intellij.ide.ui;
 
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.ex.EditorEx;
@@ -47,5 +48,33 @@ public class EditorOptionDescription extends PublicFieldBasedOptionDescription {
     for (Editor editor : editors) {
       ((EditorEx)editor).reinitSettings();
     }
+=======
+import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.ex.EditorSettingsExternalizable;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
+
+/**
+ * @author Konstantin Bulenkov
+ */
+public class EditorOptionDescription extends PublicFieldBasedOptionDescription {
+  public EditorOptionDescription(String fieldName, String option, String configurableId) {
+    super(option, configurableId, fieldName);
+  }
+
+  @Override
+  public Object getInstance() {
+    return EditorSettingsExternalizable.getInstance().getOptions();
+  }
+
+  @Override
+  protected void fireUpdated() {
+    Project[] projects = ProjectManager.getInstance().getOpenProjects();
+    for (Project project : projects) {
+      DaemonCodeAnalyzer.getInstance(project).settingsChanged();
+    }
+
+    EditorFactory.getInstance().refreshAllEditors();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

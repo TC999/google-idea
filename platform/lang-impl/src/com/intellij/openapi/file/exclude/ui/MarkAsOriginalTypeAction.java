@@ -20,6 +20,7 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class MarkAsOriginalTypeAction extends AnAction {
   public void actionPerformed(AnActionEvent e) {
     DataContext dataContext = e.getDataContext();
     final VirtualFile[] selectedFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
+    final Project project = CommonDataKeys.PROJECT.getData(dataContext);
     if (selectedFiles == null || selectedFiles.length == 0) return;
     Collection<VirtualFile> filesToUnmark = new ArrayList<VirtualFile>();
     for (VirtualFile file : selectedFiles) {
@@ -42,7 +44,13 @@ public class MarkAsOriginalTypeAction extends AnAction {
     }
     EnforcedPlainTextFileTypeManager typeManager = EnforcedPlainTextFileTypeManager.getInstance();
     assert typeManager != null;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     typeManager.resetOriginalFileType(filesToUnmark.toArray(new VirtualFile[filesToUnmark.size()]));
+=======
+    if (project != null) {
+      typeManager.resetOriginalFileType(project, filesToUnmark.toArray(new VirtualFile[filesToUnmark.size()]));
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

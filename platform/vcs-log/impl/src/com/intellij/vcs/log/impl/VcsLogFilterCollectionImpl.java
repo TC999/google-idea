@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.Collections;
 import java.util.List;
 
@@ -83,6 +84,63 @@ public class VcsLogFilterCollectionImpl implements VcsLogFilterCollection {
   @Override
   public List<VcsLogGraphFilter> getGraphFilters() {
     return ContainerUtil.skipNulls(Collections.<VcsLogGraphFilter>singletonList(myBranchFilter));
+=======
+import java.util.List;
+
+public class VcsLogFilterCollectionImpl implements VcsLogFilterCollection {
+
+  @Nullable private final VcsLogBranchFilter myBranchFilter;
+  @Nullable private final VcsLogUserFilter myUserFilter;
+  @Nullable private final VcsLogDateFilter myDateFilter;
+  @Nullable private final VcsLogTextFilter myTextFilter;
+  @Nullable private final VcsLogStructureFilter myStructureFilter;
+
+  public VcsLogFilterCollectionImpl(@Nullable VcsLogBranchFilter branchFilter,
+                                    @Nullable VcsLogUserFilter userFilter,
+                                    @Nullable VcsLogDateFilter dateFilter,
+                                    @Nullable VcsLogTextFilter textFilter,
+                                    @Nullable VcsLogStructureFilter structureFilter) {
+    myBranchFilter = branchFilter;
+    myUserFilter = userFilter;
+    myDateFilter = dateFilter;
+    myTextFilter = textFilter;
+    myStructureFilter = structureFilter;
+  }
+
+  @Nullable
+  @Override
+  public VcsLogBranchFilter getBranchFilter() {
+    return myBranchFilter;
+  }
+
+  @Nullable
+  @Override
+  public VcsLogUserFilter getUserFilter() {
+    return myUserFilter;
+  }
+
+  @Nullable
+  @Override
+  public VcsLogDateFilter getDateFilter() {
+    return myDateFilter;
+  }
+
+  @Nullable
+  @Override
+  public VcsLogTextFilter getTextFilter() {
+    return myTextFilter;
+  }
+
+  @Nullable
+  @Override
+  public VcsLogStructureFilter getStructureFilter() {
+    return myStructureFilter;
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return myBranchFilter == null && getDetailsFilters().isEmpty();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull

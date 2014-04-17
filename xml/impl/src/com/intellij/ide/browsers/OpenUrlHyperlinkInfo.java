@@ -40,7 +40,7 @@ public final class OpenUrlHyperlinkInfo implements HyperlinkWithPopupMenuInfo {
     this(url, Conditions.<WebBrowser>alwaysTrue(), null);
   }
 
-  public OpenUrlHyperlinkInfo(@NotNull String url, @NotNull WebBrowser browser) {
+  public OpenUrlHyperlinkInfo(@NotNull String url, @Nullable WebBrowser browser) {
     this(url, null, browser);
   }
 
@@ -58,7 +58,11 @@ public final class OpenUrlHyperlinkInfo implements HyperlinkWithPopupMenuInfo {
   public ActionGroup getPopupMenuGroup(@NotNull MouseEvent event) {
     DefaultActionGroup group = new DefaultActionGroup();
     for (final WebBrowser browser : WebBrowserManager.getInstance().getActiveBrowsers()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       if (browserCondition == null ? browser.equals(this.browser) : browserCondition.value(browser)) {
+=======
+      if (browserCondition == null ? (this.browser == null || browser.equals(this.browser)) : browserCondition.value(browser)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         group.add(new AnAction("Open in " + browser.getName(), "Open URL in " + browser.getName(), browser.getIcon()) {
           @Override
           public void actionPerformed(AnActionEvent e) {

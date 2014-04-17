@@ -39,6 +39,12 @@ public abstract class AbstractModuleBuilder extends ProjectBuilder {
     return null;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @Nullable
+  public ModuleWizardStep modifyProjectTypeStep(@NotNull SettingsStep step) { return null; }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   /**
    * Custom UI to be shown on the first wizard page
    */

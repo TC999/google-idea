@@ -19,6 +19,9 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ex.ApplicationEx;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.FileTypeRegistry;
+import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.util.LowMemoryWatcher;
 import com.intellij.openapi.util.ShutDownTracker;
 import com.intellij.openapi.util.SystemInfo;
@@ -141,7 +144,7 @@ public class PersistentFSImpl extends PersistentFS implements ApplicationCompone
     return ContainerUtil.map2Array(nameIds, String.class, new Function<FSRecords.NameId, String>() {
       @Override
       public String fun(FSRecords.NameId id) {
-        return id.name;
+        return id.name.toString();
       }
     });
   }
@@ -172,7 +175,11 @@ public class PersistentFSImpl extends PersistentFS implements ApplicationCompone
 
     Set<String> toAdd = ContainerUtil.newHashSet(delegateNames);
     for (FSRecords.NameId nameId : current) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       toAdd.remove(nameId.name);
+=======
+      toAdd.remove(nameId.name.toString());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     final TIntArrayList childrenIds = new TIntArrayList(current.length + toAdd.size());
@@ -791,7 +798,10 @@ public class PersistentFSImpl extends PersistentFS implements ApplicationCompone
     TIntArrayList childrenIdsUpdated = new TIntArrayList();
     List<VirtualFile> childrenToBeUpdated = new SmartList<VirtualFile>();
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     assert parent != null;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final int parentId = getFileId(parent);
     assert parentId != 0;
     TIntHashSet parentChildrenIds = new TIntHashSet(FSRecords.list(parentId));
@@ -872,10 +882,18 @@ public class PersistentFSImpl extends PersistentFS implements ApplicationCompone
     int rootId = FSRecords.findRootRecord(rootUrl);
 
     if (fs instanceof JarFileSystem) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       // optimization: for jar roots do not store base path in the myName field, use local FS file's getPath()
       String parentPath = basePath.substring(0, basePath.indexOf(JarFileSystem.JAR_SEPARATOR));
       VirtualFile parentFile = LocalFileSystem.getInstance().findFileByPath(parentPath);
       if (parentFile == null) return null;
+=======
+      String parentPath = basePath.substring(0, basePath.indexOf(JarFileSystem.JAR_SEPARATOR));
+      VirtualFile parentFile = LocalFileSystem.getInstance().findFileByPath(parentPath);
+      if (parentFile == null) return null;
+      FileType type = FileTypeRegistry.getInstance().getFileTypeByFileName(parentFile.getName());
+      if (type != FileTypes.ARCHIVE) return null;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       newRoot = new JarRoot(fs, rootId, parentFile);
     }
     else {
@@ -1276,7 +1294,12 @@ public class PersistentFSImpl extends PersistentFS implements ApplicationCompone
 
     @NotNull
     @Override
-    public abstract String getName();
+    public abstract CharSequence getNameSequence();
+
+    @Override
+    public int compareNameTo(@NotNull CharSequence name, boolean ignoreCase) {
+      return VirtualFileSystemEntry.compareNames(getName(), name, ignoreCase);
+    }
 
     @Override
     public int compareNameTo(@NotNull String name, boolean ignoreCase) {
@@ -1309,7 +1332,7 @@ public class PersistentFSImpl extends PersistentFS implements ApplicationCompone
 
     @NotNull
     @Override
-    public String getName() {
+    public CharSequence getNameSequence() {
       return myParentLocalFile.getName();
     }
 
@@ -1332,7 +1355,7 @@ public class PersistentFSImpl extends PersistentFS implements ApplicationCompone
 
     @NotNull
     @Override
-    public String getName() {
+    public CharSequence getNameSequence() {
       return myName;
     }
 

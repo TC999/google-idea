@@ -23,6 +23,10 @@ import com.intellij.psi.impl.source.tree.java.PsiMethodCallExpressionImpl;
 import com.intellij.psi.infos.MethodCandidateInfo;
 import com.intellij.psi.util.PsiUtil;
 import com.intellij.psi.util.TypeConversionUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.util.containers.ContainerUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.containers.HashSet;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,8 +84,14 @@ public class ExpressionCompatibilityConstraint extends InputOutputConstraintForm
     if (myExpression instanceof PsiCallExpression) {
       final PsiExpressionList argumentList = ((PsiCallExpression)myExpression).getArgumentList();
       if (argumentList != null) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         final JavaResolveResult resolveResult = ((PsiCallExpression)myExpression).resolveMethodGenerics();
         final PsiMethod method = (PsiMethod)resolveResult.getElement();
+=======
+        final MethodCandidateInfo.CurrentCandidateProperties candidateProperties = MethodCandidateInfo.getCurrentMethod(((PsiCallExpression)myExpression).getArgumentList());
+        final JavaResolveResult resolveResult = candidateProperties != null ? null : ((PsiCallExpression)myExpression).resolveMethodGenerics();
+        final PsiMethod method = candidateProperties != null ? candidateProperties.getMethod() : (PsiMethod)resolveResult.getElement();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         PsiType returnType = null;
         PsiTypeParameter[] typeParams = null;
         if (method != null && !method.isConstructor()) {
@@ -102,7 +112,11 @@ public class ExpressionCompatibilityConstraint extends InputOutputConstraintForm
 
         if (typeParams != null) {
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           final HashSet<PsiTypeParameter> oldBounds = new HashSet<PsiTypeParameter>(session.getTypeParams());
+=======
+          final Set<PsiTypeParameter> oldBounds = ContainerUtil.newHashSet(session.getParamsToInfer());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           final boolean sameMethodCall = session.initBounds(typeParams);
           PsiSubstitutor substitutor = PsiSubstitutor.EMPTY;
           final HashSet<InferenceVariable> variables = new HashSet<InferenceVariable>();
@@ -117,8 +131,20 @@ public class ExpressionCompatibilityConstraint extends InputOutputConstraintForm
               params[i] = typeParams[i];
             }
           }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           final PsiSubstitutor siteSubstitutor = resolveResult instanceof MethodCandidateInfo && method != null && !method.isConstructor() 
                                                  ? ((MethodCandidateInfo)resolveResult).getSiteSubstitutor() : PsiSubstitutor.EMPTY;
+=======
+          PsiSubstitutor siteSubstitutor = PsiSubstitutor.EMPTY;
+          if (method != null && !method.isConstructor()) {
+            if (resolveResult instanceof MethodCandidateInfo) {
+              siteSubstitutor = ((MethodCandidateInfo)resolveResult).getSiteSubstitutor();
+            }
+            else if (candidateProperties != null) {
+              siteSubstitutor = candidateProperties.getSubstitutor();
+            }
+          }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           for (PsiTypeParameter typeParameter : siteSubstitutor.getSubstitutionMap().keySet()) {
             substitutor = substitutor.put(typeParameter, substitutor.substitute(siteSubstitutor.substitute(typeParameter)));
           }
@@ -129,11 +155,20 @@ public class ExpressionCompatibilityConstraint extends InputOutputConstraintForm
           if (method != null) {
             final PsiExpression[] args = argumentList.getExpressions();
             final PsiParameter[] parameters = method.getParameterList().getParameters();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
             callSession.initExpressionConstraints(parameters, args, myExpression, method);
+=======
+            callSession.initExpressionConstraints(parameters, args, myExpression, method, resolveResult instanceof MethodCandidateInfo && ((MethodCandidateInfo)resolveResult).isVarargs() || 
+                                                                                          candidateProperties != null && candidateProperties.isVarargs());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
           final boolean accepted = callSession.repeatInferencePhases(true);
           if (!accepted) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
             //todo return false;
+=======
+            return false;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
           callSession.registerConstraints(method != null && !PsiUtil.isRawSubstitutor(method, siteSubstitutor) ? siteSubstitutor.substitute(returnType) : returnType, substitutor.substitute(returnType));
           if (callSession.repeatInferencePhases(true)) {
@@ -147,6 +182,11 @@ public class ExpressionCompatibilityConstraint extends InputOutputConstraintForm
               }
             }
             session.liftBounds(inferenceVariables);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+          } else {
+            return false;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
           final PsiType capturedReturnType = myExpression instanceof PsiMethodCallExpression
                                              ? PsiMethodCallExpressionImpl.captureReturnType((PsiMethodCallExpression)myExpression, method, returnType, substitutor)

@@ -706,7 +706,11 @@ public class TypeConversionUtil {
         final PsiType lType = ((PsiMethodReferenceType)left).getExpression().getFunctionalInterfaceType();
         return Comparing.equal(rType, lType);
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       return methodReferenceExpression.isAcceptable(left);
+=======
+      return !(left instanceof PsiArrayType) && methodReferenceExpression.isAcceptable(left);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     if (right instanceof PsiLambdaExpressionType) {
       final PsiLambdaExpression rLambdaExpression = ((PsiLambdaExpressionType)right).getExpression();

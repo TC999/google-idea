@@ -24,9 +24,15 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Interface for actions activated by keystrokes in the editor.
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Implementations should override {@link #execute(com.intellij.openapi.editor.Editor, com.intellij.openapi.actionSystem.DataContext)} or
  * {@link #execute(com.intellij.openapi.editor.Editor, com.intellij.openapi.editor.Caret, com.intellij.openapi.actionSystem.DataContext)}
  * (preferrably).
+=======
+ * Implementations should override
+ * {@link #execute(com.intellij.openapi.editor.Editor, com.intellij.openapi.editor.Caret, com.intellij.openapi.actionSystem.DataContext)}
+ * .
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
  * <p>
  * Two types of handlers are supported: the ones which are executed once, and the ones which are executed for each caret. The latter can be
  * created using {@link com.intellij.openapi.editor.actionSystem.EditorActionHandler#EditorActionHandler(boolean)} constructor.
@@ -57,6 +63,7 @@ public abstract class EditorActionHandler {
   }
 
   /**
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    * Executes the action in the context of the current caret. This method exists for historical reasons, in most cases you should use
    * {@link #execute(com.intellij.openapi.editor.Editor, com.intellij.openapi.editor.Caret, com.intellij.openapi.actionSystem.DataContext)}
    * instead.
@@ -93,6 +100,41 @@ public abstract class EditorActionHandler {
     }
     try {
       inExecution = true;
+=======
+   * @deprecated To implement action logic, override
+   * {@link #doExecute(com.intellij.openapi.editor.Editor, com.intellij.openapi.editor.Caret, com.intellij.openapi.actionSystem.DataContext)},
+   * to invoke the handler, call
+   * {@link #execute(com.intellij.openapi.editor.Editor, com.intellij.openapi.editor.Caret, com.intellij.openapi.actionSystem.DataContext)}.
+   */
+  public void execute(Editor editor, DataContext dataContext) {
+    if (inExecution) {
+      return;
+    }
+    try {
+      inExecution = true;
+      execute(editor, editor.getCaretModel().getCurrentCaret(), dataContext);
+    }
+    finally {
+      inExecution = false;
+    }
+  }
+
+  /**
+   * Executes the action in the context of given caret. Subclasses should override this method.
+   *
+   * @param editor      the editor in which the action is invoked.
+   * @param caret       the caret for which the action is performed at the moment, or <code>null</code> if it's a 'one-off' action executed
+   *                    without current context
+   * @param dataContext the data context for the action.
+   */
+  protected void doExecute(Editor editor, @Nullable Caret caret, DataContext dataContext) {
+    if (inExecution) {
+      return;
+    }
+    try {
+      inExecution = true;
+      //noinspection deprecation
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       execute(editor, dataContext);
     }
     finally {
@@ -115,6 +157,7 @@ public abstract class EditorActionHandler {
    * @param editor      the editor in which the action is invoked.
    * @param dataContext the data context for the action.
    */
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void executeInCaretContext(@NotNull final Editor editor, @Nullable Caret caret, final DataContext dataContext) {
     if (caret == null && runForAllCarets()) {
       editor.getCaretModel().runForEachCaret(new CaretAction() {
@@ -126,6 +169,19 @@ public abstract class EditorActionHandler {
     }
     else {
       execute(editor, caret, dataContext);
+=======
+  public final void execute(@NotNull final Editor editor, @Nullable Caret contextCaret, final DataContext dataContext) {
+    if (contextCaret == null && runForAllCarets()) {
+      editor.getCaretModel().runForEachCaret(new CaretAction() {
+        @Override
+        public void perform(Caret caret) {
+          doExecute(editor, caret, dataContext);
+        }
+      });
+    }
+    else {
+      doExecute(editor, contextCaret, dataContext);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 

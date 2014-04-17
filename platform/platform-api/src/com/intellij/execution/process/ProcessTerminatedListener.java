@@ -23,6 +23,11 @@ import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.wm.StatusBar;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+import java.util.Locale;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 /**
  * @author dyoma
@@ -83,7 +88,11 @@ public class ProcessTerminatedListener extends ProcessAdapter {
     if (SystemInfo.isWindows && exitCode >= 0xC0000000 && exitCode < 0xD0000000) {
       StringBuilder result = new StringBuilder();
       result.append(exitCode);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       result.append(" (0x").append(Integer.toHexString(exitCode).toUpperCase());
+=======
+      result.append(" (0x").append(Integer.toHexString(exitCode).toUpperCase(Locale.ENGLISH));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (exitCode == 0xC000013A) {
         // reporting a detailed reason for a well-known exit code
         result.append(": interrupted by Ctrl+C");

@@ -26,6 +26,7 @@ import com.intellij.testFramework.EditorTestUtil;
 
 public class EditorMultiCaretStateRestoreTest extends HeavyFileEditorManagerTestCase {
   public void testRestoreState() throws Exception {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     EditorTestUtil.enableMultipleCarets();
     try {
       String text = "some<caret> text<caret>\n" +
@@ -46,6 +47,22 @@ public class EditorMultiCaretStateRestoreTest extends HeavyFileEditorManagerTest
     finally {
       EditorTestUtil.disableMultipleCarets();
     }
+=======
+    String text = "some<caret> text<caret>\n" +
+                  "some <selection><caret>other</selection> <selection>text<caret></selection>\n" +
+                  "<selection>ano<caret>ther</selection> line";
+    PsiFile psiFile = myFixture.configureByText(PlainTextFileType.INSTANCE, text);
+    VirtualFile virtualFile = psiFile.getVirtualFile();
+    assertNotNull(virtualFile);
+    myManager.openFile(virtualFile, false);
+    myManager.closeAllFiles();
+    FileEditor[] fileEditors = myManager.openFile(virtualFile, false);
+    assertNotNull(fileEditors);
+    assertEquals(1, fileEditors.length);
+    Editor editor = ((TextEditor)fileEditors[0]).getEditor();
+
+    verifyEditorState(editor, text);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private static void verifyEditorState(Editor editor, String textWithMarkup) {

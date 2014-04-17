@@ -15,21 +15,22 @@
  */
 package com.intellij.internal;
 
-import com.intellij.ide.caches.CacheUpdater;
-import com.intellij.ide.caches.FileContent;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.DumbAware;
+import com.intellij.openapi.project.DumbModeTask;
 import com.intellij.openapi.project.DumbServiceImpl;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.TimeoutUtil;
 import org.jetbrains.annotations.NotNull;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
 import java.util.Arrays;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 /**
  * @author peter
@@ -46,6 +47,7 @@ public class ToggleDumbModeAction extends AnAction implements DumbAware {
       final Project project = CommonDataKeys.PROJECT.getData(e.getDataContext());
       if (project == null) return;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       CacheUpdater updater = new CacheUpdater() {
         public int getNumberOfPendingUpdateJobs() {
           return 0;
@@ -53,11 +55,17 @@ public class ToggleDumbModeAction extends AnAction implements DumbAware {
 
         @NotNull
         public VirtualFile[] queryNeededFiles(@NotNull ProgressIndicator indicator) {
+=======
+      DumbServiceImpl.getInstance(project).queueTask(new DumbModeTask() {
+        @Override
+        public void performInDumbMode(@NotNull ProgressIndicator indicator) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           while (myDumb) {
+            indicator.checkCanceled();
             TimeoutUtil.sleep(100);
           }
-          return VirtualFile.EMPTY_ARRAY;
         }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
         public void processFile(@NotNull FileContent fileContent) {
         }
@@ -69,6 +77,9 @@ public class ToggleDumbModeAction extends AnAction implements DumbAware {
         }
       };
       DumbServiceImpl.getInstance(project).queueCacheUpdateInDumbMode(Arrays.asList(updater));
+=======
+      });
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 

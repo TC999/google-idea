@@ -15,7 +15,11 @@
  */
 package com.intellij.debugger.ui;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.debugger.DebuggerManagerEx;
+=======
+import com.intellij.debugger.DebuggerBundle;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.debugger.ui.breakpoints.Breakpoint;
 import com.intellij.debugger.ui.breakpoints.BreakpointManager;
 import com.intellij.icons.AllIcons;
@@ -30,7 +34,7 @@ import java.util.Collection;
 
 class XBreakpointGroupingByClassRule<B> extends XBreakpointGroupingRule<B, XBreakpointClassGroup> {
   XBreakpointGroupingByClassRule() {
-    super("XBreakpointGroupingByClassRule", "Group by Class");
+    super("XBreakpointGroupingByClassRule", DebuggerBundle.message("rule.name.group.by.class"));
   }
 
   @Override
@@ -46,8 +50,12 @@ class XBreakpointGroupingByClassRule<B> extends XBreakpointGroupingRule<B, XBrea
   @Override
   public XBreakpointClassGroup getGroup(@NotNull B b, @NotNull Collection<XBreakpointClassGroup> groups) {
     if (b instanceof XBreakpoint) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       BreakpointManager breakpointManager = DebuggerManagerEx.getInstanceEx(JavaDebuggerSupport.getCurrentProject()).getBreakpointManager();
       Breakpoint javaBreakpoint = breakpointManager.findBreakpoint((XBreakpoint)b);
+=======
+      Breakpoint javaBreakpoint = BreakpointManager.findBreakpoint((XBreakpoint)b);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (javaBreakpoint == null) {
         return null;
       }

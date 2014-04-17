@@ -130,6 +130,7 @@ public class NewLambdaHighlightingTest extends LightDaemonAnalyzerTestCase {
     doTest();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void testIDEA117124() throws Exception {
     doTest();
   }
@@ -143,6 +144,73 @@ public class NewLambdaHighlightingTest extends LightDaemonAnalyzerTestCase {
   }
 
   public void testIDEA118965() throws Exception {
+=======
+  public void testIDEA119003() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA117124() throws Exception {
+    doTest();
+  }
+
+  public void testWildcardParameterization() throws Exception {
+    doTest();
+  }
+
+  public void testDiamondInLambdaReturn() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA118965() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA121315() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA118965comment() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122074() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122084() throws Exception {
+    doTest();
+  }
+
+  public void testAdditionalConstraintDependsOnNonMentionedVars() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122616() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122700() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA122406() throws Exception {
+    doTest();
+  }
+
+  public void testNestedCallsInsideLambdaReturnExpression() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA123731() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA123869() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA123848() throws Exception {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     doTest();
   }
 

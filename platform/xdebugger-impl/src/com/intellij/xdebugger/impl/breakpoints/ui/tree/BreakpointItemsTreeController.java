@@ -129,10 +129,20 @@ public class BreakpointItemsTreeController implements BreakpointsCheckboxTree.De
   private CheckedTreeNode getParentNode(final BreakpointItem breakpoint) {
     CheckedTreeNode parent = myRoot;
     for (int i = 0; i < myGroupingRules.size(); i++) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       Collection<XBreakpointGroup> existingGroups = getGroupNodes(parent);
       XBreakpointGroup group = myGroupingRules.get(i).getGroup(breakpoint.getBreakpoint(), existingGroups);
+=======
+      XBreakpointGroup group = myGroupingRules.get(i).getGroup(breakpoint.getBreakpoint(), Collections.emptyList());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (group != null) {
         parent = getOrCreateGroupNode(parent, group, i);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+        if (breakpoint.isEnabled()) {
+          parent.setChecked(true);
+        }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
     return parent;

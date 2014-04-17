@@ -16,6 +16,7 @@
 package com.siyeh.ig.maturity;
 
 import com.intellij.psi.*;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.siyeh.HardcodedMethodConstants;
 import com.siyeh.InspectionGadgetsBundle;
 import com.siyeh.ig.BaseInspection;
@@ -71,6 +72,63 @@ public class ThrowablePrintStackTraceInspectionBase extends BaseInspection {
       }
       final String name = containingClass.getQualifiedName();
       if (!CommonClassNames.JAVA_LANG_THROWABLE.equals(name)) {
+=======
+import com.intellij.psi.util.InheritanceUtil;
+import com.siyeh.HardcodedMethodConstants;
+import com.siyeh.InspectionGadgetsBundle;
+import com.siyeh.ig.BaseInspection;
+import com.siyeh.ig.BaseInspectionVisitor;
+import com.siyeh.ig.psiutils.MethodCallUtils;
+import org.jetbrains.annotations.NotNull;
+
+public class ThrowablePrintStackTraceInspectionBase extends BaseInspection {
+
+  @Override
+  @NotNull
+  public String getID() {
+    return "CallToPrintStackTrace";
+  }
+
+  @Override
+  @NotNull
+  public String getDisplayName() {
+    return InspectionGadgetsBundle.message("printstacktrace.call.display.name");
+  }
+
+  @Override
+  @NotNull
+  public String buildErrorString(Object... infos) {
+    return InspectionGadgetsBundle.message("printstacktrace.call.problem.descriptor");
+  }
+
+  @Override
+  public BaseInspectionVisitor buildVisitor() {
+    return new ThrowablePrintStackTraceVisitor();
+  }
+
+  private static class ThrowablePrintStackTraceVisitor extends BaseInspectionVisitor {
+
+    @Override
+    public void visitMethodCallExpression(@NotNull PsiMethodCallExpression expression) {
+      super.visitMethodCallExpression(expression);
+      final String methodName = MethodCallUtils.getMethodName(expression);
+      if (!HardcodedMethodConstants.PRINT_STACK_TRACE.equals(methodName)) {
+        return;
+      }
+      final PsiExpressionList argumentList = expression.getArgumentList();
+      if (argumentList.getExpressions().length != 0) {
+        return;
+      }
+      final PsiMethod method = expression.resolveMethod();
+      if (method == null) {
+        return;
+      }
+      final PsiClass containingClass = method.getContainingClass();
+      if (containingClass == null) {
+        return;
+      }
+      if (!InheritanceUtil.isInheritor(containingClass, false, CommonClassNames.JAVA_LANG_THROWABLE)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         return;
       }
       registerMethodCallError(expression, expression);

@@ -38,8 +38,14 @@ import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.LocalTimeCounter;
 import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
+import com.intellij.util.containers.IntArrayList;
 import com.intellij.util.text.CharArrayUtil;
 import com.intellij.util.text.ImmutableText;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TObjectProcedure;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -166,6 +172,9 @@ public class DocumentImpl extends UserDataHolderBase implements DocumentEx {
 
   /**
    * @return true if stripping was completed successfully, false if the document prevented stripping by e.g. caret being in the way
+   *
+   * @deprecated should be replaced with {@link #stripTrailingSpaces(com.intellij.openapi.project.Project, boolean, boolean, java.util.List)}
+   * once multicaret logic will become unconditional (not controlled by configuration flag)
    */
   public boolean stripTrailingSpaces(@Nullable final Project project,
                                      boolean inChangedLinesOnly,
@@ -233,6 +242,7 @@ public class DocumentImpl extends UserDataHolderBase implements DocumentEx {
 
     boolean markAsNeedsStrippingLater = false;
     CharSequence text = myText;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     Map<Integer, List<RangeMarker>> caretMarkers = new HashMap<Integer, List<RangeMarker>>(caretOffsets.size());
     try {
       if (!virtualSpaceEnabled) {
@@ -303,6 +313,82 @@ public class DocumentImpl extends UserDataHolderBase implements DocumentEx {
           }
         }
       }
+=======
+    TIntObjectHashMap<List<RangeMarker>> caretMarkers = new TIntObjectHashMap<List<RangeMarker>>(caretOffsets.size());
+    try {
+      if (!virtualSpaceEnabled) {
+        for (Integer caretOffset : caretOffsets) {
+          if (caretOffset == null || caretOffset < 0 || caretOffset > getTextLength()) {
+            continue;
+          }
+          Integer line = getLineNumber(caretOffset);
+          List<RangeMarker> markers = caretMarkers.get(line);
+          if (markers == null) {
+            markers = new ArrayList<RangeMarker>();
+            caretMarkers.put(line, markers);
+          }
+          RangeMarker marker = createRangeMarker(caretOffset, caretOffset);
+          markers.add(marker);
+        }
+      }
+      LineSet lineSet = getLineSet();
+      lineLoop:
+      for (int line = 0; line < lineSet.getLineCount(); line++) {
+        if (inChangedLinesOnly && !lineSet.isModified(line)) continue;
+        int whiteSpaceStart = -1;
+        final int lineEnd = lineSet.getLineEnd(line) - lineSet.getSeparatorLength(line);
+        int lineStart = lineSet.getLineStart(line);
+        for (int offset = lineEnd - 1; offset >= lineStart; offset--) {
+          char c = text.charAt(offset);
+          if (c != ' ' && c != '\t') {
+            break;
+          }
+          whiteSpaceStart = offset;
+        }
+        if (whiteSpaceStart == -1) continue;
+        if (!virtualSpaceEnabled) {
+          List<RangeMarker> markers = caretMarkers.get(line);
+          if (markers != null) {
+            for (RangeMarker marker : markers) {
+              if (marker.getStartOffset() >= 0 && whiteSpaceStart < marker.getStartOffset()) {
+                // mark this as a document that needs stripping later
+                // otherwise the caret would jump madly
+                markAsNeedsStrippingLater = true;
+                continue lineLoop;
+              }
+            }
+          }
+        }
+        final int finalStart = whiteSpaceStart;
+        // document must be unblocked by now. If not, some Save handler attempted to modify PSI
+        // which should have been caught by assertion in com.intellij.pom.core.impl.PomModelImpl.runTransaction
+        DocumentUtil.writeInRunUndoTransparentAction(new DocumentRunnable(DocumentImpl.this, project) {
+          @Override
+          public void run() {
+            deleteString(finalStart, lineEnd);
+          }
+        });
+        text = myText;
+      }
+    }
+    finally {
+      caretMarkers.forEachValue(new TObjectProcedure<List<RangeMarker>>() {
+        @Override
+        public boolean execute(List<RangeMarker> markerList) {
+          if (markerList != null) {
+            for (RangeMarker marker : markerList) {
+              try {
+                marker.dispose();
+              }
+              catch (Exception e) {
+                LOG.error(e);
+              }
+            }
+          }
+          return true;
+        }
+      });
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     return markAsNeedsStrippingLater;
   }
@@ -670,17 +756,30 @@ public class DocumentImpl extends UserDataHolderBase implements DocumentEx {
     getLineSet().clearModificationFlags();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void clearLineModificationFlagsExcept(@NotNull List<Integer> caretLines) {
     List<Integer> modifiedLines = new ArrayList<Integer>(caretLines.size());
     LineSet lineSet = getLineSet();
     for (Integer line : caretLines) {
       if (line != null && line >= 0 && line < lineSet.getLineCount() && lineSet.isModified(line)) {
+=======
+  public void clearLineModificationFlagsExcept(@NotNull int[] caretLines) {
+    IntArrayList modifiedLines = new IntArrayList(caretLines.length);
+    LineSet lineSet = getLineSet();
+    for (int line : caretLines) {
+      if (line >= 0 && line < lineSet.getLineCount() && lineSet.isModified(line)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         modifiedLines.add(line);
       }
     }
     clearLineModificationFlags();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (Integer line : modifiedLines) {
       lineSet.setModified(line);
+=======
+    for (int i = 0; i < modifiedLines.size(); i++) {
+      lineSet.setModified(modifiedLines.get(i));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 

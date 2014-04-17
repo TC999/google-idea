@@ -3,7 +3,11 @@
   <id>org.jetbrains.plugins.rest</id>
   <description>This plugin enables support for reStructuredText files (*.rst)</description>
   <vendor>JetBrains</vendor>
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   <version>134.SNAPSHOT</version>
+=======
+  <version>136.SNAPSHOT</version>
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   <idea-version since-build="130.1"/>
   <depends>com.intellij.modules.lang</depends>
 

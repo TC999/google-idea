@@ -15,6 +15,7 @@
  */
 package com.siyeh.ig.classlayout;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.codeInsight.intention.AddAnnotationPsiFix;
 import com.intellij.psi.LambdaHighlightingUtil;
 import com.intellij.psi.LambdaUtil;
@@ -72,6 +73,63 @@ public class InterfaceMayBeAnnotatedFunctionalInspection extends BaseInspection 
       }
       super.visitClass(aClass);
       if (!aClass.isInterface()) {
+=======
+import com.intellij.codeInsight.AnnotationUtil;
+import com.intellij.codeInsight.intention.AddAnnotationPsiFix;
+import com.intellij.psi.*;
+import com.intellij.psi.util.MethodSignature;
+import com.intellij.psi.util.PsiUtil;
+import com.siyeh.InspectionGadgetsBundle;
+import com.siyeh.ig.BaseInspection;
+import com.siyeh.ig.BaseInspectionVisitor;
+import com.siyeh.ig.DelegatingFix;
+import com.siyeh.ig.InspectionGadgetsFix;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
+/**
+ * @author Bas Leijdekkers
+ */
+public class InterfaceMayBeAnnotatedFunctionalInspection extends BaseInspection {
+  @Nls
+  @NotNull
+  @Override
+  public String getDisplayName() {
+    return InspectionGadgetsBundle.message("interface.may.be.annotated.functional.display.name");
+  }
+
+  @NotNull
+  @Override
+  protected String buildErrorString(Object... infos) {
+    return InspectionGadgetsBundle.message("interface.may.be.annotated.functional.problem.descriptor");
+  }
+
+  @Nullable
+  @Override
+  protected InspectionGadgetsFix buildFix(Object... infos) {
+    final PsiClass aClass = (PsiClass)infos[0];
+    return new DelegatingFix(new AddAnnotationPsiFix(CommonClassNames.JAVA_LANG_FUNCTIONAL_INTERFACE, aClass, PsiNameValuePair.EMPTY_ARRAY));
+
+  }
+
+  @Override
+  public BaseInspectionVisitor buildVisitor() {
+    return new InterfaceMayBeAnnotatedFunctionalVisitor();
+  }
+
+  private static class InterfaceMayBeAnnotatedFunctionalVisitor extends BaseInspectionVisitor {
+
+    @Override
+    public void visitClass(PsiClass aClass) {
+      if (!PsiUtil.isLanguageLevel8OrHigher(aClass)) {
+        return;
+      }
+      super.visitClass(aClass);
+      if (!aClass.isInterface() || AnnotationUtil.isAnnotated(aClass, "java.lang.FunctionalInterface", false)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         return;
       }
       if (LambdaHighlightingUtil.checkInterfaceFunctional(aClass) != null) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.codeInspection.ui.MultipleCheckboxOptionsPanel;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.util.PsiUtil;
 import com.siyeh.InspectionGadgetsBundle;
 import com.siyeh.ig.BaseInspection;
 import com.siyeh.ig.BaseInspectionVisitor;
@@ -89,6 +90,13 @@ public class MagicNumberInspectionBase extends BaseInspection {
       }
       if (ignoreInitialCapacity && isInitialCapacity(expression)) {
         return;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+      }
+      final PsiField field = PsiTreeUtil.getParentOfType(expression, PsiField.class);
+      if (field != null && PsiUtil.isCompileTimeConstant(field)) {
+        return;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       final PsiElement parent = expression.getParent();
       if (parent instanceof PsiPrefixExpression) {
@@ -101,6 +109,7 @@ public class MagicNumberInspectionBase extends BaseInspection {
 
     private boolean isInitialCapacity(PsiLiteralExpression expression) {
       final PsiElement element =
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         PsiTreeUtil.skipParentsOfType(expression, PsiTypeCastExpression.class, PsiParenthesizedExpression.class, PsiPrefixExpression.class);
       if (!(element instanceof PsiExpressionList)) {
         return false;
@@ -112,6 +121,22 @@ public class MagicNumberInspectionBase extends BaseInspection {
       final PsiNewExpression newExpression = (PsiNewExpression)parent;
       return TypeUtils.expressionHasTypeOrSubtype(newExpression, CommonClassNames.JAVA_LANG_ABSTRACT_STRING_BUILDER,
                                                   CommonClassNames.JAVA_UTIL_MAP, CommonClassNames.JAVA_UTIL_COLLECTION) != null;
+=======
+        PsiTreeUtil.skipParentsOfType(expression, PsiTypeCastExpression.class, PsiParenthesizedExpression.class);
+      if (!(element instanceof PsiExpressionList)) {
+        return false;
+      }
+      final PsiElement parent = element.getParent();
+      if (!(parent instanceof PsiNewExpression)) {
+        return false;
+      }
+      final PsiNewExpression newExpression = (PsiNewExpression)parent;
+      return TypeUtils.expressionHasTypeOrSubtype(newExpression,
+                                                  CommonClassNames.JAVA_LANG_ABSTRACT_STRING_BUILDER,
+                                                  CommonClassNames.JAVA_UTIL_MAP,
+                                                  CommonClassNames.JAVA_UTIL_COLLECTION,
+                                                  "java.io.ByteArrayOutputStream") != null;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     private boolean isSpecialCaseLiteral(PsiLiteralExpression expression) {

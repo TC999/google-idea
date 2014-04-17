@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2000-2013 JetBrains s.r.o.
+=======
+ * Copyright 2000-2014 JetBrains s.r.o.
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,6 +51,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.util.Ref;
+import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
@@ -280,20 +285,13 @@ public class EclipseImportBuilder extends ProjectImportBuilder<String> implement
             for (File file : files) {
               final VirtualFile virtualFile = localFileSystem.findFileByIoFile(file);
               if (virtualFile != null) {
-                final IOException[] ex = new IOException[1];
-                ApplicationManager.getApplication().runWriteAction(new Runnable() {
-                  public void run() {
-                    try {
-                      virtualFile.delete(this);
-                    }
-                    catch (IOException e) {
-                      ex[0] = e;
-                    }
+                ApplicationManager.getApplication().runWriteAction(new ThrowableComputable<Void, IOException>() {
+                  @Override
+                  public Void compute() throws IOException {
+                    virtualFile.delete(this);
+                    return null;
                   }
                 });
-                if (ex[0] != null) {
-                  throw ex[0];
-                }
               }
               else {
                 FileUtil.delete(file);

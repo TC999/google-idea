@@ -94,7 +94,7 @@ public class GitSimpleHandler extends GitTextHandler {
     }
     else {
       LOG.debug(stderr.trim());
-      LOG.debug(stdout.trim());
+      OUTPUT_LOG.debug(stdout.trim());
     }
   }
 
@@ -235,7 +235,11 @@ public class GitSimpleHandler extends GitTextHandler {
     });
     runInCurrentThread(null);
     if (ex[0] != null) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       throw new VcsException("Error executing " + printableCommandLine(), ex[0]);
+=======
+      throw new VcsException(ex[0].getMessage() + " during executing " + printableCommandLine(), ex[0]);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     if (result[0] == null) {
       throw new VcsException("The git command returned null: " + printableCommandLine());

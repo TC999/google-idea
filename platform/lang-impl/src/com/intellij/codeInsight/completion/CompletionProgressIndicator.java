@@ -185,12 +185,15 @@ public class CompletionProgressIndicator extends ProgressIndicatorBase implement
           myLookup.setFocusDegree(LookupImpl.FocusDegree.FOCUSED);
         }
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       else if (FeatureUsageTracker.getInstance()
         .isToBeAdvertisedInLookup(CodeCompletionFeatures.EDITING_COMPLETION_CONTROL_ENTER, getProject())) {
         myLookup.addAdvertisement("Press " +
                                   CompletionContributor.getActionShortcut(IdeActions.ACTION_CHOOSE_LOOKUP_ITEM_ALWAYS) +
                                   " to choose the selected (or first) suggestion", null);
       }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (!myEditor.isOneLineMode() &&
           FeatureUsageTracker.getInstance()
             .isToBeAdvertisedInLookup(CodeCompletionFeatures.EDITING_COMPLETION_CONTROL_ARROWS, getProject())) {

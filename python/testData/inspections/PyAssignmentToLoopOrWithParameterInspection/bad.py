@@ -59,4 +59,22 @@ class Foo(object):
     def foo(self):
         for self.data in [1,2,3]:
             for <weak_warning descr="Variable 'self.data' already declared in 'for' loop or 'with' statement above">self.data</weak_warning> in [1,2,3]:
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                 pass
+=======
+                pass
+
+for elt in range(10):
+    print elt
+else:
+    for elt in range(10):
+        for <weak_warning descr="Variable 'elt' already declared in 'for' loop or 'with' statement above">elt</weak_warning>  in range(10):
+            pass
+
+for elt in range(10):
+    for <weak_warning descr="Variable 'elt' already declared in 'for' loop or 'with' statement above">elt</weak_warning>  in range(10):
+        pass
+else:
+    for elt in range(10):
+        pass
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)

@@ -19,12 +19,20 @@ import com.intellij.ide.browsers.BrowserLauncher;
 import com.intellij.ide.browsers.UrlOpener;
 import com.intellij.ide.browsers.WebBrowser;
 import com.intellij.openapi.project.Project;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.util.ArrayUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 final class DefaultUrlOpener extends UrlOpener {
   @Override
   public boolean openUrl(@NotNull WebBrowser browser, @NotNull String url, @Nullable Project project) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return BrowserLauncher.getInstance().browseUsingPath(url, null, browser, project);
+=======
+    return BrowserLauncher.getInstance().browseUsingPath(url, null, browser, project, ArrayUtil.EMPTY_STRING_ARRAY);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

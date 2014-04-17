@@ -16,6 +16,7 @@
 package com.intellij.openapi.editor.actions;
 
 import com.intellij.openapi.fileTypes.FileTypes;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.testFramework.EditorTestUtil;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 
@@ -30,6 +31,11 @@ public class ToggleColumnModeActionMultiCaretTest extends LightPlatformCodeInsig
     super.tearDown();
   }
 
+=======
+import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+
+public class ToggleColumnModeActionMultiCaretTest extends LightPlatformCodeInsightFixtureTestCase {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void testSingleCaretWithoutSelection() throws Exception {
     doTestToggleOnOff("line1\n" +
                       "line<caret>2",

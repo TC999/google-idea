@@ -107,11 +107,19 @@ public class XLightBreakpointPropertiesPanel<B extends XBreakpoint<?>> implement
       final XBreakpointCustomPropertiesPanel<B> conditionPanel;
       if (debuggerEditorsProvider instanceof XDebuggerComboBoxProvider) {
         conditionPanel = ((XDebuggerComboBoxProvider<B>)debuggerEditorsProvider).createConditionComboBoxPanel(
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
             project, debuggerEditorsProvider, "breakpointCondition", myBreakpoint.getSourcePosition());
       }
       else {
         conditionPanel =
           new DefaultConditionComboBoxPanel<B>(project, debuggerEditorsProvider, "breakpointCondition", myBreakpoint.getSourcePosition());
+=======
+            project, debuggerEditorsProvider, DefaultConditionComboBoxPanel.HISTORY_KEY, myBreakpoint.getSourcePosition());
+      }
+      else {
+        conditionPanel =
+          new DefaultConditionComboBoxPanel<B>(project, debuggerEditorsProvider, myBreakpoint.getSourcePosition());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       myConditionExpressionPanel.add(conditionPanel.getComponent(), BorderLayout.CENTER);
       myCustomPanels.add(conditionPanel);
@@ -165,9 +173,6 @@ public class XLightBreakpointPropertiesPanel<B extends XBreakpoint<?>> implement
 
     for (XBreakpointCustomPropertiesPanel<B> customPanel : myCustomPanels) {
       customPanel.saveTo(myBreakpoint);
-    }
-    if (!myCustomPanels.isEmpty()) {
-      ((XBreakpointBase)myBreakpoint).fireBreakpointChanged();
     }
     myBreakpoint.setEnabled(myEnabledCheckbox.isSelected());
   }

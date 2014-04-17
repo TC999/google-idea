@@ -83,6 +83,25 @@ public class TypeCompatibilityConstraint implements ConstraintFormula {
     return false;
   }
 
+  public static boolean isUncheckedConversion(final PsiType t, final PsiType s) {
+    if (t instanceof PsiClassType && !((PsiClassType)t).isRaw() && s instanceof PsiClassType) {
+      final PsiClassType.ClassResolveResult tResult = ((PsiClassType)t).resolveGenerics();
+      final PsiClassType.ClassResolveResult sResult = ((PsiClassType)s).resolveGenerics();
+      final PsiClass tClass = tResult.getElement();
+      final PsiClass sClass = sResult.getElement();
+      if (tClass != null && sClass != null) {
+        final PsiSubstitutor sSubstitutor = TypeConversionUtil.getClassSubstitutor(tClass, sClass, sResult.getSubstitutor());
+        if (sSubstitutor != null && PsiUtil.isRawSubstitutor(tClass, sSubstitutor)) {
+          return true;
+        }
+      }
+    } 
+    else if (t instanceof PsiArrayType && t.getArrayDimensions() == s.getArrayDimensions()) {
+      return isUncheckedConversion(t.getDeepComponentType(), s.getDeepComponentType());
+    }
+    return false;
+  }
+
   @Override
   public void apply(PsiSubstitutor substitutor) {
     myT = substitutor.substitute(myT);
@@ -107,5 +126,10 @@ public class TypeCompatibilityConstraint implements ConstraintFormula {
     int result = myT.hashCode();
     result = 31 * result + myS.hashCode();
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return myS.getPresentableText() + " -> " + myT.getPresentableText();
   }
 }

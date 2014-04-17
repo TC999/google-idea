@@ -1329,4 +1329,96 @@ class ProductServiceImpl{}
 ''', GrMethod)
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  void testTraitPublicField1() {
+    resolveByText('''
+trait T {
+  public int field = 4
+}
+
+class C extends T {
+
+  void foo() {
+    print T__fie<caret>ld
+  }
+}
+''', GrField)
+  }
+
+  void testTraitPublicField2() {
+    resolveByText('''
+trait T {
+  public int field = 4
+
+  void foo() {
+    print fiel<caret>d
+  }
+}
+''', GrField)
+  }
+
+  void testTraitPublicField3() {
+    resolveByText('''
+trait T {
+  public int field = 4
+
+  void foo() {
+    print T__fie<caret>ld
+  }
+}
+''', GrField)
+  }
+
+  void testTraitPublicField4() {
+    resolveByText('''
+trait T {
+  public int field = 4
+}
+
+class C extends T {}
+
+new C().T__fiel<caret>d
+''', GrField)
+  }
+
+  void testTraitProperty1() {
+    resolveByText('''
+trait T {
+  int prop = 4
+}
+
+class C extends T {}
+
+new C().pr<caret>op
+''', GrAccessorMethod)
+  }
+
+  void testTraitProperty2() {
+    resolveByText('''
+trait T {
+  int prop = 4
+}
+
+class C extends T {
+  def bar() {
+    print pro<caret>p
+  }
+}
+''', GrAccessorMethod)
+  }
+
+  void testTraitProperty3() {
+    resolveByText('''
+trait T {
+  int prop = 4
+
+  void foo() {
+    print pro<caret>p
+  }
+}
+''', GrField)
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

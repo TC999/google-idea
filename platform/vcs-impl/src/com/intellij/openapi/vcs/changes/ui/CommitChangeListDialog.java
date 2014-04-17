@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2000-2013 JetBrains s.r.o.
+=======
+ * Copyright 2000-2014 JetBrains s.r.o.
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +39,7 @@ import com.intellij.openapi.vcs.changes.*;
 import com.intellij.openapi.vcs.changes.actions.DiffExtendUIFactory;
 import com.intellij.openapi.vcs.checkin.*;
 import com.intellij.openapi.vcs.impl.CheckinHandlersManager;
+import com.intellij.openapi.vcs.impl.VcsGlobalMessageManager;
 import com.intellij.openapi.vcs.ui.CommitMessage;
 import com.intellij.openapi.vcs.ui.Refreshable;
 import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
@@ -986,6 +991,13 @@ public class CommitChangeListDialog extends DialogWrapper implements CheckinProj
     } else {
       helper.doCommit();
     }
+  }
+
+  @Nullable
+  @Override
+  protected JComponent createNorthPanel() {
+    final JComponent banner = VcsGlobalMessageManager.getInstance(myProject).getMessageBanner();
+    return banner != null ? banner : super.createNorthPanel();
   }
 
   @Override

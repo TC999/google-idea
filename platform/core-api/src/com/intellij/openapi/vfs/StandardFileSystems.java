@@ -15,7 +15,6 @@
  */
 package com.intellij.openapi.vfs;
 
-import com.intellij.ide.highlighter.ArchiveFileType;
 import com.intellij.openapi.util.NotNullLazyValue;
 import com.intellij.util.io.URLUtil;
 import org.jetbrains.annotations.NotNull;
@@ -67,8 +66,11 @@ public class StandardFileSystems {
 
   @Nullable
   public static VirtualFile getJarRootForLocalFile(@NotNull VirtualFile virtualFile) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (virtualFile.getFileType() != ArchiveFileType.INSTANCE) return null;
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return jar().findFileByPath(virtualFile.getPath() + URLUtil.JAR_SEPARATOR);
   }
 

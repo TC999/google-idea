@@ -19,6 +19,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.vcs.VcsNotifier;
 import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
@@ -62,7 +63,10 @@ public class HgMerge extends HgAbstractGlobalAction {
   private static void executeMerge(@NotNull final Project project, @NotNull VirtualFile repo, @NotNull String targetValue)
     throws HgCommandException {
     UpdatedFiles updatedFiles = UpdatedFiles.create();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     HgCommandResultNotifier notifier = new HgCommandResultNotifier(project);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     HgMergeCommand hgMergeCommand = new HgMergeCommand(project, repo);
     hgMergeCommand.setRevision(targetValue);
@@ -73,10 +77,18 @@ public class HgMerge extends HgAbstractGlobalAction {
     }
     catch (VcsException e) {
       if (e.isWarning()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         notifier.notifyWarning("Warning during merge", e.getMessage());
+=======
+        VcsNotifier.getInstance(project).notifyWarning("Warning during merge", e.getMessage());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       else {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         notifier.notifyError(null, "Exception during merge", e.getMessage());
+=======
+        VcsNotifier.getInstance(project).notifyError("Exception during merge", e.getMessage());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
   }

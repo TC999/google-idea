@@ -18,12 +18,17 @@ package com.intellij.psi.impl.search;
 
 import com.intellij.concurrency.*;
 import com.intellij.openapi.application.ApplicationManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.application.ex.ApplicationEx;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
+=======
+import com.intellij.openapi.application.ex.ApplicationUtil;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressIndicatorProvider;
@@ -58,13 +63,17 @@ import gnu.trove.THashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PsiSearchHelperImpl implements PsiSearchHelper {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static final Logger LOG = Logger.getInstance("#com.intellij.psi.impl.search.PsiSearchHelperImpl");
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private final PsiManagerEx myManager;
 
   @Override
@@ -314,6 +323,7 @@ public class PsiSearchHelperImpl implements PsiSearchHelper {
     return totalResult;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static class CannotRunReadActionException extends RuntimeException{
     @Override
     public Throwable fillInStackTrace() {
@@ -334,6 +344,8 @@ public class PsiSearchHelperImpl implements PsiSearchHelper {
     throw new CannotRunReadActionException();
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   /**
    * @param files to scan for references in this pass.
    * @param totalSize the number of files to scan in both passes. Can be different from <code>files.size()</code> in case of
@@ -361,7 +373,11 @@ public class PsiSearchHelperImpl implements PsiSearchHelper {
               TooManyUsagesStatus.getFrom(progress).pauseProcessingIfTooManyUsages();
               processVirtualFile(vfile, progress, localProcessor, canceled, counter, totalSize);
             }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
             catch (CannotRunReadActionException action) {
+=======
+            catch (ApplicationUtil.CannotRunReadActionException action) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
               failedFiles.add(vfile);
             }
             return !canceled.get();
@@ -397,6 +413,7 @@ public class PsiSearchHelperImpl implements PsiSearchHelper {
                                   @NotNull final AtomicBoolean canceled,
                                   @NotNull AtomicInteger counter,
                                   int totalSize) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final PsiFile file = tryRead(new Computable<PsiFile>() {
       @Override
       public PsiFile compute() {
@@ -409,6 +426,25 @@ public class PsiSearchHelperImpl implements PsiSearchHelper {
         LoadTextUtil.loadText(vfile); // cache bytes in vfs
       }
       tryRead(new Computable<Void>() {
+=======
+    final PsiFile file = ApplicationUtil.tryRunReadAction(new Computable<PsiFile>() {
+      @Override
+      public PsiFile compute() {
+        return vfile.isValid() ? myManager.findFile(vfile) : null;
+      }
+    });
+    if (file != null && !(file instanceof PsiBinaryFile)) {
+      // load contents outside read action
+      if (FileDocumentManager.getInstance().getCachedDocument(vfile) == null) {
+        // cache bytes in vfs
+        try {
+          vfile.contentsToByteArray();
+        }
+        catch (IOException ignored) {
+        }
+      }
+      ApplicationUtil.tryRunReadAction(new Computable<Void>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         @Override
         public Void compute() {
           if (myManager.getProject().isDisposed()) throw new ProcessCanceledException();
@@ -416,8 +452,8 @@ public class PsiSearchHelperImpl implements PsiSearchHelper {
           Set<PsiElement> processed = new THashSet<PsiElement>(psiRoots.size() * 2, (float)0.5);
           for (final PsiFile psiRoot : psiRoots) {
             checkCanceled(progress);
-            assert psiRoot != null : "One of the roots of file " + file + " is null. All roots: " + psiRoots +
-                                     "; ViewProvider: " + file.getViewProvider() + "; Virtual file: " + file.getViewProvider().getVirtualFile();
+            assert psiRoot != null : "One of the roots of file " + file + " is null. All roots: " + psiRoots + "; ViewProvider: " +
+                                     file.getViewProvider() + "; Virtual file: " + file.getViewProvider().getVirtualFile();
             if (!processed.add(psiRoot)) continue;
             if (!psiRoot.isValid()) {
               continue;
@@ -541,14 +577,12 @@ public class PsiSearchHelperImpl implements PsiSearchHelper {
       progress.setText(PsiBundle.message("psi.search.in.non.java.files.progress"));
     }
 
-    final SearchScope useScope = new ReadAction<SearchScope>() {
+    final SearchScope useScope = originalElement == null ? null : ApplicationManager.getApplication().runReadAction(new Computable<SearchScope>() {
       @Override
-      protected void run(final Result<SearchScope> result) {
-        if (originalElement != null) {
-          result.setResult(getUseScope(originalElement));
-        }
+      public SearchScope compute() {
+        return getUseScope(originalElement);
       }
-    }.execute().getResultObject();
+    });
 
     final Ref<Boolean> cancelled = new Ref<Boolean>(Boolean.FALSE);
     for (int i = 0; i < files.length; i++) {
@@ -826,7 +860,11 @@ public class PsiSearchHelperImpl implements PsiSearchHelper {
     return processPsiFileRootsAsync(files, totalSize, alreadyProcessedFiles, progress, new Processor<PsiFile>() {
       @Override
       public boolean process(final PsiFile psiRoot) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         return tryRead(new Computable<Boolean>() {
+=======
+        return ApplicationUtil.tryRunReadAction(new Computable<Boolean>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           @Override
           public Boolean compute() {
             final VirtualFile vfile = psiRoot.getVirtualFile();

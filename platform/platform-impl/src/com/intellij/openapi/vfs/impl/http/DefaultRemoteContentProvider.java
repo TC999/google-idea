@@ -28,7 +28,11 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.PathUtilRt;
 import com.intellij.util.Url;
 import com.intellij.util.io.UrlConnectionUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.util.net.ssl.CertificatesManager;
+=======
+import com.intellij.util.net.ssl.CertificateManager;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 
 import javax.net.ssl.HostnameVerifier;
@@ -80,7 +84,11 @@ public class DefaultRemoteContentProvider extends RemoteContentProvider {
               return true;
             }
           });
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           httpsConnection.setSSLSocketFactory(CertificatesManager.getInstance().createSslContext().getSocketFactory());
+=======
+          httpsConnection.setSSLSocketFactory(CertificateManager.getInstance().getSslContext().getSocketFactory());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
         catch (Exception e) {
           LOG.warn(e);

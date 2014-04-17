@@ -860,11 +860,24 @@ public final class ToolWindowsPane extends JBLayeredPane implements Disposable {
         add(fadeIn, FadeInFadeOut.LAYER);
         fadeIn.setBounds(0, 0, getWidth(), getHeight());
         myLayeredPane.remove(myComponent);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         fadeIn.doAnimation();
         remove(fadeIn);
         myLayeredPane.add(myComponent, JLayeredPane.PALETTE_LAYER);
         repaint();
         finish();
+=======
+        fadeIn.doAnimation(new Runnable() {
+          @Override
+          public void run() {
+            remove(fadeIn);
+            myLayeredPane.add(myComponent, JLayeredPane.PALETTE_LAYER);
+            //myComponent.requestFocus();
+            repaint();
+            finish();
+          }
+        });
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       else { // not animated
         myLayeredPane.add(myComponent, JLayeredPane.PALETTE_LAYER);
@@ -1037,10 +1050,21 @@ public final class ToolWindowsPane extends JBLayeredPane implements Disposable {
         add(fadeOut, FadeInFadeOut.LAYER);
         fadeOut.setBounds(0, 0, getWidth(), getHeight());
         myLayeredPane.remove(myComponent);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         fadeOut.doAnimation();
         remove(fadeOut);
         repaint();
         finish();
+=======
+        fadeOut.doAnimation(new Runnable() {
+          @Override
+          public void run() {
+            remove(fadeOut);
+            repaint();
+            finish();
+          }
+        });
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       else { // not animated
         myLayeredPane.remove(myComponent);

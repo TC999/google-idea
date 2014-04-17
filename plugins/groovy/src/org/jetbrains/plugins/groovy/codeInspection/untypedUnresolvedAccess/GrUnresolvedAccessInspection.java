@@ -18,50 +18,21 @@ package org.jetbrains.plugins.groovy.codeInspection.untypedUnresolvedAccess;
 
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInsight.daemon.HighlightDisplayKey;
-import com.intellij.codeInsight.daemon.QuickFixActionRegistrar;
-import com.intellij.codeInsight.daemon.impl.HighlightInfo;
-import com.intellij.codeInsight.daemon.impl.HighlightInfoType;
-import com.intellij.codeInsight.daemon.impl.quickfix.CreateClassKind;
-import com.intellij.codeInsight.daemon.impl.quickfix.OrderEntryFix;
-import com.intellij.codeInsight.daemon.impl.quickfix.QuickFixAction;
-import com.intellij.codeInsight.intention.EmptyIntentionAction;
-import com.intellij.codeInsight.intention.IntentionAction;
-import com.intellij.codeInsight.quickfix.UnresolvedReferenceQuickFixProvider;
 import com.intellij.codeInspection.InspectionProfile;
 import com.intellij.codeInspection.ui.MultipleCheckboxOptionsPanel;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.Key;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.pom.PomDeclarationSearcher;
-import com.intellij.pom.PomTarget;
 import com.intellij.profile.codeInspection.InspectionProjectProfileManager;
-import com.intellij.psi.*;
-import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.CollectConsumer;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.groovy.GroovyBundle;
-import org.jetbrains.plugins.groovy.annotator.GrHighlightUtil;
-import org.jetbrains.plugins.groovy.annotator.intentions.*;
-import org.jetbrains.plugins.groovy.annotator.intentions.dynamic.DynamicMethodFix;
-import org.jetbrains.plugins.groovy.annotator.intentions.dynamic.DynamicPropertyFix;
 import org.jetbrains.plugins.groovy.codeInspection.BaseInspection;
 import org.jetbrains.plugins.groovy.codeInspection.GroovyInspectionBundle;
 import org.jetbrains.plugins.groovy.codeInspection.GroovySuppressableInspectionTool;
-import org.jetbrains.plugins.groovy.extensions.GroovyUnresolvedHighlightFilter;
-import org.jetbrains.plugins.groovy.findUsages.MissingMethodAndPropertyUtil;
-import org.jetbrains.plugins.groovy.lang.groovydoc.psi.api.GroovyDocPsiElement;
-import org.jetbrains.plugins.groovy.lang.lexer.GroovyTokenTypes;
 import org.jetbrains.plugins.groovy.lang.psi.GrReferenceElement;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.jetbrains.plugins.groovy.lang.psi.GroovyFileBase;
 import org.jetbrains.plugins.groovy.lang.psi.api.GroovyResolveResult;
 import org.jetbrains.plugins.groovy.lang.psi.api.auxiliary.modifiers.annotation.GrAnnotation;
@@ -86,57 +57,31 @@ import org.jetbrains.plugins.groovy.lang.psi.util.GroovyCommonClassNames;
 import org.jetbrains.plugins.groovy.lang.psi.util.PsiUtil;
 import org.jetbrains.plugins.groovy.lang.resolve.ResolveUtil;
 import org.jetbrains.plugins.groovy.util.LightCacheKey;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 import javax.swing.*;
-import java.util.Map;
-
-import static com.intellij.psi.PsiModifier.STATIC;
-import static org.jetbrains.plugins.groovy.annotator.intentions.QuickfixUtil.isCall;
-import static org.jetbrains.plugins.groovy.highlighter.DefaultHighlighter.UNRESOLVED_ACCESS;
 
 /**
  * @author Maxim.Medvedev
  */
 public class GrUnresolvedAccessInspection extends GroovySuppressableInspectionTool {
-  private static final Logger LOG = Logger.getInstance(GrUnresolvedAccessInspection.class);
   private static final String SHORT_NAME = "GrUnresolvedAccess";
 
   public boolean myHighlightIfGroovyObjectOverridden = true;
   public boolean myHighlightIfMissingMethodsDeclared = true;
   public boolean myHighlightInnerClasses = true;
 
-  private static final LightCacheKey<Map<String, Boolean>> GROOVY_OBJECT_METHODS_CACHE = new LightCacheKey<Map<String, Boolean>>() {
-    @Override
-    protected long getModificationCount(PsiElement holder) {
-      return holder.getManager().getModificationTracker().getModificationCount();
-    }
-  };
-
-  private static boolean shouldHighlightAsUnresolved(@NotNull GrReferenceExpression referenceExpression) {
-    if (GrHighlightUtil.isDeclarationAssignment(referenceExpression)) return false;
-
-    GrExpression qualifier = referenceExpression.getQualifier();
-    if (qualifier != null && qualifier.getType() == null && !isRefToPackage(qualifier)) return false;
-
-    if (qualifier != null &&
-        referenceExpression.getDotTokenType() == GroovyTokenTypes.mMEMBER_POINTER &&
-        referenceExpression.multiResolve(false).length > 0) {
-      return false;
-    }
-
-    if (!GroovyUnresolvedHighlightFilter.shouldHighlight(referenceExpression)) return false;
-
-    CollectConsumer<PomTarget> consumer = new CollectConsumer<PomTarget>();
-    for (PomDeclarationSearcher searcher : PomDeclarationSearcher.EP_NAME.getExtensions()) {
-      searcher.findDeclarationsAt(referenceExpression, 0, consumer);
-      if (!consumer.getResult().isEmpty()) return false;
-    }
-
-    return true;
+  public static boolean isSuppressed(PsiElement ref) {
+    return isElementToolSuppressedIn(ref, SHORT_NAME);
   }
 
-  private static boolean isRefToPackage(GrExpression expr) {
-    return expr instanceof GrReferenceExpression && ((GrReferenceExpression)expr).resolve() instanceof PsiPackage;
+  public static HighlightDisplayKey findDisplayKey() {
+    return HighlightDisplayKey.find(SHORT_NAME);
+  }
+
+  public static GrUnresolvedAccessInspection getInstance(PsiFile file, Project project) {
+    return (GrUnresolvedAccessInspection)getInspectionProfile(project).getUnwrappedTool(SHORT_NAME, file);
   }
 
   @Nullable
@@ -149,17 +94,15 @@ public class GrUnresolvedAccessInspection extends GroovySuppressableInspectionTo
     return optionsPanel;
   }
 
-  private static boolean isInspectionEnabled(PsiFile file, Project project) {
-    final InspectionProfile profile = InspectionProjectProfileManager.getInstance(project).getInspectionProfile();
-    final HighlightDisplayKey unusedDefKey = HighlightDisplayKey.find(SHORT_NAME);
-    return profile.isToolEnabled(unusedDefKey, file);
+  public static boolean isInspectionEnabled(PsiFile file, Project project) {
+    return getInspectionProfile(project).isToolEnabled(findDisplayKey(), file);
   }
 
-  public static GrUnresolvedAccessInspection getInstance(PsiFile file, Project project) {
-    final InspectionProfile profile = InspectionProjectProfileManager.getInstance(project).getInspectionProfile();
-    return (GrUnresolvedAccessInspection)profile.getUnwrappedTool(SHORT_NAME, file);
+  public static HighlightDisplayLevel getHighlightDisplayLevel(Project project, GrReferenceElement ref) {
+    return getInspectionProfile(project).getErrorLevel(findDisplayKey(), ref);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static HighlightDisplayLevel getHighlightDisplayLevel(Project project, GrReferenceElement ref) {
     final InspectionProfile profile = InspectionProjectProfileManager.getInstance(project).getInspectionProfile();
     return profile.getErrorLevel(HighlightDisplayKey.find(SHORT_NAME), ref);
@@ -660,6 +603,11 @@ public class GrUnresolvedAccessInspection extends GroovySuppressableInspectionTo
   private static boolean shouldBeClass(GrReferenceElement myRefElement) {
     PsiElement parent = myRefElement.getParent();
     return parent instanceof GrExtendsClause && !(parent.getParent() instanceof GrInterfaceDefinition);
+=======
+  @NotNull
+  private static InspectionProfile getInspectionProfile(@NotNull Project project) {
+    return InspectionProjectProfileManager.getInstance(project).getInspectionProfile();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
@@ -673,34 +621,10 @@ public class GrUnresolvedAccessInspection extends GroovySuppressableInspectionTo
   @Nls
   @NotNull
   public String getDisplayName() {
-    return "Access to unresolved expression";
+    return getDisplayText();
   }
 
-  private static class QuickFixActionRegistrarAdapter implements QuickFixActionRegistrar {
-    private final HighlightInfo myInfo;
-    private HighlightDisplayKey myKey;
-
-    public QuickFixActionRegistrarAdapter(@Nullable HighlightInfo info, HighlightDisplayKey displayKey) {
-      myInfo = info;
-      myKey = displayKey;
-    }
-
-    @Override
-    public void register(@NotNull IntentionAction action) {
-      myKey = HighlightDisplayKey.find(SHORT_NAME);
-      QuickFixAction.registerQuickFixAction(myInfo, action, myKey);
-    }
-
-    @Override
-    public void register(@NotNull TextRange fixRange, @NotNull IntentionAction action, HighlightDisplayKey key) {
-      QuickFixAction.registerQuickFixAction(myInfo, fixRange, action, key);
-    }
-
-    @Override
-    public void unregister(@NotNull Condition<IntentionAction> condition) {
-      if (myInfo != null) {
-        myInfo.unregisterQuickFix(condition);
-      }
-    }
+  public static String getDisplayText() {
+    return "Access to unresolved expression";
   }
 }

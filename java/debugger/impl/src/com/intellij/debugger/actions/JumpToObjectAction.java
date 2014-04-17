@@ -110,7 +110,11 @@ public class JumpToObjectAction extends DebuggerAction{
               SourcePosition position = debugProcess.getPositionManager().getSourcePosition(location);
               // adjust position for non-anonymous classes
               if (clsType.name().indexOf('$') < 0) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                 final PsiClass classAt = position != null? JVMNameUtil.getClassAt(position) : null;
+=======
+                final PsiClass classAt = JVMNameUtil.getClassAt(position);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                 if (classAt != null) {
                   final SourcePosition classPosition = SourcePosition.createFromElement(classAt);
                   if (classPosition != null) {

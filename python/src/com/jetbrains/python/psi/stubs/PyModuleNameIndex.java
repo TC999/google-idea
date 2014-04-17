@@ -26,6 +26,7 @@ import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
 import com.jetbrains.python.PyNames;
 import com.jetbrains.python.PythonFileType;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.jetbrains.python.psi.PyFile;
 import com.jetbrains.python.psi.search.PyProjectScopeBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -108,6 +109,93 @@ public class PyModuleNameIndex extends ScalarIndexExtension<String> {
       final PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
       if (psiFile instanceof PyFile) {
         results.add((PyFile)psiFile);
+=======
+import com.jetbrains.python.codeInsight.userSkeletons.PyUserSkeletonsUtil;
+import com.jetbrains.python.psi.PyFile;
+import com.jetbrains.python.psi.search.PyProjectScopeBuilder;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
+
+/**
+ * @author vlan
+ */
+public class PyModuleNameIndex extends ScalarIndexExtension<String> {
+  public static final ID<String, Void> NAME = ID.create("Py.module.name");
+
+  private final EnumeratorStringDescriptor myKeyDescriptor = new EnumeratorStringDescriptor();
+  private final DataIndexer<String, Void, FileContent> myDataIndexer = new DataIndexer<String, Void, FileContent>() {
+    @NotNull
+    @Override
+    public Map<String, Void> map(@NotNull FileContent inputData) {
+      final VirtualFile file = inputData.getFile();
+      final String name = file.getName();
+      if (PyNames.INIT_DOT_PY.equals(name)) {
+        final VirtualFile parent = file.getParent();
+        if (parent != null && parent.isDirectory()) {
+          return Collections.singletonMap(parent.getName(), null);
+        }
+      }
+      else {
+        return Collections.singletonMap(FileUtil.getNameWithoutExtension(name), null);
+      }
+      return Collections.emptyMap();
+    }
+  };
+
+  @NotNull
+  @Override
+  public ID<String, Void> getName() {
+    return NAME;
+  }
+
+  @NotNull
+  @Override
+  public DataIndexer<String, Void, FileContent> getIndexer() {
+    return myDataIndexer;
+  }
+
+  @NotNull
+  @Override
+  public KeyDescriptor<String> getKeyDescriptor() {
+    return myKeyDescriptor;
+  }
+
+  @NotNull
+  @Override
+  public FileBasedIndex.InputFilter getInputFilter() {
+    return new DefaultFileTypeSpecificInputFilter(PythonFileType.INSTANCE);
+  }
+
+  @Override
+  public boolean dependsOnFileContent() {
+    return true;
+  }
+
+  @Override
+  public int getVersion() {
+    return 0;
+  }
+
+  @NotNull
+  public static Collection<String> getAllKeys(@NotNull Project project) {
+    return FileBasedIndex.getInstance().getAllKeys(NAME, project);
+  }
+
+  @NotNull
+  public static List<PyFile> find(@NotNull String name, @NotNull Project project, boolean includeNonProjectItems) {
+    final List<PyFile> results = new ArrayList<PyFile>();
+    final GlobalSearchScope scope = includeNonProjectItems
+                                    ? PyProjectScopeBuilder.excludeSdkTestsScope(project)
+                                    : GlobalSearchScope.projectScope(project);
+    final Collection<VirtualFile> files = FileBasedIndex.getInstance().getContainingFiles(NAME, name, scope);
+    for (VirtualFile virtualFile : files) {
+      final PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
+      if (psiFile instanceof PyFile) {
+        if (!PyUserSkeletonsUtil.isUnderUserSkeletonsDirectory(psiFile)) {
+          results.add((PyFile)psiFile);
+        }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
     return results;

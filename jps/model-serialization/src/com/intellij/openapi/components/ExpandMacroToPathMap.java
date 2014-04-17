@@ -49,7 +49,11 @@ public class ExpandMacroToPathMap extends PathMacroMap {
       return null;
     }
     
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (text.indexOf('$') < 0) {
+=======
+    if (text.indexOf('$') < 0 && text.indexOf('%') < 0) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return text;
     }
 

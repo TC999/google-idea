@@ -102,9 +102,12 @@ public class NewElementAction extends AnAction  implements DumbAware, PopupActio
     if (Boolean.TRUE.equals(LangDataKeys.NO_NEW_ACTION.getData(e.getDataContext()))) {
       return false;
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (PlatformDataKeys.FILE_EDITOR.getData(e.getDataContext()) != null) {
       return false;
     }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return true;
   }
 

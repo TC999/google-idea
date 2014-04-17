@@ -19,6 +19,7 @@ import com.intellij.codeInsight.ExpectedTypeInfo;
 import com.intellij.codeInsight.ExpectedTypeInfoImpl;
 import com.intellij.codeInsight.TailType;
 import com.intellij.codeInsight.lookup.LookupElement;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.psi.LambdaUtil;
 import com.intellij.psi.PsiType;
 import com.intellij.psi.util.PsiUtil;
@@ -45,6 +46,60 @@ public class MethodReferenceCompletionProvider extends CompletionProvider<Comple
             @Override
             public void consume(final LookupElement lookupElement) {
               result.addElement(lookupElement);
+=======
+import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.psi.*;
+import com.intellij.psi.impl.source.resolve.graphInference.FunctionalInterfaceParameterizationUtil;
+import com.intellij.psi.util.PsiUtil;
+import com.intellij.util.Consumer;
+import com.intellij.util.ProcessingContext;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+
+public class MethodReferenceCompletionProvider extends CompletionProvider<CompletionParameters> {
+  private static final Logger LOG = Logger.getInstance("#" + MethodReferenceCompletionProvider.class.getName());
+
+  @Override
+  protected void addCompletions(@NotNull CompletionParameters parameters,
+                                ProcessingContext context,
+                                @NotNull final CompletionResultSet result) {
+    if (!PsiUtil.isLanguageLevel8OrHigher(parameters.getOriginalFile())) return;
+    final ExpectedTypeInfo[] expectedTypes = JavaSmartCompletionContributor.getExpectedTypes(parameters);
+    for (ExpectedTypeInfo expectedType : expectedTypes) {
+      final PsiType defaultType = expectedType.getDefaultType();
+      if (LambdaUtil.isFunctionalType(defaultType)) {
+        final PsiType functionalType = FunctionalInterfaceParameterizationUtil.getGroundTargetType(defaultType);
+        final PsiType returnType = LambdaUtil.getFunctionalInterfaceReturnType(functionalType);
+        if (returnType != null) {
+          final PsiMethodReferenceExpression ref = (PsiMethodReferenceExpression)parameters.getPosition().getParent();
+          final ExpectedTypeInfoImpl typeInfo =
+            new ExpectedTypeInfoImpl(returnType, ExpectedTypeInfo.TYPE_OR_SUBTYPE, returnType, TailType.UNKNOWN, null,
+                                     ExpectedTypeInfoImpl.NULL);
+          final Map<PsiMethodReferenceExpression, PsiType> map = PsiMethodReferenceUtil.getFunctionalTypeMap();
+          Consumer<LookupElement> noTypeCheck = new Consumer<LookupElement>() {
+            @Override
+            public void consume(final LookupElement lookupElement) {
+              final PsiElement element = lookupElement.getPsiElement();
+              if (element instanceof PsiMethod) {
+               final PsiMethodReferenceExpression referenceExpression = (PsiMethodReferenceExpression)ref.copy();
+                final PsiElement referenceNameElement = referenceExpression.getReferenceNameElement();
+                LOG.assertTrue(referenceNameElement != null, referenceExpression);
+                referenceNameElement.replace(JavaPsiFacade.getElementFactory(element.getProject()).createIdentifier(((PsiMethod)element).getName()));
+                final PsiType added = map.put(referenceExpression, functionalType);
+                try {
+                  final PsiElement resolve = referenceExpression.resolve();
+                  if (resolve == element && PsiMethodReferenceUtil.checkMethodReferenceContext(referenceExpression, resolve, functionalType) == null) {
+                    result.addElement(lookupElement);
+                  }
+                }
+                finally {
+                  if (added == null) {
+                    map.remove(referenceExpression);
+                  }
+                }
+              }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             }
           };
 

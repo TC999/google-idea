@@ -2,9 +2,18 @@
 import atexit
 import zipfile
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+# TODO: Move all CLR-specific functions to clr_tools
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 from pycharm_generator_utils.module_redeclarator import *
 from pycharm_generator_utils.util_methods import *
 from pycharm_generator_utils.constants import *
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+from pycharm_generator_utils.clr_tools import *
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 
 debug_mode = False
@@ -429,6 +438,9 @@ if __name__ == "__main__":
 
             if '-p' in opts:
                 atexit.register(print_profile)
+
+            # We take module name from import statement
+            name = get_namespace_by_name(name)
 
         if not process_one(name, mod_file_name, False, subdir):
             sys.exit(1)

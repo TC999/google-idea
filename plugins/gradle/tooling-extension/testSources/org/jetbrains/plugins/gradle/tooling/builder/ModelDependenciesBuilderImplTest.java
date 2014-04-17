@@ -28,6 +28,7 @@ import org.jetbrains.plugins.gradle.model.ProjectDependenciesModel;
 import org.junit.Test;
 
 import java.util.List;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.Set;
 
 import static junit.framework.Assert.*;
@@ -120,6 +121,101 @@ public class ModelDependenciesBuilderImplTest extends AbstractModelBuilderTest {
 
         IdeaSingleEntryLibraryDependency someTestDep = libraryDependencies.get(1);
         assertEquals(GradleDependencyScope.COMPILE.getIdeaMappingName(), someTestDep.getScope().getScope().toLowerCase());
+=======
+import java.util.Locale;
+import java.util.Set;
+
+import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+/**
+ * @author Vladislav.Soroka
+ * @since 11/29/13
+ */
+public class ModelDependenciesBuilderImplTest extends AbstractModelBuilderTest {
+
+  public ModelDependenciesBuilderImplTest(@NotNull String gradleVersion) {
+    super(gradleVersion);
+  }
+
+  @Test
+  public void testDefaultDependenciesModel() throws Exception {
+    DomainObjectSet<? extends IdeaModule> ideaModules = allModels.getIdeaProject().getModules();
+
+    final int modulesSize = 3;
+    assertEquals(modulesSize, ideaModules.size());
+
+    for (IdeaModule ideaModule : ideaModules) {
+      if (ideaModule.getName().equals("dependencyProject") ||
+          ideaModule.getName().equals("testDefaultDependenciesModel")) {
+        DomainObjectSet<? extends IdeaDependency> dependencies = ideaModule.getDependencies();
+        assertTrue((dependencies.isEmpty()));
+      }
+      else if (ideaModule.getName().equals("dependentProject")) {
+        DomainObjectSet<? extends IdeaDependency> dependencies = ideaModule.getDependencies();
+        assertEquals(1, dependencies.size());
+        assertTrue(dependencies.getAt(0) instanceof IdeaModuleDependency);
+        IdeaModuleDependency moduleDependency = (IdeaModuleDependency)dependencies.getAt(0);
+
+        assertEquals("dependencyProject", moduleDependency.getDependencyModule().getName());
+        assertEquals("COMPILE", moduleDependency.getScope().getScope());
+        assertTrue(moduleDependency.getExported());
+      }
+      else {
+        fail();
+      }
+    }
+  }
+
+  @Test
+  public void testGradleIdeaPluginPlusScopesDependenciesModel() throws Exception {
+    DomainObjectSet<? extends IdeaModule> ideaModules = allModels.getIdeaProject().getModules();
+
+    final int modulesSize = 6;
+    assertEquals(modulesSize, ideaModules.size());
+
+    for (IdeaModule ideaModule : ideaModules) {
+      DomainObjectSet<? extends IdeaDependency> dependencies = ideaModule.getDependencies();
+      if (ideaModule.getName().equals("lib") ||
+          ideaModule.getName().equals("testGradleIdeaPluginPlusScopesDependenciesModel")) {
+        assertTrue((dependencies.isEmpty()));
+      }
+      else if (ideaModule.getName().equals("api")) {
+        assertEquals(1, dependencies.size());
+        IdeaDependency libDependency = dependencies.getAt(0);
+        assertEquals("provided", libDependency.getScope().getScope().toLowerCase(Locale.ENGLISH));
+        assertTrue(libDependency instanceof IdeaModuleDependency);
+
+        IdeaModuleDependency libModuleDependency = (IdeaModuleDependency)libDependency;
+        assertNotNull(libModuleDependency.getDependencyModule());
+        assertEquals("lib", libModuleDependency.getDependencyModule().getName());
+      }
+      else if (ideaModule.getName().equals("service")) {
+        assertEquals(1, dependencies.size());
+        IdeaDependency apiDependency = dependencies.getAt(0);
+        assertEquals(GradleDependencyScope.COMPILE.getIdeaMappingName(), apiDependency.getScope().getScope().toLowerCase(Locale.ENGLISH));
+        assertTrue(apiDependency instanceof IdeaModuleDependency);
+
+        IdeaModuleDependency apiModuleDependency = (IdeaModuleDependency)apiDependency;
+        assertNotNull(apiModuleDependency.getDependencyModule());
+        assertEquals("api", apiModuleDependency.getDependencyModule().getName());
+      }
+      else if (ideaModule.getName().equals("withIdeaModelCustomisations")) {
+
+        assertTrue(findLocalLibraries(dependencies, GradleDependencyScope.TEST_COMPILE.getIdeaMappingName()).isEmpty());
+
+        List<IdeaSingleEntryLibraryDependency> libraryDependencies =
+          findLocalLibraries(dependencies, GradleDependencyScope.COMPILE.getIdeaMappingName());
+        assertEquals(2, libraryDependencies.size());
+
+        IdeaSingleEntryLibraryDependency someDep = libraryDependencies.get(0);
+        assertEquals(GradleDependencyScope.COMPILE.getIdeaMappingName(), someDep.getScope().getScope().toLowerCase(Locale.ENGLISH));
+        assertEquals("someDep.jar", someDep.getFile().getName());
+
+        IdeaSingleEntryLibraryDependency someTestDep = libraryDependencies.get(1);
+        assertEquals(GradleDependencyScope.COMPILE.getIdeaMappingName(), someTestDep.getScope().getScope().toLowerCase(Locale.ENGLISH));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         assertEquals("someTestDep.jar", someTestDep.getFile().getName());
       }
       else if (ideaModule.getName().equals("withIdeRepoFileDependency")) {

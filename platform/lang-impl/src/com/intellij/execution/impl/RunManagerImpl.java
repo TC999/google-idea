@@ -63,7 +63,11 @@ public class RunManagerImpl extends RunManagerEx implements JDOMExternalizable, 
 
   private Map<String, Icon> myIdToIcon = new HashMap<String, Icon>();
   private Map<String, Long> myIconCheckTimes = new HashMap<String, Long>();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private Map<String, Long> myIconCalcTime = new HashMap<String, Long>();
+=======
+  private Map<String, Long> myIconCalcTime = Collections.synchronizedMap(new HashMap<String, Long>());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @NonNls
   protected static final String CONFIGURATION = "configuration";

@@ -23,6 +23,12 @@
     <postfixTemplate implementation="com.intellij.codeInsight.template.postfix.templates.AssertStatementPostfixTemplate"/>
     <postfixTemplate implementation="com.intellij.codeInsight.template.postfix.templates.SynchronizedStatementPostfixTemplate"/>
     <postfixTemplate implementation="com.intellij.codeInsight.template.postfix.templates.InstanceofExpressionPostfixTemplate"/>
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    <postfixTemplate implementation="com.intellij.codeInsight.template.postfix.templates.SoutPostfixTemplate"/>
+    <postfixTemplate implementation="com.intellij.codeInsight.template.postfix.templates.FormatPostfixTemplate"/>
+    <postfixTemplate implementation="com.intellij.codeInsight.template.postfix.templates.TryStatementPostfixTemplate"/>
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   </extensions>
 
   <extensions defaultExtensionNs="com.intellij">

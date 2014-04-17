@@ -31,11 +31,16 @@ import com.intellij.xdebugger.breakpoints.XBreakpoint;
 import com.sun.jdi.ReferenceType;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.java.debugger.breakpoints.properties.JavaExceptionBreakpointProperties;
 
 public class AnyExceptionBreakpoint extends ExceptionBreakpoint {
   public static final @NonNls Key<AnyExceptionBreakpoint> ANY_EXCEPTION_BREAKPOINT = BreakpointCategory.lookup("breakpoint_any");
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   protected AnyExceptionBreakpoint(Project project, XBreakpoint xBreakpoint) {
+=======
+  protected AnyExceptionBreakpoint(Project project, XBreakpoint<JavaExceptionBreakpointProperties> xBreakpoint) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     super(project, null, null, xBreakpoint);
     //setEnabled(false);
   }

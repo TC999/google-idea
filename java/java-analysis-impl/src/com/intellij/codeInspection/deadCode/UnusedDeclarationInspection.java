@@ -485,12 +485,15 @@ public class UnusedDeclarationInspection extends GlobalInspectionTool {
     if (element instanceof PsiModifierListOwner) {
       final EntryPointsManager entryPointsManager = EntryPointsManager.getInstance(project);
       if (entryPointsManager.isEntryPoint(element)) return true;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       //if (AnnotationUtil
       //  .checkAnnotatedUsingPatterns((PsiModifierListOwner)element, entryPointsManager.ADDITIONAL_ANNOTATIONS) ||
       //  AnnotationUtil
       //  .checkAnnotatedUsingPatterns((PsiModifierListOwner)element, entryPointsManager.getAdditionalAnnotations())) {
       //  return true;
       //}
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     for (EntryPoint extension : myExtensions) {
       if (extension.isEntryPoint(element)) {

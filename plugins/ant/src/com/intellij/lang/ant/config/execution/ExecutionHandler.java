@@ -114,6 +114,13 @@ public final class ExecutionHandler {
 
       public boolean shouldStartInBackground() {
         return true;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+      }
+
+      public void onCancel() {
+        antBuildListener.buildFinished(AntBuildListener.ABORTED, 0);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
 
       public void run(@NotNull final ProgressIndicator indicator) {

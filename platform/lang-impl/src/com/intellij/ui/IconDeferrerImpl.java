@@ -82,7 +82,11 @@ public class IconDeferrerImpl extends IconDeferrer {
     return deferImpl(base, param, f, true);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private <T> Icon deferImpl(Icon base, T param, @NotNull Function<T, Icon> f, boolean autoupdatable) {
+=======
+  private <T> Icon deferImpl(Icon base, T param, @NotNull Function<T, Icon> f, final boolean autoupdatable) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (myEvaluationIsInProgress.get().booleanValue()) {
       return f.fun(param);
     }
@@ -93,11 +97,11 @@ public class IconDeferrerImpl extends IconDeferrer {
         final long started = myLastClearTimestamp;
         result = new DeferredIconImpl<T>(base, param, f, new DeferredIconImpl.IconListener<T>() {
           @Override
-          public void evalDone(T key, @NotNull Icon r) {
+          public void evalDone(DeferredIconImpl<T> source, T key, @NotNull Icon r) {
             synchronized (LOCK) {
               // check if our results is not outdated yet
               if (started == myLastClearTimestamp) {
-                myIconsCache.put(key, r);
+                myIconsCache.put(key, autoupdatable ? source: r);
               }
             }
           }

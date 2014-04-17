@@ -323,13 +323,21 @@ public class GradleScriptType extends GroovyScriptType {
         }
       }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       if (result == GlobalSearchScope.EMPTY_SCOPE) {
         result = baseScope;
       }
+=======
+      String modulePath = module.getOptionValue(ExternalSystemConstants.LINKED_PROJECT_PATH_KEY);
+      if(modulePath == null) return result;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       String modulePath = module.getOptionValue(ExternalSystemConstants.LINKED_PROJECT_PATH_KEY);
       if(modulePath == null) return result;
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       files = GradleBuildClasspathManager.getInstance(file.getProject()).getModuleClasspathEntries(modulePath);
 
       for (final VirtualFile root : files) {

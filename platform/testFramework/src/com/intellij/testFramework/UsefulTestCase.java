@@ -46,12 +46,16 @@ import com.intellij.util.*;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
 import gnu.trove.THashSet;
-import junit.framework.*;
+import junit.framework.AssertionFailedError;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import org.intellij.lang.annotations.RegExp;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.junit.Assert;
 
 import java.awt.*;
 import java.io.File;
@@ -71,6 +75,8 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public abstract class UsefulTestCase extends TestCase {
+  public static final boolean IS_UNDER_TEAMCITY = System.getenv("TEAMCITY_VERSION") != null;
+
   public static final String IDEA_MARKER_CLASS = "com.intellij.openapi.components.impl.stores.IdeaProjectStoreImpl";
   public static final String TEMP_DIR_MARKER = "unitTest_";
 
@@ -213,19 +219,26 @@ public abstract class UsefulTestCase extends TestCase {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   protected void checkForSettingsDamage() throws Exception {
     Application app = ApplicationManager.getApplication();
     if (isPerformanceTest() || app == null || app instanceof MockApplication) {
       return;
+=======
+  protected CompositeException checkForSettingsDamage() throws Exception {
+    Application app = ApplicationManager.getApplication();
+    if (isPerformanceTest() || app == null || app instanceof MockApplication) {
+      return new CompositeException();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     CodeStyleSettings oldCodeStyleSettings = myOldCodeStyleSettings;
     myOldCodeStyleSettings = null;
 
-    doCheckForSettingsDamage(oldCodeStyleSettings, getCurrentCodeStyleSettings());
+    return doCheckForSettingsDamage(oldCodeStyleSettings, getCurrentCodeStyleSettings());
   }
 
-  public static void doCheckForSettingsDamage(@NotNull CodeStyleSettings oldCodeStyleSettings,
+  public static CompositeException doCheckForSettingsDamage(@NotNull CodeStyleSettings oldCodeStyleSettings,
                                               @NotNull CodeStyleSettings currentCodeStyleSettings) throws Exception {
     CompositeException result = new CompositeException();
     final CodeInsightSettings settings = CodeInsightSettings.getInstance();
@@ -266,7 +279,7 @@ public abstract class UsefulTestCase extends TestCase {
       result.add(e);
     }
 
-    if (!result.isEmpty()) throw result;
+    return result;
   }
 
   protected void storeSettings() {
@@ -324,7 +337,7 @@ public abstract class UsefulTestCase extends TestCase {
     UIUtil.invokeAndWaitIfNeeded(r);
   }
 
-  protected void invokeTestRunnable(Runnable runnable) throws Exception {
+  protected void invokeTestRunnable(@NotNull Runnable runnable) throws Exception {
     UIUtil.invokeAndWaitIfNeeded(runnable);
     //runnable.run();
   }
@@ -639,7 +652,11 @@ public abstract class UsefulTestCase extends TestCase {
     String actualText = StringUtil.convertLineSeparators(actual.trim());
     Assert.assertEquals(expectedText, actualText);
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   
+=======
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public static void assertExists(File file){
     assertTrue("File should exists " + file, file.exists());
   }

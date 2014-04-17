@@ -36,9 +36,17 @@ public class CloudNotifier {
     showMessage(message, messageType, null);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void showMessage(String message, MessageType messageType, @Nullable NotificationListener listener) {
     NotificationGroup notificationGroup = NotificationGroup.balloonGroup(myNotificationDisplayId);
     Notification notification = notificationGroup.createNotification("", message, messageType.toNotificationType(), listener);
     notification.notify(null);
+=======
+  public Notification showMessage(String message, MessageType messageType, @Nullable NotificationListener listener) {
+    NotificationGroup notificationGroup = NotificationGroup.balloonGroup(myNotificationDisplayId);
+    Notification notification = notificationGroup.createNotification("", message, messageType.toNotificationType(), listener);
+    notification.notify(null);
+    return notification;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

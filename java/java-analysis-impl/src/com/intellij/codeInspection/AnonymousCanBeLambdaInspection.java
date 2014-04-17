@@ -30,6 +30,10 @@ import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.controlFlow.AnalysisCanceledException;
 import com.intellij.psi.controlFlow.ControlFlow;
 import com.intellij.psi.controlFlow.ControlFlowUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.psi.util.InheritanceUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtil;
 import com.intellij.util.Function;
@@ -38,10 +42,14 @@ import com.intellij.util.containers.hash.LinkedHashMap;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+=======
+import java.util.*;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 /**
  * User: anna
@@ -93,11 +101,14 @@ public class AnonymousCanBeLambdaInspection extends BaseJavaBatchLocalInspection
                   final ForbiddenRefsChecker checker = new ForbiddenRefsChecker(methods[0], aClass);
                   body.accept(checker);
                   if (!checker.hasForbiddenRefs()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                     PsiResolveHelper helper = PsiResolveHelper.SERVICE.getInstance(body.getProject());
                     for (PsiLocalVariable local : checker.getLocals()) {
                       final String localName = local.getName();
                       if (localName != null && helper.resolveReferencedVariable(localName, aClass) != null) return;
                     }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                     final PsiElement lBrace = aClass.getLBrace();
                     LOG.assertTrue(lBrace != null);
                     final TextRange rangeInElement = new TextRange(0, aClass.getStartOffsetInParent() + lBrace.getStartOffsetInParent());
@@ -131,6 +142,10 @@ public class AnonymousCanBeLambdaInspection extends BaseJavaBatchLocalInspection
       final PsiElement element = descriptor.getPsiElement();
       if (element instanceof PsiNewExpression) {
         final PsiAnonymousClass anonymousClass = ((PsiNewExpression)element).getAnonymousClass();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+        
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         LOG.assertTrue(anonymousClass != null);
         ChangeContextUtil.encodeContextInfo(anonymousClass, true);
         final PsiElement lambdaContext = anonymousClass.getParent().getParent();
@@ -139,20 +154,47 @@ public class AnonymousCanBeLambdaInspection extends BaseJavaBatchLocalInspection
         final PsiMethod method = anonymousClass.getMethods()[0];
         LOG.assertTrue(method != null);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         final String lambdaWithTypesDeclared = composeLambdaText(method, true);
         final String withoutTypesDeclared = composeLambdaText(method, false);
+=======
+        final PsiCodeBlock body = method.getBody();
+        LOG.assertTrue(body != null);
+
+        final ForbiddenRefsChecker checker = new ForbiddenRefsChecker(method, anonymousClass);
+        body.accept(checker);
+        
+        PsiResolveHelper helper = PsiResolveHelper.SERVICE.getInstance(body.getProject());
+        final Set<PsiLocalVariable> conflictingLocals = checker.getLocals();
+        for (Iterator<PsiLocalVariable> iterator = conflictingLocals.iterator(); iterator.hasNext(); ) {
+          PsiLocalVariable local = iterator.next();
+          final String localName = local.getName();
+          if (localName == null || helper.resolveReferencedVariable(localName, anonymousClass) == null) {
+            iterator.remove();
+          }
+        }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(project);
+
+        giveUniqueNames(project, lambdaContext, elementFactory, body, conflictingLocals.toArray(new PsiVariable[conflictingLocals.size()]));
+        
+        final String lambdaWithTypesDeclared = composeLambdaText(method, true);
+        final String withoutTypesDeclared = composeLambdaText(method, false);
+       
         PsiLambdaExpression lambdaExpression =
           (PsiLambdaExpression)elementFactory.createExpressionFromText(withoutTypesDeclared, anonymousClass);
 
-        final PsiCodeBlock body = method.getBody();
-        LOG.assertTrue(body != null);
         final PsiStatement[] statements = body.getStatements();
         PsiElement copy = body.copy();
-        if (statements.length == 1 && statements[0] instanceof PsiReturnStatement) {
-          PsiExpression value = ((PsiReturnStatement)statements[0]).getReturnValue();
-          if (value != null) {
-            copy = value.copy();
+        if (statements.length == 1) {
+          if (statements[0] instanceof PsiReturnStatement) {
+            PsiExpression value = ((PsiReturnStatement)statements[0]).getReturnValue();
+            if (value != null) {
+              copy = value.copy();
+            }
+          } else if (statements[0] instanceof PsiExpressionStatement) {
+            copy = ((PsiExpressionStatement)statements[0]).getExpression().copy();
           }
         }
 
@@ -160,6 +202,7 @@ public class AnonymousCanBeLambdaInspection extends BaseJavaBatchLocalInspection
         LOG.assertTrue(lambdaBody != null);
         lambdaBody.replace(copy);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         final JavaCodeStyleManager codeStyleManager = JavaCodeStyleManager.getInstance(project);
         final Map<PsiParameter, String> names = new HashMap<PsiParameter, String>();
         for (PsiParameter parameter : lambdaExpression.getParameterList().getParameters()) {
@@ -196,6 +239,9 @@ public class AnonymousCanBeLambdaInspection extends BaseJavaBatchLocalInspection
         for (PsiElement psiElement : replacements.keySet()) {
           psiElement.replace(replacements.get(psiElement));
         }
+=======
+        giveUniqueNames(project, lambdaContext, elementFactory, lambdaExpression, lambdaExpression.getParameterList().getParameters());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
         final PsiNewExpression newExpression = (PsiNewExpression)anonymousClass.getParent();
         lambdaExpression = (PsiLambdaExpression)newExpression.replace(lambdaExpression);
@@ -243,10 +289,61 @@ public class AnonymousCanBeLambdaInspection extends BaseJavaBatchLocalInspection
       }
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+    private static boolean isInferred(PsiLambdaExpression lambdaExpression, PsiType interfaceType) {
+      return interfaceType == null || !LambdaUtil.isLambdaFullyInferred(lambdaExpression, interfaceType) || !LambdaUtil.isFunctionalType(interfaceType);
+=======
+    private static void giveUniqueNames(Project project,
+                                        PsiElement lambdaContext,
+                                        final PsiElementFactory elementFactory,
+                                        PsiElement body,
+                                        PsiVariable[] parameters) {
+      final JavaCodeStyleManager codeStyleManager = JavaCodeStyleManager.getInstance(project);
+      final Map<PsiVariable, String> names = new HashMap<PsiVariable, String>();
+      for (PsiVariable parameter : parameters) {
+        String parameterName = parameter.getName();
+        final String uniqueVariableName = codeStyleManager.suggestUniqueVariableName(parameterName, lambdaContext, false);
+        if (!Comparing.equal(parameterName, uniqueVariableName)) {
+          names.put(parameter, uniqueVariableName);
+        }
+      }
+
+      final LinkedHashMap<PsiElement, PsiElement> replacements = new LinkedHashMap<PsiElement, PsiElement>();
+      body.accept(new JavaRecursiveElementWalkingVisitor() {
+        @Override
+        public void visitVariable(PsiVariable variable) {
+          final String newName = names.get(variable);
+          if (newName != null) {
+            replacements.put(variable.getNameIdentifier(), elementFactory.createIdentifier(newName));
+          }
+        }
+
+        @Override
+        public void visitReferenceExpression(PsiReferenceExpression expression) {
+          super.visitReferenceExpression(expression);
+          final PsiElement resolve = expression.resolve();
+          if (resolve instanceof PsiParameter) {
+            final String newName = names.get(resolve);
+            if (newName != null) {
+              replacements.put(expression, elementFactory.createExpressionFromText(newName, expression));
+            }
+          }
+        }
+      });
+
+      for (PsiElement psiElement : replacements.keySet()) {
+        psiElement.replace(replacements.get(psiElement));
+      }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+    }
+
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
     private static boolean isInferred(PsiLambdaExpression lambdaExpression, PsiType interfaceType) {
       return interfaceType == null || !LambdaUtil.isLambdaFullyInferred(lambdaExpression, interfaceType) || !LambdaUtil.isFunctionalType(interfaceType);
     }
 
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     private static String composeLambdaText(PsiMethod method, final boolean appendType) {
       final StringBuilder buf = new StringBuilder();
       final PsiParameter[] parameters = method.getParameterList().getParameters();
@@ -285,6 +382,7 @@ public class AnonymousCanBeLambdaInspection extends BaseJavaBatchLocalInspection
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static class ForbiddenRefsChecker extends JavaRecursiveElementWalkingVisitor {
     private boolean myBodyContainsForbiddenRefs;
     private final Set<PsiLocalVariable> myLocals = ContainerUtilRt.newHashSet(5);
@@ -305,6 +403,40 @@ public class AnonymousCanBeLambdaInspection extends BaseJavaBatchLocalInspection
       super.visitMethodCallExpression(methodCallExpression);
       final PsiMethod psiMethod = methodCallExpression.resolveMethod();
       if (psiMethod == myMethod ||
+=======
+  public static boolean functionalInterfaceMethodReferenced(PsiMethod psiMethod, PsiAnonymousClass anonymClass) {
+    if (psiMethod != null && !psiMethod.hasModifierProperty(PsiModifier.STATIC)) {
+      final PsiClass containingClass = psiMethod.getContainingClass();
+      if (InheritanceUtil.isInheritorOrSelf(anonymClass, containingClass, true) &&
+          !InheritanceUtil.hasEnclosingInstanceInScope(containingClass, anonymClass.getParent(), true, true)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static class ForbiddenRefsChecker extends JavaRecursiveElementWalkingVisitor {
+    private boolean myBodyContainsForbiddenRefs;
+    private final Set<PsiLocalVariable> myLocals = ContainerUtilRt.newHashSet(5);
+
+    private final PsiMethod myMethod;
+    private final PsiAnonymousClass myAnonymClass;
+
+    public ForbiddenRefsChecker(PsiMethod method,
+                                PsiAnonymousClass aClass) {
+      myMethod = method;
+      myAnonymClass = aClass;
+    }
+
+    @Override
+    public void visitMethodCallExpression(PsiMethodCallExpression methodCallExpression) {
+      if (myBodyContainsForbiddenRefs) return;
+
+      super.visitMethodCallExpression(methodCallExpression);
+      final PsiMethod psiMethod = methodCallExpression.resolveMethod();
+      if (psiMethod == myMethod ||
+          functionalInterfaceMethodReferenced(psiMethod, myAnonymClass) ||
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           psiMethod != null &&
           !methodCallExpression.getMethodExpression().isQualified() &&
           "getClass".equals(psiMethod.getName()) &&

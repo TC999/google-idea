@@ -109,9 +109,13 @@ public class FieldDescriptorImpl extends ValueDescriptorImpl implements FieldDes
               // important: use the last location to be sure the position will be within the anonymous class
               final Location lastLocation = locations.get(locations.size() - 1);
               final SourcePosition position = debugProcess.getPositionManager().getSourcePosition(lastLocation);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
               if (position != null) {
                 aClass = JVMNameUtil.getClassAt(position);
               }
+=======
+              aClass = JVMNameUtil.getClassAt(position);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             }
           }
           catch (AbsentInformationException ignored) {

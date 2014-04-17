@@ -31,6 +31,7 @@ import com.intellij.util.xmlb.Accessor;
 import com.intellij.util.xmlb.SerializationFilter;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.Property;
+import com.intellij.util.xmlb.annotations.Transient;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -111,9 +112,14 @@ public class UISettings implements PersistentStateComponent<UISettings>, Exporta
   public boolean HIDE_NAVIGATION_ON_FOCUS_LOSS = true;
   public boolean FILE_COLORS_IN_PROJECT_VIEW = false;
   public boolean DEFAULT_AUTOSCROLL_TO_SOURCE = false;
+  @Transient
   public boolean PRESENTATION_MODE = false;
   public int PRESENTATION_MODE_FONT_SIZE = 24;
   public boolean MARK_MODIFIED_TABS_WITH_ASTERISK = false;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public boolean SHOW_TABS_TOOLTIPS = true;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public boolean SHOW_DIRECTORY_FOR_NON_UNIQUE_FILENAMES = false;
 
   private final EventListenerList myListenerList;

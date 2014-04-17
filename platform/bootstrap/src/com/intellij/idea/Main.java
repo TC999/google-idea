@@ -140,11 +140,15 @@ public class Main {
     File patchCopy = new File(tempDir, patchFileName + "_copy");
     File log4jCopy = new File(tempDir, "log4j.jar." + platform + "_copy");
     if (!FileUtilRt.delete(patchCopy) || !FileUtilRt.delete(log4jCopy)) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       appendLog("Cannot delete temporary files in " + tempDir);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       throw new IOException("Cannot delete temporary files in " + tempDir);
     }
 
     File patch = new File(tempDir, patchFileName);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     appendLog("[Patch] Original patch %s: %s\n", patch.exists() ? "exists" : "does not exist",
               patch.getAbsolutePath());
     if (!patch.exists()) return;
@@ -153,6 +157,11 @@ public class Main {
       appendLog("Log4J missing: " + log4j);
       throw new IOException("Log4J missing: " + log4j);
     }
+=======
+    if (!patch.exists()) return;
+    File log4j = new File(PathManager.getLibPath(), "log4j.jar");
+    if (!log4j.exists()) throw new IOException("Log4J missing: " + log4j);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     copyFile(patch, patchCopy, true);
     copyFile(log4j, log4jCopy, false);
 
@@ -190,6 +199,20 @@ public class Main {
     }
 
     exit(status);
+  }
+
+  private static void copyFile(File original, File copy, boolean move) throws IOException {
+    if (move) {
+      if (!original.renameTo(copy) || !FileUtilRt.delete(original)) {
+        throw new IOException("Cannot create temporary file: " + copy);
+      }
+    }
+    else {
+      FileUtilRt.copy(original, copy);
+      if (!copy.exists()) {
+        throw new IOException("Cannot create temporary file: " + copy);
+      }
+    }
   }
 
   private static void copyFile(File original, File copy, boolean move) throws IOException {

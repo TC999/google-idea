@@ -110,4 +110,13 @@ public class PersistentFsTest extends PlatformLangTestCase {
       assertFalse("fs=" + fs, fs instanceof TempFileSystem);
     }
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  public void testInvalidJarRootsIgnored() throws Exception {
+    File file = IoTestUtil.createTestFile("file.txt");
+    String url = "jar://" + FileUtil.toSystemIndependentName(file.getPath()) + "!/";
+    assertNull(VirtualFileManager.getInstance().findFileByUrl(url));
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

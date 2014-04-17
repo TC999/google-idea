@@ -107,5 +107,13 @@ public class XSourcePositionImpl implements XSourcePosition {
   @NotNull
   public static OpenFileDescriptor createOpenFileDescriptor(@NotNull Project project, @NotNull XSourcePosition position) {
     return position.getOffset() != -1 ? new OpenFileDescriptor(project, position.getFile(), position.getOffset()) : new OpenFileDescriptor(project, position.getFile(), position.getLine(), 0);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  @Override
+  public String toString() {
+    return "XSourcePositionImpl[" + myFile + ":" + myLine + "(" + myOffset + ")]";
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

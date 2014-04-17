@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2000-2013 JetBrains s.r.o.
+=======
+ * Copyright 2000-2014 JetBrains s.r.o.
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +19,19 @@
  */
 package com.intellij.openapi.updateSettings.impl;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.ide.AppLifecycleListener;
+import com.intellij.openapi.application.Application;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.PluginsAdvertiser;
 import com.intellij.openapi.util.Disposer;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.util.Ref;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.Alarm;
 import com.intellij.util.text.DateFormatUtil;
@@ -44,14 +57,46 @@ public class UpdateCheckerComponent implements ApplicationComponent {
   };
   private final UpdateSettings mySettings;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public UpdateCheckerComponent(@NotNull UpdateSettings settings) {
     mySettings = settings;
+=======
+  public UpdateCheckerComponent(@NotNull Application app, @NotNull UpdateSettings settings) {
+    mySettings = settings;
+    app.getMessageBus().connect(app).subscribe(AppLifecycleListener.TOPIC, new AppLifecycleListener.Adapter() {
+      @Override
+      public void appFrameCreated(String[] commandLineArgs, @NotNull Ref<Boolean> willOpenProject) {
+        scheduleOnStartCheck();
+      }
+    });
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
   public void initComponent() {
     PluginsAdvertiser.ensureDeleted();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
+    if (!mySettings.CHECK_NEEDED) {
+      return;
+    }
+
+    String currentBuild = ApplicationInfo.getInstance().getBuild().asString();
+    long timeToNextCheck = mySettings.LAST_TIME_CHECKED + CHECK_INTERVAL - System.currentTimeMillis();
+
+    if (StringUtil.compareVersionNumbers(mySettings.LAST_BUILD_CHECKED, currentBuild) < 0 || timeToNextCheck <= 0) {
+      myCheckRunnable.run();
+    }
+    else {
+      queueNextCheck(timeToNextCheck);
+    }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+  }
+
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  private void scheduleOnStartCheck() {
     if (!mySettings.CHECK_NEEDED) {
       return;
     }
@@ -67,6 +112,7 @@ public class UpdateCheckerComponent implements ApplicationComponent {
     }
   }
 
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private void queueNextCheck(long interval) {
     myCheckForUpdatesAlarm.addRequest(myCheckRunnable, interval);
   }

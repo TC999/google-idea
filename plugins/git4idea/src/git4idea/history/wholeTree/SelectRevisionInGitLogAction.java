@@ -16,7 +16,11 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.vcs.log.impl.VcsLogContentProvider;
 import com.intellij.vcs.log.impl.VcsLogManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.vcs.log.ui.VcsLogUI;
+=======
+import com.intellij.vcs.log.ui.VcsLogUiImpl;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import git4idea.i18n.GitBundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,7 +60,11 @@ public class SelectRevisionInGitLogAction extends DumbAwareAction {
     Runnable selectCommit = new Runnable() {
       @Override
       public void run() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         VcsLogUI logUi = log.getLogUi();
+=======
+        VcsLogUiImpl logUi = log.getLogUi();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         if (logUi == null) {
           return;
         }

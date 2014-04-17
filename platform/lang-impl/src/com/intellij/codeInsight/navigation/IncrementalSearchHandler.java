@@ -388,10 +388,18 @@ public class IncrementalSearchHandler {
     }
 
     @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     public void execute(Editor editor, Caret caret, DataContext dataContext) {
+=======
+    public void doExecute(Editor editor, Caret caret, DataContext dataContext) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       PerEditorSearchData data = editor.getUserData(SEARCH_DATA_IN_EDITOR_VIEW_KEY);
       if (data == null || data.hint == null){
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         myOriginalHandler.executeInCaretContext(editor, caret, dataContext);
+=======
+        myOriginalHandler.execute(editor, caret, dataContext);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       else{
         LightweightHint hint = data.hint;
@@ -414,10 +422,18 @@ public class IncrementalSearchHandler {
     }
 
     @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     public void execute(Editor editor, Caret caret, DataContext dataContext) {
+=======
+    public void doExecute(Editor editor, Caret caret, DataContext dataContext) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       PerEditorSearchData data = editor.getUserData(SEARCH_DATA_IN_EDITOR_VIEW_KEY);
       if (data == null || data.hint == null){
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         myOriginalHandler.executeInCaretContext(editor, caret, dataContext);
+=======
+        myOriginalHandler.execute(editor, caret, dataContext);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       else{
         LightweightHint hint = data.hint;
@@ -447,10 +463,18 @@ public class IncrementalSearchHandler {
     }
 
     @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     public void execute(Editor editor, Caret caret, DataContext dataContext) {
+=======
+    public void doExecute(Editor editor, Caret caret, DataContext dataContext) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       PerEditorSearchData data = editor.getUserData(SEARCH_DATA_IN_EDITOR_VIEW_KEY);
       if (data == null || data.hint == null){
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         myOriginalHandler.executeInCaretContext(editor, caret, dataContext);
+=======
+        myOriginalHandler.execute(editor, caret, dataContext);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       else{
         LightweightHint hint = data.hint;

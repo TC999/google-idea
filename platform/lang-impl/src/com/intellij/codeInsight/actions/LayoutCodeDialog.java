@@ -36,8 +36,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions {
   @NotNull  private final Project myProject;
@@ -57,6 +55,18 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
   private final String myHelpId;
   @Nullable private CommonCodeStyleSettings myCommonSettings;
   private boolean myRearrangeAlwaysEnabled;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  private final boolean myOptimizeImportProcessorsForFileLanguageExists;
+  private final boolean myRearrangerProcessorsForFileLanguageExists;
+  private final boolean myFileHasChanges;
+
+  private boolean myOptimizeImportsSelected;
+  private boolean myFormatOnlyVCSChangedRegionsSelected;
+  private boolean myDoNotShowDialogSelected;
+  private boolean myRearrangeEntriesSelected;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 
   public  LayoutCodeDialog(@NotNull Project project,
@@ -71,11 +81,25 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
     myDirectory = directory;
     myTextSelected = isTextSelected;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+    if (myFile != null) myCommonSettings = CodeStyleSettingsManager.getSettings(myProject).getCommonSettings(myFile.getLanguage());
+    myRearrangeAlwaysEnabled = myCommonSettings != null
+                               && myCommonSettings.isForceArrangeMenuAvailable()
+                               && myCommonSettings.FORCE_REARRANGE_MODE == CommonCodeStyleSettings.REARRANGE_ALWAYS;
+=======
+    myOptimizeImportProcessorsForFileLanguageExists = myFile != null && !LanguageImportStatements.INSTANCE.forFile(myFile).isEmpty();
+    myRearrangerProcessorsForFileLanguageExists = myFile != null && Rearranger.EXTENSION.forLanguage(myFile.getLanguage()) != null;
+    myFileHasChanges = myFile != null && FormatChangedTextUtil.hasChanges(myFile);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
     if (myFile != null) myCommonSettings = CodeStyleSettingsManager.getSettings(myProject).getCommonSettings(myFile.getLanguage());
     myRearrangeAlwaysEnabled = myCommonSettings != null
                                && myCommonSettings.isForceArrangeMenuAvailable()
                                && myCommonSettings.FORCE_REARRANGE_MODE == CommonCodeStyleSettings.REARRANGE_ALWAYS;
 
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     setOKButtonText(CodeInsightBundle.message("reformat.code.accept.button.text"));
     setTitle(title);
     init();
@@ -86,19 +110,51 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
   protected void init() {
     super.init();
 
+    loadCbsStates();
+    setUpInitialSelection();
+
+    myRbFile.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        saveEnabledCbsSelectedState();
+        setUpCbsStateForFileFormatting();
+      }
+    });
+
+    myRbDirectory.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        saveEnabledCbsSelectedState();
+        setUpCbsStatesForDirectoryFormatting();
+      }
+    });
+
+    myRbSelectedText.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        saveEnabledCbsSelectedState();
+        setUpCbsStatesForSelectedTextFormatting();
+      }
+    });
+  }
+
+  private void setUpInitialSelection() {
     if (myTextSelected == Boolean.TRUE) {
       myRbSelectedText.setSelected(true);
+      setUpCbsStatesForSelectedTextFormatting();
     }
     else {
       if (myFile != null) {
         myRbFile.setSelected(true);
+        setUpCbsStateForFileFormatting();
       }
       else {
         myRbDirectory.setSelected(true);
+        setUpCbsStatesForDirectoryFormatting();
       }
     }
-
     myCbIncludeSubdirs.setSelected(true);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     //Loading previous state
     myCbOptimizeImports.setSelected(PropertiesComponent.getInstance().getBoolean(LayoutCodeConstants.OPTIMIZE_IMPORTS_KEY, false));
     myCbArrangeEntries.setSelected(myRearrangeAlwaysEnabled || ReformatCodeAction.getLastSavedRearrangeCbState(myProject, myFile));
@@ -116,8 +172,11 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
     myCbIncludeSubdirs.addItemListener(listener);
 
     updateState();
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private void updateState() {
     myCbIncludeSubdirs.setEnabled(myRbDirectory.isSelected());
     myCbOptimizeImports.setEnabled(
@@ -135,6 +194,76 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
     myCbOnlyVcsChangedRegions.setEnabled(canTargetVcsRegions());
     myDoNotAskMeCheckBox.setEnabled(!myRbDirectory.isSelected());
     myRbDirectory.setEnabled(!myDoNotAskMeCheckBox.isSelected());
+=======
+  private void loadCbsStates() {
+    myOptimizeImportsSelected = PropertiesComponent.getInstance().getBoolean(LayoutCodeConstants.OPTIMIZE_IMPORTS_KEY, false);
+    myRearrangeEntriesSelected = myRearrangeAlwaysEnabled || ReformatCodeAction.getLastSavedRearrangeCbState(myProject, myFile);
+    myFormatOnlyVCSChangedRegionsSelected = PropertiesComponent.getInstance().getBoolean(LayoutCodeConstants.PROCESS_CHANGED_TEXT_KEY, false);
+  }
+
+  private void saveEnabledCbsSelectedState() {
+    if (myCbArrangeEntries.isEnabled()) {
+      myRearrangeEntriesSelected = myCbArrangeEntries.isSelected();
+    }
+    if (myCbOptimizeImports.isEnabled()) {
+      myOptimizeImportsSelected = myCbOptimizeImports.isSelected();
+    }
+    if (myCbOnlyVcsChangedRegions.isEnabled()) {
+      myFormatOnlyVCSChangedRegionsSelected = myCbOnlyVcsChangedRegions.isSelected();
+    }
+    if (myDoNotAskMeCheckBox.isEnabled()) {
+      myDoNotShowDialogSelected = myDoNotAskMeCheckBox.isSelected();
+    }
+  }
+
+  private void setUpCbsStateForFileFormatting() {
+    myCbOptimizeImports.setEnabled(myOptimizeImportProcessorsForFileLanguageExists);
+    myCbOptimizeImports.setSelected(myOptimizeImportProcessorsForFileLanguageExists && myOptimizeImportsSelected);
+
+    myCbArrangeEntries.setEnabled(myRearrangerProcessorsForFileLanguageExists);
+    myCbArrangeEntries.setSelected(myRearrangerProcessorsForFileLanguageExists && myRearrangeEntriesSelected);
+
+    myCbOnlyVcsChangedRegions.setEnabled(myFileHasChanges);
+    myCbOnlyVcsChangedRegions.setSelected(myFileHasChanges && myFormatOnlyVCSChangedRegionsSelected);
+
+    myDoNotAskMeCheckBox.setEnabled(true);
+    myDoNotAskMeCheckBox.setSelected(myDoNotShowDialogSelected);
+
+    myCbIncludeSubdirs.setEnabled(false);
+  }
+
+  private void setUpCbsStatesForDirectoryFormatting() {
+    myCbOptimizeImports.setEnabled(true);
+    myCbOptimizeImports.setSelected(myOptimizeImportsSelected);
+
+    myCbArrangeEntries.setEnabled(true);
+    myCbArrangeEntries.setSelected(myRearrangeEntriesSelected);
+
+    //TODO enable it when getting changed ranges will be fixed
+    myCbOnlyVcsChangedRegions.setEnabled(false);
+    myCbOnlyVcsChangedRegions.setSelected(false);
+
+    myDoNotAskMeCheckBox.setEnabled(false);
+    myDoNotAskMeCheckBox.setSelected(false);
+
+    myCbIncludeSubdirs.setEnabled(true);
+  }
+
+  private void setUpCbsStatesForSelectedTextFormatting() {
+    myCbOptimizeImports.setEnabled(false);
+    myCbOptimizeImports.setSelected(false);
+
+    myCbArrangeEntries.setEnabled(true);
+    myCbArrangeEntries.setSelected(myRearrangeEntriesSelected);
+
+    myCbOnlyVcsChangedRegions.setEnabled(false);
+    myCbOnlyVcsChangedRegions.setSelected(false);
+
+    myDoNotAskMeCheckBox.setEnabled(true);
+    myDoNotAskMeCheckBox.setSelected(myDoNotShowDialogSelected);
+
+    myCbIncludeSubdirs.setEnabled(false);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
@@ -212,12 +341,6 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
   protected JComponent createSouthPanel() {
     JComponent southPanel = super.createSouthPanel();
     myDoNotAskMeCheckBox = new JCheckBox(CommonBundle.message("dialog.options.do.not.show"));
-    myDoNotAskMeCheckBox.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        updateState();
-      }
-    });
     return DialogWrapper.addDoNotShowCheckBox(southPanel, myDoNotAskMeCheckBox);
   }
 
@@ -232,11 +355,14 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
     HelpManager.getInstance().invokeHelp(myHelpId);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
   public boolean isProcessSelectedText() {
     return myRbSelectedText.isSelected();
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Override
   public boolean isProcessWholeFile() {
     return myRbFile.isSelected();
@@ -279,6 +405,7 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
   @Override
   protected void doOKAction() {
     super.doOKAction();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     PropertiesComponent.getInstance().setValue(LayoutCodeConstants.OPTIMIZE_IMPORTS_KEY, Boolean.toString(myCbOptimizeImports.isSelected()));
     PropertiesComponent.getInstance().setValue(LayoutCodeConstants.PROCESS_CHANGED_TEXT_KEY, Boolean.toString(myCbOnlyVcsChangedRegions.isSelected()));
     saveRearrangeCbState(myCbArrangeEntries.isSelected());
@@ -289,13 +416,26 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
       LayoutCodeSettingsStorage.saveRearrangeEntriesOptionFor(myProject, myFile.getLanguage(), isSelected);
     else
       LayoutCodeSettingsStorage.saveRearrangeEntriesOptionFor(myProject, isSelected);
+=======
+    persistEnabledCbsStates();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
-  private boolean canTargetVcsRegions() {
-    if (isProcessSelectedText()) {
-      return false;
+  private void persistEnabledCbsStates() {
+    if (myCbOptimizeImports.isEnabled()) {
+      String optimizeImports = Boolean.toString(myCbOptimizeImports.isSelected());
+      PropertiesComponent.getInstance().setValue(LayoutCodeConstants.OPTIMIZE_IMPORTS_KEY, optimizeImports);
     }
+    if (myCbOnlyVcsChangedRegions.isEnabled()) {
+      String formatVcsChangedRegions = Boolean.toString(myCbOnlyVcsChangedRegions.isSelected());
+      PropertiesComponent.getInstance().setValue(LayoutCodeConstants.PROCESS_CHANGED_TEXT_KEY, formatVcsChangedRegions);
+    }
+    if (myCbArrangeEntries.isEnabled()) {
+      saveRearrangeCbState(myCbArrangeEntries.isSelected());
+    }
+  }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (isProcessWholeFile()) {
       return myFile != null && FormatChangedTextUtil.hasChanges(myFile);
     }
@@ -307,5 +447,12 @@ public class LayoutCodeDialog extends DialogWrapper implements LayoutCodeOptions
       return FormatChangedTextUtil.hasChanges(myDirectory);
     }
     return false;
+=======
+  private void saveRearrangeCbState(boolean isSelected) {
+    if (myFile != null)
+      LayoutCodeSettingsStorage.saveRearrangeEntriesOptionFor(myProject, myFile.getLanguage(), isSelected);
+    else
+      LayoutCodeSettingsStorage.saveRearrangeEntriesOptionFor(myProject, isSelected);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

@@ -41,7 +41,13 @@ public class VcsLogUiProperties implements PersistentStateComponent<VcsLogUiProp
 
   public static class State {
     public boolean SHOW_DETAILS = true;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     public Deque<UserGroup> RECENTLY_FILTERED_USER_GROUPS = new ArrayDeque<UserGroup>();
+=======
+    public boolean LONG_EDGES_VISIBLE = false;
+    public Deque<UserGroup> RECENTLY_FILTERED_USER_GROUPS = new ArrayDeque<UserGroup>();
+    public Deque<UserGroup> RECENTLY_FILTERED_BRANCH_GROUPS = new ArrayDeque<UserGroup>();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable
@@ -68,25 +74,72 @@ public class VcsLogUiProperties implements PersistentStateComponent<VcsLogUiProp
   }
 
   public void addRecentlyFilteredUserGroup(@NotNull List<String> usersInGroup) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     UserGroup group = new UserGroup();
     group.users = usersInGroup;
     if (myState.RECENTLY_FILTERED_USER_GROUPS.contains(group)) {
+=======
+    addRecentGroup(usersInGroup, myState.RECENTLY_FILTERED_USER_GROUPS);
+  }
+
+  public void addRecentlyFilteredBranchGroup(@NotNull List<String> usersInGroup) {
+    addRecentGroup(usersInGroup, myState.RECENTLY_FILTERED_BRANCH_GROUPS);
+  }
+
+  private static void addRecentGroup(@NotNull List<String> usersInGroup, @NotNull Deque<UserGroup> stateField) {
+    UserGroup group = new UserGroup();
+    group.users = usersInGroup;
+    if (stateField.contains(group)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return;
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myState.RECENTLY_FILTERED_USER_GROUPS.addFirst(group);
     if (myState.RECENTLY_FILTERED_USER_GROUPS.size() > RECENTLY_FILTERED_USERS_AMOUNT) {
       myState.RECENTLY_FILTERED_USER_GROUPS.removeLast();
+=======
+    stateField.addFirst(group);
+    if (stateField.size() > RECENTLY_FILTERED_USERS_AMOUNT) {
+      stateField.removeLast();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 
   @NotNull
   public List<List<String>> getRecentlyFilteredUserGroups() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return ContainerUtil.map2List(myState.RECENTLY_FILTERED_USER_GROUPS, new Function<UserGroup, List<String>>() {
       @Override
       public List<String> fun(UserGroup group) {
         return group.users;
       }
     });
+=======
+    return getRecentGroup(myState.RECENTLY_FILTERED_USER_GROUPS);
+  }
+
+  @NotNull
+  public List<List<String>> getRecentlyFilteredBranchGroups() {
+    return getRecentGroup(myState.RECENTLY_FILTERED_BRANCH_GROUPS);
+  }
+
+  @NotNull
+  private static List<List<String>> getRecentGroup(Deque<UserGroup> stateField) {
+    return ContainerUtil.map2List(stateField, new Function<UserGroup, List<String>>() {
+      @Override
+      public List<String> fun(UserGroup group) {
+        return group.users;
+      }
+    });
+  }
+
+  public boolean areLongEdgesVisible() {
+    return myState.LONG_EDGES_VISIBLE;
+  }
+
+  public void setLongEdgesVisibility(boolean visible) {
+    myState.LONG_EDGES_VISIBLE = visible;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public static class UserGroup {

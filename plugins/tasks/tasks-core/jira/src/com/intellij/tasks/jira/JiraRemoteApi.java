@@ -24,6 +24,7 @@ public abstract class JiraRemoteApi {
   }
 
   @NotNull
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public abstract List<Task> findTasks(String jql, int max) throws Exception;
 
   @Nullable
@@ -32,6 +33,16 @@ public abstract class JiraRemoteApi {
   public abstract void setTaskState(Task task, TaskState state) throws Exception;
 
   public abstract void updateTimeSpend(LocalTask task, String timeSpent, String comment) throws Exception;
+=======
+  public abstract List<Task> findTasks(@NotNull String jql, int max) throws Exception;
+
+  @Nullable
+  public abstract Task findTask(@NotNull String key) throws Exception;
+
+  public abstract void setTaskState(@NotNull Task task, @NotNull TaskState state) throws Exception;
+
+  public abstract void updateTimeSpend(@NotNull LocalTask task, @NotNull String timeSpent, String comment) throws Exception;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @NotNull
   public final String getVersionName() {

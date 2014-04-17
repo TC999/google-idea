@@ -49,6 +49,7 @@ public enum GradleDependencyScope {
   /**
    * the same scope as the runtime scope dependencies, except that they are not added to the WAR archive.
    */
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   PROVIDED_RUNTIME("providedRuntime", "provided", false, true, false, true),
 
   // Groovy Plugin Scopes
@@ -74,6 +75,9 @@ public enum GradleDependencyScope {
   // Implicit scopes
   PROVIDED("provided", "provided", true, true, true, true),
   OPTIONAL("optional", "compile", true, true, true, true),;
+=======
+  PROVIDED_RUNTIME("providedRuntime", "provided", false, true, false, true);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private final String myGradleName;
   private final String myIdeaMappingName;

@@ -22,12 +22,14 @@ import com.intellij.psi.util.InheritanceUtil;
 import com.siyeh.InspectionGadgetsBundle;
 import com.siyeh.ig.BaseInspection;
 import com.siyeh.ig.BaseInspectionVisitor;
-import com.siyeh.ig.psiutils.ExceptionUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.Set;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 public class ExpectedExceptionNeverThrownInspection extends BaseInspection {
   @Nls
@@ -86,9 +88,18 @@ public class ExpectedExceptionNeverThrownInspection extends BaseInspection {
         InheritanceUtil.isInheritor(aClass, CommonClassNames.JAVA_LANG_ERROR)) {
         return;
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       final List<PsiClassType> exceptionsThrown = ExceptionUtil.getThrownExceptions(body);
       if (exceptionsThrown.contains(classType)) {
         return;
+=======
+
+      final List<PsiClassType> exceptionsThrown = ExceptionUtil.getThrownExceptions(body);
+      for (PsiClassType psiClassType : exceptionsThrown) {
+        if (psiClassType.isAssignableFrom(classType)) {
+          return;
+        }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       registerError(operand, method);
     }

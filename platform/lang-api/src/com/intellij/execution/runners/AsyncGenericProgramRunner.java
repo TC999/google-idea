@@ -25,6 +25,7 @@ import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.AsyncResult;
 import com.intellij.util.Consumer;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,6 +50,44 @@ public abstract class AsyncGenericProgramRunner<Settings extends RunnerSettings>
             }
           }
         });
+=======
+import com.intellij.util.NullableConsumer;
+import com.intellij.util.ObjectUtils;
+import com.intellij.util.ui.UIUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Allows to postpone actual {@link RunProfileState} execution until all the needed preparations are done.
+ */
+public abstract class AsyncGenericProgramRunner<Settings extends RunnerSettings> extends BaseProgramRunner<Settings> {
+  @Override
+  protected final void execute(@NotNull final ExecutionEnvironment environment,
+                               @Nullable final Callback callback,
+                               @NotNull final Project project,
+                               @NotNull final RunProfileState state) throws ExecutionException {
+    prepare(project, environment, state).doWhenDone(new Consumer<RunProfileStarter>() {
+      @Override
+      public void consume(@Nullable final RunProfileStarter result) {
+        UIUtil.invokeLaterIfNeeded(new Runnable() {
+          @Override
+          public void run() {
+            if (!project.isDisposed()) {
+              startRunProfile(project, environment, state, callback, result);
+            }
+          }
+        });
+      }
+    }).doWhenRejected(new NullableConsumer<String>() {
+      @Override
+      public void consume(@Nullable String errorMessage) {
+        if (project.isDisposed()) {
+          return;
+        }
+
+        ExecutionUtil.handleExecutionError(project, environment.getExecutor().getToolWindowId(), environment.getRunProfile(),
+                                           new ExecutionException(ObjectUtils.chooseNotNull(errorMessage, "Internal error")));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     });
   }

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.intellij.tasks.Task;
+import com.intellij.tasks.TaskBundle;
 import com.intellij.tasks.TaskManagerTestCase;
 import com.intellij.tasks.TaskState;
 import com.intellij.tasks.config.TaskSettings;
@@ -27,6 +28,11 @@ import com.intellij.tasks.impl.TaskUtil;
 import com.intellij.tasks.jira.JiraRepository;
 import com.intellij.tasks.jira.JiraRepositoryType;
 import com.intellij.tasks.jira.JiraVersion;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.auth.AuthScope;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.jetbrains.annotations.NonNls;
 
@@ -67,7 +73,7 @@ public class JiraIntegrationTest extends TaskManagerTestCase {
     //noinspection ConstantConditions
     Exception exception = myRepository.createCancellableConnection().call();
     assertNotNull(exception);
-    assertEquals(JiraRepository.LOGIN_FAILED_CHECK_YOUR_PERMISSIONS, exception.getMessage());
+    assertEquals(TaskBundle.message("failure.login"), exception.getMessage());
   }
 
   public void testVersionDiscovery() throws Exception {
@@ -84,6 +90,25 @@ public class JiraIntegrationTest extends TaskManagerTestCase {
     // test that user part of query is prepended to existing one
     myRepository.setSearchQuery("assignee = currentUser() order by updated");
     assertEquals(1, myRepository.getIssues("foo", 50, 0).length);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  /**
+   * Should return null, not throw exceptions by contact.
+   */
+  public void testIssueNotExists() throws Exception {
+    assertNull(myRepository.findTask("FOO-42"));
+  }
+
+  /**
+   * If query string looks like task ID, separate request will be made to download issue.
+   */
+  public void testFindSingleIssue() throws Exception {
+    Task[] found = myRepository.getIssues("UT-6", 0, 1, true);
+    assertEquals(1, found.length);
+    assertEquals("Summary contains 'bar'", found[0].getSummary());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   /**
@@ -98,6 +123,15 @@ public class JiraIntegrationTest extends TaskManagerTestCase {
     catch (Exception e) {
       assertEquals("Request failed. Reason: \"Field 'foo' does not exist or you do not have permission to view it.\"", e.getMessage());
     }
+  }
+
+  public void testBasicAuthenticationDisabling() throws Exception {
+    assertTrue("Basic authentication should be enabled at first", myRepository.isUseHttpAuthentication());
+    myRepository.findTask("PRJONE-1");
+    assertFalse("Basic authentication should be disabled once JSESSIONID cookie was received", myRepository.isUseHttpAuthentication());
+    HttpClient client = myRepository.getHttpClient();
+    assertFalse(client.getParams().isAuthenticationPreemptive());
+    assertNull(client.getState().getCredentials(AuthScope.ANY));
   }
 
   public void testSetTaskState() throws Exception {

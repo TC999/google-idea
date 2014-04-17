@@ -8,19 +8,33 @@ import com.intellij.util.text.DateFormatUtil;
 import com.intellij.vcs.log.Hash;
 import com.intellij.vcs.log.VcsFullCommitDetails;
 import com.intellij.vcs.log.VcsShortCommitDetails;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.vcs.log.graph.elements.Node;
+=======
+import com.intellij.vcs.log.data.DataPack;
+import com.intellij.vcs.log.data.LoadMoreStage;
+import com.intellij.vcs.log.data.LoadingDetails;
+import com.intellij.vcs.log.data.VcsLogDataHolder;
+import com.intellij.vcs.log.ui.VcsLogUiImpl;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 /**
  * @param <CommitColumnClass> commit column class
  * @param <CommitId>          Commit identifier, which can be different depending on the model nature,
  *                            for example, a {@link Hash} or an {@link Integer} or a {@link Node}.
  */
 public abstract class AbstractVcsLogTableModel<CommitColumnClass, CommitId> extends AbstractTableModel {
+=======
+public abstract class AbstractVcsLogTableModel<CommitColumnClass> extends AbstractTableModel {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public static final VirtualFile FAKE_ROOT = NullVirtualFile.INSTANCE;
 
@@ -31,6 +45,25 @@ public abstract class AbstractVcsLogTableModel<CommitColumnClass, CommitId> exte
   private static final int COLUMN_COUNT = DATE_COLUMN + 1;
 
   private static final String[] COLUMN_NAMES = {"", "Subject", "Author", "Date"};
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  @NotNull private final VcsLogDataHolder myLogDataHolder;
+  @NotNull protected final VcsLogUiImpl myUi;
+  @NotNull protected final DataPack myDataPack;
+  @NotNull private final LoadMoreStage myLoadMoreStage;
+
+  @NotNull private final AtomicBoolean myLoadMoreWasRequested = new AtomicBoolean();
+
+
+  protected AbstractVcsLogTableModel(@NotNull VcsLogDataHolder logDataHolder, @NotNull VcsLogUiImpl ui, @NotNull DataPack dataPack,
+                                     @NotNull LoadMoreStage loadMoreStage) {
+    myLogDataHolder = logDataHolder;
+    myUi = ui;
+    myDataPack = dataPack;
+    myLoadMoreStage = loadMoreStage;
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @Override
   public final int getColumnCount() {
@@ -38,10 +71,26 @@ public abstract class AbstractVcsLogTableModel<CommitColumnClass, CommitId> exte
   }
 
   @Nullable
-  protected abstract VcsShortCommitDetails getShortDetails(int rowIndex);
+  protected VcsShortCommitDetails getShortDetails(int rowIndex) {
+    return myLogDataHolder.getMiniDetailsGetter().getCommitData(rowIndex, this);
+  }
 
   @Nullable
-  public abstract VcsFullCommitDetails getFullCommitDetails(int row);
+  public VcsFullCommitDetails getFullCommitDetails(int rowIndex) {
+    return myLogDataHolder.getCommitDetailsGetter().getCommitData(rowIndex, this);
+  }
+
+  /**
+   * Requests the proper data provider to load more data from the log & recreate the model.
+   * @param onLoaded will be called upon task completion on the EDT.
+   */
+  public void requestToLoadMore(@NotNull Runnable onLoaded) {
+    if (myLoadMoreWasRequested.compareAndSet(false, true)     // Don't send the request to VCS twice
+        && myLoadMoreStage != LoadMoreStage.ALL_REQUESTED) {  // or when everything possible is loaded
+      myUi.getTable().setPaintBusy(true);
+      myUi.getFilterer().requestVcs(myDataPack, myUi.getFilters(), myLoadMoreStage, onLoaded);
+    }
+  }
 
   @NotNull
   @Override
@@ -76,24 +125,49 @@ public abstract class AbstractVcsLogTableModel<CommitColumnClass, CommitId> exte
   }
 
   /**
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    * Requests the proper data provider to load more data from the log & recreate the model.
    * @param onLoaded will be called upon task completion on the EDT.
    */
   public abstract void requestToLoadMore(@NotNull Runnable onLoaded);
+=======
+   * Returns true if not all data has been loaded, i.e. there is sense to {@link #requestToLoadMore(Runnable) request more data}.
+   */
+  public boolean canRequestMore() {
+    return !myUi.getFilters().isEmpty() && myLoadMoreStage != LoadMoreStage.ALL_REQUESTED;
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   /**
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    * Returns true if not all data has been loaded, i.e. there is sense to {@link #requestToLoadMore(Runnable) request more data}.
    */
   public abstract boolean canRequestMore();
 
   /**
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
    * Returns Changes for commits at selected rows.<br/>
    * Rows are given in the order as they appear in the table, i. e. in reverse chronological order. <br/>
    * Changes can be returned as-is, i.e. with duplicate changes for a single file.
    * @return Changes selected in all rows, or null if this data is not ready yet.
    */
   @Nullable
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public abstract List<Change> getSelectedChanges(@NotNull List<Integer> selectedRows);
+=======
+  public List<Change> getSelectedChanges(@NotNull List<Integer> selectedRows) {
+    List<Change> changes = new ArrayList<Change>();
+    for (int row : selectedRows) {
+      VcsFullCommitDetails commitData = getFullCommitDetails(row);
+      if (commitData == null || commitData instanceof LoadingDetails) {
+        return null;
+      }
+      changes.addAll(commitData.getChanges());
+    }
+    return changes;
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @NotNull
   public abstract VirtualFile getRoot(int rowIndex);

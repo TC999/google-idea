@@ -144,6 +144,7 @@ public class RemoteConnectionCredentialsWrapper {
 
 
   public static String constructSshCredentialsFullPath(RemoteCredentials cred) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return RemoteSdkCredentialsHolder.SSH_PREFIX + cred.getUserName() + "@" + cred.getHost() + ":" + cred.getPort();
   }
 
@@ -166,5 +167,31 @@ public class RemoteConnectionCredentialsWrapper {
     void ssh(RemoteCredentialsHolder cred);
     void vagrant(VagrantBasedCredentialsHolder cred);
     void deployment(WebDeploymentCredentialsHolder cred);
+=======
+    return RemoteCredentialsHolder.SSH_PREFIX + cred.getUserName() + "@" + cred.getHost() + ":" + cred.getPort();
+  }
+
+  public void switchType(RemoteSdkConnectionAcceptor acceptor) {
+    if (isVagrantConnection()) {
+      acceptor.vagrant(getVagrantCredentials());
+    }
+    else if (isPlainSshConnection()) {
+      acceptor.ssh(getPlainSshCredentials());
+    }
+    else if (isWebDeploymentConnection()) {
+      acceptor.deployment(getWebDeploymentCredentials());
+    }
+    else {
+      throw unknownConnectionType();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof RemoteConnectionCredentialsWrapper) {
+      return getId().equals(((RemoteConnectionCredentialsWrapper)obj).getId());
+    }
+    return false;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

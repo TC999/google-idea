@@ -91,9 +91,34 @@ public abstract class ProjectWizardTestCase<T extends AbstractProjectWizard> ext
       throw new IllegalArgumentException(group + "/" + name + " template not found");
     }
 
-    if (adjuster != null) {
-      adjuster.consume(step);
+    runWizard(new Consumer<Step>() {
+      @Override
+      public void consume(Step step) {
+        if (name != null && step instanceof ChooseTemplateStep) {
+          ((ChooseTemplateStep)step).setSelectedTemplate(name);
+        }
+        if (adjuster != null) {
+          adjuster.consume(step);
+        }
+      }
+    });
+  }
+
+  protected void runWizard(Consumer<Step> adjuster) {
+    while(true) {
+      ModuleWizardStep currentStep = myWizard.getCurrentStepObject();
+      if (adjuster != null) {
+        adjuster.consume(currentStep);
+      }
+      if (myWizard.isLast()) {
+        break;
+      }
+      myWizard.doNextAction();
+      if (currentStep == myWizard.getCurrentStepObject()) {
+        throw new RuntimeException(currentStep + " is not validated");
+      }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
     runWizard(new Consumer<Step>() {
       @Override
@@ -106,6 +131,9 @@ public abstract class ProjectWizardTestCase<T extends AbstractProjectWizard> ext
         }
       }
     });
+=======
+    myWizard.doOk();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   protected void createWizard(Project project) throws IOException {
@@ -124,6 +152,7 @@ public abstract class ProjectWizardTestCase<T extends AbstractProjectWizard> ext
 
   protected T createWizard(Project project, File directory) {
     return (T)new AddModuleWizard(project, DefaultModulesProvider.createForProject(project), directory.getPath());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   protected void runWizard(Consumer<Step> adjuster) {
@@ -141,6 +170,8 @@ public abstract class ProjectWizardTestCase<T extends AbstractProjectWizard> ext
       }
     }
     myWizard.doOk();
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

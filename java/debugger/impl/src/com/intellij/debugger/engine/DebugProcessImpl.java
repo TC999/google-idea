@@ -72,6 +72,7 @@ import com.intellij.util.EventDispatcher;
 import com.intellij.util.StringBuilderSpinAllocator;
 import com.intellij.util.concurrency.Semaphore;
 import com.intellij.util.containers.ContainerUtil;
+import com.intellij.util.containers.HashMap;
 import com.sun.jdi.*;
 import com.sun.jdi.connect.*;
 import com.sun.jdi.request.EventRequest;
@@ -119,7 +120,14 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
   private Map<String, Connector.Argument> myArguments;
 
   private final List<NodeRenderer> myRenderers = new ArrayList<NodeRenderer>();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private final Map<Type, NodeRenderer> myNodeRenderersMap = new THashMap<Type, NodeRenderer>();
+=======
+
+  // we use null key here
+  private final Map<Type, NodeRenderer> myNodeRenderersMap = new HashMap<Type, NodeRenderer>();
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private final NodeRendererSettingsListener mySettingsListener = new NodeRendererSettingsListener() {
     @Override
     public void renderersChanged() {
@@ -768,7 +776,9 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
           myDebugProcessDispatcher.getMulticaster().processDetached(this, closedByUser);
         }
         finally {
-          setBreakpointsMuted(false);
+          if (DebuggerSettings.getInstance().UNMUTE_ON_STOP) {
+            setBreakpointsMuted(false);
+          }
           if (vm != null) {
             try {
               vm.dispose(); // to be on the safe side ensure that VM mirror, if present, is disposed and invalidated
@@ -905,8 +915,11 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
                                                                                 ClassNotLoadedException,
                                                                                 IncompatibleThreadStateException,
                                                                                 InvalidTypeException;
-
     public E start(EvaluationContextImpl evaluationContext, Method method) throws EvaluateException {
+      return start(evaluationContext, method, false);
+    }
+
+    public E start(EvaluationContextImpl evaluationContext, Method method, boolean internalEvaluate) throws EvaluateException {
       DebuggerManagerThreadImpl.assertIsManagerThread();
       SuspendContextImpl suspendContext = evaluationContext.getSuspendContext();
       SuspendManagerUtil.assertSuspendContext(suspendContext);
@@ -921,11 +934,11 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
       final ThreadReference invokeThreadRef = invokeThread.getThreadReference();
 
       myEvaluationDispatcher.getMulticaster().evaluationStarted(suspendContext);
-      beforeMethodInvocation(suspendContext, method);
+      beforeMethodInvocation(suspendContext, method, internalEvaluate);
 
       Object resumeData = null;
       try {
-        for (final SuspendContextImpl suspendingContext : suspendingContexts) {
+        for (SuspendContextImpl suspendingContext : suspendingContexts) {
           final ThreadReferenceProxyImpl suspendContextThread = suspendingContext.getThread();
           if (suspendContextThread != invokeThread) {
             if (LOG.isDebugEnabled()) {
@@ -944,11 +957,11 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
         while (true) {
           try {
             return invokeMethodAndFork(suspendContext);
-            }
+          }
           catch (ClassNotLoadedException e) {
             ReferenceType loadedClass;
             try {
-              loadedClass = evaluationContext.isAutoLoadClasses()? loadClass(evaluationContext, e.className(), evaluationContext.getClassLoader()) : null;
+              loadedClass = evaluationContext.isAutoLoadClasses() ? loadClass(evaluationContext, e.className(), evaluationContext.getClassLoader()) : null;
             }
             catch (EvaluateException ignored) {
               loadedClass = null;
@@ -995,7 +1008,7 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
           LOG.debug("getVirtualMachine().clearCaches()");
         }
         getVirtualMachineProxy().clearCaches();
-        afterMethodInvocation(suspendContext);
+        afterMethodInvocation(suspendContext, internalEvaluate);
 
         myEvaluationDispatcher.getMulticaster().evaluationFinished(suspendContext);
       }
@@ -1084,13 +1097,22 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public Value invokeMethod(final EvaluationContext evaluationContext, final ObjectReference objRef, final Method method, final List args) throws EvaluateException {
+=======
+  public Value invokeMethod(@NotNull EvaluationContext evaluationContext, @NotNull ObjectReference objRef, @NotNull Method method, final List args) throws EvaluateException {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return invokeInstanceMethod(evaluationContext, objRef, method, args, 0);
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public Value invokeInstanceMethod(final EvaluationContext evaluationContext, final ObjectReference objRef, final Method method,
                                      final List args, final int invocationOptions) throws EvaluateException {
+=======
+  public Value invokeInstanceMethod(@NotNull EvaluationContext evaluationContext, @NotNull final ObjectReference objRef, final Method method,
+                                    final List args, final int invocationOptions) throws EvaluateException {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final ThreadReference thread = getEvaluationThread(evaluationContext);
     return new InvokeCommand<Value>(args) {
       @Override
@@ -1115,9 +1137,20 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
   public Value invokeMethod(final EvaluationContext evaluationContext, final ClassType classType,
                             final Method method,
                             final List args) throws EvaluateException {
+    return invokeMethod(evaluationContext, classType, method, args, false);
+  }
 
+  public Value invokeMethod(@NotNull EvaluationContext evaluationContext,
+                            @NotNull final ClassType classType,
+                            @NotNull final Method method,
+                            final List args,
+                            boolean internalEvaluate) throws EvaluateException {
     final ThreadReference thread = getEvaluationThread(evaluationContext);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     InvokeCommand<Value> invokeCommand = new InvokeCommand<Value>(args) {
+=======
+    return new InvokeCommand<Value>(args) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       @Override
       protected Value invokeMethod(int invokePolicy, final List args) throws InvocationException,
                                                                              ClassNotLoadedException,
@@ -1128,8 +1161,7 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
         }
         return classType.invokeMethod(thread, method, args, invokePolicy);
       }
-    };
-    return invokeCommand.start((EvaluationContextImpl)evaluationContext, method);
+    }.start((EvaluationContextImpl)evaluationContext, method, internalEvaluate);
   }
 
   @Override
@@ -1176,25 +1208,29 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
     clearCashes(suspendContext.getSuspendPolicy());
   }
 
-  private void beforeMethodInvocation(SuspendContextImpl suspendContext, Method method) {
+  private void beforeMethodInvocation(SuspendContextImpl suspendContext, Method method, boolean internalEvaluate) {
     if (LOG.isDebugEnabled()) {
       LOG.debug(
         "before invocation in  thread " + suspendContext.getThread().name() + " method " + (method == null ? "null" : method.name()));
     }
 
-    if (method != null) {
-      showStatusText(DebuggerBundle.message("progress.evaluating", DebuggerUtilsEx.methodName(method)));
-    }
-    else {
-      showStatusText(DebuggerBundle.message("title.evaluating"));
+    if (!internalEvaluate) {
+      if (method != null) {
+        showStatusText(DebuggerBundle.message("progress.evaluating", DebuggerUtilsEx.methodName(method)));
+      }
+      else {
+        showStatusText(DebuggerBundle.message("title.evaluating"));
+      }
     }
   }
 
-  private void afterMethodInvocation(SuspendContextImpl suspendContext) {
+  private void afterMethodInvocation(SuspendContextImpl suspendContext, boolean internalEvaluate) {
     if (LOG.isDebugEnabled()) {
       LOG.debug("after invocation in  thread " + suspendContext.getThread().name());
     }
-    showStatusText("");
+    if (!internalEvaluate) {
+      showStatusText("");
+    }
   }
 
   @Override
@@ -1758,6 +1794,8 @@ public abstract class DebugProcessImpl extends UserDataHolderBase implements Deb
       }
     });
 
+    // reload to make sure that source positions are initialized
+    DebuggerManagerEx.getInstanceEx(myProject).getBreakpointManager().reloadBreakpoints();
 
     getManagerThread().schedule(new DebuggerCommandImpl() {
       @Override

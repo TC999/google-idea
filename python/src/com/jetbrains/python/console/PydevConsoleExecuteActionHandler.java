@@ -20,10 +20,15 @@ import com.intellij.execution.console.LanguageConsoleImpl;
 import com.intellij.execution.console.LanguageConsoleView;
 import com.intellij.execution.console.ProcessBackedConsoleExecuteActionHandler;
 import com.intellij.execution.process.ProcessHandler;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.execution.ui.ConsoleViewContentType;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorModificationUtil;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.fileTypes.PlainTextLanguage;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
@@ -37,9 +42,15 @@ import com.jetbrains.python.PythonLanguage;
 import com.jetbrains.python.console.pydev.ConsoleCommunication;
 import com.jetbrains.python.console.pydev.ConsoleCommunicationListener;
 import com.jetbrains.python.console.pydev.InterpreterResponse;
+import org.intellij.lang.annotations.JdkConstants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import java.awt.*;
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 /**
  * @author traff
  */
@@ -52,6 +63,8 @@ public class PydevConsoleExecuteActionHandler extends ProcessBackedConsoleExecut
 
   private final ConsoleCommunication myConsoleCommunication;
   private boolean myEnabled = false;
+
+  private int myIpythonInputPromptCount = 1;
 
   public PydevConsoleExecuteActionHandler(LanguageConsoleView consoleView,
                                           ProcessHandler myProcessHandler,
@@ -194,6 +207,12 @@ public class PydevConsoleExecuteActionHandler extends ProcessBackedConsoleExecut
   private void sendLineToConsole(@NotNull final ConsoleCommunication.ConsoleCodeFragment code,
                                  @NotNull final LanguageConsoleImpl console,
                                  @NotNull final Editor currentEditor) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    if(!StringUtil.isEmptyOrSpaces(code.getText())) {
+      myIpythonInputPromptCount+=1;
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (myConsoleCommunication != null) {
       final boolean waitedForInputBefore = myConsoleCommunication.isWaitingForInput();
       if (myConsoleCommunication.isWaitingForInput()) {
@@ -225,7 +244,7 @@ public class PydevConsoleExecuteActionHandler extends ProcessBackedConsoleExecut
           }
           else {
             if (!myConsoleCommunication.isWaitingForInput()) {
-              ordinaryPrompt(console, currentEditor);
+              inPrompt(console, currentEditor);
             }
             setCurrentIndentSize(0);
           }
@@ -235,8 +254,9 @@ public class PydevConsoleExecuteActionHandler extends ProcessBackedConsoleExecut
       });
       // After requesting input we got no call back to change prompt, change it manually
       if (waitedForInputBefore && !myConsoleCommunication.isWaitingForInput()) {
-        console.setPrompt(PyConsoleUtil.ORDINARY_PROMPT);
-        PyConsoleUtil.scrollDown(currentEditor);
+        myIpythonInputPromptCount-=1;
+        inPrompt(console, currentEditor);
+        setCurrentIndentSize(0);
       }
     }
   }
@@ -246,7 +266,21 @@ public class PydevConsoleExecuteActionHandler extends ProcessBackedConsoleExecut
     return lines[lines.length - 1];
   }
 
+  private static String lastLine(@NotNull String text) {
+    String[] lines = StringUtil.splitByLinesDontTrim(text);
+    return lines[lines.length - 1];
+  }
+
+  private void inPrompt(LanguageConsoleImpl console, Editor currentEditor){
+    if(ipythonEnabled(console)){
+      ipythonInPrompt(console, currentEditor);
+    } else {
+      ordinaryPrompt(console, currentEditor);
+    }
+  }
+
   private void ordinaryPrompt(LanguageConsoleImpl console, Editor currentEditor) {
+
     if (!myConsoleCommunication.isExecuting()) {
       if (!PyConsoleUtil.ORDINARY_PROMPT.equals(console.getPrompt())) {
         console.setPrompt(PyConsoleUtil.ORDINARY_PROMPT);
@@ -256,6 +290,19 @@ public class PydevConsoleExecuteActionHandler extends ProcessBackedConsoleExecut
     else {
       executingPrompt(console);
     }
+  }
+
+  private boolean ipythonEnabled(LanguageConsoleImpl console){
+    return console.getFile().getVirtualFile() != null ?
+           PyConsoleUtil.getOrCreateIPythonData(console.getFile().getVirtualFile()).isIPythonEnabled() : false;
+  }
+
+  private void ipythonInPrompt(LanguageConsoleImpl console, Editor currentEditor){
+    TextAttributes attributes = ConsoleViewContentType.USER_INPUT.getAttributes();
+    attributes.setFontType(Font.PLAIN);
+    console.setPromptAttributes(attributes);
+    console.setPrompt("In[" + myIpythonInputPromptCount + "]:");
+    PyConsoleUtil.scrollDown(currentEditor);
   }
 
   private static void executingPrompt(LanguageConsoleImpl console) {
@@ -279,7 +326,13 @@ public class PydevConsoleExecuteActionHandler extends ProcessBackedConsoleExecut
       final LanguageConsoleImpl console = myConsoleView.getConsole();
       final Editor currentEditor = console.getConsoleEditor();
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       ordinaryPrompt(console, currentEditor);
+=======
+      if(!ipythonEnabled(console)){
+        ordinaryPrompt(console, currentEditor);
+      }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 
@@ -295,7 +348,10 @@ public class PydevConsoleExecuteActionHandler extends ProcessBackedConsoleExecut
     setCurrentIndentSize(1);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @SuppressWarnings({"override", "deprecation"})
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void finishExecution() {
     final LanguageConsoleImpl console = myConsoleView.getConsole();
     final Editor currentEditor = console.getConsoleEditor();

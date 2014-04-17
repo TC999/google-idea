@@ -132,6 +132,7 @@ public abstract class BaseOpenInBrowserAction extends DumbAwareAction {
       }
     }
     else {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       final PsiFile psiFile = CommonDataKeys.PSI_FILE.getData(context);
       if (psiFile != null) {
         return OpenInBrowserRequest.create(psiFile);
@@ -169,6 +170,17 @@ public abstract class BaseOpenInBrowserAction extends DumbAwareAction {
             return file;
           }
         };
+=======
+      PsiFile psiFile = CommonDataKeys.PSI_FILE.getData(context);
+      VirtualFile virtualFile = CommonDataKeys.VIRTUAL_FILE.getData(context);
+      Project project = CommonDataKeys.PROJECT.getData(context);
+      if (virtualFile != null && !virtualFile.isDirectory() && virtualFile.isValid() && project != null && project.isInitialized()) {
+        psiFile = PsiManager.getInstance(project).findFile(virtualFile);
+      }
+
+      if (psiFile != null) {
+        return OpenInBrowserRequest.create(psiFile);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
     return null;

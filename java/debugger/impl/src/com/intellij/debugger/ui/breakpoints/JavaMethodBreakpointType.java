@@ -56,11 +56,14 @@ public class JavaMethodBreakpointType extends JavaLineBreakpointTypeBase<JavaMet
     return HelpID.METHOD_BREAKPOINTS;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @Override
   public boolean isAddBreakpointButtonVisible() {
     return false;
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   //@Override
   public String getDisplayName() {
     return DebuggerBundle.message("method.breakpoints.tab.title");

@@ -15,6 +15,7 @@
  */
 package com.intellij.debugger.ui.breakpoints;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.debugger.DebuggerManagerEx;
 import com.intellij.debugger.ui.JavaDebuggerSupport;
 import com.intellij.openapi.project.Project;
@@ -64,6 +65,54 @@ public abstract class JavaBreakpointTypeBase<T extends JavaBreakpointProperties>
   public XSourcePosition getSourcePosition(@NotNull XBreakpoint<T> breakpoint) {
     BreakpointManager breakpointManager = DebuggerManagerEx.getInstanceEx(JavaDebuggerSupport.getCurrentProject()).getBreakpointManager();
     Breakpoint javaBreakpoint = breakpointManager.findBreakpoint(breakpoint);
+=======
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiClass;
+import com.intellij.xdebugger.XDebuggerUtil;
+import com.intellij.xdebugger.XSourcePosition;
+import com.intellij.xdebugger.breakpoints.XBreakpoint;
+import com.intellij.xdebugger.breakpoints.XBreakpointType;
+import com.intellij.xdebugger.breakpoints.ui.XBreakpointCustomPropertiesPanel;
+import com.intellij.xdebugger.evaluation.XDebuggerEditorsProvider;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.java.debugger.JavaDebuggerEditorsProvider;
+import org.jetbrains.java.debugger.breakpoints.JavaBreakpointFiltersPanel;
+import org.jetbrains.java.debugger.breakpoints.properties.JavaBreakpointProperties;
+
+/**
+ * Base class for non-line java breakpoint
+ * @author egor
+ */
+public abstract class JavaBreakpointTypeBase<T extends JavaBreakpointProperties> extends XBreakpointType<XBreakpoint<T>, T> {
+  protected JavaBreakpointTypeBase(@NonNls @NotNull String id, @Nls @NotNull String title) {
+    super(id, title, true);
+  }
+
+  @Override
+  public final boolean isAddBreakpointButtonVisible() {
+    return true;
+  }
+
+  @Nullable
+  @Override
+  public final XBreakpointCustomPropertiesPanel<XBreakpoint<T>> createCustomRightPropertiesPanel(@NotNull Project project) {
+    return new JavaBreakpointFiltersPanel<T, XBreakpoint<T>>(project);
+  }
+
+  @Nullable
+  @Override
+  public final XDebuggerEditorsProvider getEditorsProvider(@NotNull XBreakpoint<T> breakpoint, @NotNull Project project) {
+    return new JavaDebuggerEditorsProvider();
+  }
+
+  @Nullable
+  @Override
+  public XSourcePosition getSourcePosition(@NotNull XBreakpoint<T> breakpoint) {
+    Breakpoint javaBreakpoint = BreakpointManager.findBreakpoint(breakpoint);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (javaBreakpoint != null) {
       PsiClass aClass = javaBreakpoint.getPsiClass();
       if (aClass != null && aClass.getContainingFile() != null) {

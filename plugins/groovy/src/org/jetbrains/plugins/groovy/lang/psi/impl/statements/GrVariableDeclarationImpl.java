@@ -23,8 +23,11 @@ import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.stubs.EmptyStub;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -50,6 +53,7 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.GroovyPsiElementImpl;
 import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.TypesUtil;
 import org.jetbrains.plugins.groovy.lang.psi.util.PsiUtil;
 import org.jetbrains.plugins.groovy.lang.resolve.ResolveUtil;
+import org.jetbrains.plugins.groovy.lang.resolve.processors.ClassHint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,8 +194,13 @@ public class GrVariableDeclarationImpl extends GrStubElementBase<EmptyStub> impl
 
   public boolean processDeclarations(@NotNull PsiScopeProcessor processor,
                                      @NotNull ResolveState state,
-                                     PsiElement lastParent,
+                                     @Nullable PsiElement lastParent,
                                      @NotNull PsiElement place) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    if (!ResolveUtil.shouldProcessProperties(processor.getHint(ClassHint.KEY))) return true;
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (lastParent != null && !(getParent() instanceof GrTypeDefinitionBody) && lastParent == getTupleInitializer()) {
       return true;
     }
@@ -207,6 +216,7 @@ public class GrVariableDeclarationImpl extends GrStubElementBase<EmptyStub> impl
 
   @Override
   public PsiReference getReference() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return CachedValuesManager.getCachedValue(this, new CachedValueProvider<PsiReference>() {
       @Nullable
       @Override
@@ -217,11 +227,13 @@ public class GrVariableDeclarationImpl extends GrStubElementBase<EmptyStub> impl
   }
 
   private PsiReference getReferenceInner() {
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (getTypeElementGroovy() != null) return null;
-    final TextRange range = getRangeForReference();
-
+    TextRange range = getRangeForReference();
     if (range == null) return null;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final GrVariable[] variables = getVariables();
     if (variables.length == 0) return null;
 
@@ -259,6 +271,9 @@ public class GrVariableDeclarationImpl extends GrStubElementBase<EmptyStub> impl
         }
       };
     }
+=======
+    return new GrTypeReference(range);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private TextRange getRangeForReference() {
@@ -271,11 +286,11 @@ public class GrVariableDeclarationImpl extends GrStubElementBase<EmptyStub> impl
   private PsiElement findSuitableModifier() {
     final GrModifierList list = getModifierList();
 
-    PsiElement modifier = PsiUtil.findModifierInList(list, GrModifier.DEF);
-    if (modifier != null) return modifier;
+    PsiElement defModifier = PsiUtil.findModifierInList(list, GrModifier.DEF);
+    if (defModifier != null) return defModifier;
 
-    modifier = PsiUtil.findModifierInList(list, PsiModifier.FINAL);
-    if (modifier != null) return modifier;
+    PsiElement finalModifier = PsiUtil.findModifierInList(list, PsiModifier.FINAL);
+    if (finalModifier != null) return finalModifier;
 
     for (PsiElement element : list.getModifiers()) {
       if (!(element instanceof GrAnnotation)) {
@@ -286,11 +301,36 @@ public class GrVariableDeclarationImpl extends GrStubElementBase<EmptyStub> impl
     return null;
   }
 
-  @Nullable
-  private static String getTypeText(GrVariable var) {
-    final PsiType type = var.getTypeGroovy();
-    if (type == null) return null;
+  private class GrTypeReference extends PsiReferenceBase<GrVariableDeclaration> {
+    public GrTypeReference(TextRange range) {
+      super(GrVariableDeclarationImpl.this, range, true);
+    }
 
-    return type.getCanonicalText();
+    @Nullable
+    @Override
+    public PsiElement resolve() {
+      GrVariable[] variables = getVariables();
+      if (variables.length == 0) return null;
+
+      GrVariable resolved = variables[0];
+      PsiType typeGroovy = resolved.getTypeGroovy();
+      if (typeGroovy instanceof PsiClassType) {
+        return ((PsiClassType)typeGroovy).resolve();
+      }
+      else {
+        return resolved;
+      }
+    }
+
+    @NotNull
+    @Override
+    public Object[] getVariants() {
+      return EMPTY_ARRAY;
+    }
+
+    @Override
+    public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException {
+      return getElement();
+    }
   }
 }

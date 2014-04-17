@@ -18,7 +18,9 @@ package com.intellij.ide.plugins;
 import com.intellij.CommonBundle;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.BrowserUtil;
+import com.intellij.ide.DataManager;
 import com.intellij.ide.IdeBundle;
+import com.intellij.ide.plugins.sorters.SortByStatusAction;
 import com.intellij.ide.ui.search.SearchUtil;
 import com.intellij.ide.ui.search.SearchableOptionsRegistrar;
 import com.intellij.notification.*;
@@ -30,6 +32,10 @@ import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.application.ex.ApplicationEx;
 import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import com.intellij.openapi.diagnostic.Logger;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.extensions.PluginId;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
@@ -37,11 +43,14 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.updateSettings.impl.PluginDownloader;
 import com.intellij.openapi.updateSettings.impl.UpdateChecker;
 import com.intellij.openapi.updateSettings.impl.UpdateSettings;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.*;
+import com.intellij.ui.border.CustomLineBorder;
+import com.intellij.ui.components.JBLabel;
 import com.intellij.util.concurrency.SwingWorker;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.util.ui.update.UiNotifyConnector;
@@ -52,10 +61,15 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+=======
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.*;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
@@ -63,6 +77,7 @@ import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -73,9 +88,10 @@ import static com.intellij.openapi.util.text.StringUtil.isEmptyOrSpaces;
 
 /**
  * @author stathik
- * @since Dec 25, 2003
+ * @author Konstantin Bulenkov
  */
 public abstract class PluginManagerMain implements Disposable {
+  public static final String JETBRAINS_VENDOR = "JetBrains";
   public static Logger LOG = Logger.getInstance("#com.intellij.ide.plugins.PluginManagerMain");
 
   @NonNls private static final String TEXT_PREFIX = "<html><head>" +
@@ -102,6 +118,10 @@ public abstract class PluginManagerMain implements Disposable {
   private JPanel myHeader;
   private PluginHeaderPanel myPluginHeaderPanel;
   private JPanel myInfoPanel;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  protected JBLabel myPanelDescription;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 
   protected PluginTableModel pluginsModel;
@@ -119,6 +139,10 @@ public abstract class PluginManagerMain implements Disposable {
     myUISettings = uiSettings;
   }
 
+  public static boolean isJetBrainsPlugin(@NotNull IdeaPluginDescriptor plugin) {
+    return JETBRAINS_VENDOR.equals(plugin.getVendor());
+  }
+
   protected void init() {
     GuiUtils.replaceJSplitPaneWithIDEASplitter(main);
     myDescriptionTextArea.setEditorKit(new HTMLEditorKit());
@@ -128,16 +152,74 @@ public abstract class PluginManagerMain implements Disposable {
     JScrollPane installedScrollPane = createTable();
     myPluginHeaderPanel = new PluginHeaderPanel(this, getPluginTable());
     myHeader.setBackground(UIUtil.getTextFieldBackground());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    myPluginHeaderPanel.getPanel().setBackground(UIUtil.getTextFieldBackground());
+    myPluginHeaderPanel.getPanel().setOpaque(true);
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myHeader.add(myPluginHeaderPanel.getPanel(), BorderLayout.CENTER);
     installTableActions();
 
     myTablePanel.add(installedScrollPane, BorderLayout.CENTER);
+    UIUtil.applyStyle(UIUtil.ComponentStyle.SMALL, myPanelDescription);
+    myPanelDescription.setBorder(new EmptyBorder(0, 7, 0, 0));
 
+    final JPanel header = new JPanel(new BorderLayout()) {
+      @Override
+      protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        final Color bg = UIUtil.getTableBackground(false);
+        ((Graphics2D)g).setPaint(new GradientPaint(0, 0, ColorUtil.shift(bg, 1.4), 0, getHeight(), ColorUtil.shift(bg, 0.9)));
+        g.fillRect(0,0, getWidth(), getHeight());
+      }
+    };
+    header.setBorder(new CustomLineBorder(UIUtil.getBorderColor(), 1, 1, 0, 1));
+    final JLabel mySortLabel = new JLabel();
+    mySortLabel.setForeground(UIUtil.getLabelDisabledForeground());
+    mySortLabel.setBorder(new EmptyBorder(1, 1, 1, 5));
+    mySortLabel.setIcon(AllIcons.General.SplitDown);
+    mySortLabel.setHorizontalTextPosition(SwingConstants.LEADING);
+    header.add(mySortLabel, BorderLayout.EAST);
+    myTablePanel.add(header, BorderLayout.NORTH);
     myToolbarPanel.setLayout(new BorderLayout());
     myActionToolbar = ActionManager.getInstance().createActionToolbar("PluginManager", getActionGroup(true), true);
     final JComponent component = myActionToolbar.getComponent();
     myToolbarPanel.add(component, BorderLayout.CENTER);
     myToolbarPanel.add(myFilter, BorderLayout.WEST);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    new ClickListener() {
+      @Override
+      public boolean onClick(@NotNull MouseEvent event, int clickCount) {
+        JBPopupFactory.getInstance().createActionGroupPopup("Sort by:", createSortersGroup(), DataManager.getInstance().getDataContext(pluginTable),
+                                                            JBPopupFactory.ActionSelectionAid.SPEEDSEARCH, true).showUnderneathOf(mySortLabel);
+        return true;
+      }
+    }.installOn(mySortLabel);
+    final TableModelListener modelListener = new TableModelListener() {
+      @Override
+      public void tableChanged(TableModelEvent e) {
+        String text = "Sort by:";
+        if (pluginsModel.isSortByStatus()) {
+          text += " status,";
+        }
+        if (pluginsModel.isSortByRating()) {
+          text += " rating,";
+        }
+        if (pluginsModel.isSortByDownloads()) {
+          text += " downloads,";
+        }
+        if (pluginsModel.isSortByUpdated()) {
+          text += " updated,";
+        }
+        text += " name";
+        mySortLabel.setText(text);
+      }
+    };
+    pluginTable.getModel().addTableModelListener(modelListener);
+    modelListener.tableChanged(null);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     Border border = new BorderUIResource.LineBorderUIResource(new JBColor(Gray._220, Gray._55), 1);
     myInfoPanel.setBorder(border);
@@ -253,10 +335,10 @@ public abstract class PluginManagerMain implements Disposable {
         }
         for (String host : UpdateSettings.getInstance().myPluginHosts) {
           if (!acceptHost(host)) continue;
-          final ArrayList<PluginDownloader> downloaded = new ArrayList<PluginDownloader>();
+          final Map<PluginId, PluginDownloader> downloaded = new HashMap<PluginId, PluginDownloader>();
           try {
             UpdateChecker.checkPluginsHost(host, downloaded, false, null);
-            for (PluginDownloader downloader : downloaded) {
+            for (PluginDownloader downloader : downloaded.values()) {
               final PluginNode pluginNode = PluginDownloader.createPluginNode(host, downloader);
               if (pluginNode != null) {
                 if (list == null) list = new ArrayList<IdeaPluginDescriptor>();
@@ -457,6 +539,15 @@ public abstract class PluginManagerMain implements Disposable {
     return null;
   }
 
+  private void createUIComponents() {
+    myHeader = new JPanel(new BorderLayout()) {
+      @Override
+      public Color getBackground() {
+        return UIUtil.getTextFieldBackground();
+      }
+    };
+  }
+
   public static class MyHyperlinkListener implements HyperlinkListener {
     public void hyperlinkUpdate(HyperlinkEvent e) {
       if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -584,28 +675,6 @@ public abstract class PluginManagerMain implements Disposable {
                           }).notify(project);
   }
 
-  protected class SortByStatusAction extends ToggleAction {
-
-    protected SortByStatusAction(final String title) {
-      super(title, title, AllIcons.ObjectBrowser.SortByType);
-    }
-
-    @Override
-    public boolean isSelected(AnActionEvent e) {
-      return pluginsModel.isSortByStatus();
-    }
-
-    @Override
-    public void setSelected(AnActionEvent e, boolean state) {
-      IdeaPluginDescriptor[] selected = pluginTable.getSelectedObjects();
-      pluginsModel.setSortByStatus(state);
-      pluginsModel.sort();
-      if (selected != null) {
-        select(selected);
-      }
-    }
-  }
-
   public class MyPluginsFilter extends FilterComponent {
 
     public MyPluginsFilter() {
@@ -633,5 +702,11 @@ public abstract class PluginManagerMain implements Disposable {
     public void update(AnActionEvent e) {
       e.getPresentation().setEnabled(!myBusy);
     }
+  }
+
+  protected DefaultActionGroup createSortersGroup() {
+    final DefaultActionGroup group = new DefaultActionGroup("Sort by", true);
+    group.addAction(new SortByStatusAction(pluginTable, pluginsModel));
+    return group;
   }
 }

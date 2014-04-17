@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2000-2013 JetBrains s.r.o.
+=======
+ * Copyright 2000-2014 JetBrains s.r.o.
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,11 +105,12 @@ public abstract class CodeStyleSchemesImpl extends CodeStyleSchemes implements E
   public CodeStyleScheme createNewScheme(String preferredName, CodeStyleScheme parentScheme) {
     String name;
     if (preferredName == null) {
+      if (parentScheme == null) throw new IllegalArgumentException("parentScheme must not be null");
       // Generate using parent name
       name = null;
       for (int i = 1; name == null; i++) {
         String currName = parentScheme.getName() + " (" + i + ")";
-        if (null == findSchemeByName(currName)) {
+        if (findSchemeByName(currName) == null) {
           name = currName;
         }
       }
@@ -114,7 +119,7 @@ public abstract class CodeStyleSchemesImpl extends CodeStyleSchemes implements E
       name = null;
       for (int i = 0; name == null; i++) {
         String currName = i == 0 ? preferredName : preferredName + " (" + i + ")";
-        if (null == findSchemeByName(currName)) {
+        if (findSchemeByName(currName) == null) {
           name = currName;
         }
       }

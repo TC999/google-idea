@@ -35,7 +35,11 @@ import org.jetbrains.annotations.Nullable;
 public class PageDownWithSelectionAction extends EditorAction {
   public static class Handler extends EditorActionHandler {
     @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     public void execute(final Editor editor, @Nullable Caret caret, DataContext dataContext) {
+=======
+    public void doExecute(final Editor editor, @Nullable Caret caret, DataContext dataContext) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (!editor.getCaretModel().supportsMultipleCarets()) {
         EditorActionUtil.moveCaretPageDown(editor, true);
         return;

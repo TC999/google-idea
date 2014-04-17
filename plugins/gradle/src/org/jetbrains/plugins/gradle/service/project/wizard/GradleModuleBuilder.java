@@ -17,6 +17,10 @@ package org.jetbrains.plugins.gradle.service.project.wizard;
 
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.ide.util.projectWizard.JavaModuleBuilder;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.Disposable;
@@ -134,7 +138,16 @@ public class GradleModuleBuilder extends AbstractExternalModuleBuilder<GradlePro
 
   @Override
   public String getParentGroup() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return JavaModuleType.JAVA_GROUP;
+=======
+    return JavaModuleType.BUILD_TOOLS_GROUP;
+  }
+
+  @Override
+  public int getWeight() {
+    return JavaModuleBuilder.BUILD_SYSTEM_WEIGHT;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

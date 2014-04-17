@@ -21,17 +21,26 @@ import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.ide.util.frameworkSupport.FrameworkRole;
 import com.intellij.ide.util.frameworkSupport.FrameworkSupportUtil;
 import com.intellij.ide.util.newProjectWizard.AddSupportForFrameworksPanel;
+import com.intellij.ide.util.newProjectWizard.FrameworkSupportNode;
 import com.intellij.ide.util.newProjectWizard.TemplatesGroup;
 import com.intellij.ide.util.newProjectWizard.impl.FrameworkSupportModelBase;
 import com.intellij.ide.util.newProjectWizard.modes.CreateFromTemplateMode;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.ide.util.projectWizard.EmptyModuleBuilder;
 import com.intellij.ide.util.projectWizard.ModuleBuilder;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.ide.util.projectWizard.WizardContext;
+=======
+import com.intellij.ide.util.projectWizard.*;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.ide.wizard.CommitStepException;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleType;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.module.WebModuleTypeBase;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
@@ -43,22 +52,43 @@ import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import com.intellij.openapi.roots.ui.configuration.projectRoot.LibrariesContainer;
 import com.intellij.openapi.roots.ui.configuration.projectRoot.LibrariesContainerFactory;
 import com.intellij.openapi.ui.Messages;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.ui.popup.ListItemDescriptor;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.platform.ProjectTemplate;
 import com.intellij.platform.ProjectTemplateEP;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.platform.ProjectTemplatesFactory;
 import com.intellij.platform.templates.ArchivedProjectTemplate;
 import com.intellij.platform.templates.BuilderBasedTemplate;
 import com.intellij.platform.templates.LocalArchivedTemplate;
 import com.intellij.platform.templates.RemoteTemplatesFactory;
 import com.intellij.ui.*;
+=======
+import com.intellij.platform.templates.*;
+import com.intellij.ui.CollectionListModel;
+import com.intellij.ui.IdeBorderFactory;
+import com.intellij.ui.ListSpeedSearch;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.ui.SingleSelectionModel;
 import com.intellij.ui.components.JBList;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.ui.popup.list.GroupedItemsListRenderer;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.Function;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.util.containers.*;
+=======
+import com.intellij.util.PlatformUtils;
+import com.intellij.util.containers.*;
+import com.intellij.util.ui.UIUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
@@ -78,7 +108,11 @@ import java.util.List;
  *         Date: 04.09.13
  */
 @SuppressWarnings("unchecked")
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
+=======
+public class ProjectTypeStep extends ModuleWizardStep implements SettingsStep, Disposable {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private static final String TEMPLATES_CARD = "templates card";
   private static final String FRAMEWORKS_CARD = "frameworks card";
@@ -91,18 +125,37 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
         return o.getId();
       }
     };
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public static final Function<FrameworkSupportNode, String> NODE_STRING_FUNCTION = new Function<FrameworkSupportNode, String>() {
+    @Override
+    public String fun(FrameworkSupportNode node) {
+      return node.getId();
+    }
+  };
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private JPanel myPanel;
   private JPanel myOptionsPanel;
   private JBList myProjectTypeList;
   private ProjectTemplateList myTemplatesList;
   private JPanel myFrameworksPanelPlaceholder;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  private JPanel myHeaderPanel;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private final WizardContext myContext;
   private final NewProjectWizard myWizard;
   private final ModulesProvider myModulesProvider;
   private final AddSupportForFrameworksPanel myFrameworksPanel;
   private final ModuleBuilder.ModuleConfigurationUpdater myConfigurationUpdater;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @Nullable
+  private ModuleWizardStep mySettingsStep;
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
   private final FactoryMap<ProjectTemplate, ModuleBuilder> myBuilders = new FactoryMap<ProjectTemplate, ModuleBuilder>() {
@@ -121,6 +174,7 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
     myWizard = wizard;
 
     myTemplatesMap = new ConcurrentMultiMap<TemplatesGroup, ProjectTemplate>();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     List<TemplatesGroup> groups = fillTemplatesMap(context);
 
     myProjectTypeList.setModel(new CollectionListModel<TemplatesGroup>(groups));
@@ -147,6 +201,61 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
         append(value.getName());
       }
     });
+=======
+    final List<TemplatesGroup> groups = fillTemplatesMap(context);
+
+    myProjectTypeList.setModel(new CollectionListModel<TemplatesGroup>(groups));
+    myProjectTypeList.setSelectionModel(new SingleSelectionModel());
+    myProjectTypeList.addListSelectionListener(new ListSelectionListener() {
+      @Override
+      public void valueChanged(ListSelectionEvent e) {
+        updateSelection();
+      }
+    });
+    myProjectTypeList.setCellRenderer(new GroupedItemsListRenderer(new ListItemDescriptor<TemplatesGroup>() {
+      @Nullable
+      @Override
+      public String getTextFor(TemplatesGroup value) {
+        return value.getName();
+      }
+
+      @Nullable
+      @Override
+      public String getTooltipFor(TemplatesGroup value) {
+        return value.getDescription();
+      }
+
+      @Nullable
+      @Override
+      public Icon getIconFor(TemplatesGroup value) {
+        return value.getIcon();
+      }
+
+      @Override
+      public boolean hasSeparatorAboveOf(TemplatesGroup value) {
+        int index = groups.indexOf(value);
+        if (index < 1) return false;
+        TemplatesGroup upper = groups.get(index - 1);
+        if (upper.getParentGroup() == null && value.getParentGroup() == null) return true;
+        return !Comparing.equal(upper.getParentGroup(), value.getParentGroup()) &&
+               !Comparing.equal(upper.getName(), value.getParentGroup());
+      }
+
+      @Nullable
+      @Override
+      public String getCaptionAboveOf(TemplatesGroup value) {
+        return null;
+      }
+    }) {
+      @Override
+      protected JComponent createItemComponent() {
+        JComponent component = super.createItemComponent();
+        myTextLabel.setBorder(IdeBorderFactory.createEmptyBorder(3));
+        return component;
+      }
+    });
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     new ListSpeedSearch(myProjectTypeList) {
       @Override
       protected String getElementText(Object element) {
@@ -165,8 +274,13 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
         return StringUtil.notNullize(builder.getContentEntryPath());
       }
     };
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myFrameworksPanel = new AddSupportForFrameworksPanel(Collections.<FrameworkSupportInModuleProvider>emptyList(), model, true);
     Disposer.register(wizard.getDisposable(), myFrameworksPanel);
+=======
+    myFrameworksPanel = new AddSupportForFrameworksPanel(Collections.<FrameworkSupportInModuleProvider>emptyList(), model, true, myHeaderPanel);
+    Disposer.register(this, myFrameworksPanel);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myFrameworksPanelPlaceholder.add(myFrameworksPanel.getMainPanel());
 
     myConfigurationUpdater = new ModuleBuilder.ModuleConfigurationUpdater() {
@@ -251,6 +365,7 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
     myTemplatesMap.putAllValues(map);
 
     for (ProjectCategory category : ProjectCategory.EXTENSION_POINT_NAME.getExtensions()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       myTemplatesMap.put(new TemplatesGroup(category), new ArrayList<ProjectTemplate>());
     }
 
@@ -258,6 +373,27 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
       MultiMap<String, ProjectTemplate> localTemplates = loadLocalTemplates();
       for (TemplatesGroup group : myTemplatesMap.keySet()) {
         myTemplatesMap.putValues(group, localTemplates.get(group.getId()));
+=======
+      TemplatesGroup group = new TemplatesGroup(category);
+      myTemplatesMap.remove(group);
+      myTemplatesMap.put(group, new ArrayList<ProjectTemplate>());
+    }
+
+    if (context.isCreatingNewProject()) {
+      MultiMap<String, ProjectTemplate> localTemplates = loadLocalTemplates();
+      for (TemplatesGroup group : myTemplatesMap.keySet()) {
+        myTemplatesMap.putValues(group, localTemplates.get(group.getId()));
+      }
+    }
+
+    // remove Static Web group in IDEA Community if no specific templates found (IDEA-120593)
+    if (PlatformUtils.isIdeaCommunity()) {
+      for (TemplatesGroup group : myTemplatesMap.keySet()) {
+        if (WebModuleTypeBase.WEB_MODULE.equals(group.getId()) && myTemplatesMap.get(group).isEmpty()) {
+          myTemplatesMap.remove(group);
+          break;
+        }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
 
@@ -272,19 +408,31 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
     Collections.sort(groups, new Comparator<TemplatesGroup>() {
       @Override
       public int compare(TemplatesGroup o1, TemplatesGroup o2) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         int u = Comparing.compare(ProjectTemplatesFactory.CUSTOM_GROUP.equals(o1.getName()), ProjectTemplatesFactory.CUSTOM_GROUP.equals(o2.getName()));
         if (u != 0) return u;
         int i1 = moduleTypes.get(getModuleType(o2)).size() - moduleTypes.get(getModuleType(o1)).size();
         if (i1 != 0) return i1;
         int i = myTemplatesMap.get(o2).size() - myTemplatesMap.get(o1).size();
         return i != 0 ? i : o1.compareTo(o2);
+=======
+        int i = o2.getWeight() - o1.getWeight();
+        if (i != 0) return i;
+        int i1 = moduleTypes.get(getModuleType(o2)).size() - moduleTypes.get(getModuleType(o1)).size();
+        if (i1 != 0) return i1;
+        return o1.compareTo(o2);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     });
 
     Set<String> groupNames = ContainerUtil.map2Set(groups, new Function<TemplatesGroup, String>() {
       @Override
       public String fun(TemplatesGroup group) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         return group.getName();
+=======
+        return group.getParentGroup();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     });
 
@@ -293,7 +441,11 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
     for (ListIterator<TemplatesGroup> iterator = groups.listIterator(); iterator.hasNext(); ) {
       TemplatesGroup group = iterator.next();
       String parentGroup = group.getParentGroup();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       if (parentGroup != null && groupNames.contains(parentGroup) && !group.getName().equals(parentGroup)) {
+=======
+      if (parentGroup != null && groupNames.contains(parentGroup) && !group.getName().equals(parentGroup) && groupMap.containsKey(parentGroup)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         subGroups.putValue(parentGroup, group);
         iterator.remove();
       }
@@ -318,6 +470,16 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
     if (group == null) return;
     PropertiesComponent.getInstance().setValue(PROJECT_WIZARD_GROUP, group.getId() );
     ModuleBuilder groupModuleBuilder = group.getModuleBuilder();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+    mySettingsStep = null;
+    myHeaderPanel.removeAll();
+    if (groupModuleBuilder != null && groupModuleBuilder.getModuleType() != null) {
+      mySettingsStep = groupModuleBuilder.modifyProjectTypeStep(this);
+    }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (groupModuleBuilder == null || groupModuleBuilder.isTemplateBased()) {
       showTemplates(group);
     }
@@ -352,6 +514,24 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
 
       showCard(FRAMEWORKS_CARD);
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+    myHeaderPanel.setVisible(myHeaderPanel.getComponentCount() > 0);
+    // align header labels
+    List<JLabel> labels = UIUtil.findComponentsOfType(myHeaderPanel, JLabel.class);
+    int width = 0;
+    for (JLabel label : labels) {
+      int width1 = label.getPreferredSize().width;
+      width = Math.max(width, width1);
+    }
+    for (JLabel label : labels) {
+      label.setPreferredSize(new Dimension(width, label.getPreferredSize().height));
+    }
+    myHeaderPanel.revalidate();
+    myHeaderPanel.repaint();
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     updateSelection();
   }
 
@@ -377,6 +557,7 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
 
   private void setTemplatesList(TemplatesGroup group, Collection<ProjectTemplate> templates, boolean preserveSelection) {
     List<ProjectTemplate> list = new ArrayList<ProjectTemplate>(templates);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (group.getModuleBuilder() != null) {
       list.add(0, new BuilderBasedTemplate(group.getModuleBuilder()));
     }
@@ -427,6 +608,75 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
 
   public Collection<ProjectTemplate> getAvailableTemplates() {
     return myCurrentCard != FRAMEWORKS_CARD ? Collections.<ProjectTemplate>emptyList() : myTemplatesMap.get(getSelectedGroup());
+=======
+    ModuleBuilder moduleBuilder = group.getModuleBuilder();
+    if (moduleBuilder != null && !(moduleBuilder instanceof TemplateModuleBuilder)) {
+      list.add(0, new BuilderBasedTemplate(moduleBuilder));
+    }
+    if (group.getParentGroup() == null) {
+      for (TemplatesGroup templatesGroup : myTemplatesMap.keySet()) {
+        if (group.getName().equals(templatesGroup.getParentGroup())) {
+          list.addAll(myTemplatesMap.get(templatesGroup));
+        }
+      }
+    }
+    myTemplatesList.setTemplates(list, preserveSelection);
+  }
+
+  private boolean showCustomOptions(@NotNull ModuleBuilder builder) {
+    String card = builder.getBuilderId();
+    if (!myCustomSteps.containsKey(card)) {
+      ModuleWizardStep step = builder.getCustomOptionsStep(myContext, this);
+      if (step == null) return false;
+      step.updateStep();
+      myCustomSteps.put(card, step);
+      myOptionsPanel.add(step.getComponent(), card);
+    }
+    showCard(card);
+    return true;
+  }
+
+  @Nullable
+  private ModuleWizardStep getCustomStep() {
+    return myCustomSteps.get(myCurrentCard);
+  }
+
+  private TemplatesGroup getSelectedGroup() {
+    return (TemplatesGroup)myProjectTypeList.getSelectedValue();
+  }
+
+  @Nullable
+  public ProjectTemplate getSelectedTemplate() {
+    return myCurrentCard == TEMPLATES_CARD ? myTemplatesList.getSelectedTemplate() : null;
+  }
+
+  private ModuleBuilder getSelectedBuilder() {
+    ProjectTemplate template = getSelectedTemplate();
+    if (template != null) {
+      return myBuilders.get(template);
+    }
+    return getSelectedGroup().getModuleBuilder();
+  }
+
+  public Collection<ProjectTemplate> getAvailableTemplates() {
+    if (myCurrentCard != FRAMEWORKS_CARD) {
+      return Collections.emptyList();
+    }
+    else {
+      Collection<ProjectTemplate> templates = myTemplatesMap.get(getSelectedGroup());
+      List<FrameworkSupportNode> nodes = myFrameworksPanel.getSelectedNodes();
+      if (nodes.isEmpty()) return templates;
+      final List<String> selectedFrameworks = ContainerUtil.map(nodes, NODE_STRING_FUNCTION);
+      return ContainerUtil.filter(templates, new Condition<ProjectTemplate>() {
+        @Override
+        public boolean value(ProjectTemplate template) {
+          if (!(template instanceof ArchivedProjectTemplate)) return true;
+          List<String> frameworks = ((ArchivedProjectTemplate)template).getFrameworks();
+          return frameworks.containsAll(selectedFrameworks);
+        }
+      });
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public void onWizardFinished() throws CommitStepException {
@@ -456,10 +706,23 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
     if (step != null) {
       step.updateDataModel();
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   @Override
   public boolean validate() throws ConfigurationException {
+=======
+    if (mySettingsStep != null) {
+      mySettingsStep.updateDataModel();
+    }
+  }
+
+  @Override
+  public boolean validate() throws ConfigurationException {
+    if (mySettingsStep != null) {
+      if (!mySettingsStep.validate()) return false;
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     ModuleWizardStep step = getCustomStep();
     return step != null ? step.validate() : super.validate();
   }
@@ -467,6 +730,7 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
   @Override
   public JComponent getPreferredFocusedComponent() {
     return myProjectTypeList;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   @TestOnly
@@ -480,6 +744,8 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
       }
     }
     return false;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
@@ -500,7 +766,11 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
       if (url != null) {
         LocalArchivedTemplate template = new LocalArchivedTemplate(url, classLoader);
         if (ep.category) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           TemplateBasedCategory category = new TemplateBasedCategory(template);
+=======
+          TemplateBasedCategory category = new TemplateBasedCategory(template, ep.projectType);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           myTemplatesMap.putValue(new TemplatesGroup(category), template);
         }
         else {
@@ -561,5 +831,58 @@ public class ProjectTypeStep extends ModuleWizardStep implements Disposable {
     if (builder != null) {
       myWizard.getSequence().setType(builder.getBuilderId());
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  @TestOnly
+  public boolean setSelectedTemplate(String group, String name) {
+    ListModel model = myProjectTypeList.getModel();
+    for (int i = 0; i < model.getSize(); i++) {
+      TemplatesGroup templatesGroup = (TemplatesGroup)model.getElementAt(i);
+      if (group.equals(templatesGroup.getName())) {
+        myProjectTypeList.setSelectedIndex(i);
+        if (name == null) return getSelectedGroup().getName().equals(group);
+        Collection<ProjectTemplate> templates = myTemplatesMap.get(templatesGroup);
+        setTemplatesList(templatesGroup, templates, false);
+        return myTemplatesList.setSelectedTemplate(name);
+      }
+    }
+    return false;
+  }
+
+  @TestOnly
+  public AddSupportForFrameworksPanel getFrameworksPanel() {
+    return myFrameworksPanel;
+  }
+
+  @Override
+  public WizardContext getContext() {
+    return myContext;
+  }
+
+  @Override
+  public void addSettingsField(@NotNull String label, @NotNull JComponent field) {
+    ProjectSettingsStep.addField(label, field, myHeaderPanel);
+  }
+
+  @Override
+  public void addSettingsComponent(@NotNull JComponent component) {
+  }
+
+  @Override
+  public void addExpertPanel(@NotNull JComponent panel) {
+
+  }
+
+  @Override
+  public void addExpertField(@NotNull String label, @NotNull JComponent field) {
+
+  }
+
+  @Override
+  public JTextField getModuleNameField() {
+    return null;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

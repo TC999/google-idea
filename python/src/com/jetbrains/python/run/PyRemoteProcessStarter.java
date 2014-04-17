@@ -70,8 +70,16 @@ public class PyRemoteProcessStarter {
 
     SdkAdditionalData data = sdk.getSdkAdditionalData();
     assert data instanceof PyRemoteSdkAdditionalDataBase;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     try {
       return manager.startRemoteProcess(project, ((PyRemoteSdkAdditionalDataBase)data).getRemoteSdkCredentials(), commandLine,
+=======
+    PyRemoteSdkAdditionalDataBase pyRemoteSdkAdditionalDataBase = (PyRemoteSdkAdditionalDataBase)data;
+    try {
+      settings = manager.setupMappings(project, pyRemoteSdkAdditionalDataBase, settings);
+
+      return manager.startRemoteProcess(project, pyRemoteSdkAdditionalDataBase.getRemoteSdkCredentials(), commandLine,
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                                         settings);
     }
     catch (InterruptedException e) {

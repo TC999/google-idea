@@ -22,6 +22,7 @@ import com.intellij.vcs.log.Hash;
 import com.intellij.vcs.log.impl.HashImpl;
 import hg4idea.test.HgPlatformTest;
 import org.jetbrains.annotations.NotNull;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.zmlx.hg4idea.util.HgHistoryUtil;
 
 import java.util.Arrays;
@@ -36,6 +37,16 @@ import static hg4idea.test.HgExecutor.hg;
 /**
  * @author Nadya Zabrodina
  */
+=======
+import org.zmlx.hg4idea.log.HgHistoryUtil;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static com.intellij.openapi.vcs.Executor.*;
+import static hg4idea.test.HgExecutor.hg;
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 public class HgLogHistoryTest extends HgPlatformTest {
 
   @Override

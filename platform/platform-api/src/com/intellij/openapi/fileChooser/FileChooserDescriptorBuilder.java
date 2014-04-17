@@ -60,6 +60,13 @@ public class FileChooserDescriptorBuilder {
   public static FileChooserDescriptorBuilder onlyFiles() {
     return new FileChooserDescriptorBuilder(true, false, false, false, false, false);
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  public static FileChooserDescriptorBuilder onlyFolders() {
+    return new FileChooserDescriptorBuilder(false, true, false, false, false, false);
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   
   public static FileChooserDescriptorBuilder filesAndFolders() {
     return new FileChooserDescriptorBuilder(true, true, false, false, false, false);

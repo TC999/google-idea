@@ -24,17 +24,27 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.project.ProjectManagerListener;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.roots.ex.ProjectRootManagerEx;
 import com.intellij.openapi.util.EmptyRunnable;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileWithId;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.util.containers.ConcurrentHashMap;
+=======
+import com.intellij.util.FileContentUtilCore;
+import com.intellij.util.containers.ConcurrentWeakHashMap;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.List;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import java.util.Map;
 
 /**
@@ -43,7 +53,11 @@ import java.util.Map;
  * @author Rustam Vishnyakov
  */
 public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private final Map<Project, Collection<VirtualFile>> myPlainTextFileSets = new ConcurrentHashMap<Project, Collection<VirtualFile>>();
+=======
+  private final Map<Project, Collection<VirtualFile>> myPlainTextFileSets = new ConcurrentWeakHashMap<Project, Collection<VirtualFile>>();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private volatile boolean mySetsInitialized = false;
   private static final Object LOCK = new Object();
 
@@ -81,14 +95,25 @@ public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener 
     return !originalType.isBinary() && originalType != FileTypes.PLAIN_TEXT && originalType != StdFileTypes.JAVA;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void markAsPlainText(VirtualFile... files) {
     setPlainTextStatus(true, files);
+=======
+  public void markAsPlainText(@NotNull Project project, VirtualFile... files) {
+    setPlainTextStatus(project, true, files);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void resetOriginalFileType(VirtualFile... files) {
     setPlainTextStatus(false, files);
+=======
+  public void resetOriginalFileType(@NotNull Project project, VirtualFile... files) {
+    setPlainTextStatus(project, false, files);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void setPlainTextStatus(boolean isPlainText, VirtualFile... files) {
     List<VirtualFile> filesToSync = new ArrayList<VirtualFile>();
     for (VirtualFile file : files) {
@@ -99,9 +124,13 @@ public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener 
   }
 
   private void fireRootsChanged(final Collection<VirtualFile> files, final boolean isAdded) {
+=======
+  private void setPlainTextStatus(@NotNull final Project project, final boolean isAdded, final VirtualFile... files) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     ApplicationManager.getApplication().runWriteAction(new Runnable() {
       @Override
       public void run() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
           ProjectRootManagerEx.getInstanceEx(project).makeRootsChange(EmptyRunnable.getInstance(), false, true);
           ProjectPlainTextFileTypeManager projectPlainTextFileTypeManager = ProjectPlainTextFileTypeManager.getInstance(project);
@@ -114,11 +143,29 @@ public class EnforcedPlainTextFileTypeManager implements ProjectManagerListener 
               else {
                 projectPlainTextFileTypeManager.removeFile(file);
               }
+=======
+        ProjectPlainTextFileTypeManager projectPlainTextFileTypeManager = ProjectPlainTextFileTypeManager.getInstance(project);
+        for (VirtualFile file : files) {
+          if (projectPlainTextFileTypeManager.hasProjectContaining(file)) {
+            ensureProjectFileSetAdded(project, projectPlainTextFileTypeManager);
+            if (isAdded ?
+                projectPlainTextFileTypeManager.addFile(file) :
+                projectPlainTextFileTypeManager.removeFile(file)) {
+              FileBasedIndex.getInstance().requestReindex(file);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             }
           }
         }
+        FileContentUtilCore.reparseFiles(files);
       }
     });
+  }
+
+  private void ensureProjectFileSetAdded(@NotNull Project project,
+                                         @NotNull ProjectPlainTextFileTypeManager projectPlainTextFileTypeManager) {
+    if (!myPlainTextFileSets.containsKey(project)) {
+      myPlainTextFileSets.put(project, projectPlainTextFileTypeManager.getFiles());
+    }
   }
 
   private void ensureProjectFileSetAdded(@NotNull Project project,

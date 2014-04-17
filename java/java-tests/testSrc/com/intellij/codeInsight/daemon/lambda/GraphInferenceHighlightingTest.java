@@ -168,6 +168,21 @@ public class GraphInferenceHighlightingTest extends LightDaemonAnalyzerTestCase 
     doTest();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void testIncorporationWithEqualsBoundsSubstitution() throws Exception {
+    doTest();
+  }
+
+  public void testOuterCallConflictResolution() throws Exception {
+    doTest();
+  }
+
+  public void testVarargsOnNonPertinentPlace() throws Exception {
+    doTest();
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private void doTest() throws Exception {
     doTest(false);
   }

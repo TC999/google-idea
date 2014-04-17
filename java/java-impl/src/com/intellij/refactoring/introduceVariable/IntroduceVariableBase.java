@@ -49,7 +49,6 @@ import com.intellij.psi.codeStyle.VariableKind;
 import com.intellij.psi.impl.PsiDiamondTypeUtil;
 import com.intellij.psi.impl.source.jsp.jspJava.JspCodeBlock;
 import com.intellij.psi.impl.source.jsp.jspJava.JspHolderMethod;
-import com.intellij.psi.impl.source.resolve.DefaultParameterTypeInferencePolicy;
 import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
 import com.intellij.psi.impl.source.tree.java.ReplaceExpressionUtil;
 import com.intellij.psi.scope.processor.VariablesProcessor;
@@ -109,10 +108,7 @@ public abstract class IntroduceVariableBase extends IntroduceHandlerBase {
       final PsiElement[] statementsInRange = findStatementsAtOffset(editor, file, offset);
 
       //try line selection
-      if (statementsInRange.length == 1 && (!PsiUtil.isStatement(statementsInRange[0]) ||
-                                            statementsInRange[0].getTextRange().getStartOffset() > offset ||
-                                            statementsInRange[0].getTextRange().getEndOffset() < offset ||
-                                            isPreferStatements())) {
+      if (statementsInRange.length == 1 && selectLineAtCaret(offset, statementsInRange)) {
         selectionModel.selectLineAtCaret();
         final PsiExpression expressionInRange =
           findExpressionInRange(project, file, selectionModel.getSelectionStart(), selectionModel.getSelectionEnd());
@@ -130,27 +126,13 @@ public abstract class IntroduceVariableBase extends IntroduceHandlerBase {
           selectionModel.setSelection(textRange.getStartOffset(), textRange.getEndOffset());
         }
         else {
-          int selection;
-          if (statementsInRange.length == 1 &&
-              statementsInRange[0] instanceof PsiExpressionStatement &&
-              PsiUtilCore.hasErrorElementChild(statementsInRange[0])) {
-            selection = expressions.indexOf(((PsiExpressionStatement)statementsInRange[0]).getExpression());
-          } else {
-            PsiExpression expression = expressions.get(0);
-            if (expression instanceof PsiReferenceExpression && ((PsiReferenceExpression)expression).resolve() instanceof PsiLocalVariable) {
-              selection = 1;
-            }
-            else {
-              selection = -1;
-            }
-          }
           IntroduceTargetChooser.showChooser(editor, expressions,
             new Pass<PsiExpression>(){
               public void pass(final PsiExpression selectedValue) {
                 invoke(project, editor, file, selectedValue.getTextRange().getStartOffset(), selectedValue.getTextRange().getEndOffset());
               }
             },
-            new PsiExpressionTrimRenderer.RenderFunction(), "Expressions", selection, ScopeHighlighter.NATURAL_RANGER);
+            new PsiExpressionTrimRenderer.RenderFunction(), "Expressions", preferredSelection(statementsInRange, expressions), ScopeHighlighter.NATURAL_RANGER);
           return;
         }
       }
@@ -159,6 +141,31 @@ public abstract class IntroduceVariableBase extends IntroduceHandlerBase {
         LookupManager.getActiveLookup(editor) == null) {
       selectionModel.removeSelection();
     }
+  }
+
+  public static boolean selectLineAtCaret(int offset, PsiElement[] statementsInRange) {
+    return !PsiUtil.isStatement(statementsInRange[0]) ||
+            statementsInRange[0].getTextRange().getStartOffset() > offset ||
+            statementsInRange[0].getTextRange().getEndOffset() < offset ||
+            isPreferStatements();
+  }
+
+  public static int preferredSelection(PsiElement[] statementsInRange, List<PsiExpression> expressions) {
+    int selection;
+    if (statementsInRange.length == 1 &&
+        statementsInRange[0] instanceof PsiExpressionStatement &&
+        PsiUtilCore.hasErrorElementChild(statementsInRange[0])) {
+      selection = expressions.indexOf(((PsiExpressionStatement)statementsInRange[0]).getExpression());
+    } else {
+      PsiExpression expression = expressions.get(0);
+      if (expression instanceof PsiReferenceExpression && ((PsiReferenceExpression)expression).resolve() instanceof PsiLocalVariable) {
+        selection = 1;
+      }
+      else {
+        selection = -1;
+      }
+    }
+    return selection;
   }
 
   public static boolean isPreferStatements() {
@@ -466,7 +473,8 @@ public abstract class IntroduceVariableBase extends IntroduceHandlerBase {
     final String[] varargsExpressions = text.split("s*,s*");
     if (varargsExpressions.length > 1) {
       final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(parent.getProject());
-      final PsiMethod psiMethod = parent.resolveMethod();
+      final JavaResolveResult resolveResult = parent.resolveMethodGenerics();
+      final PsiMethod psiMethod = (PsiMethod)resolveResult.getElement();
       if (psiMethod == null || !psiMethod.isVarArgs()) return null;
       final PsiParameter[] parameters = psiMethod.getParameterList().getParameters();
       final PsiParameter varargParameter = parameters[parameters.length - 1];
@@ -474,10 +482,7 @@ public abstract class IntroduceVariableBase extends IntroduceHandlerBase {
       LOG.assertTrue(type instanceof PsiEllipsisType);
       final PsiArrayType psiType = (PsiArrayType)((PsiEllipsisType)type).toArrayType();
       final PsiExpression[] args = parent.getArgumentList().getExpressions();
-      final PsiSubstitutor psiSubstitutor =
-        JavaPsiFacade.getInstance(parent.getProject()).getResolveHelper().inferTypeArguments(psiMethod.getTypeParameters(), parameters,
-                                                                                             args, PsiSubstitutor.EMPTY, parent,
-                                                                                             DefaultParameterTypeInferencePolicy.INSTANCE);
+      final PsiSubstitutor psiSubstitutor = resolveResult.getSubstitutor();
 
       if (args.length < parameters.length || startOffset < args[parameters.length - 1].getTextRange().getStartOffset()) return null;
 

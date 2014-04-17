@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,38 +18,39 @@ package com.intellij.codeInsight.template.emmet.completion;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.codeInsight.template.*;
+=======
+import com.intellij.codeInsight.template.CustomLiveTemplate;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.codeInsight.template.emmet.ZenCodingTemplate;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.codeInsight.template.emmet.filters.SingleLineEmmetFilter;
 import com.intellij.codeInsight.template.emmet.generators.ZenCodingGenerator;
 import com.intellij.codeInsight.template.impl.CustomLiveTemplateLookupElement;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.codeInsight.template.impl.LiveTemplateCompletionContributor;
-import com.intellij.codeInsight.template.impl.LiveTemplateLookupElement;
-import com.intellij.codeInsight.template.impl.TemplateImpl;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.util.Ref;
-import com.intellij.patterns.StandardPatterns;
-import com.intellij.psi.PsiFile;
 import com.intellij.util.ProcessingContext;
-import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * User: zolotov
  * Date: 8/9/13
  */
-abstract public class EmmetAbbreviationCompletionProvider extends CompletionProvider<CompletionParameters> {
+public class EmmetAbbreviationCompletionProvider extends CompletionProvider<CompletionParameters> {
   @Override
   protected void addCompletions(@NotNull CompletionParameters parameters,
                                 ProcessingContext context,
                                 @NotNull CompletionResultSet result) {
-    if (!isAvailable(parameters)) {
+    if (LiveTemplateCompletionContributor.shouldShowAllTemplates() || !parameters.isAutoPopup()) {
+      /**
+       * covered with {@link com.intellij.codeInsight.template.impl.LiveTemplateCompletionContributor}
+       */
       return;
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final ZenCodingGenerator generator = getGenerator();
     if (!generator.isMyContext(parameters.getPosition(), false) || !generator.isAppliedByDefault(parameters.getPosition())) {
       return;
@@ -58,7 +59,13 @@ abstract public class EmmetAbbreviationCompletionProvider extends CompletionProv
     ZenCodingTemplate zenCodingTemplate = CustomLiveTemplate.EP_NAME.findExtension(ZenCodingTemplate.class);
     if (zenCodingTemplate == null) {
       return;
+=======
+    ZenCodingTemplate zenCodingTemplate = CustomLiveTemplate.EP_NAME.findExtension(ZenCodingTemplate.class);
+    if (zenCodingTemplate != null) {
+      zenCodingTemplate.addCompletions(parameters, result);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
     final PsiFile file = parameters.getPosition().getContainingFile();
     final Editor editor = parameters.getEditor();
@@ -106,5 +113,7 @@ abstract public class EmmetAbbreviationCompletionProvider extends CompletionProv
 
   protected boolean isAvailable(CompletionParameters parameters) {
     return parameters.getInvocationCount() == 0;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

@@ -16,24 +16,15 @@
 
 package com.intellij.psi.impl.cache;
 
-import com.intellij.ide.caches.FileContent;
 import com.intellij.lang.Language;
 import com.intellij.lang.LanguageParserDefinitions;
 import com.intellij.lang.ParserDefinition;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
-import com.intellij.openapi.util.Key;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.PsiFileEx;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-
 public class CacheUtil {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public static final Key<Boolean> CACHE_COPY_KEY = new Key<Boolean>("CACHE_COPY_KEY");
 
   private CacheUtil() {
@@ -71,6 +62,8 @@ public class CacheUtil {
       return "";
     }
   }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public static boolean isInComments(final IElementType tokenType) {
     final Language language = tokenType.getLanguage();

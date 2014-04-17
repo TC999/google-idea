@@ -29,6 +29,7 @@ public class EditorMouseFixture {
   private int myX;
   private int myY;
   private int myModifiers;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private int myButton = MouseEvent.NOBUTTON;
   private int myLastId;
 
@@ -103,6 +104,98 @@ public class EditorMouseFixture {
 
   public EditorMouseFixture shift() {
     myModifiers |= InputEvent.SHIFT_MASK;
+=======
+  private int myButton = MouseEvent.BUTTON1;
+  private int myLastId;
+
+  public EditorMouseFixture(EditorImpl editor) {
+    myEditor = editor;
+  }
+
+  public EditorMouseFixture pressAt(int visualLine, int visualColumn) {
+    return pressAt(1, visualLine, visualColumn);
+  }
+
+  private EditorMouseFixture pressAt(int clickCount, int visualLine, int visualColumn) {
+    JComponent component = myEditor.getContentComponent();
+    Point p = getPoint(visualLine, visualColumn);
+    component.dispatchEvent(new MouseEvent(component,
+                                           myLastId = MouseEvent.MOUSE_PRESSED,
+                                           System.currentTimeMillis(),
+                                           getModifiers(),
+                                           myX = p.x,
+                                           myY = p.y,
+                                           clickCount,
+                                           false,
+                                           myButton));
+    return this;
+  }
+
+  public EditorMouseFixture release() {
+    return release(1);
+  }
+
+  private EditorMouseFixture release(int clickCount) {
+    int oldLastId = myLastId;
+    JComponent component = myEditor.getContentComponent();
+    component.dispatchEvent(new MouseEvent(component,
+                                           myLastId = MouseEvent.MOUSE_RELEASED,
+                                           System.currentTimeMillis(),
+                                           getModifiers(),
+                                           myX,
+                                           myY,
+                                           clickCount,
+                                           false,
+                                           myButton));
+    if (oldLastId == MouseEvent.MOUSE_PRESSED) {
+      component.dispatchEvent(new MouseEvent(component,
+                                             myLastId = MouseEvent.MOUSE_CLICKED,
+                                             System.currentTimeMillis(),
+                                             getModifiers(),
+                                             myX,
+                                             myY,
+                                             clickCount,
+                                             false,
+                                             myButton));
+    }
+    return this;
+  }
+
+  public EditorMouseFixture clickAt(int visualLine, int visualColumn) {
+    return pressAt(visualLine, visualColumn).release();
+  }
+
+  public EditorMouseFixture doubleClickAt(int visualLine, int visualColumn) {
+    return clickAt(visualLine, visualColumn).pressAt(2, visualLine, visualColumn).release(2);
+  }
+
+  public EditorMouseFixture tripleClickAt(int visualLine, int visualColumn) {
+    return doubleClickAt(visualLine, visualColumn).pressAt(3, visualLine, visualColumn).release(3);
+  }
+
+  public EditorMouseFixture dragTo(int visualLine, int visualColumn) {
+    JComponent component = myEditor.getContentComponent();
+    Point p = getPoint(visualLine, visualColumn);
+    component.dispatchEvent(new MouseEvent(component,
+                                           myLastId = MouseEvent.MOUSE_DRAGGED,
+                                           System.currentTimeMillis(),
+                                           getModifiers(),
+                                           myX = p.x,
+                                           myY = p.y,
+                                           1,
+                                           false,
+                                           myButton));
+    return this;
+  }
+
+  public EditorMouseFixture alt() {
+    myModifiers |= InputEvent.ALT_DOWN_MASK;
+    return this;
+  }
+
+  public EditorMouseFixture shift() {
+    myModifiers |= InputEvent.SHIFT_DOWN_MASK;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return this;
   }
 

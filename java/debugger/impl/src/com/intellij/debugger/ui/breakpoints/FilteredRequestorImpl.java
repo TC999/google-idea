@@ -29,6 +29,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.classFilter.ClassFilter;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.sun.jdi.event.LocatableEvent;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
@@ -130,6 +131,114 @@ public class FilteredRequestorImpl implements JDOMExternalizable, FilteredReques
     breakpoint.setCountFilter(COUNT_FILTER);
 
     breakpoint.setCondition(CONDITION_ENABLED ? myCondition : null);
+=======
+import com.intellij.xdebugger.impl.XDebuggerHistoryManager;
+import com.intellij.xdebugger.impl.breakpoints.ui.DefaultConditionComboBoxPanel;
+import com.sun.jdi.event.LocatableEvent;
+import org.jdom.Element;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+ * Not used any more, since move to xBreakpoints
+ */
+public class FilteredRequestorImpl implements JDOMExternalizable, FilteredRequestor {
+
+  public String  SUSPEND_POLICY = DebuggerSettings.SUSPEND_ALL;
+  public boolean  SUSPEND = true;
+
+  public boolean COUNT_FILTER_ENABLED     = false;
+  public int COUNT_FILTER = 0;
+
+  public boolean CONDITION_ENABLED        = false;
+  private TextWithImports myCondition;
+
+  public boolean CLASS_FILTERS_ENABLED    = false;
+  private ClassFilter[] myClassFilters          = ClassFilter.EMPTY_ARRAY;
+  private ClassFilter[] myClassExclusionFilters = ClassFilter.EMPTY_ARRAY;
+
+  public boolean INSTANCE_FILTERS_ENABLED = false;
+  private InstanceFilter[] myInstanceFilters  = InstanceFilter.EMPTY_ARRAY;
+
+  @NonNls private static final String FILTER_OPTION_NAME = "filter";
+  @NonNls private static final String EXCLUSION_FILTER_OPTION_NAME = "exclusion_filter";
+  @NonNls private static final String INSTANCE_ID_OPTION_NAME = "instance_id";
+  @NonNls private static final String CONDITION_OPTION_NAME = "CONDITION";
+  protected final Project myProject;
+
+  public FilteredRequestorImpl(@NotNull Project project) {
+    myProject = project;
+    myCondition = new TextWithImportsImpl(CodeFragmentKind.EXPRESSION, "");
+  }
+
+  public InstanceFilter[] getInstanceFilters() {
+    return myInstanceFilters;
+  }
+
+  public void setInstanceFilters(InstanceFilter[] instanceFilters) {
+    myInstanceFilters = instanceFilters != null? instanceFilters : InstanceFilter.EMPTY_ARRAY;
+  }
+
+  public String getSuspendPolicy() {
+    return SUSPEND? SUSPEND_POLICY : DebuggerSettings.SUSPEND_NONE;
+  }
+
+  /**
+   * @return true if the ID was added or false otherwise
+   */
+  private boolean hasObjectID(long id) {
+    for (InstanceFilter instanceFilter : myInstanceFilters) {
+      if (instanceFilter.getId() == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  protected void addInstanceFilter(long l) {
+    final InstanceFilter[] filters = new InstanceFilter[myInstanceFilters.length + 1];
+    System.arraycopy(myInstanceFilters, 0, filters, 0, myInstanceFilters.length);
+    filters[myInstanceFilters.length] = InstanceFilter.create(String.valueOf(l));
+    myInstanceFilters = filters;
+  }
+
+  public final ClassFilter[] getClassFilters() {
+    return myClassFilters;
+  }
+
+  public final void setClassFilters(ClassFilter[] classFilters) {
+    myClassFilters = classFilters != null? classFilters : ClassFilter.EMPTY_ARRAY;
+  }
+
+  public ClassFilter[] getClassExclusionFilters() {
+    return myClassExclusionFilters;
+  }
+
+  public void setClassExclusionFilters(ClassFilter[] classExclusionFilters) {
+    myClassExclusionFilters = classExclusionFilters != null? classExclusionFilters : ClassFilter.EMPTY_ARRAY;
+  }
+
+  public void readTo(Element parentNode, Breakpoint breakpoint) throws InvalidDataException {
+    readExternal(parentNode);
+    if (SUSPEND) {
+      breakpoint.setSuspendPolicy(SUSPEND_POLICY);
+    }
+    else {
+      breakpoint.setSuspendPolicy(DebuggerSettings.SUSPEND_NONE);
+    }
+
+    breakpoint.setCountFilterEnabled(COUNT_FILTER_ENABLED);
+    breakpoint.setCountFilter(COUNT_FILTER);
+
+    breakpoint.setCondition(CONDITION_ENABLED ? myCondition : null);
+    if (myCondition != null && !myCondition.isEmpty()) {
+      XDebuggerHistoryManager.getInstance(myProject).addRecentExpression(DefaultConditionComboBoxPanel.HISTORY_KEY, myCondition.getText());
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     breakpoint.setClassFiltersEnabled(CLASS_FILTERS_ENABLED);
     breakpoint.setClassFilters(getClassFilters());

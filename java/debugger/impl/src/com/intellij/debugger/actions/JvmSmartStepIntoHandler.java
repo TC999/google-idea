@@ -23,7 +23,10 @@ import com.intellij.debugger.engine.MethodFilter;
 import com.intellij.debugger.impl.DebuggerSession;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.actionSystem.ShortcutSet;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.fileEditor.TextEditor;
@@ -137,11 +140,12 @@ public abstract class JvmSmartStepIntoHandler {
   protected MethodFilter createMethodFilter(SmartStepTarget stepTarget) {
     if (stepTarget instanceof MethodSmartStepTarget) {
       final PsiMethod method = ((MethodSmartStepTarget)stepTarget).getMethod();
-      return stepTarget.needsBreakpointRequest()? new AnonymousClassMethodFilter(method) : new BasicStepMethodFilter(method);
+      return stepTarget.needsBreakpointRequest()? new AnonymousClassMethodFilter(method, stepTarget.getCallingExpressionLines()) :
+             new BasicStepMethodFilter(method, stepTarget.getCallingExpressionLines());
     }
     if (stepTarget instanceof LambdaSmartStepTarget) {
       final LambdaSmartStepTarget lambdaTarget = (LambdaSmartStepTarget)stepTarget;
-      return new LambdaMethodFilter(lambdaTarget.getLambda(), lambdaTarget.getOrdinal());
+      return new LambdaMethodFilter(lambdaTarget.getLambda(), lambdaTarget.getOrdinal(), stepTarget.getCallingExpressionLines());
     }
     return null;
   }

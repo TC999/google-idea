@@ -62,4 +62,11 @@ public class LightAdvHighlightingJdk6Test extends LightDaemonAnalyzerTestCase {
   public void testUnhandledExceptionsValueOf() { doTest(true, false); }
   public void testUnsupportedFeatures7() { doTest(false, false); }
   public void testEnumInitializers() { doTest(false, false); }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void testIDEA79251() { doTest(false, false); }
+  public void testAgentPremain() {
+    doTest(false, false); 
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

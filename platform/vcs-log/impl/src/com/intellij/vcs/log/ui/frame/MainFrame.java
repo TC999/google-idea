@@ -19,11 +19,16 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.vcs.log.VcsLog;
 import com.intellij.vcs.log.VcsLogDataKeys;
 import com.intellij.vcs.log.VcsLogSettings;
+import com.intellij.vcs.log.data.DataPack;
 import com.intellij.vcs.log.data.VcsLogDataHolder;
 import com.intellij.vcs.log.data.VcsLogUiProperties;
-import com.intellij.vcs.log.ui.VcsLogUI;
+import com.intellij.vcs.log.ui.VcsLogUiImpl;
 import com.intellij.vcs.log.ui.filter.VcsLogClassicFilterUi;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.vcs.log.ui.filter.VcsLogFilterUi;
+=======
+import com.intellij.vcs.log.VcsLogFilterUi;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.vcs.log.ui.tables.GraphTableModel;
 import icons.VcsLogIcons;
 import org.jetbrains.annotations.NotNull;
@@ -36,17 +41,14 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author erokhins
- */
 public class MainFrame extends JPanel implements TypeSafeDataProvider {
 
   @NotNull private final VcsLogDataHolder myLogDataHolder;
-  @NotNull private final VcsLogUI myUI;
+  @NotNull private final VcsLogUiImpl myUI;
   @NotNull private final Project myProject;
   @NotNull private final VcsLogUiProperties myUiProperties;
   @NotNull private final VcsLog myLog;
-  @NotNull private final VcsLogFilterUi myFilterUi;
+  @NotNull private final VcsLogClassicFilterUi myFilterUi;
 
   @NotNull private final JBLoadingPanel myChangesLoadingPane;
   @NotNull private final VcsLogGraphTable myGraphTable;
@@ -55,21 +57,22 @@ public class MainFrame extends JPanel implements TypeSafeDataProvider {
   @NotNull private final Splitter myDetailsSplitter;
   private final JComponent myToolbar;
 
-  public MainFrame(@NotNull VcsLogDataHolder logDataHolder, @NotNull VcsLogUI vcsLogUI, @NotNull Project project,
-                   @NotNull VcsLogSettings settings, @NotNull VcsLogUiProperties uiProperties, @NotNull VcsLog log) {
+  public MainFrame(@NotNull VcsLogDataHolder logDataHolder, @NotNull VcsLogUiImpl vcsLogUI, @NotNull Project project,
+                   @NotNull VcsLogSettings settings, @NotNull VcsLogUiProperties uiProperties, @NotNull VcsLog log,
+                   @NotNull DataPack initialDataPack) {
     // collect info
     myLogDataHolder = logDataHolder;
     myUI = vcsLogUI;
     myProject = project;
     myUiProperties = uiProperties;
     myLog = log;
-    myFilterUi = new VcsLogClassicFilterUi(myUI);
+    myFilterUi = new VcsLogClassicFilterUi(myUI, logDataHolder, uiProperties, initialDataPack);
 
     // initialize components
-    myGraphTable = new VcsLogGraphTable(vcsLogUI, logDataHolder);
-    myBranchesPanel = new BranchesPanel(logDataHolder, vcsLogUI);
+    myGraphTable = new VcsLogGraphTable(vcsLogUI, logDataHolder, initialDataPack);
+    myBranchesPanel = new BranchesPanel(logDataHolder, vcsLogUI, initialDataPack.getRefsModel());
     myBranchesPanel.setVisible(settings.isShowBranchesPanel());
-    myDetailsPanel = new DetailsPanel(logDataHolder, myGraphTable, vcsLogUI.getColorManager());
+    myDetailsPanel = new DetailsPanel(logDataHolder, myGraphTable, vcsLogUI.getColorManager(), initialDataPack);
 
     final ChangesBrowser changesBrowser = new RepositoryChangesBrowser(project, null, Collections.<Change>emptyList(), null);
     changesBrowser.getDiffAction().registerCustomShortcutSet(CommonShortcuts.getDiff(), getGraphTable());
@@ -109,6 +112,20 @@ public class MainFrame extends JPanel implements TypeSafeDataProvider {
         changesBrowserSplitter.dispose();
       }
     });
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  /**
+   * Informs components that the actual DataPack has been updated (e.g. due to a log refresh). <br/>
+   * Components may want to update their fields and/or rebuild.
+   * @param dataPack new data pack.
+   */
+  public void updateDataPack(@NotNull DataPack dataPack) {
+    myFilterUi.updateDataPack(dataPack);
+    myDetailsPanel.updateDataPack(dataPack);
+    myGraphTable.updateDataPack(dataPack);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private void updateWhenDetailsAreLoaded(final CommitSelectionListener selectionChangeListener) {
@@ -185,7 +202,7 @@ public class MainFrame extends JPanel implements TypeSafeDataProvider {
 
     DefaultActionGroup toolbarGroup = new DefaultActionGroup(hideBranchesAction, showBranchesAction, showFullPatchAction, refreshAction,
                                                              showDetailsAction);
-    toolbarGroup.add(ActionManager.getInstance().getAction(VcsLogUI.TOOLBAR_ACTION_GROUP));
+    toolbarGroup.add(ActionManager.getInstance().getAction(VcsLogUiImpl.TOOLBAR_ACTION_GROUP));
 
     DefaultActionGroup mainGroup = new DefaultActionGroup();
     mainGroup.add(myFilterUi.getFilterActionComponents());
@@ -213,6 +230,12 @@ public class MainFrame extends JPanel implements TypeSafeDataProvider {
   public void calcData(DataKey key, DataSink sink) {
     if (VcsLogDataKeys.VSC_LOG == key) {
       sink.put(key, myLog);
+    }
+    else if (VcsLogDataKeys.VCS_LOG_UI == key) {
+      sink.put(key, myUI);
+    }
+    else if (VcsLogDataKeys.VCS_LOG_DATA_PROVIDER == key) {
+      sink.put(key, myLogDataHolder);
     }
     else if (VcsDataKeys.CHANGES.equals(key)) {
       List<Change> selectedChanges = getSelectedChanges();

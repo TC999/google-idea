@@ -122,7 +122,11 @@ public class GitBranchWidget extends EditorBasedWidget implements StatusBarWidge
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   // have to effect since the click opens a list popup, and the consumer is not called for the MultipleTextValuesPresentation
+=======
+  // have no effect since the click opens a list popup, and the consumer is not called for the MultipleTextValuesPresentation
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public Consumer<MouseEvent> getClickConsumer() {
     return new Consumer<MouseEvent>() {
       public void consume(MouseEvent mouseEvent) {

@@ -34,6 +34,7 @@ public class Scopes {
     myForTestCompile = scope.isForTestCompile();
     myForTestRuntime = scope.isForTestRuntime();
     myIsProvided = scope == GradleDependencyScope.PROVIDED_COMPILE ||
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                    scope == GradleDependencyScope.PROVIDED_RUNTIME ||
                    scope == GradleDependencyScope.PROVIDED;
   }
@@ -80,5 +81,51 @@ public class Scopes {
                    scope == GradleDependencyScope.PROVIDED_COMPILE ||
                    scope == GradleDependencyScope.PROVIDED_RUNTIME ||
                    scope == GradleDependencyScope.PROVIDED;
+=======
+                   scope == GradleDependencyScope.PROVIDED_RUNTIME;
+  }
+
+  public GradleDependencyScope[] getScopes() {
+    if (myIsProvided) {
+      if (myForProductionCompile && myForProductionRuntime && myForTestCompile && myForTestRuntime) {
+        return new GradleDependencyScope[]{GradleDependencyScope.PROVIDED_COMPILE};
+      }
+      else if (!myForProductionCompile && myForProductionRuntime && !myForTestCompile && myForTestRuntime) {
+        return new GradleDependencyScope[]{GradleDependencyScope.PROVIDED_RUNTIME};
+      }
+      else if (!myForProductionCompile && myForProductionRuntime && myForTestCompile && myForTestRuntime) {
+        return new GradleDependencyScope[]{GradleDependencyScope.TEST_COMPILE, GradleDependencyScope.PROVIDED_RUNTIME};
+      }
+    }
+
+    if (myForProductionCompile && myForProductionRuntime && myForTestCompile && myForTestRuntime) {
+      return new GradleDependencyScope[]{GradleDependencyScope.COMPILE};
+    }
+    else if (!myForProductionCompile && myForProductionRuntime && !myForTestCompile && myForTestRuntime) {
+      return new GradleDependencyScope[]{GradleDependencyScope.RUNTIME};
+    }
+    else if (!myForProductionCompile && !myForProductionRuntime && myForTestCompile && myForTestRuntime) {
+      return new GradleDependencyScope[]{GradleDependencyScope.TEST_COMPILE};
+    }
+    else if (!myForProductionCompile && !myForProductionRuntime && !myForTestCompile && myForTestRuntime) {
+      return new GradleDependencyScope[]{GradleDependencyScope.TEST_RUNTIME};
+    }
+    else if (!myForProductionCompile && myForProductionRuntime && myForTestCompile && myForTestRuntime) {
+      return new GradleDependencyScope[]{GradleDependencyScope.TEST_COMPILE, GradleDependencyScope.RUNTIME};
+    }
+    else {
+      return new GradleDependencyScope[]{GradleDependencyScope.COMPILE};
+    }
+  }
+
+  public void add(GradleDependencyScope scope) {
+    myForProductionCompile = myForProductionCompile || scope.isForProductionCompile();
+    myForProductionRuntime = myForProductionRuntime || scope.isForProductionRuntime();
+    myForTestCompile = myForTestCompile || scope.isForTestCompile();
+    myForTestRuntime = myForTestRuntime || scope.isForTestRuntime();
+    myIsProvided = myIsProvided ||
+                   scope == GradleDependencyScope.PROVIDED_COMPILE ||
+                   scope == GradleDependencyScope.PROVIDED_RUNTIME;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

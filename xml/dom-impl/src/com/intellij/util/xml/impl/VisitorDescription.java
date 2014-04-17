@@ -34,7 +34,11 @@ public class VisitorDescription {
 
   public VisitorDescription(final Class<? extends DomElementVisitor> visitorClass) {
     myVisitorClass = visitorClass;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (final Method method : visitorClass.getMethods()) {
+=======
+    for (final Method method : ReflectionUtil.getClassPublicMethods(visitorClass)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       final Class<?>[] parameterTypes = method.getParameterTypes();
       if (parameterTypes.length != 1) {
         continue;

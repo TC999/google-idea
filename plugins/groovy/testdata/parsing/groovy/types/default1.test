@@ -34,6 +34,7 @@ Groovy script
           <empty list>
         PsiElement())(')')
         PsiWhiteSpace(' ')
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         Default annotation value
           PsiElement(default)('default')
           PsiWhiteSpace(' ')
@@ -43,6 +44,16 @@ Groovy script
               PsiElement(identifier)('Bar')
             Annotation arguments
               <empty list>
+=======
+        PsiElement(default)('default')
+        PsiWhiteSpace(' ')
+        Annotation
+          PsiElement(@)('@')
+          Reference element
+            PsiElement(identifier)('Bar')
+          Annotation arguments
+            <empty list>
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         Throw clause
           <empty list>
       PsiWhiteSpace(' ')

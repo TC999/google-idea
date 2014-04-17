@@ -25,6 +25,13 @@ import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.ui.VcsBalloonProblemNotifier;
 import com.intellij.util.WaitForProgressToShow;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.jcraft.jsch.agentproxy.AgentProxyException;
+import com.jcraft.jsch.agentproxy.Connector;
+import com.jcraft.jsch.agentproxy.ConnectorFactory;
+import com.jcraft.jsch.agentproxy.TrileadAgentProxy;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.idea.svn.SvnAuthenticationManager;
@@ -114,21 +121,36 @@ public class SvnInteractiveAuthenticationProvider implements ISVNAuthenticationP
       };
     }
     else if (ISVNAuthenticationManager.SSH.equals(kind)) {
+      // In current implementation, pageant connector available = operating system is Windows.
+      // So "ssh agent" option will be always available on Windows, even if pageant is not running.
+      final Connector agentConnector = createSshAgentConnector();
+      final boolean isAgentAvailable = agentConnector != null && agentConnector.isAvailable();
+
       command = new Runnable() {
         public void run() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           SSHCredentialsDialog dialog = new SSHCredentialsDialog(myProject, realm, userName, authCredsOn, url.getPort());
+=======
+          SSHCredentialsDialog dialog = new SSHCredentialsDialog(myProject, realm, userName, authCredsOn, url.getPort(), isAgentAvailable);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           setTitle(dialog, errorMessage);
           dialog.show();
           if (dialog.isOK()) {
             int port = dialog.getPortNumber();
-            if (dialog.getKeyFile() != null && dialog.getKeyFile().trim().length() > 0) {
+            if (dialog.isSshAgentSelected()) {
+              if (agentConnector != null) {
+                result[0] =
+                  new SVNSSHAuthentication(dialog.getUserName(), new TrileadAgentProxy(agentConnector), port, url, false);
+              }
+            }
+            else if (dialog.getKeyFile() != null && dialog.getKeyFile().trim().length() > 0) {
               String passphrase = dialog.getPassphrase();
               if (passphrase != null && passphrase.length() == 0) {
                 passphrase = null;
               }
               result[0] =
-                new SVNSSHAuthentication(dialog.getUserName(), new File(dialog.getKeyFile()), passphrase, port, dialog.isSaveAllowed(),
-                                         url, false);
+                new SVNSSHAuthentication(dialog.getUserName(), new File(dialog.getKeyFile()), passphrase, port, dialog.isSaveAllowed(), url,
+                                         false);
             }
             else {
               result[0] = new SVNSSHAuthentication(dialog.getUserName(), dialog.getPassword(), port, dialog.isSaveAllowed(), url, false);
@@ -166,6 +188,23 @@ public class SvnInteractiveAuthenticationProvider implements ISVNAuthenticationP
     return result[0];
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @Nullable
+  private static Connector createSshAgentConnector() {
+    Connector result = null;
+
+    try {
+      result = ConnectorFactory.getDefault().createConnector();
+    }
+    catch (AgentProxyException e) {
+      LOG.info("Could not create ssh agent connector", e);
+    }
+
+    return result;
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private static void setTitle(@NotNull DialogWrapper dialog, @Nullable SVNErrorMessage errorMessage) {
     dialog.setTitle(errorMessage == null
                     ? SvnBundle.message("dialog.title.authentication.required")

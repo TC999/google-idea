@@ -106,6 +106,10 @@ public abstract class ModuleBuilder extends AbstractModuleBuilder {
   @Override
   @Nullable
   public ModuleWizardStep modifySettingsStep(@NotNull SettingsStep settingsStep) {
+    return modifyStep(settingsStep);
+  }
+
+  public ModuleWizardStep modifyStep(SettingsStep settingsStep) {
     ModuleType type = getModuleType();
     if (type == null) {
       return null;
@@ -140,6 +144,14 @@ public abstract class ModuleBuilder extends AbstractModuleBuilder {
         }
       };
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  public ModuleWizardStep modifyProjectTypeStep(@NotNull SettingsStep settingsStep) {
+    ModuleType type = getModuleType();
+    return type == null ? null : type.modifyProjectTypeStep(settingsStep, this);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   protected List<WizardInputField> getAdditionalFields() {
@@ -359,6 +371,11 @@ public abstract class ModuleBuilder extends AbstractModuleBuilder {
     return null;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public int getWeight() { return 0; }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public boolean isTemplate() {
     return false;
   }

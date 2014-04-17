@@ -42,7 +42,10 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.Collection;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import java.util.List;
 
 /**
@@ -226,6 +229,7 @@ public class TextEditorProvider implements FileEditorProvider, DumbAware {
   protected TextEditorState getStateImpl(final Project project, @NotNull Editor editor, @NotNull FileEditorStateLevel level){
     TextEditorState state = new TextEditorState();
     CaretModel caretModel = editor.getCaretModel();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     Collection<Caret> allCarets = caretModel.getAllCarets();
     state.CARETS = new TextEditorState.CaretState[allCarets.size()];
     int i = 0;
@@ -239,6 +243,25 @@ public class TextEditorProvider implements FileEditorProvider, DumbAware {
       state.CARETS[i].SELECTION_START_COLUMN = selectionStartPosition.column;
       state.CARETS[i].SELECTION_END_LINE = selectionEndPosition.line;
       state.CARETS[i++].SELECTION_END_COLUMN = selectionEndPosition.column;
+=======
+    if (caretModel.supportsMultipleCarets()) {
+      List<CaretState> caretsAndSelections = caretModel.getCaretsAndSelections();
+      state.CARETS = new TextEditorState.CaretState[caretsAndSelections.size()];
+      for (int i = 0; i < caretsAndSelections.size(); i++) {
+        CaretState caretState = caretsAndSelections.get(i);
+        LogicalPosition caretPosition = caretState.getCaretPosition();
+        LogicalPosition selectionStartPosition = caretState.getSelectionStart();
+        LogicalPosition selectionEndPosition = caretState.getSelectionEnd();
+        state.CARETS[i] = createCaretState(caretPosition, selectionStartPosition, selectionEndPosition);
+      }
+    }
+    else {
+      LogicalPosition caretPosition = caretModel.getLogicalPosition();
+      LogicalPosition selectionStartPosition = editor.offsetToLogicalPosition(editor.getSelectionModel().getSelectionStart());
+      LogicalPosition selectionEndPosition = editor.offsetToLogicalPosition(editor.getSelectionModel().getSelectionEnd());
+      state.CARETS = new TextEditorState.CaretState[1];
+      state.CARETS[0] = createCaretState(caretPosition, selectionStartPosition, selectionEndPosition);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     // Saving scrolling proportion on UNDO may cause undesirable results of undo action fails to perform since
@@ -251,6 +274,25 @@ public class TextEditorProvider implements FileEditorProvider, DumbAware {
     }
 
     return state;
+  }
+
+  private static TextEditorState.CaretState createCaretState(LogicalPosition caretPosition, LogicalPosition selectionStartPosition, LogicalPosition selectionEndPosition) {
+    TextEditorState.CaretState caretState = new TextEditorState.CaretState();
+    caretState.LINE = getLine(caretPosition);
+    caretState.COLUMN = getColumn(caretPosition);
+    caretState.SELECTION_START_LINE = getLine(selectionStartPosition);
+    caretState.SELECTION_START_COLUMN = getColumn(selectionStartPosition);
+    caretState.SELECTION_END_LINE = getLine(selectionEndPosition);
+    caretState.SELECTION_END_COLUMN = getColumn(selectionEndPosition);
+    return caretState;
+  }
+
+  private static int getLine(@Nullable LogicalPosition pos) {
+    return pos == null ? 0 : pos.line;
+  }
+
+  private static int getColumn(@Nullable LogicalPosition pos) {
+    return pos == null ? 0 : pos.column;
   }
 
   protected void setStateImpl(final Project project, final Editor editor, final TextEditorState state){

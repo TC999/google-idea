@@ -87,3 +87,16 @@ class Foo(object):
         for data in [1,2,3]:
             for self.data in [1,2,3]:
                 pass
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+def contains_even_number(l):
+    """
+    See: PY-12367
+    """
+    for elt in range(10):
+        print elt
+    else:
+        for elt in range(10):
+            pass
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)

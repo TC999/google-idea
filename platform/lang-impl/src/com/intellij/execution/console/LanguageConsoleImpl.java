@@ -92,6 +92,8 @@ public class LanguageConsoleImpl implements Disposable, TypeSafeDataProvider {
   private String myTitle;
   @Nullable
   private String myPrompt = "> ";
+  private TextAttributes myPromptAttributes = ConsoleViewContentType.USER_INPUT.getAttributes();
+
   private final LightVirtualFile myHistoryFile;
   private Editor myCurrentEditor;
 
@@ -228,6 +230,10 @@ public class LanguageConsoleImpl implements Disposable, TypeSafeDataProvider {
     myHistoryViewer.getComponent().setPreferredSize(new Dimension(0, 0));
     myHistoryViewer.setCaretEnabled(false);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    myConsoleEditor.setHorizontalScrollbarVisible(true);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myConsoleEditor.addEditorMouseListener(EditorActionUtil.createEditorPopupHandler(IdeActions.GROUP_CONSOLE_EDITOR_POPUP));
     myConsoleEditor.setHighlighter(EditorHighlighterFactory.getInstance().createEditorHighlighter(myVirtualFile, myConsoleEditor.getColorsScheme(), myProject));
 
@@ -322,6 +328,7 @@ public class LanguageConsoleImpl implements Disposable, TypeSafeDataProvider {
 
   @SuppressWarnings("UnusedDeclaration")
   @NotNull
+  @Deprecated
   public LightVirtualFile getHistoryFile() {
     return myHistoryFile;
   }
@@ -329,6 +336,10 @@ public class LanguageConsoleImpl implements Disposable, TypeSafeDataProvider {
   @Nullable
   public String getPrompt() {
     return myPrompt;
+  }
+
+  public void setPromptAttributes(@NotNull TextAttributes textAttributes) {
+    myPromptAttributes = textAttributes;
   }
 
   public void setPrompt(@Nullable String prompt) {
@@ -343,7 +354,7 @@ public class LanguageConsoleImpl implements Disposable, TypeSafeDataProvider {
     UIUtil.invokeAndWaitIfNeeded(new Runnable() {
       @Override
       public void run() {
-        myConsoleEditor.setPrefixTextAndAttributes(prompt, ConsoleViewContentType.USER_INPUT.getAttributes());
+        myConsoleEditor.setPrefixTextAndAttributes(prompt, myPromptAttributes);
         if (myPanel.isVisible()) {
           queueUiUpdate(false);
         }
@@ -539,7 +550,7 @@ public class LanguageConsoleImpl implements Disposable, TypeSafeDataProvider {
   }
 
   protected void doAddPromptToHistory() {
-    addTextToHistory(myPrompt, ConsoleViewContentType.USER_INPUT.getAttributes());
+    addTextToHistory(myPrompt, myPromptAttributes);
   }
 
   // returns the real (cyclic-buffer-aware) start offset of the inserted text
@@ -582,18 +593,32 @@ public class LanguageConsoleImpl implements Disposable, TypeSafeDataProvider {
 
   public void queueUiUpdate(boolean forceScrollToEnd) {
     myForceScrollToEnd.compareAndSet(false, forceScrollToEnd);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    if (myUpdateQueue.isDisposed()) {
+      return;
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myUpdateQueue.request();
   }
 
   @Override
   public void dispose() {
-    final EditorFactory editorFactory = EditorFactory.getInstance();
+    EditorFactory editorFactory = EditorFactory.getInstance();
     editorFactory.releaseEditor(myConsoleEditor);
     editorFactory.releaseEditor(myHistoryViewer);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final FileEditorManager editorManager = FileEditorManager.getInstance(getProject());
     if (editorManager.isFileOpen(myVirtualFile)) {
       editorManager.closeFile(myVirtualFile);
+=======
+    if (getProject().isOpen()) {
+      FileEditorManager editorManager = FileEditorManager.getInstance(getProject());
+      if (editorManager.isFileOpen(myVirtualFile)) {
+        editorManager.closeFile(myVirtualFile);
+      }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 

@@ -56,6 +56,7 @@ public class PluginsTableRenderer extends DefaultTableCellRenderer {
     if (SystemInfo.isMac) {
       smallFont = UIUtil.getLabelFont(UIUtil.FontSize.MINI);
     } else {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       smallFont = UIUtil.getLabelFont().deriveFont(Math.max(UIUtil.getLabelFont().getSize() - 2, 11f));
     }
     myName.setFont(UIUtil.getLabelFont().deriveFont(UIUtil.getLabelFont().getSize() + 1.0f));
@@ -152,6 +153,116 @@ public class PluginsTableRenderer extends DefaultTableCellRenderer {
       }
       if (!myPluginDescriptor.isEnabled()) {
         myStatus.setIcon(IconLoader.getDisabledIcon(myStatus.getIcon()));
+=======
+      smallFont = UIUtil.getLabelFont().deriveFont(Math.max(UIUtil.getLabelFont().getSize() - 2, 10f));
+    }
+    myName.setFont(UIUtil.getLabelFont().deriveFont(UIUtil.getLabelFont().getSize() + 1.0f));
+    myStatus.setFont(smallFont);
+    myCategory.setFont(smallFont);
+    myDownloads.setFont(smallFont);
+    myStatus.setText("");
+    myCategory.setText("");
+    myLastUpdated.setFont(smallFont);
+    if (!myShowFullInfo || !(pluginDescriptor instanceof PluginNode)) {
+      myPanel.remove(myRightPanel);
+    }
+
+    if (!myShowFullInfo) {
+      myInfoPanel.remove(myBottomPanel);
+    }
+
+    myPanel.setBorder(UIUtil.isRetina() ? new EmptyBorder(4,3,4,3) : new EmptyBorder(2,3,2,3));
+  }
+
+  @Override
+  public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    if (myPluginDescriptor != null) {
+      myName.setText(myPluginDescriptor.getName() + "  ");
+
+      final Color fg = UIUtil.getTableForeground(isSelected);
+      final Color bg = UIUtil.getTableBackground(isSelected);
+      final Color grayedFg = isSelected ? fg : new JBColor(Gray._130, Gray._120);
+      myName.setForeground(fg);
+      myStatus.setForeground(grayedFg);
+      myStatus.setIcon(AllIcons.Nodes.Plugin);
+      String category = myPluginDescriptor.getCategory();
+      myCategory.setForeground(grayedFg);
+      if (category != null) {
+        myCategory.setText(category.toUpperCase() + " ");
+      }
+      if (myPluginDescriptor.isBundled()) {
+        myCategory.setText(myCategory.getText() + "[Bundled]");
+        myStatus.setIcon(AllIcons.Nodes.PluginJB);
+      }
+      final String vendor = myPluginDescriptor.getVendor();
+      if (vendor != null && vendor.toLowerCase().contains("jetbrains")) {
+        myStatus.setIcon(AllIcons.Nodes.PluginJB);
+      }
+
+      myPanel.setBackground(bg);
+      myLastUpdated.setForeground(grayedFg);
+      myLastUpdated.setText("");
+      myDownloads.setForeground(grayedFg);
+      myDownloads.setText("");
+
+      final PluginNode pluginNode = myPluginDescriptor instanceof PluginNode ? (PluginNode)myPluginDescriptor : null;
+      if (pluginNode != null && pluginNode.getRepositoryName() == null) {
+        String downloads = pluginNode.getDownloads();
+        if (downloads == null) downloads= "";
+        if (downloads.length() > 3) {
+          downloads = new DecimalFormat("#,###").format(Integer.parseInt(downloads));
+        }
+        //if (myDownloads.getFont().canDisplay('\u2193')) {
+        //  downloads += '\u2193';
+        //}
+        myDownloads.setText(downloads);
+
+        myRating.setRate(pluginNode.getRating());
+        myLastUpdated.setText(DateFormatUtil.formatBetweenDates(pluginNode.getDate(), System.currentTimeMillis()));
+      }
+
+      final IdeaPluginDescriptor installed = PluginManager.getPlugin(myPluginDescriptor.getPluginId());
+      if ((pluginNode != null && PluginManagerColumnInfo.isDownloaded(pluginNode)) ||
+          (installed != null && InstalledPluginsTableModel.wasUpdated(installed.getPluginId()))) {
+        if (!isSelected) myName.setForeground(FileStatus.ADDED.getColor());
+        //todo[kb] set proper icon
+        //myStatus.setText("[Downloaded]");
+        myStatus.setIcon(AllIcons.Nodes.PluginRestart);
+        //myPanel.setToolTipText(IdeBundle.message("plugin.download.status.tooltip"));
+        //myStatus.setBorder(BorderFactory.createEmptyBorder(0, LEFT_MARGIN, 0, 0));
+      }
+      else if (pluginNode != null && pluginNode.getStatus() == PluginNode.STATUS_INSTALLED) {
+        PluginId pluginId = pluginNode.getPluginId();
+        final boolean hasNewerVersion = InstalledPluginsTableModel.hasNewerVersion(pluginId);
+        if (!isSelected) myName.setForeground(FileStatus.MODIFIED.getColor());
+        if (hasNewerVersion) {
+          if (!isSelected) {
+            myName.setForeground(FileStatus.MODIFIED.getColor());
+          }
+          myStatus.setIcon(AllIcons.Nodes.Pluginobsolete);
+        }
+        //todo[kb] set proper icon
+        //myStatus.setText("v." + pluginNode.getInstalledVersion() + (hasNewerVersion ? (" -> " + pluginNode.getVersion()) : ""));
+      }
+
+      if (InstalledPluginsTableModel.hasNewerVersion(myPluginDescriptor.getPluginId())) {
+        myStatus.setIcon(AllIcons.Nodes.Pluginobsolete);
+        if (!isSelected) {
+          myName.setForeground(FileStatus.MODIFIED.getColor());
+        }
+      }
+      if (!myPluginDescriptor.isEnabled()) {
+        myStatus.setIcon(IconLoader.getDisabledIcon(myStatus.getIcon()));
+      }
+    }
+    if (!isSelected) {
+      if (PluginManagerCore.isIncompatible(myPluginDescriptor)) {
+        myName.setForeground(JBColor.RED);
+      } else if (myPluginDescriptor != null && table.getModel() instanceof InstalledPluginsTableModel) {
+        if (((InstalledPluginsTableModel)table.getModel()).hasProblematicDependencies(myPluginDescriptor.getPluginId())) {
+          myName.setForeground(JBColor.RED);
+        }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
 

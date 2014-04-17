@@ -81,7 +81,11 @@ public class JiraRestApi2 extends JiraRestApi {
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void updateTimeSpend(LocalTask task, String timeSpent, String comment) throws Exception {
+=======
+  public void updateTimeSpend(@NotNull LocalTask task, @NotNull String timeSpent, String comment) throws Exception {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     LOG.debug(String.format("Time spend: %s, comment: %s", timeSpent, comment));
     PostMethod method = new PostMethod(myRepository.getRestUrl("issue", task.getId(), "worklog"));
     String request;

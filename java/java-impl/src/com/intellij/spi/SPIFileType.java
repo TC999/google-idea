@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,15 @@ package com.intellij.spi;
 import com.intellij.icons.AllIcons;
 import com.intellij.lang.spi.SPILanguage;
 import com.intellij.openapi.extensions.Extensions;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.fileTypes.*;
+=======
+import com.intellij.openapi.fileTypes.FileTypeRegistry;
+import com.intellij.openapi.fileTypes.FileTypes;
+import com.intellij.openapi.fileTypes.LanguageFileType;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.fileTypes.ex.FileTypeIdentifiableByVirtualFile;
+import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
@@ -43,9 +50,9 @@ public class SPIFileType extends LanguageFileType implements FileTypeIdentifiabl
   @Override
   public boolean isMyFileType(VirtualFile file) {
     VirtualFile parent = file.getParent();
-    if (parent != null && "services".equals(parent.getName())) {
+    if (parent != null && Comparing.equal("services", parent.getNameSequence())) {
       final VirtualFile gParent = parent.getParent();
-      if (gParent != null && "META-INF".equals(gParent.getName())) {
+      if (gParent != null && Comparing.equal("META-INF", gParent.getNameSequence())) {
         final String fileName = file.getName();
         for (Object condition : Extensions.getExtensions("com.intellij.vetoSPICondition")) {
           if (((Condition<String>)condition).value(fileName)) return false;
@@ -87,7 +94,7 @@ public class SPIFileType extends LanguageFileType implements FileTypeIdentifiabl
 
   @Nullable
   @Override
-  public String getCharset(@NotNull VirtualFile file, byte[] content) {
+  public String getCharset(@NotNull VirtualFile file, @NotNull byte[] content) {
     return CharsetToolkit.UTF8;
   }
 }

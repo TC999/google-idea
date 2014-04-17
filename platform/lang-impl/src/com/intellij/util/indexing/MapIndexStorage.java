@@ -44,8 +44,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author Eugene Zhuravlev
-*         Date: Dec 20, 2007
-*/
+ *         Date: Dec 20, 2007
+ */
 public final class MapIndexStorage<Key, Value> implements IndexStorage<Key, Value>{
   private static final Logger LOG = Logger.getInstance("#com.intellij.util.indexing.MapIndexStorage");
   private static final boolean ENABLE_CACHED_HASH_IDS = SystemProperties.getBooleanProperty("idea.index.no.cashed.hashids", true);
@@ -64,6 +64,7 @@ public final class MapIndexStorage<Key, Value> implements IndexStorage<Key, Valu
   private final LowMemoryWatcher myLowMemoryFlusher = LowMemoryWatcher.register(new Runnable() {
     @Override
     public void run() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       l.lock();
       try {
         if (!myMap.isClosed()) {
@@ -74,6 +75,9 @@ public final class MapIndexStorage<Key, Value> implements IndexStorage<Key, Valu
       finally {
         l.unlock();
       }
+=======
+      flush();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   });
 
@@ -158,11 +162,11 @@ public final class MapIndexStorage<Key, Value> implements IndexStorage<Key, Valu
   public void flush() {
     l.lock();
     try {
-      if (!myMap.isClosed() && myMap.isDirty()) {
+      if (!myMap.isClosed()) {
         myCache.clear();
-        myMap.force();
+        if (myMap.isDirty()) myMap.force();
       }
-      if (myKeyHashToVirtualFileMapping != null) myKeyHashToVirtualFileMapping.force();
+      if (myKeyHashToVirtualFileMapping != null && myKeyHashToVirtualFileMapping.isDirty()) myKeyHashToVirtualFileMapping.force();
     }
     finally {
       l.unlock();
@@ -327,6 +331,7 @@ public final class MapIndexStorage<Key, Value> implements IndexStorage<Key, Valu
     assert newFileWithCaches != null;
     DataOutputStream stream = null;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     try {
       stream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(newFileWithCaches)));
       DataInputOutputUtil.writeINT(stream, hashMaskSet.size());
@@ -351,6 +356,32 @@ public final class MapIndexStorage<Key, Value> implements IndexStorage<Key, Valu
       if (stream != null) {
         try {
           stream.close();
+=======
+    boolean savedSuccessfully = false;
+    try {
+      stream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(newFileWithCaches)));
+      DataInputOutputUtil.writeINT(stream, hashMaskSet.size());
+      final DataOutputStream finalStream = stream;
+      savedSuccessfully = hashMaskSet.forEach(new TIntProcedure() {
+        @Override
+        public boolean execute(int value) {
+          try {
+            DataInputOutputUtil.writeINT(finalStream, value);
+            return true;
+          } catch (IOException ex) {
+            return false;
+          }
+        }
+      });
+    }
+    catch (IOException ignored) {
+    }
+    finally {
+      if (stream != null) {
+        try {
+          stream.close();
+          if (savedSuccessfully) myLastScannedId = largestId;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
         catch (IOException ignored) {}
       }

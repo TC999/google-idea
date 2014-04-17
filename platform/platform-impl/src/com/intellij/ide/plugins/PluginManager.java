@@ -23,6 +23,8 @@ import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationListener;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ApplicationNamesInfo;
 import com.intellij.openapi.components.ComponentConfig;
 import com.intellij.openapi.diagnostic.Logger;
@@ -97,13 +99,22 @@ public class PluginManager extends PluginManagerCore {
   }
 
   public static void processException(Throwable t) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored") StartupAbortedException se = findCause(t);
+=======
+    if (!IdeaApplication.isLoaded()) {
+      @SuppressWarnings("ThrowableResultOfMethodCallIgnored") StartupAbortedException se = findCause(t);
+      if (se == null) se = new StartupAbortedException(t);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (se == null && !IdeaApplication.isLoaded()) {
       se = new StartupAbortedException(t);
     }
 
     if (se != null) {
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (se.logError()) {
         try {
           if (Logger.isInitialized() && !(t instanceof ProcessCanceledException)) {
@@ -117,10 +128,19 @@ public class PluginManager extends PluginManagerCore {
 
       System.exit(se.exitCode());
     }
-
-    if (!(t instanceof ProcessCanceledException)) {
+    else if (!(t instanceof ProcessCanceledException)) {
       getLogger().error(t);
     }
+  }
+
+  private static StartupAbortedException findCause(Throwable t) {
+    while (t != null) {
+      if (t instanceof StartupAbortedException) {
+        return (StartupAbortedException)t;
+      }
+      t = t.getCause();
+    }
+    return null;
   }
 
   private static StartupAbortedException findCause(Throwable t) {
@@ -191,7 +211,7 @@ public class PluginManager extends PluginManagerCore {
   }
 
   @Nullable
-  public static IdeaPluginDescriptor getPlugin(PluginId id) {
+  public static IdeaPluginDescriptor getPlugin(@Nullable PluginId id) {
     final IdeaPluginDescriptor[] plugins = getPlugins();
     for (final IdeaPluginDescriptor plugin : plugins) {
       if (Comparing.equal(id, plugin.getPluginId())) {
@@ -202,6 +222,13 @@ public class PluginManager extends PluginManagerCore {
   }
 
   public static void handleComponentError(Throwable t, @Nullable String componentClassName, @Nullable ComponentConfig config) {
+    Application app = ApplicationManager.getApplication();
+    if (app != null && app.isUnitTestMode()) {
+      if (t instanceof Error) throw (Error)t;
+      if (t instanceof RuntimeException) throw (RuntimeException)t;
+      throw new RuntimeException(t);
+    }
+
     if (t instanceof StartupAbortedException) {
       throw (StartupAbortedException)t;
     }

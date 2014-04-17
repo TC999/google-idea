@@ -49,6 +49,7 @@ public class GradleBuildClasspathManager {
 
   public GradleBuildClasspathManager(@NotNull Project project) {
     myProject = project;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     reload();
   }
 
@@ -84,6 +85,53 @@ public class GradleBuildClasspathManager {
             ContainerUtil.addIfNotNull(moduleBuildClasspath, jarFileSystem.getJarRootForLocalFile(virtualFile));
           }
         }
+=======
+    allFilesCache = ContainerUtil.newArrayList();
+  }
+
+  @NotNull
+  public static GradleBuildClasspathManager getInstance(@NotNull Project project) {
+    return ServiceManager.getService(project, GradleBuildClasspathManager.class);
+  }
+
+  public void reload() {
+    ExternalSystemManager<?, ?, ?, ?, ?> manager = ExternalSystemApiUtil.getManager(GradleConstants.SYSTEM_ID);
+    assert manager != null;
+    AbstractExternalSystemLocalSettings localSettings = manager.getLocalSettingsProvider().fun(myProject);
+
+    Map<String/*module path*/, List<VirtualFile> /*module build classpath*/> map = ContainerUtil.newHashMap();
+
+    final LocalFileSystem localFileSystem = LocalFileSystem.getInstance();
+    final JarFileSystem jarFileSystem = JarFileSystem.getInstance();
+    for (final ExternalProjectBuildClasspathPojo projectBuildClasspathPojo : localSettings.getProjectBuildClasspath().values()) {
+      final List<VirtualFile> projectBuildClasspath = ContainerUtil.newArrayList();
+      ExternalSystemApiUtil.executeOnEdt(true, new Runnable() {
+        @Override
+        public void run() {
+          for (String path : projectBuildClasspathPojo.getProjectBuildClasspath()) {
+            final VirtualFile virtualFile = localFileSystem.refreshAndFindFileByPath(path);
+            if (virtualFile != null) {
+              ContainerUtil.addIfNotNull(
+                projectBuildClasspath, virtualFile.isDirectory() ? virtualFile : jarFileSystem.getJarRootForLocalFile(virtualFile));
+            }
+          }
+        }
+      });
+
+      for (final ExternalModuleBuildClasspathPojo moduleBuildClasspathPojo : projectBuildClasspathPojo.getModulesBuildClasspath().values()) {
+        final List<VirtualFile> moduleBuildClasspath = ContainerUtil.newArrayList(projectBuildClasspath);
+        ExternalSystemApiUtil.executeOnEdt(true, new Runnable() {
+          @Override
+          public void run() {
+            for (String path : moduleBuildClasspathPojo.getEntries()) {
+              final VirtualFile virtualFile = localFileSystem.refreshAndFindFileByPath(path);
+              if (virtualFile != null) {
+                ContainerUtil.addIfNotNull(moduleBuildClasspath, jarFileSystem.getJarRootForLocalFile(virtualFile));
+              }
+            }
+          }
+        });
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
         map.put(moduleBuildClasspathPojo.getPath(), moduleBuildClasspath);
       }

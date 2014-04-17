@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 /*
  * User: anna
  * Date: 27-Jun-2007
@@ -71,6 +72,61 @@ public class ClsGenericsHighlightingTest extends UsefulTestCase {
   public void testIDEA118733() { doTest(); }
 
   private void doTest() {
+=======
+package com.intellij.codeInsight;
+
+import com.intellij.openapi.application.ex.PathManagerEx;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootModificationUtil;
+import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.roots.libraries.Library;
+import com.intellij.openapi.roots.libraries.LibraryTable;
+import com.intellij.openapi.vfs.JarFileSystem;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VfsUtilCore;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.pom.java.LanguageLevel;
+import com.intellij.testFramework.IdeaTestCase;
+import com.intellij.testFramework.UsefulTestCase;
+import com.intellij.testFramework.builders.JavaModuleFixtureBuilder;
+import com.intellij.testFramework.fixtures.*;
+import com.intellij.util.Consumer;
+import org.jetbrains.annotations.NotNull;
+
+public abstract class ClsGenericsHighlightingTest extends UsefulTestCase {
+  private CodeInsightTestFixture myFixture;
+  private Module myModule;
+
+  @SuppressWarnings("JUnitTestCaseWithNonTrivialConstructors")
+  public ClsGenericsHighlightingTest() {
+    IdeaTestCase.initPlatformPrefix();
+  }
+
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    TestFixtureBuilder<IdeaProjectTestFixture> projectBuilder = IdeaTestFixtureFactory.getFixtureFactory().createFixtureBuilder(getName());
+    myFixture = JavaTestFixtureFactory.getFixtureFactory().createCodeInsightFixture(projectBuilder.getFixture());
+    myFixture.setTestDataPath(PathManagerEx.getTestDataPath() + "/codeInsight/clsHighlighting");
+    JavaModuleFixtureBuilder builder = projectBuilder.addModule(JavaModuleFixtureBuilder.class);
+    builder.setLanguageLevel(getLanguageLevel());
+    myFixture.setUp();
+    myModule = builder.getFixture().getModule();
+  }
+
+  protected abstract LanguageLevel getLanguageLevel();
+
+  @Override
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    myFixture.tearDown();
+    myFixture = null;
+    myModule = null;
+  }
+
+  protected void doTest() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     String name = getTestName(false);
     addLibrary(name + ".jar");
     myFixture.configureByFile(name + ".java");

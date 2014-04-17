@@ -36,6 +36,10 @@
     <orderEntry type="library" name="Guava" level="project" />
     <orderEntry type="library" name="http-client" level="project" />
     <orderEntry type="module" module-name="structure-view-api" exported="" />
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    <orderEntry type="library" name="jna" level="project" />
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   </component>
 </module>
 

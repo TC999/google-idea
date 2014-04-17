@@ -80,6 +80,7 @@ public class StripTrailingSpacesTest extends LightPlatformCodeInsightTestCase {
   }
 
   public void testStrippingWithMultipleCarets() throws Exception {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     EditorTestUtil.enableMultipleCarets();
     try {
       doTest("xxx\n   <caret>\nyyy<caret>  ",
@@ -88,6 +89,10 @@ public class StripTrailingSpacesTest extends LightPlatformCodeInsightTestCase {
     finally {
       EditorTestUtil.disableMultipleCarets();
     }
+=======
+    doTest("xxx\n   <caret>\nyyy<caret>  ",
+           "xxx\n   <caret>\nyyy<caret>");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public void testModifyAndAltTabAway() throws IOException {

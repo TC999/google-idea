@@ -17,26 +17,46 @@ package com.intellij.openapi.vfs;
 
 import com.intellij.openapi.vfs.newvfs.NewVirtualFileSystem;
 import com.intellij.util.io.URLUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.jetbrains.annotations.NonNls;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
 public abstract class JarFileSystem extends NewVirtualFileSystem implements JarCopyingFileSystem, LocalFileProvider {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @NonNls public static final String PROTOCOL = StandardFileSystems.JAR_PROTOCOL;
   @NonNls public static final String PROTOCOL_PREFIX = StandardFileSystems.JAR_PROTOCOL_PREFIX;
   @NonNls public static final String JAR_SEPARATOR = URLUtil.JAR_SEPARATOR;
+=======
+  public static final String PROTOCOL = StandardFileSystems.JAR_PROTOCOL;
+  public static final String PROTOCOL_PREFIX = StandardFileSystems.JAR_PROTOCOL_PREFIX;
+  public static final String JAR_SEPARATOR = URLUtil.JAR_SEPARATOR;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
-  public static JarFileSystem getInstance(){
+  public static JarFileSystem getInstance() {
     return (JarFileSystem)VirtualFileManager.getInstance().getFileSystem(PROTOCOL);
   }
 
+  /**
+   * Returns a local file for a .jar root which is a parent given entry file
+   * (i.e.: jar:///path/to/jar.jar!/resource.xml => file:///path/to/jar.jar),
+   * or null if given file does not belong to this file system.
+   */
   @Nullable
   public abstract VirtualFile getVirtualFileForJar(@Nullable VirtualFile entryVFile);
-  @Nullable
+
+  /** @deprecated do not use (leaks file handles), to remove in IDEA 15 */
   public abstract JarFile getJarFile(@NotNull VirtualFile entryVFile) throws IOException;
 
+  /**
+   * Returns a .jar root for a given virtual file
+   * (i.e. file:///path/to/jar.jar => jar:///path/to/jar.jar!/),
+   * or null if given file is not a .jar.
+   */
   @SuppressWarnings("MethodMayBeStatic")
   @Nullable
   public VirtualFile getJarRootForLocalFile(@NotNull VirtualFile virtualFile) {

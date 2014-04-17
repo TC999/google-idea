@@ -74,6 +74,7 @@ public class AnonymousCanBeMethodReferenceInspection extends BaseJavaBatchLocalI
               final PsiCallExpression callExpression =
                 LambdaCanBeMethodReferenceInspection
                   .canBeMethodReferenceProblem(body, methods[0].getParameterList().getParameters(), baseClassType);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
               if (callExpression != null && callExpression.resolveMethod() != methods[0]) {
                 final PsiElement parent = aClass.getParent();
                 if (parent instanceof PsiNewExpression) {
@@ -84,6 +85,21 @@ public class AnonymousCanBeMethodReferenceInspection extends BaseJavaBatchLocalI
                     final TextRange rangeInElement = new TextRange(0, aClass.getStartOffsetInParent() + lBrace.getStartOffsetInParent());
                     holder.registerProblem(parent,
                                            "Anonymous #ref #loc can be replaced with method reference", ProblemHighlightType.LIKE_UNUSED_SYMBOL, rangeInElement, new ReplaceWithMethodRefFix());
+=======
+              if (callExpression != null) {
+                final PsiMethod resolveMethod = callExpression.resolveMethod();
+                if (resolveMethod != methods[0] && !AnonymousCanBeLambdaInspection.functionalInterfaceMethodReferenced(resolveMethod, aClass)) {
+                  final PsiElement parent = aClass.getParent();
+                  if (parent instanceof PsiNewExpression) {
+                    final PsiJavaCodeReferenceElement classReference = ((PsiNewExpression)parent).getClassOrAnonymousClassReference();
+                    if (classReference != null) {
+                      final PsiElement lBrace = aClass.getLBrace();
+                      LOG.assertTrue(lBrace != null);
+                      final TextRange rangeInElement = new TextRange(0, aClass.getStartOffsetInParent() + lBrace.getStartOffsetInParent());
+                      holder.registerProblem(parent,
+                                             "Anonymous #ref #loc can be replaced with method reference", ProblemHighlightType.LIKE_UNUSED_SYMBOL, rangeInElement, new ReplaceWithMethodRefFix());
+                    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                   }
                 }
               }

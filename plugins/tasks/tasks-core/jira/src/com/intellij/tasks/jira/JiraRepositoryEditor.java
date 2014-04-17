@@ -16,6 +16,7 @@
 package com.intellij.tasks.jira;
 
 import com.intellij.openapi.project.Project;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.tasks.TaskRepository;
 import com.intellij.tasks.config.BaseRepositoryEditor;
 import com.intellij.tasks.jira.jql.JqlLanguage;
@@ -78,5 +79,69 @@ public class JiraRepositoryEditor extends BaseRepositoryEditor<JiraRepository> {
 
   private void enableJqlSearchIfSupported() {
     mySearchQueryField.setEnabled(myRepository.isSupported(TaskRepository.NATIVE_SEARCH));
+=======
+import com.intellij.tasks.TaskBundle;
+import com.intellij.tasks.config.BaseRepositoryEditor;
+import com.intellij.tasks.jira.jql.JqlLanguage;
+import com.intellij.ui.EditorTextField;
+import com.intellij.ui.LanguageTextField;
+import com.intellij.ui.components.JBLabel;
+import com.intellij.util.Consumer;
+import com.intellij.util.ui.FormBuilder;
+import com.intellij.util.ui.UIUtil;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+
+/**
+ * @author Mikhail Golubev
+ */
+public class JiraRepositoryEditor extends BaseRepositoryEditor<JiraRepository> {
+  private EditorTextField mySearchQueryField;
+  private JBLabel mySearchLabel;
+
+  public JiraRepositoryEditor(Project project, JiraRepository repository, Consumer<JiraRepository> changeListener) {
+    super(project, repository, changeListener);
+  }
+
+  @Override
+  public void apply() {
+    myRepository.setSearchQuery(mySearchQueryField.getText());
+    super.apply();
+    enableJqlSearchIfSupported();
+  }
+
+  @Override
+  protected void afterTestConnection(boolean connectionSuccessful) {
+    super.afterTestConnection(connectionSuccessful);
+    if (connectionSuccessful) {
+      enableJqlSearchIfSupported();
+    }
+  }
+
+  @Nullable
+  @Override
+  protected JComponent createCustomPanel() {
+    mySearchQueryField = new LanguageTextField(JqlLanguage.INSTANCE, myProject, myRepository.getSearchQuery());
+    enableJqlSearchIfSupported();
+    installListener(mySearchQueryField);
+    mySearchLabel = new JBLabel("Search:", SwingConstants.RIGHT);
+    JBLabel note = new JBLabel(TaskBundle.message("jira.failure.no.JQL"));
+    note.setComponentStyle(UIUtil.ComponentStyle.SMALL);
+    return FormBuilder.createFormBuilder()
+      .addLabeledComponent(mySearchLabel, mySearchQueryField)
+      .addComponentToRightColumn(note)
+      .getPanel();
+  }
+
+  @Override
+  public void setAnchor(@Nullable final JComponent anchor) {
+    super.setAnchor(anchor);
+    mySearchLabel.setAnchor(anchor);
+  }
+
+  private void enableJqlSearchIfSupported() {
+    mySearchQueryField.setEnabled(myRepository.isJqlSupported());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

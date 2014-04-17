@@ -63,4 +63,21 @@ public class AutoUnboxing {
     boolean polyadic() {
         return true && Boolean.TRUE && true;
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  void n() {
+    boolean b = Boolean.valueOf(true) == ;
+    boolean c = Boolean.valueOf(true) ==
+                Boolean.valueOf(false) ==
+                Boolean.valueOf(true);
+    boolean d = Boolean.valueOf(true) ==
+                Boolean.valueOf(false);
+    boolean e = Boolean.valueOf(true) ==
+                false;
+    boolean f = true ==
+                Boolean.valueOf(false);
+    boolean g = Boolean.valueOf(true) == Boolean.valueOf(false) == true;
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

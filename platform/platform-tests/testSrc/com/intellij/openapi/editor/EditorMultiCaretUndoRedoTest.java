@@ -26,6 +26,7 @@ import com.intellij.openapi.editor.impl.AbstractEditorTest;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.testFramework.EditorTestUtil;
 import com.intellij.testFramework.TestFileType;
 import org.jetbrains.annotations.NotNull;
@@ -128,6 +129,116 @@ public class EditorMultiCaretUndoRedoTest extends AbstractEditorTest {
   private void init(String text) throws IOException {
     init(text, TestFileType.TEXT);
     EditorTestUtil.setEditorVisibleSize(myEditor, 1000, 1000);
+=======
+import com.intellij.testFramework.TestFileType;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+public class EditorMultiCaretUndoRedoTest extends AbstractEditorTest {
+  private CurrentEditorProvider mySavedCurrentEditorProvider;
+
+  public void setUp() throws Exception {
+    super.setUp();
+    mySavedCurrentEditorProvider = getUndoManager().getEditorProvider();
+  }
+
+  public void tearDown() throws Exception {
+    getUndoManager().setEditorProvider(mySavedCurrentEditorProvider);
+    super.tearDown();
+  }
+
+  @Override
+  // disabling execution of tests in command
+  protected void runTest() throws Throwable {
+    new WriteAction<Void>() {
+      @Override
+      protected void run(@NotNull Result<Void> result) throws Throwable {
+        doRunTest();
+      }
+    }.execute();
+  }
+
+  public void testUndoRedo() throws Exception {
+    init("some<caret> text<caret>\n" +
+         "some <selection><caret>other</selection> <selection>text<caret></selection>\n" +
+         "<selection>ano<caret>ther</selection> line");
+    type('A');
+    executeAction("EditorDelete");
+    mouse().clickAt(0, 1);
+    undo();
+    checkResult("someA<caret>textA<caret>some A<caret>A<caret>A<caret>line");
+    undo();
+    checkResult("someA<caret> textA<caret>\n" +
+                      "some A<caret> A<caret>\n" +
+                      "A<caret> line");
+    undo();
+    checkResult("some<caret> text<caret>\n" +
+                      "some <selection><caret>other</selection> <selection>text<caret></selection>\n" +
+                      "<selection>ano<caret>ther</selection> line");
+    redo();
+    checkResult("someA<caret> textA<caret>\n" +
+                      "some A<caret> A<caret>\n" +
+                      "A<caret> line");
+  }
+
+  public void testBlockSelectionStateAfterUndo() throws Exception {
+    init("a");
+    ((EditorEx)myEditor).setColumnMode(true);
+    mouse().clickAt(0, 2);
+    type('b');
+    undo();
+    executeAction("EditorRightWithSelection");
+    verifyCaretsAndSelections(0, 3, 2, 3);
+  }
+
+  public void testBlockSelectionStateAfterUndo2() throws Exception {
+    init("a");
+    ((EditorEx)myEditor).setColumnMode(true);
+    mouse().clickAt(0, 0).dragTo(0, 2).release();
+    type('b');
+    undo();
+    verifyCaretsAndSelections(0, 2, 0, 2);
+  }
+
+  public void testPrimaryCaretPositionAfterUndo() throws Exception {
+    init("line1\n" +
+         "line2");
+    mouse().alt().clickAt(1, 1).dragTo(0, 0).release();
+    type(' ');
+    undo();
+    assertEquals(new LogicalPosition(0, 0), myEditor.getCaretModel().getPrimaryCaret().getLogicalPosition());
+  }
+
+  private void checkResult(final String text) {
+    CommandProcessor.getInstance().runUndoTransparentAction(new Runnable() {
+      @Override
+      public void run() {
+        checkResultByText(text);
+      }
+    });
+  }
+
+  private static void undo() {
+    getUndoManager().undo(getTextEditor());
+  }
+
+  private static void redo() {
+    getUndoManager().redo(getTextEditor());
+  }
+
+  private static UndoManagerImpl getUndoManager() {
+    return (UndoManagerImpl) UndoManager.getInstance(ourProject);
+  }
+
+  private static TextEditor getTextEditor() {
+    return TextEditorProvider.getInstance().getTextEditor(myEditor);
+  }
+
+  private void init(String text) throws IOException {
+    init(text, TestFileType.TEXT);
+    setEditorVisibleSize(1000, 1000);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     getUndoManager().setEditorProvider(new CurrentEditorProvider() {
       @Override
       public FileEditor getCurrentEditor() {

@@ -49,6 +49,7 @@ import org.jetbrains.plugins.groovy.lang.psi.api.GroovyResolveResult;
 import org.jetbrains.plugins.groovy.lang.psi.api.auxiliary.GrListOrMap;
 import org.jetbrains.plugins.groovy.lang.psi.api.auxiliary.modifiers.GrModifier;
 import org.jetbrains.plugins.groovy.lang.psi.api.auxiliary.modifiers.GrModifierList;
+import org.jetbrains.plugins.groovy.lang.psi.api.auxiliary.modifiers.annotation.GrAnnotation;
 import org.jetbrains.plugins.groovy.lang.psi.api.signatures.GrClosureSignature;
 import org.jetbrains.plugins.groovy.lang.psi.api.signatures.GrSignature;
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.*;
@@ -307,7 +308,8 @@ public class PsiUtil {
     List<PsiType> result = new ArrayList<PsiType>();
 
     if (namedArgs.length > 0) {
-      result.add(new GrMapType(namedArgs[0], byShape ? new GrNamedArgument[0] : namedArgs));
+      GrNamedArgument context = namedArgs[0];
+      result.add(GrMapType.createFromNamedArgs(context, byShape ? new GrNamedArgument[0] : namedArgs));
     }
 
     for (GrExpression expression : expressions) {
@@ -1069,6 +1071,7 @@ public class PsiUtil {
 
     final PsiElement parent = expr.getParent();
     if (parent instanceof GrControlFlowOwner || parent instanceof GrCaseSection) return true;
+    if (parent instanceof GrLabeledStatement) return true;
     if (parent instanceof GrIfStatement &&
         (expr == ((GrIfStatement)parent).getThenBranch() || expr == ((GrIfStatement)parent).getElseBranch())) {
       return true;
@@ -1211,15 +1214,19 @@ public class PsiUtil {
     return !ref.isQualified() && name.equals(ref.getReferenceName());
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public static boolean isProperty(GrField field) {
+=======
+  public static boolean isProperty(@NotNull GrField field) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final PsiClass clazz = field.getContainingClass();
     if (clazz == null) return false;
-    if (clazz.isInterface()) return false;
+    if (clazz.isInterface() && !PsiImplUtil.isTrait(clazz)) return false;
     final GrModifierList modifierList = field.getModifierList();
     return modifierList == null || !modifierList.hasExplicitVisibilityModifiers();
   }
 
-  public static boolean isConstructorHasRequiredParameters(PsiMethod constructor) {
+  public static boolean isConstructorHasRequiredParameters(@NotNull PsiMethod constructor) {
     LOG.assertTrue(constructor.isConstructor());
     final PsiParameter[] parameters = constructor.getParameterList().getParameters();
     for (PsiParameter parameter : parameters) {
@@ -1244,7 +1251,7 @@ public class PsiUtil {
   }
 
   public static boolean isCompileStatic(PsiElement e) {
-    PsiMember containingMember = PsiTreeUtil.getParentOfType(e, PsiMember.class, false);
+    PsiMember containingMember = PsiTreeUtil.getParentOfType(e, PsiMember.class, false, GrAnnotation.class);
     return containingMember != null && GroovyPsiManager.getInstance(containingMember.getProject()).isCompileStatic(containingMember);
   }
 

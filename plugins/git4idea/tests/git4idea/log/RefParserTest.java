@@ -1,14 +1,15 @@
 package git4idea.log;
 
+import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.newvfs.impl.NullVirtualFile;
-import com.intellij.util.NotNullFunction;
 import com.intellij.vcs.log.*;
 import com.intellij.vcs.log.impl.VcsRefImpl;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -70,7 +71,11 @@ public class RefParserTest {
     runTest("787ec72f340d740433ba068d4d58a6e58f6226bf", "");
   }
   
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private class TestLogObjectsFactory implements VcsLogObjectsFactory {
+=======
+  private static class TestLogObjectsFactory implements VcsLogObjectsFactory {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     @NotNull
     @Override
     public Hash createHash(@NotNull String stringHash) {
@@ -98,11 +103,28 @@ public class RefParserTest {
 
     @NotNull
     @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    public VcsFullCommitDetails createCommitMetadata(@NotNull Hash hash, @NotNull List<Hash> parents, long time, VirtualFile root,
+                                                     @NotNull String subject, @NotNull String authorName, @NotNull String authorEmail,
+                                                     @NotNull String message, @NotNull String committerName, @NotNull String committerEmail,
+                                                     long authorTime) {
+      throw new UnsupportedOperationException();
+    }
+
+    @NotNull
+    @Override
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     public VcsFullCommitDetails createFullDetails(@NotNull Hash hash, @NotNull List<Hash> parents, long time, VirtualFile root,
                                                   @NotNull String subject, @NotNull String authorName, @NotNull String authorEmail,
                                                   @NotNull String message, @NotNull String committerName, @NotNull String committerEmail,
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                                                   long authorTime, @NotNull List<Change> changes,
                                                   @NotNull ContentRevisionFactory contentRevisionFactory) {
+=======
+                                                  long authorTime,
+                                                  @NotNull ThrowableComputable<Collection<Change>, ? extends Exception> changesGetter) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       throw new UnsupportedOperationException();
     }
 
@@ -115,13 +137,7 @@ public class RefParserTest {
     @NotNull
     @Override
     public VcsRef createRef(@NotNull Hash commitHash, @NotNull String name, @NotNull VcsRefType type, @NotNull VirtualFile root) {
-      return new VcsRefImpl(new NotNullFunction<Hash, Integer>() {
-        @NotNull
-        @Override
-        public Integer fun(Hash dom) {
-          return Integer.parseInt(dom.asString().substring(0, Math.min(4, dom.asString().length())), 16);
-        }
-      }, commitHash, name, type, root);
+      return new VcsRefImpl(commitHash, name, type, root);
     }
   }
 }

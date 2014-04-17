@@ -36,7 +36,11 @@ public abstract class EditorWriteActionHandler extends EditorActionHandler {
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public final void execute(final Editor editor, @Nullable final Caret caret, final DataContext dataContext) {
+=======
+  public final void doExecute(final Editor editor, @Nullable final Caret caret, final DataContext dataContext) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (editor.isViewer()) return;
 
     if (dataContext != null) {
@@ -74,6 +78,7 @@ public abstract class EditorWriteActionHandler extends EditorActionHandler {
   }
 
   /**
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    * This method exists for historical reasons. For most purposes one should use/override
    * {@link #executeWriteAction(com.intellij.openapi.editor.Editor, com.intellij.openapi.editor.Caret, com.intellij.openapi.actionSystem.DataContext)}
    * method.
@@ -97,6 +102,32 @@ public abstract class EditorWriteActionHandler extends EditorActionHandler {
     }
     try {
       inExecution = true;
+=======
+   * @deprecated Use/override
+   * {@link #executeWriteAction(com.intellij.openapi.editor.Editor, com.intellij.openapi.editor.Caret, com.intellij.openapi.actionSystem.DataContext)}
+   * instead.
+   */
+  public void executeWriteAction(Editor editor, DataContext dataContext) {
+    if (inExecution) {
+      return;
+    }
+    try {
+      inExecution = true;
+      executeWriteAction(editor, editor.getCaretModel().getCurrentCaret(), dataContext);
+    }
+    finally {
+      inExecution = false;
+    }
+  }
+
+  public void executeWriteAction(Editor editor, @Nullable Caret caret, DataContext dataContext) {
+    if (inExecution) {
+      return;
+    }
+    try {
+      inExecution = true;
+      //noinspection deprecation
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       executeWriteAction(editor, dataContext);
     }
     finally {

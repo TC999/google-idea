@@ -115,7 +115,7 @@ public class GroovyCompletionContributor extends CompletionContributor {
     final PsiManager manager = file.getManager();
     PsiScopeProcessor processor = new PsiScopeProcessor() {
       @Override
-      public boolean execute(@NotNull PsiElement element, ResolveState state) {
+      public boolean execute(@NotNull PsiElement element, @NotNull ResolveState state) {
         return !manager.areElementsEquivalent(element, member);
       }
 
@@ -125,7 +125,7 @@ public class GroovyCompletionContributor extends CompletionContributor {
       }
 
       @Override
-      public void handleEvent(Event event, Object associated) {
+      public void handleEvent(@NotNull Event event, Object associated) {
       }
     };
 
@@ -447,10 +447,15 @@ public class GroovyCompletionContributor extends CompletionContributor {
 
     final List<LookupElement> zeroPriority = newArrayList();
     reference.processVariants(matcher, parameters, new Consumer<LookupElement>() {
+      @Override
       public void consume(LookupElement lookupElement) {
         Object object = lookupElement.getObject();
         if (object instanceof GroovyResolveResult) {
           object = ((GroovyResolveResult)object).getElement();
+        }
+
+        if (isLightElementDeclaredDuringCompletion(object)) {
+          return;
         }
 
         if (isLightElementDeclaredDuringCompletion(object)) {
@@ -496,6 +501,16 @@ public class GroovyCompletionContributor extends CompletionContributor {
     }
     return EmptyRunnable.INSTANCE;
   }
+
+  private static boolean isLightElementDeclaredDuringCompletion(Object object) {
+    if (!(object instanceof LightElement && object instanceof PsiNamedElement)) return false;
+    final String name = ((PsiNamedElement)object).getName();
+    if (name == null) return false;
+
+    return name.contains(CompletionInitializationContext.DUMMY_IDENTIFIER_TRIMMED.trim()) ||
+           name.contains(DUMMY_IDENTIFIER_DECAPITALIZED.trim());
+  }
+
 
   private static boolean isLightElementDeclaredDuringCompletion(Object object) {
     if (!(object instanceof LightElement && object instanceof PsiNamedElement)) return false;
@@ -666,6 +681,7 @@ public class GroovyCompletionContributor extends CompletionContributor {
 
   private static final String DUMMY_IDENTIFIER_DECAPITALIZED = StringUtil.decapitalize(CompletionUtil.DUMMY_IDENTIFIER);
 
+  @Override
   public void beforeCompletion(@NotNull final CompletionInitializationContext context) {
     final String identifier = getIdentifier(context);
     if (identifier != null) {
@@ -729,7 +745,7 @@ public class GroovyCompletionContributor extends CompletionContributor {
     if (element == null) return DUMMY_IDENTIFIER_DECAPITALIZED;
 
     final String text = element.getText();
-    if (text.length() == 0) return DUMMY_IDENTIFIER_DECAPITALIZED;
+    if (text.isEmpty()) return DUMMY_IDENTIFIER_DECAPITALIZED;
 
     return Character.isUpperCase(text.charAt(0)) ? CompletionInitializationContext.DUMMY_IDENTIFIER : DUMMY_IDENTIFIER_DECAPITALIZED;
   }

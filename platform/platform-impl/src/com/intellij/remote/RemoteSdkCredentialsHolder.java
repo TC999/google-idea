@@ -10,6 +10,7 @@ import java.util.List;
  * @author traff
  */
 public class RemoteSdkCredentialsHolder extends RemoteCredentialsHolder implements RemoteSdkCredentials {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public static final String SSH_PREFIX = "ssh://";
 
   @NotNull
@@ -21,6 +22,18 @@ public class RemoteSdkCredentialsHolder extends RemoteCredentialsHolder implemen
 
   public static String constructSshCredentialsSdkFullPath(RemoteSdkCredentials cred) {
     return SSH_PREFIX + cred.getUserName() + "@" + cred.getHost() + ":" + cred.getPort() + cred.getInterpreterPath();
+=======
+
+  @NotNull
+  private final RemoteSdkPropertiesHolder myRemoteSdkProperties;
+
+  public RemoteSdkCredentialsHolder(@NotNull final String defaultHelpersDirName) {
+    myRemoteSdkProperties = new RemoteSdkPropertiesHolder(defaultHelpersDirName);
+  }
+
+  public static String constructSshCredentialsSdkFullPath(@NotNull RemoteSdkCredentials cred) {
+    return getCredentialsString(cred) + cred.getInterpreterPath();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   /**

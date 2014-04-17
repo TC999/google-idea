@@ -33,7 +33,11 @@ public class GrModifierFix extends GroovyFix {
     @Override
     public PsiModifierList fun(ProblemDescriptor descriptor) {
       final PsiElement element = descriptor.getPsiElement();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       assert element instanceof PsiImportList : element;
+=======
+      assert element instanceof PsiModifierList : element;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return (PsiModifierList)element;
     }
   };

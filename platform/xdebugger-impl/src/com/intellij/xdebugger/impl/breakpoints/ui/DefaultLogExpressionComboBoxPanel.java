@@ -29,6 +29,7 @@ import javax.swing.*;
  * @author egor
  */
 public class DefaultLogExpressionComboBoxPanel<B extends XBreakpoint<?>> extends XBreakpointCustomPropertiesPanel<B> {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private XDebuggerExpressionComboBox myLogExpressionComboBox;
 
   public DefaultLogExpressionComboBoxPanel(Project project,
@@ -36,6 +37,16 @@ public class DefaultLogExpressionComboBoxPanel<B extends XBreakpoint<?>> extends
                                            String historyId,
                                            XSourcePosition sourcePosition) {
     myLogExpressionComboBox = new XDebuggerExpressionComboBox(project, debuggerEditorsProvider, historyId, sourcePosition);
+=======
+  public static final String HISTORY_KEY = "breakpointLogExpression";
+
+  private XDebuggerExpressionComboBox myLogExpressionComboBox;
+
+  public DefaultLogExpressionComboBoxPanel(Project project,
+                                           XDebuggerEditorsProvider debuggerEditorsProvider,
+                                           XSourcePosition sourcePosition) {
+    myLogExpressionComboBox = new XDebuggerExpressionComboBox(project, debuggerEditorsProvider, HISTORY_KEY, sourcePosition);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull

@@ -66,6 +66,7 @@ public class SubtypingConstraint implements ConstraintFormula {
   @Override
   public boolean reduce(InferenceSession session, List<ConstraintFormula> constraints) {
     if (myT instanceof PsiWildcardType) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       final PsiType tBound = ((PsiWildcardType)myT).getBound();
       if (tBound == null) {
         return true;
@@ -123,5 +124,73 @@ public class SubtypingConstraint implements ConstraintFormula {
         return true;
       }
     }
+=======
+      PsiType tBound = ((PsiWildcardType)myT).getBound();
+      if (tBound == null) {
+        return true;
+      }
+
+      if (tBound instanceof PsiCapturedWildcardType) {
+        tBound = ((PsiWildcardType)myT).isExtends() ? ((PsiCapturedWildcardType)tBound).getUpperBound() 
+                                                    : ((PsiCapturedWildcardType)tBound).getLowerBound();
+      }
+      if (myS instanceof PsiCapturedWildcardType) {
+        myS = ((PsiCapturedWildcardType)myS).getWildcard();
+      }
+
+      if (((PsiWildcardType)myT).isExtends()) {
+        if (myS instanceof PsiWildcardType) {
+          final PsiType sBound = ((PsiWildcardType)myS).getBound();
+          if (sBound == null) {
+            constraints.add(new StrictSubtypingConstraint(tBound, ((PsiWildcardType)myS).getExtendsBound()));
+            return true;
+          }
+
+          if (((PsiWildcardType)myS).isExtends()) {
+            constraints.add(new StrictSubtypingConstraint(tBound, sBound));
+            return true;
+          }
+          
+          if (((PsiWildcardType)myS).isSuper()) {
+            constraints.add(new TypeEqualityConstraint(tBound, PsiType.getJavaLangObject(((PsiWildcardType)myT).getManager(), myT.getResolveScope())));
+            return true;
+          }
+
+          assert false;
+        } 
+        else {
+          constraints.add(new StrictSubtypingConstraint(tBound, myS));
+          return true;
+        }
+      } 
+      else {
+        LOG.assertTrue(((PsiWildcardType)myT).isSuper());
+
+        if (myS instanceof PsiWildcardType) {
+          final PsiType sBound = ((PsiWildcardType)myS).getBound();
+          if (sBound != null && ((PsiWildcardType)myS).isSuper()) {
+            constraints.add(new StrictSubtypingConstraint(sBound, tBound));
+            return true;
+          }
+        } else {
+          constraints.add(new StrictSubtypingConstraint(myS, tBound));
+          return true;
+        }
+      }
+      return false;
+    } else {
+      if (myS instanceof PsiWildcardType) {
+        return false;
+      } else {
+        constraints.add(new TypeEqualityConstraint(myT, myS));
+        return true;
+      }
+    }
+  }
+
+  @Override
+  public String toString() {
+    return myS.getPresentableText() + " <= " + myT.getPresentableText();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

@@ -30,6 +30,7 @@ import javax.swing.*;
  * @author egor
  */
 public class DefaultConditionComboBoxPanel<B extends XBreakpoint<?>> extends XBreakpointCustomPropertiesPanel<B> {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private XDebuggerExpressionComboBox myConditionComboBox;
 
   public DefaultConditionComboBoxPanel(Project project,
@@ -37,6 +38,16 @@ public class DefaultConditionComboBoxPanel<B extends XBreakpoint<?>> extends XBr
                                        String historyId,
                                        XSourcePosition sourcePosition) {
     myConditionComboBox = new XDebuggerExpressionComboBox(project, debuggerEditorsProvider, historyId, sourcePosition);
+=======
+  public static final String HISTORY_KEY = "breakpointCondition";
+
+  private XDebuggerExpressionComboBox myConditionComboBox;
+
+  public DefaultConditionComboBoxPanel(Project project,
+                                       XDebuggerEditorsProvider debuggerEditorsProvider,
+                                       XSourcePosition sourcePosition) {
+    myConditionComboBox = new XDebuggerExpressionComboBox(project, debuggerEditorsProvider, HISTORY_KEY, sourcePosition);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull

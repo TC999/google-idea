@@ -26,6 +26,10 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.zmlx.hg4idea.HgRememberedInputs;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import org.zmlx.hg4idea.HgVcs;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.zmlx.hg4idea.command.HgIdentifyCommand;
 import org.zmlx.hg4idea.execution.HgCommandResult;
 import org.zmlx.hg4idea.util.HgUtil;
@@ -36,7 +40,11 @@ import org.zmlx.hg4idea.util.HgUtil;
 public class HgCloneDialog extends CloneDvcsDialog {
 
   public HgCloneDialog(@NotNull Project project) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     super(project, HgUtil.DOT_HG);
+=======
+    super(project, HgVcs.DISPLAY_NAME, HgUtil.DOT_HG);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

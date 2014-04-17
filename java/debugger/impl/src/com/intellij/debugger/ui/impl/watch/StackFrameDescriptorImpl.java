@@ -16,10 +16,7 @@
 package com.intellij.debugger.ui.impl.watch;
 
 import com.intellij.debugger.SourcePosition;
-import com.intellij.debugger.engine.ContextUtil;
-import com.intellij.debugger.engine.DebugProcess;
-import com.intellij.debugger.engine.DebuggerManagerThreadImpl;
-import com.intellij.debugger.engine.DebuggerUtils;
+import com.intellij.debugger.engine.*;
 import com.intellij.debugger.engine.evaluation.EvaluateException;
 import com.intellij.debugger.engine.evaluation.EvaluationContextImpl;
 import com.intellij.debugger.jdi.StackFrameProxyImpl;
@@ -38,6 +35,7 @@ import com.intellij.util.ui.TextTransferable;
 import com.intellij.xdebugger.frame.XStackFrame;
 import com.intellij.xdebugger.impl.ui.tree.ValueMarkup;
 import com.sun.jdi.*;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -61,8 +59,9 @@ public class StackFrameDescriptorImpl extends NodeDescriptorImpl implements Stac
 
   private Icon myIcon = AllIcons.Debugger.StackFrame;
 
-  public StackFrameDescriptorImpl(StackFrameProxyImpl frame, final MethodsTracker tracker) {
+  public StackFrameDescriptorImpl(@NotNull StackFrameProxyImpl frame, @NotNull MethodsTracker tracker) {
     myFrame = frame;
+
     try {
       myUiIndex = frame.getFrameIndex();
       myLocation = frame.location();
@@ -102,7 +101,16 @@ public class StackFrameDescriptorImpl extends NodeDescriptorImpl implements Stac
       myIsInLibraryContent = false;
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myXStackFrame = myLocation == null ? null : getDebugProcess().getPositionManager().createStackFrame(myLocation);
+=======
+    myXStackFrame = myLocation == null ? null : ((DebugProcessImpl)getDebugProcess()).getPositionManager().createStackFrame(frame, (DebugProcessImpl)getDebugProcess(), myLocation);
+  }
+
+  @Nullable
+  public XStackFrame getXStackFrame() {
+    return myXStackFrame;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public int getUiIndex() {
@@ -110,10 +118,18 @@ public class StackFrameDescriptorImpl extends NodeDescriptorImpl implements Stac
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @NotNull
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public StackFrameProxyImpl getFrameProxy() {
     return myFrame;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @NotNull
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Override
   public DebugProcess getDebugProcess() {
     return myFrame.getVirtualMachine().getDebugProcess();

@@ -477,13 +477,25 @@ public class SelectionModelImpl implements SelectionModel, PrioritizedDocumentLi
   public String getSelectedText() {
     return getSelectedText(false);
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
   @Override
   public String getSelectedText(boolean allCarets) {
     validateContext(false);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     CharSequence text = myEditor.getDocument().getCharsSequence();
     if (hasBlockSelection() || (myEditor.getCaretModel().supportsMultipleCarets() && allCarets)) {
+=======
+  @Override
+  public String getSelectedText(boolean allCarets) {
+    validateContext(false);
+
+    if (hasBlockSelection()) {
+      CharSequence text = myEditor.getDocument().getCharsSequence();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       int[] starts = getBlockSelectionStarts();
       int[] ends = getBlockSelectionEnds();
       int width = myEditor.getCaretModel().supportsMultipleCarets() ? 0 : Math.abs(myBlockEnd.column - myBlockStart.column);
@@ -496,8 +508,27 @@ public class SelectionModelImpl implements SelectionModel, PrioritizedDocumentLi
       }
       return buf.toString();
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
     return myEditor.getCaretModel().getCurrentCaret().getSelectedText();
+=======
+    else if (myEditor.getCaretModel().supportsMultipleCarets() && allCarets) {
+      final StringBuilder buf = new StringBuilder();
+      String separator = "";
+      for (Caret caret : myEditor.getCaretModel().getAllCarets()) {
+        buf.append(separator);
+        String caretSelectedText = caret.getSelectedText();
+        if (caretSelectedText != null) {
+          buf.append(caretSelectedText);
+        }
+        separator = "\n";
+      }
+      return buf.toString();
+    }
+    else {
+      return myEditor.getCaretModel().getCurrentCaret().getSelectedText();
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private static void appendCharSequence(@NotNull StringBuilder buf, @NotNull CharSequence s, int srcOffset, int len) {

@@ -15,16 +15,15 @@
  */
 package com.intellij.vcs.log.ui.render;
 
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.ui.UIUtil;
-import com.intellij.vcs.log.VcsRef;
 import com.intellij.vcs.log.data.VcsLogDataHolder;
-import com.intellij.vcs.log.graph.render.GraphCellPainter;
-import com.intellij.vcs.log.graph.render.GraphCommitCell;
+import com.intellij.vcs.log.graph.GraphFacade;
+import com.intellij.vcs.log.graph.PaintInfo;
 import com.intellij.vcs.log.ui.VcsLogColorManager;
+import com.intellij.vcs.log.ui.frame.VcsLogGraphTable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -36,22 +35,37 @@ import static com.intellij.vcs.log.graph.render.PrintParameters.WIDTH_NODE;
 /**
  * @author erokhins
  */
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 public class GraphCommitCellRender extends AbstractPaddingCellRender {
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   // In case of diagonal edges, one node can be at most 3 "arrows" + 2 nodes at the left from another - that is enough for sure
   private static final int IMAGE_WIDTH_RESERVE = 5 * WIDTH_NODE;
 
   @NotNull private final GraphCellPainter graphPainter;
   @NotNull private final VcsLogDataHolder myDataHolder;
+=======
+  @NotNull private GraphFacade myGraphFacade;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public GraphCommitCellRender(@NotNull GraphCellPainter graphPainter, @NotNull VcsLogDataHolder logDataHolder,
                                @NotNull VcsLogColorManager colorManager) {
     super(logDataHolder.getProject(), colorManager);
     this.graphPainter = graphPainter;
     myDataHolder = logDataHolder;
+=======
+  public GraphCommitCellRender(@NotNull VcsLogColorManager colorManager, @NotNull VcsLogDataHolder dataHolder,
+                               @NotNull GraphFacade graphFacade, @NotNull VcsLogGraphTable table) {
+    super(colorManager, dataHolder, table);
+    myGraphFacade = graphFacade;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
+  @Nullable
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   protected int getLeftPadding(JTable table, @Nullable Object value) {
     GraphCommitCell cell = (GraphCommitCell)value;
     if (cell == null) {
@@ -65,19 +79,17 @@ public class GraphCommitCellRender extends AbstractPaddingCellRender {
     int countCells = cell.getPrintCell().countCell();
     int graphPadding = countCells * WIDTH_NODE;
     return refPadding + graphPadding;
+=======
+  protected PaintInfo getGraphImage(int row) {
+    return myGraphFacade.paint(row);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
-  @NotNull
-  protected String getCellText(@Nullable Object value) {
-    GraphCommitCell cell = (GraphCommitCell)value;
-    if (cell == null) {
-      return "";
-    }
-    else {
-      return cell.getText();
-    }
+  public void updateGraphFacade(@NotNull GraphFacade graphFacade) {
+    myGraphFacade = graphFacade;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @Override
   protected void additionPaint(Graphics g, @Nullable Object value) {
     GraphCommitCell cell = (GraphCommitCell)value;
@@ -102,4 +114,6 @@ public class GraphCommitCellRender extends AbstractPaddingCellRender {
 
     UIUtil.drawImage(g, image, 0, 0, null);
   }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

@@ -105,20 +105,25 @@ public class RemoteServer {
   }
 
   public static void setupSSL() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (System.getProperty(SslSocketFactory.SSL_CA_CERT_PATH) != null) {
+=======
+    boolean caCert = System.getProperty(SslSocketFactory.SSL_CA_CERT_PATH) != null;
+    boolean clientCert = System.getProperty(SslSocketFactory.SSL_CLIENT_CERT_PATH) != null;
+    boolean clientKey = System.getProperty(SslSocketFactory.SSL_CLIENT_KEY_PATH) != null;
+    if (caCert || clientCert && clientKey) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       Security.setProperty("ssl.SocketFactory.provider", "com.intellij.execution.rmi.ssl.SslSocketFactory");
     }
   }
 
   @SuppressWarnings("UnusedDeclaration")
   public static class Jndi implements InitialContextFactory, InvocationHandler {
-    @Override
     public Context getInitialContext(final Hashtable<?, ?> environment) throws NamingException {
       return (Context)Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{Context.class}, this);
     }
 
     @Nullable
-    @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, args);

@@ -742,4 +742,12 @@ public abstract class VirtualFile extends UserDataHolderBase implements Modifica
   public void setDetectedLineSeparator(@Nullable String separator) {
     putUserData(DETECTED_LINE_SEPARATOR_KEY, separator);
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  @NotNull
+  public CharSequence getNameSequence() {
+    return getName();
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

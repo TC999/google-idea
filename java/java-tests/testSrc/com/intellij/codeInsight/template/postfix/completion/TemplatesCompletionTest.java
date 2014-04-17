@@ -17,6 +17,7 @@ package com.intellij.codeInsight.template.postfix.completion;
 
 import com.intellij.JavaTestUtil;
 import com.intellij.codeInsight.completion.CompletionAutoPopupTestCase;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.impl.LookupImpl;
 import com.intellij.codeInsight.template.impl.LiveTemplateCompletionContributor;
@@ -156,6 +157,173 @@ public class TemplatesCompletionTest extends CompletionAutoPopupTestCase {
     checkResultByFile();
   }
 
+=======
+import com.intellij.codeInsight.completion.CompletionType;
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.impl.LookupImpl;
+import com.intellij.codeInsight.template.impl.LiveTemplateCompletionContributor;
+import com.intellij.codeInsight.template.postfix.settings.PostfixTemplatesSettings;
+import com.intellij.codeInsight.template.postfix.templates.*;
+import com.intellij.util.containers.ContainerUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public class TemplatesCompletionTest extends CompletionAutoPopupTestCase {
+  private boolean shotTemplatesInTestsOldValue;
+
+  @Override
+  public void setUp() {
+    super.setUp();
+    shotTemplatesInTestsOldValue = LiveTemplateCompletionContributor.ourShowTemplatesInTests;
+    LiveTemplateCompletionContributor.ourShowTemplatesInTests = false;
+  }
+
+  @Override
+  public void tearDown() throws Exception {
+    LiveTemplateCompletionContributor.ourShowTemplatesInTests = shotTemplatesInTestsOldValue;
+
+    PostfixTemplatesSettings settings = PostfixTemplatesSettings.getInstance();
+    assertNotNull(settings);
+    settings.setTemplatesState(ContainerUtil.<String, Boolean>newHashMap());
+    settings.setPostfixTemplatesEnabled(true);
+    settings.setTemplatesCompletionEnabled(true);
+    super.tearDown();
+  }
+
+  public void testSimpleCompletionList() {
+    LiveTemplateCompletionContributor.ourShowTemplatesInTests = true;
+
+    doAutoPopupTest("ins", InstanceofExpressionPostfixTemplate.class);
+  }
+
+  public void testAutopopupWithEnabledLiveTemplatesInCompletion() {
+    LiveTemplateCompletionContributor.ourShowTemplatesInTests = true;
+
+    configureByFile();
+    type("instanceof");
+    LookupImpl lookup = getLookup();
+    assertNotNull(lookup);
+    assertEquals(1, lookup.getItems().size());
+    LookupElement item = lookup.getCurrentItem();
+    assertNotNull(item);
+    assertInstanceOf(item, PostfixTemplateLookupElement.class);
+    assertInstanceOf(((PostfixTemplateLookupElement)item).getPostfixTemplate(), InstanceofExpressionPostfixTemplate.class);
+  }
+
+  public void testDoNotShowTemplateInInappropriateContext() {
+    doAutoPopupTest("instanceof", null);
+  }
+
+  // IDEA-119910 Middle matching doesn't work if pattern starts with a digit
+  public void testRestartCompletionForExactMatchOnly() {
+    doCompleteTest(".2", '\n');
+  }
+
+  public void testShowTemplateInAutoPopup() {
+    doAutoPopupTest("instanceof", InstanceofExpressionPostfixTemplate.class);
+  }
+
+  public void testShowAutoPopupForAliases() {
+    doAutoPopupTest("nn", NotNullCheckPostfixTemplate.class);
+  }
+
+  public void testShowAutoPopupForFloatLiterals() {
+    doAutoPopupTest("fori", ForAscendingPostfixTemplate.class);
+  }
+
+  public void testDoNotShowTemplateIfPluginIsDisabled() {
+    PostfixTemplatesSettings settings = PostfixTemplatesSettings.getInstance();
+    assertNotNull(settings);
+    settings.setPostfixTemplatesEnabled(false);
+    doAutoPopupTest("instanceof", null);
+  }
+
+  public void testDoNotShowTemplateIfTemplateCompletionIsDisabled() {
+    PostfixTemplatesSettings settings = PostfixTemplatesSettings.getInstance();
+    assertNotNull(settings);
+    settings.setTemplatesCompletionEnabled(false);
+    doAutoPopupTest("instanceof", null);
+  }
+
+  public void testDoNotShowTemplateInMultiCaretMode() {
+    doAutoPopupTest("instanceof", null);
+  }
+
+  public void testDoNotCompleteTemplateInMultiCaretMode() {
+    LiveTemplateCompletionContributor.ourShowTemplatesInTests = true;
+    configureByFile();
+    assertEmpty(myFixture.complete(CompletionType.BASIC));
+    checkResultByFile();
+  }
+
+  public void testShowTemplateOnDoubleLiteral() {
+    doAutoPopupTest("switch", SwitchStatementPostfixTemplate.class);
+  }
+
+  public void testSelectTemplateByTab() {
+    doCompleteTest("par", '\t');
+  }
+
+  public void testSelectTemplateByEnter() {
+    doCompleteTest("par", '\n');
+  }
+
+  public void testQuickTypingWithTab() {
+    doQuickTypingTest("par", '\t');
+  }
+
+  public void testQuickTypingWithEnter() {
+    doQuickTypingTest("par", '\n');
+  }
+
+  public void testDoNotShowDisabledTemplate() {
+    PostfixTemplatesSettings settings = PostfixTemplatesSettings.getInstance();
+    assertNotNull(settings);
+    settings.disableTemplate(new InstanceofExpressionPostfixTemplate());
+    doAutoPopupTest("instanceof", null);
+  }
+
+  public void testDoNotShowTemplateOnCompletion() {
+    configureByFile();
+    myFixture.completeBasic();
+    LookupElement[] elements = myFixture.getLookupElements();
+    assertNotNull(elements);
+    assertNull(ContainerUtil.findInstance(elements, PostfixTemplateLookupElement.class));
+  }
+
+  public void testRecalculatePrefix() {
+    configureByFile();
+    type("par");
+    int selectedIndex = 0;
+    myFixture.assertPreferredCompletionItems(selectedIndex, ".par", "parents");
+
+    type("\b");
+    assertNotNull(getLookup());
+    myFixture.assertPreferredCompletionItems(selectedIndex, "parents");
+
+    type("r");
+    myFixture.assertPreferredCompletionItems(selectedIndex, ".par", "parents");
+  }
+  
+  public void testTabCompletionWithTemplatesInAutopopup() {
+    LiveTemplateCompletionContributor.ourShowTemplatesInTests = true;
+
+    configureByFile();
+    type(".");
+    myFixture.assertPreferredCompletionItems(0, "parents");
+
+    type("\t");
+    assertNull(getLookup());
+    checkResultByFile();
+  }
+
+  public void testShouldNotExpandInMultiCaretMode() {
+    configureByFile();
+    type(".if\t");
+    checkResultByFile();
+  }
+  
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Override
   protected String getBasePath() {
     return JavaTestUtil.getRelativeJavaTestDataPath() + "/codeInsight/template/postfix/completion";

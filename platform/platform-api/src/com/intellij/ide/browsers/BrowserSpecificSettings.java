@@ -30,6 +30,10 @@ public abstract class BrowserSpecificSettings implements Cloneable {
     return Collections.emptyList();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @Override
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public BrowserSpecificSettings clone() {
     try {
       return (BrowserSpecificSettings)super.clone();

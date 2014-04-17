@@ -39,6 +39,11 @@ public class EditorModificationUtil {
   private EditorModificationUtil() { }
 
   public static void deleteSelectedText(Editor editor) {
+    deleteSelectedTextNoScrolling(editor);
+    editor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
+  }
+
+  private static void deleteSelectedTextNoScrolling(Editor editor) {
     SelectionModel selectionModel = editor.getSelectionModel();
     if (selectionModel.hasBlockSelection()) deleteBlockSelection(editor);
     if(!selectionModel.hasSelection()) return;
@@ -55,6 +60,15 @@ public class EditorModificationUtil {
     }
     selectionModel.removeSelection();
     editor.getDocument().deleteString(selectionStart, selectionEnd);
+  }
+
+  public static void deleteSelectedTextForAllCarets(@NotNull final Editor editor) {
+    editor.getCaretModel().runForEachCaret(new CaretAction() {
+      @Override
+      public void perform(Caret caret) {
+        deleteSelectedTextNoScrolling(editor);
+      }
+    });
     editor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
   }
 
@@ -106,6 +120,17 @@ public class EditorModificationUtil {
   }
 
   public static int insertStringAtCaret(Editor editor, @NotNull String s, boolean toProcessOverwriteMode, boolean toMoveCaret, int caretShift) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    int result = insertStringAtCaretNoScrolling(editor, s, toProcessOverwriteMode, toMoveCaret, caretShift);
+    if (toMoveCaret) {
+      editor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
+    }
+    return result;
+  }
+
+  private static int insertStringAtCaretNoScrolling(Editor editor, @NotNull String s, boolean toProcessOverwriteMode, boolean toMoveCaret, int caretShift) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final SelectionModel selectionModel = editor.getSelectionModel();
     if (selectionModel.hasSelection()) {
       VisualPosition startPosition = selectionModel.getSelectionStartPosition();
@@ -139,7 +164,7 @@ public class EditorModificationUtil {
       deleteSelectedText(editor);
       int lineNumber = editor.getCaretModel().getLogicalPosition().line;
       if (lineNumber >= document.getLineCount()){
-        return insertStringAtCaret(editor, s, false, toMoveCaret);
+        return insertStringAtCaretNoScrolling(editor, s, false, toMoveCaret, s.length());
       }
 
       int endOffset = document.getLineEndOffset(lineNumber);
@@ -149,7 +174,6 @@ public class EditorModificationUtil {
     int offset = oldOffset + filler.length() + caretShift;
     if (toMoveCaret){
       editor.getCaretModel().moveToOffset(offset, true);
-      editor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
       selectionModel.removeSelection();
     }
     else if (editor.getCaretModel().getOffset() != oldOffset) { // handling the case when caret model tracks document changes
@@ -166,6 +190,21 @@ public class EditorModificationUtil {
 
     if (editor.getCaretModel().supportsMultipleCarets()) {
       int caretCount = editor.getCaretModel().getCaretCount();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+      if (caretCount == 1 && editor.isColumnMode()) {
+        int pastedLineCount = LineTokenizer.calcLineCount(text, true);
+        deleteSelectedText(editor);
+        Caret caret = editor.getCaretModel().getPrimaryCaret();
+        for (int i = 0; i < pastedLineCount - 1; i++) {
+          caret = caret.clone(false);
+          if (caret == null) {
+            break;
+          }
+        }
+        caretCount = editor.getCaretModel().getCaretCount();
+      }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       final Iterator<String> segments = new ClipboardTextPerCaretSplitter().split(text, caretCount).iterator();
       editor.getCaretModel().runForEachCaret(new CaretAction() {
         @Override
@@ -391,6 +430,7 @@ public class EditorModificationUtil {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public static void typeInStringAtCaretHonorMultipleCarets(final Editor editor, @NotNull final String str, final boolean toProcessOverwriteMode) {
     typeInStringAtCaretHonorMultipleCarets(editor, str, toProcessOverwriteMode, str.length());
   }
@@ -435,6 +475,61 @@ public class EditorModificationUtil {
           insertStringAtCaret(editor, str, toProcessOverwriteMode, true, caretShift);
         }
       });
+=======
+  public static void typeInStringAtCaretHonorMultipleCarets(final Editor editor, @NotNull final String str) {
+    typeInStringAtCaretHonorMultipleCarets(editor, str, true, str.length());
+  }
+
+  public static void typeInStringAtCaretHonorMultipleCarets(final Editor editor, @NotNull final String str, final int caretShift) {
+    typeInStringAtCaretHonorMultipleCarets(editor, str, true, caretShift);
+  }
+
+  public static void typeInStringAtCaretHonorMultipleCarets(final Editor editor, @NotNull final String str, final boolean toProcessOverwriteMode) {
+    typeInStringAtCaretHonorMultipleCarets(editor, str, toProcessOverwriteMode, str.length());
+  }
+
+  /**
+   * Inserts given string at each caret's position. Effective caret shift will be equal to <code>caretShift</code> for each caret.
+   */
+  public static void typeInStringAtCaretHonorMultipleCarets(final Editor editor, @NotNull final String str, final boolean toProcessOverwriteMode, final int caretShift)
+    throws ReadOnlyFragmentModificationException
+  {
+    Document doc = editor.getDocument();
+    final SelectionModel selectionModel = editor.getSelectionModel();
+    if (selectionModel.hasBlockSelection()) {
+      RangeMarker guard = selectionModel.getBlockSelectionGuard();
+      if (guard != null) {
+        DocumentEvent evt = new MockDocumentEvent(doc, editor.getCaretModel().getOffset());
+        ReadOnlyFragmentModificationException e = new ReadOnlyFragmentModificationException(evt, guard);
+        EditorActionManager.getInstance().getReadonlyFragmentModificationHandler(doc).handle(e);
+      }
+      else {
+        final LogicalPosition start = selectionModel.getBlockStart();
+        final LogicalPosition end = selectionModel.getBlockEnd();
+        assert start != null;
+        assert end != null;
+
+        int column = Math.min(start.column, end.column);
+        int startLine = Math.min(start.line, end.line);
+        int endLine = Math.max(start.line, end.line);
+        deleteBlockSelection(editor);
+        for (int i = startLine; i <= endLine; i++) {
+          editor.getCaretModel().moveToLogicalPosition(new LogicalPosition(i, column));
+          insertStringAtCaret(editor, str, toProcessOverwriteMode, true, caretShift);
+        }
+        selectionModel.setBlockSelection(new LogicalPosition(startLine, column + str.length()),
+                                         new LogicalPosition(endLine, column + str.length()));
+      }
+    }
+    else {
+      editor.getCaretModel().runForEachCaret(new CaretAction() {
+        @Override
+        public void perform(Caret caret) {
+          insertStringAtCaretNoScrolling(editor, str, toProcessOverwriteMode, true, caretShift);
+        }
+      });
+      editor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 

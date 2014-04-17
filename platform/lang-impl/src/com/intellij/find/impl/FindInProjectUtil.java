@@ -34,6 +34,10 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.util.ProgressWrapper;
 import com.intellij.openapi.progress.util.TooManyUsagesStatus;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.project.DumbServiceImpl;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
@@ -71,13 +75,15 @@ public class FindInProjectUtil {
   private FindInProjectUtil() {}
 
   public static void setDirectoryName(@NotNull FindModel model, @NotNull DataContext dataContext) {
-    PsiElement psiElement;
-    try {
-      psiElement = CommonDataKeys.PSI_ELEMENT.getData(dataContext);
+    PsiElement psiElement = null;
+    Project project = CommonDataKeys.PROJECT.getData(dataContext);
+
+    if (project != null && !DumbServiceImpl.getInstance(project).isDumb()) {
+      try {
+        psiElement = CommonDataKeys.PSI_ELEMENT.getData(dataContext);
+      } catch (IndexNotReadyException ignore) {}
     }
-    catch (IndexNotReadyException e) {
-      psiElement = null;
-    }
+
 
     String directoryName = null;
 

@@ -82,7 +82,7 @@ public class FileIncludeIndex extends FileBasedIndexExtension<FileIncludeIndex.K
     return new DataIndexer<Key, List<FileIncludeInfoImpl>, FileContent>() {
       @Override
       @NotNull
-      public Map<Key, List<FileIncludeInfoImpl>> map(FileContent inputData) {
+      public Map<Key, List<FileIncludeInfoImpl>> map(@NotNull FileContent inputData) {
 
         Map<Key, List<FileIncludeInfoImpl>> map = new FactoryMap<Key, List<FileIncludeInfoImpl>>() {
           @Override
@@ -131,7 +131,11 @@ public class FileIncludeIndex extends FileBasedIndexExtension<FileIncludeIndex.K
       @Override
       public Key read(@NotNull DataInput in) throws IOException {
         boolean isInclude = in.readBoolean();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         return isInclude ? IncludeKey.read(in) : new FileKey(in.readInt());
+=======
+        return isInclude ? new IncludeKey(IOUtil.readUTF(in)) : new FileKey(in.readInt());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     };
   }
@@ -144,10 +148,10 @@ public class FileIncludeIndex extends FileBasedIndexExtension<FileIncludeIndex.K
       public void save(@NotNull DataOutput out, List<FileIncludeInfoImpl> value) throws IOException {
         out.writeInt(value.size());
         for (FileIncludeInfoImpl info : value) {
-          out.writeUTF(info.path);
+          IOUtil.writeUTF(out, info.path);
           out.writeInt(info.offset);
           out.writeBoolean(info.runtimeOnly);
-          out.writeUTF(info.providerId);
+          IOUtil.writeUTF(out, info.providerId);
         }
       }
 
@@ -156,7 +160,7 @@ public class FileIncludeIndex extends FileBasedIndexExtension<FileIncludeIndex.K
         int size = in.readInt();
         ArrayList<FileIncludeInfoImpl> infos = new ArrayList<FileIncludeInfoImpl>(size);
         for (int i = 0; i < size; i++) {
-          infos.add(new FileIncludeInfoImpl(in.readUTF(), in.readInt(), in.readBoolean(), in.readUTF()));
+          infos.add(new FileIncludeInfoImpl(IOUtil.readUTF(in), in.readInt(), in.readBoolean(), IOUtil.readUTF(in)));
         }
         return infos;
       }
@@ -196,7 +200,11 @@ public class FileIncludeIndex extends FileBasedIndexExtension<FileIncludeIndex.K
 
   @Override
   public int getVersion() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return 3;
+=======
+    return 4;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   interface Key {
@@ -220,9 +228,13 @@ public class FileIncludeIndex extends FileBasedIndexExtension<FileIncludeIndex.K
 
     @Override
     public void writeValue(DataOutput out) throws IOException {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       synchronized (myBuffer) {
         IOUtil.writeUTFFast(myBuffer, out, myFileName);
       }
+=======
+      IOUtil.writeUTF(out, myFileName);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     @Override

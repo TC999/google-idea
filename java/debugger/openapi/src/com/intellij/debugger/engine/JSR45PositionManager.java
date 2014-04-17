@@ -113,7 +113,7 @@ public abstract class JSR45PositionManager<Scope> implements PositionManager {
 
   @Override
   @NotNull
-  public List<ReferenceType> getAllClasses(SourcePosition classPosition) throws NoDataException {
+  public List<ReferenceType> getAllClasses(@NotNull SourcePosition classPosition) throws NoDataException {
     checkSourcePositionFileType(classPosition);
 
     final List<ReferenceType> referenceTypes = myDebugProcess.getVirtualMachineProxy().allClasses();
@@ -142,7 +142,7 @@ public abstract class JSR45PositionManager<Scope> implements PositionManager {
 
   @Override
   @NotNull
-  public List<Location> locationsOfLine(final ReferenceType type, final SourcePosition position) throws NoDataException {
+  public List<Location> locationsOfLine(@NotNull final ReferenceType type, @NotNull final SourcePosition position) throws NoDataException {
     List<Location> locations = locationsOfClassAt(type, position);
     return locations != null ? locations : Collections.<Location>emptyList();
 
@@ -204,7 +204,11 @@ public abstract class JSR45PositionManager<Scope> implements PositionManager {
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public ClassPrepareRequest createPrepareRequest(final ClassPrepareRequestor requestor, final SourcePosition position)
+=======
+  public ClassPrepareRequest createPrepareRequest(@NotNull final ClassPrepareRequestor requestor, @NotNull final SourcePosition position)
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     throws NoDataException {
     checkSourcePositionFileType(position);
 

@@ -495,7 +495,7 @@ public class ExpectedTypesProvider {
         PsiExpression rExpr = assignment.getRExpression();
         if (rExpr != null) {
           PsiType type = rExpr.getType();
-          if (type != null) {
+          if (type != null && type != PsiType.NULL) {
             if (type instanceof PsiClassType) {
               final PsiClass resolved = ((PsiClassType)type).resolve();
               if (resolved instanceof PsiAnonymousClass) {
@@ -529,7 +529,11 @@ public class ExpectedTypesProvider {
       PsiResolveHelper helper = JavaPsiFacade.getInstance(list.getProject()).getResolveHelper();
       if (list.getParent() instanceof PsiMethodCallExpression) {
         PsiMethodCallExpression methodCall = (PsiMethodCallExpression)list.getParent();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         CandidateInfo[] candidates = helper.getReferencedMethodCandidates(methodCall, false);
+=======
+        CandidateInfo[] candidates = helper.getReferencedMethodCandidates(methodCall, false, true);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         Collections.addAll(myResult, getExpectedArgumentTypesForMethodCall(candidates, list, myExpr, myForCompletion));
       }
       else if (list.getParent() instanceof PsiEnumConstant) {

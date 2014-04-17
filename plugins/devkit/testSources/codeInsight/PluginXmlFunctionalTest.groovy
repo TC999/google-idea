@@ -14,16 +14,26 @@
  * limitations under the License.
  */
 package org.jetbrains.idea.devkit.codeInsight
+
 import com.intellij.codeInsight.TargetElementUtilBase
 import com.intellij.codeInsight.completion.CompletionType
+import com.intellij.codeInsight.documentation.DocumentationManager
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.deadCode.UnusedDeclarationInspection
 import com.intellij.codeInspection.htmlInspections.RequiredAttributesInspection
 import com.intellij.codeInspection.unusedSymbol.UnusedSymbolLocalInspection
 import com.intellij.codeInspection.xml.DeprecatedClassUsageInspection
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.lang.documentation.DocumentationProvider
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.PluginPathManager
 import com.intellij.openapi.vfs.VirtualFile
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.pom.PomTargetPsiElement
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.ElementDescriptionUtil
 import com.intellij.psi.PsiElement
 import com.intellij.testFramework.PsiTestUtil
@@ -32,6 +42,10 @@ import com.intellij.testFramework.fixtures.JavaCodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.TempDirTestFixture
 import com.intellij.usageView.UsageViewNodeTextLocation
 import com.intellij.usageView.UsageViewTypeLocation
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.util.xml.DomTarget
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.idea.devkit.inspections.*
 
 /**
@@ -61,11 +75,11 @@ public class PluginXmlFunctionalTest extends JavaCodeInsightFixtureTestCase {
                        "    </extensionPoints>\n" +
                        "</idea-plugin>");
     addPluginXml("indirect", "<idea-plugin>\n" +
-                           "    <id>com.intellij.indirect</id>\n" +
-                           "    <extensionPoints>\n" +
-                           "        <extensionPoint name=\"indirect\"/>\n" +
-                           "    </extensionPoints>\n" +
-                           "</idea-plugin>");
+                             "    <id>com.intellij.indirect</id>\n" +
+                             "    <extensionPoints>\n" +
+                             "        <extensionPoint name=\"indirect\"/>\n" +
+                             "    </extensionPoints>\n" +
+                             "</idea-plugin>");
     addPluginXml("custom", "<idea-plugin>\n" +
                            "    <id>com.intellij.custom</id>\n" +
                            "    <depends>com.intellij.indirect</depends>\n" +
@@ -137,12 +151,12 @@ public class PluginXmlFunctionalTest extends JavaCodeInsightFixtureTestCase {
 
   public void testResolveExtensionsFromDependentDescriptor() throws Throwable {
     addPluginXml("xxx", "<idea-plugin>\n" +
-                       "    <id>com.intellij.xxx</id>\n" +
-                       "    <extensionPoints>\n" +
-                       "        <extensionPoint name=\"completion.contributor\"/>\n" +
-                       "    </extensionPoints>\n" +
-                       "</idea-plugin>");
-    
+                        "    <id>com.intellij.xxx</id>\n" +
+                        "    <extensionPoints>\n" +
+                        "        <extensionPoint name=\"completion.contributor\"/>\n" +
+                        "    </extensionPoints>\n" +
+                        "</idea-plugin>");
+
     myFixture.copyFileToProject(getTestName(false) + "_main.xml", "META-INF/plugin.xml");
     myFixture.configureFromExistingVirtualFile(myFixture.copyFileToProject(getTestName(false) + "_dependent.xml", "META-INF/dep.xml"));
     myFixture.checkHighlighting(false, false, false);
@@ -217,6 +231,18 @@ public class PluginXmlFunctionalTest extends JavaCodeInsightFixtureTestCase {
                                "MyLanguageAttributeEPBean.java")
   }
 
+  public void testLanguageAttribute() {
+    myFixture.addClass("package com.intellij.lang; " +
+                       "public class Language { " +
+                       "  protected Language(String id) {}" +
+                       "}")
+    VirtualFile myLanguageVirtualFile = myFixture.copyFileToProject("MyLanguage.java");
+    myFixture.allowTreeAccessForFile(myLanguageVirtualFile)
+
+    myFixture.testHighlighting("languageAttribute.xml",
+                               "MyLanguageAttributeEPBean.java")
+  }
+
   public void testPluginModule() throws Throwable {
     myFixture.testHighlighting("pluginWithModules.xml");
   }
@@ -236,6 +262,28 @@ public class PluginXmlFunctionalTest extends JavaCodeInsightFixtureTestCase {
     assert element != null;
     assertEquals("Extension Point", ElementDescriptionUtil.getElementDescription(element, UsageViewTypeLocation.INSTANCE));
     assertEquals("Extension Point bar", ElementDescriptionUtil.getElementDescription(element, UsageViewNodeTextLocation.INSTANCE));
+  }
+
+  public void testExtensionPointDocumentation() {
+    myFixture.addClass("""package bar;
+                          /**
+                           * MyExtensionPoint JavaDoc.
+                           */
+                          public interface MyExtensionPoint {}
+                          """)
+    myFixture.configureByFile("extensionPointPresentation.xml")
+
+    PsiElement originalElement = myFixture.getFile().findElementAt(myFixture.getCaretOffset())
+    PomTargetPsiElement pomTargetPsiElement = assertInstanceOf(myFixture.getElementAtCaret(), PomTargetPsiElement.class)
+    DomTarget domTarget = assertInstanceOf(pomTargetPsiElement.getTarget(), DomTarget.class)
+    PsiElement epPsiElement = domTarget.getNavigationElement()
+
+    DocumentationProvider provider = DocumentationManager.getProviderFromElement(epPsiElement)
+    assertEquals("""<html><head>    <style type="text/css">        #error {            background-color: #eeeeee;            margin-bottom: 10px;        }        p {            margin: 5px 0;        }    </style></head><body><small><b>bar</b></small><PRE>public interface <b>MyExtensionPoint</b></PRE>
+                             MyExtensionPoint JavaDoc.</body></html>""", provider.generateDoc(epPsiElement, originalElement))
+    assertEquals("""[$myModule.name] foo
+<b>bar</b> [extensionPointPresentation.xml]
+bar.MyExtensionPoint""", provider.getQuickNavigateInfo(epPsiElement, originalElement))
   }
 
   public void testLoadForDefaultProject() throws Exception {

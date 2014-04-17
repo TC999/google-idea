@@ -30,6 +30,7 @@ public abstract class JiraRestApi extends JiraRemoteApi {
   private static final Logger LOG = Logger.getInstance(JiraRestApi.class);
 
   public static JiraRestApi fromJiraVersion(@NotNull JiraVersion jiraVersion, @NotNull JiraRepository repository) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     LOG.debug("JIRA version is " + jiraVersion);
     if (jiraVersion.getMajorNumber() == 4 && jiraVersion.getMinorNumber() >= 2) {
       return new JiraRestApi20Alpha1(repository);
@@ -96,6 +97,80 @@ public abstract class JiraRestApi extends JiraRemoteApi {
 
   @Override
   public void setTaskState(Task task, TaskState state) throws Exception {
+=======
+    LOG.info("JIRA version is " + jiraVersion);
+    if (jiraVersion.getMajorNumber() == 4 && jiraVersion.getMinorNumber() >= 2) {
+      return new JiraRestApi20Alpha1(repository);
+    }
+    else if (jiraVersion.getMajorNumber() >= 5) {
+      return new JiraRestApi2(repository);
+    }
+    else {
+      LOG.warn("JIRA below 4.2.0 doesn't support REST API (" + jiraVersion + " used)");
+      return null;
+    }
+  }
+
+  public static JiraRestApi fromJiraVersion(@NotNull String version, @NotNull JiraRepository repository) {
+    return fromJiraVersion(new JiraVersion(version), repository);
+  }
+
+  protected JiraRestApi(@NotNull JiraRepository repository) {
+    super(repository);
+  }
+
+  @Override
+  @NotNull
+  public final List<Task> findTasks(@NotNull String jql, int max) throws Exception {
+    GetMethod method = getMultipleIssuesSearchMethod(jql, max);
+    String response = myRepository.executeMethod(method);
+    List<JiraIssue> issues = parseIssues(response);
+    LOG.debug("Total " + issues.size() + " downloaded");
+    return ContainerUtil.map(issues, new Function<JiraIssue, Task>() {
+      @Override
+      public JiraRestTask fun(JiraIssue issue) {
+        return new JiraRestTask(issue, myRepository);
+      }
+    });
+  }
+
+  @Override
+  @Nullable
+  public final JiraRestTask findTask(@NotNull String key) throws Exception {
+    GetMethod method = getSingleIssueSearchMethod(key);
+    try {
+      return new JiraRestTask(parseIssue(myRepository.executeMethod(method)), myRepository);
+    }
+    catch (Exception ignored) {
+      // should be logged already
+      return null;
+    }
+  }
+
+  @NotNull
+  protected GetMethod getSingleIssueSearchMethod(String key) {
+    return new GetMethod(myRepository.getRestUrl("issue", key));
+  }
+
+  @NotNull
+  protected GetMethod getMultipleIssuesSearchMethod(String jql, int max) {
+    GetMethod method = new GetMethod(myRepository.getRestUrl("search"));
+    method.setQueryString(new NameValuePair[]{
+      new NameValuePair("jql", jql),
+      new NameValuePair("maxResults", String.valueOf(max))
+    });
+    return method;
+  }
+
+  @NotNull
+  protected abstract List<JiraIssue> parseIssues(String response);
+
+  @Nullable
+  protected abstract JiraIssue parseIssue(String response);
+
+  @Override
+  public void setTaskState(@NotNull Task task, @NotNull TaskState state) throws Exception {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     String requestBody = getRequestForStateTransition(state);
     LOG.debug(String.format("Transition: %s -> %s, request: %s", task.getState(), state, requestBody));
     if (requestBody == null) {

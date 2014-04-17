@@ -179,6 +179,7 @@ public abstract class QuickFixFactory {
                                                   int minUsagesNumberToShowDialog);
 
   @NotNull public abstract IntentionAction createCreateMethodFromUsageFix(@NotNull PsiMethodCallExpression call);
+  @NotNull public abstract IntentionAction createCreateMethodFromUsageFix(PsiMethodReferenceExpression methodReferenceExpression);
 
   @NotNull public abstract IntentionAction createCreateAbstractMethodFromUsageFix(@NotNull PsiMethodCallExpression call);
 
@@ -227,7 +228,11 @@ public abstract class QuickFixFactory {
   public abstract IntentionAction createCreateAnnotationMethodFromUsageFix(@NotNull PsiNameValuePair pair);
 
   @NotNull
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public abstract IntentionAction createOptimizeImportsFix();
+=======
+  public abstract IntentionAction createOptimizeImportsFix(boolean onTheFly);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public abstract void registerFixesForUnusedParameter(@NotNull PsiParameter parameter, @NotNull Object highlightInfo);
 

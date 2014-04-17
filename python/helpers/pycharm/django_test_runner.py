@@ -86,6 +86,9 @@ class DjangoTeamcityTestRunner(BaseRunner):
   def _makeResult(self, **kwargs):
     return DjangoTeamcityTestResult(self.stream, **kwargs)
 
+  def _makeResult(self, **kwargs):
+    return DjangoTeamcityTestResult(self.stream, **kwargs)
+
   def build_suite(self, *args, **kwargs):
     EXCLUDED_APPS = getattr(settings, 'TEST_EXCLUDE', [])
     suite = super(DjangoTeamcityTestRunner, self).build_suite(*args, **kwargs)
@@ -102,21 +105,22 @@ class DjangoTeamcityTestRunner(BaseRunner):
     if hasattr(settings, "TEST_RUNNER") and "NoseTestSuiteRunner" in settings.TEST_RUNNER:
       from django_nose.plugin import DjangoSetUpPlugin, ResultPlugin
       from django_nose.runner import _get_plugins_from_settings
-      from nose.plugins.manager import PluginManager
       from nose.config import Config
       import nose
 
-      config = Config(plugins=PluginManager())
-      config.plugins.loadPlugins()
       result_plugin = ResultPlugin()
-      config.plugins.addPlugin(DjangoSetUpPlugin(self))
-      config.plugins.addPlugin(result_plugin)
-      for plugin in _get_plugins_from_settings():
-        config.plugins.addPlugin(plugin)
+      plugins_to_add = [DjangoSetUpPlugin(self), result_plugin]
 
-      nose.core.TestProgram(argv=suite, exit=False,
-        testRunner=TeamcityNoseRunner(config=config))
+      config = Config(plugins=nose.core.DefaultPluginManager())
+      config.plugins.addPlugins(extraplugins=plugins_to_add)
+
+      for plugin in _get_plugins_from_settings():
+            plugins_to_add.append(plugin)
+      nose.core.TestProgram(argv=suite, exit=False, addplugins=plugins_to_add,
+        testRunner=TeamcityNoseRunner(config=config)
+                              )
       return result_plugin.result
+
     else:
       return TeamcityTestRunner.run(self, suite, **kwargs)
 

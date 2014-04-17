@@ -131,7 +131,11 @@ public class HintManagerImpl extends HintManager implements Disposable {
     myEditorFocusListener = new FocusAdapter() {
       @Override
       public void focusLost(final FocusEvent e) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         if (UIUtil.isFocusProxy(e.getOppositeComponent())) return;
+=======
+        //if (UIUtil.isFocusProxy(e.getOppositeComponent())) return;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         myHideAlarm.addRequest(new Runnable() {
           @Override
           public void run() {

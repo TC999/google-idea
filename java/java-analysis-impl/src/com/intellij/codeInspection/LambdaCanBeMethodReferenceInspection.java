@@ -25,6 +25,10 @@ import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtil;
 import com.intellij.psi.util.TypeConversionUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.util.ArrayUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.ArrayUtilRt;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -268,6 +272,7 @@ public class LambdaCanBeMethodReferenceInspection extends BaseJavaBatchLocalInsp
       final String methodReferenceName = methodExpression.getReferenceName();
       if (qualifierExpression != null) {
         boolean isReceiverType = PsiMethodReferenceUtil.isReceiverType(functionalInterfaceType, containingClass, psiMethod);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         final String qualifier;
         if (isReceiverType) {
           final PsiMethod nonAmbiguousMethod = ensureNonAmbiguousMethod(parameters, psiMethod);
@@ -283,6 +288,10 @@ public class LambdaCanBeMethodReferenceInspection extends BaseJavaBatchLocalInsp
         else {
           qualifier = qualifierExpression.getText();
         }
+=======
+        final String qualifier = isReceiverType ? composeReceiverQualifierText(parameters, psiMethod, containingClass, qualifierExpression) 
+                                                : qualifierExpression.getText();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         methodRefText = qualifier + "::" + ((PsiMethodCallExpression)element).getTypeArgumentList().getText() + methodReferenceName;
       }
       else {
@@ -330,6 +339,28 @@ public class LambdaCanBeMethodReferenceInspection extends BaseJavaBatchLocalInsp
     return methodRefText;
   }
 
+  private static String composeReceiverQualifierText(PsiParameter[] parameters,
+                                                     PsiMethod psiMethod,
+                                                     PsiClass containingClass,
+                                                     @NotNull PsiExpression qualifierExpression) {
+    final PsiMethod nonAmbiguousMethod = ensureNonAmbiguousMethod(parameters, psiMethod);
+    LOG.assertTrue(nonAmbiguousMethod != null);
+    final PsiClass nonAmbiguousContainingClass = nonAmbiguousMethod.getContainingClass();
+    if (!containingClass.equals(nonAmbiguousContainingClass)) {
+      return getClassReferenceName(nonAmbiguousContainingClass);
+    }
+
+    if (nonAmbiguousContainingClass.isPhysical() && qualifierExpression instanceof PsiReferenceExpression) {
+      final PsiElement resolve = ((PsiReferenceExpression)qualifierExpression).resolve();
+      if (resolve instanceof PsiParameter && ArrayUtil.find(parameters, resolve) > -1 && ((PsiParameter)resolve).getTypeElement() == null) {
+        return getClassReferenceName(nonAmbiguousContainingClass);
+      }
+    }
+
+    final PsiType qualifierExpressionType = qualifierExpression.getType();
+    return qualifierExpressionType != null ? qualifierExpressionType.getCanonicalText() : getClassReferenceName(nonAmbiguousContainingClass);
+  }
+
   private static String getClassReferenceName(PsiClass containingClass) {
     final String qualifiedName = containingClass.getQualifiedName();
     return qualifiedName != null ? qualifiedName : containingClass.getName();
@@ -354,6 +385,10 @@ public class LambdaCanBeMethodReferenceInspection extends BaseJavaBatchLocalInsp
       final PsiLambdaExpression lambdaExpression = PsiTreeUtil.getParentOfType(element, PsiLambdaExpression.class);
       if (lambdaExpression == null) return;
       final PsiType functionalInterfaceType = lambdaExpression.getFunctionalInterfaceType();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+      if (functionalInterfaceType == null || !functionalInterfaceType.isValid()) return;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       final String methodRefText = createMethodReferenceText(element, functionalInterfaceType,
                                                              lambdaExpression.getParameterList().getParameters());
 

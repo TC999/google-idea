@@ -141,4 +141,12 @@ public class StrictSubtypingConstraint implements ConstraintFormula {
     result = 31 * result + (myT != null ? myT.hashCode() : 0);
     return result;
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  @Override
+  public String toString() {
+    return myS.getPresentableText() + " < " + myT.getPresentableText();
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

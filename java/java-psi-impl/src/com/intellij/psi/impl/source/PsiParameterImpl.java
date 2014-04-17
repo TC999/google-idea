@@ -99,7 +99,11 @@ public class PsiParameterImpl extends JavaStubPsiElement<PsiParameterStub> imple
         if (parameterIndex < parameters.length) {
           final PsiType psiType = LambdaUtil.getSubstitutor(method, resolveResult).substitute(parameters[parameterIndex].getType());
           if (!LambdaUtil.dependsOnTypeParams(psiType, conjunct, lambdaExpression)) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
             return GenericsUtil.eliminateWildcards(psiType);
+=======
+            return GenericsUtil.eliminateWildcards(psiType, false);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
         }
       }

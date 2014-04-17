@@ -21,18 +21,19 @@
 package com.theoryinpractice.testng.configuration;
 
 import com.intellij.execution.JavaExecutionUtil;
-import com.intellij.execution.JavaRunConfigurationExtensionManager;
 import com.intellij.execution.Location;
-import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.actions.ConfigurationContext;
 import com.intellij.execution.configurations.ModuleBasedConfiguration;
 import com.intellij.execution.junit.JUnitUtil;
 import com.intellij.execution.junit2.info.MethodLocation;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.execution.testframework.AbstractTestProxy;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.Ref;
@@ -40,7 +41,6 @@ import com.intellij.psi.*;
 import com.theoryinpractice.testng.model.TestData;
 import com.theoryinpractice.testng.model.TestType;
 import com.theoryinpractice.testng.util.TestNGUtil;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -86,6 +86,16 @@ public class TestNGPatternConfigurationProducer extends TestNGConfigurationProdu
       }
     }
     return foundMembers;
+  }
+
+  public static boolean isMultipleElementsSelected(ConfigurationContext context) {
+    if (AbstractTestProxy.DATA_KEY.getData(context.getDataContext()) != null) return false;
+    final LinkedHashSet<String> classes = new LinkedHashSet<String>();
+    final PsiElement[] elements = collectPatternElements(context, classes);
+    if (elements != null && collectTestMembers(elements).size() > 1) {
+      return true;
+    }
+    return false;
   }
 
   private static PsiElement[] collectPatternElements(ConfigurationContext context, LinkedHashSet<String> classes) {

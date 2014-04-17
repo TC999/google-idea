@@ -145,6 +145,19 @@ public class JavaSurroundWithTest extends LightCodeInsightTestCase {
     TemplateManagerImpl.setTemplateTesting(getProject(), getTestRootDisposable());
     doTest(getTestName(false), new JavaWithNotSurrounder());
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  
+  public void testSurroundExpressionWithElseIf() {
+    TemplateManagerImpl.setTemplateTesting(getProject(), getTestRootDisposable());
+    doTest(getTestName(false), new JavaWithIfExpressionSurrounder());
+  }
+  
+  public void testSurroundExpressionWithElseIfElse() {
+    TemplateManagerImpl.setTemplateTesting(getProject(), getTestRootDisposable());
+    doTest(getTestName(false), new JavaWithIfElseExpressionSurrounder());
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private void doTest(@NotNull String fileName, final Surrounder surrounder) {
     configureByFile(BASE_PATH + fileName + ".java");

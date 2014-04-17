@@ -26,7 +26,9 @@ import org.jetbrains.idea.maven.dom.MavenDomUtil;
 import org.jetbrains.idea.maven.dom.MavenPropertyResolver;
 import org.jetbrains.idea.maven.dom.model.MavenDomProjectModel;
 import org.jetbrains.idea.maven.project.MavenProject;
+import org.jetbrains.idea.maven.project.MavenProjectSettings;
 import org.jetbrains.idea.maven.project.MavenProjectsManager;
+import org.jetbrains.idea.maven.project.MavenTestRunningSettings;
 import org.jetbrains.idea.maven.utils.MavenJDOMUtil;
 
 import java.util.List;
@@ -46,6 +48,8 @@ public class MavenJUnitPatcher extends JUnitPatcher {
     Element config = mavenProject.getPluginConfiguration("org.apache.maven.plugins", "maven-surefire-plugin");
     if (config == null) return;
 
+    MavenTestRunningSettings testRunningSettings = MavenProjectSettings.getInstance(module.getProject()).getTestRunningSettings();
+
     List<String> paths = MavenJDOMUtil.findChildrenValuesByPath(config, "additionalClasspathElements", "additionalClasspathElement");
 
     if (paths.size() > 0) {
@@ -56,32 +60,57 @@ public class MavenJUnitPatcher extends JUnitPatcher {
           path = MavenPropertyResolver.resolve(path, domModel);
         }
 
-        javaParameters.getClassPath().add(path);
+        javaParameters.getClassPath().add(resolveSurefireProperties(path));
       }
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     Element systemPropertyVariables = config.getChild("systemPropertyVariables");
     if (systemPropertyVariables != null && isEnabled("systemPropertyVariables")) {
       for (Element element : systemPropertyVariables.getChildren()) {
         String propertyName = element.getName();
+=======
+    if (testRunningSettings.isPassEnvironmentVariables() && isEnabled("systemPropertyVariables")) {
+      Element systemPropertyVariables = config.getChild("systemPropertyVariables");
+      if (systemPropertyVariables != null) {
+        for (Element element : systemPropertyVariables.getChildren()) {
+          String propertyName = element.getName();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
-        if (!javaParameters.getVMParametersList().hasProperty(propertyName)) {
-          javaParameters.getVMParametersList().addProperty(propertyName, element.getValue());
+          if (!javaParameters.getVMParametersList().hasProperty(propertyName)) {
+            String value = resolveSurefireProperties(element.getValue());
+            if (isResolved(value)) {
+              javaParameters.getVMParametersList().addProperty(propertyName, value);
+            }
+          }
         }
       }
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     Element environmentVariables = config.getChild("environmentVariables");
     if (environmentVariables != null && isEnabled("environmentVariables")) {
       for (Element element : environmentVariables.getChildren()) {
         String variableName = element.getName();
+=======
+    if (testRunningSettings.isPassEnvironmentVariables() && isEnabled("environmentVariables")) {
+      Element environmentVariables = config.getChild("environmentVariables");
+      if (environmentVariables != null) {
+        for (Element element : environmentVariables.getChildren()) {
+          String variableName = element.getName();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
-        if (javaParameters.getEnv() == null || !javaParameters.getEnv().containsKey(variableName)) {
-          javaParameters.addEnv(variableName, element.getValue());
+          if (!javaParameters.getEnv().containsKey(variableName)) {
+            String value = resolveSurefireProperties(element.getValue());
+            if (isResolved(value)) {
+              javaParameters.addEnv(variableName, value);
+            }
+          }
         }
       }
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     Element argLine = config.getChild("argLine");
     if (argLine != null && isEnabled("argLine")) {
       String value = argLine.getTextTrim();
@@ -93,5 +122,28 @@ public class MavenJUnitPatcher extends JUnitPatcher {
 
   private static boolean isEnabled(String s) {
     return !Boolean.valueOf(System.getProperty("idea.maven.surefire.disable." + s));
+=======
+    if (testRunningSettings.isPassArgLine() && isEnabled("argLine")) {
+      Element argLine = config.getChild("argLine");
+      if (argLine != null) {
+        String value = resolveSurefireProperties(argLine.getTextTrim());
+        if (StringUtil.isNotEmpty(value) && isResolved(value)) {
+          javaParameters.getVMParametersList().addParametersString(value);
+        }
+      }
+    }
+  }
+
+  private static String resolveSurefireProperties(String value) {
+    return value.replaceAll("\\$\\{surefire\\.(forkNumber|threadNumber)\\}", "1");
+  }
+
+  private static boolean isEnabled(String s) {
+    return !Boolean.valueOf(System.getProperty("idea.maven.surefire.disable." + s));
+  }
+
+  private static boolean isResolved(String s) {
+    return !s.contains("${") || Boolean.valueOf(System.getProperty("idea.maven.surefire.allPropertiesAreResolved"));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

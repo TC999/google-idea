@@ -67,7 +67,11 @@ public class StaticGenericInfoBuilder {
 
     final Set<JavaMethod> methods = new LinkedHashSet<JavaMethod>();
     InvocationCache invocationCache = DomApplicationComponent.getInstance().getInvocationCache(myClass);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     for (final Method method : myClass.getMethods()) {
+=======
+    for (final Method method : ReflectionUtil.getClassPublicMethods(myClass)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       methods.add(invocationCache.getInternedMethod(method));
     }
     for (final JavaMethod method : methods) {
@@ -80,7 +84,11 @@ public class StaticGenericInfoBuilder {
     {
       final Class implClass = DomApplicationComponent.getInstance().getImplementation(myClass);
       if (implClass != null) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         for (Method method : implClass.getMethods()) {
+=======
+        for (Method method : ReflectionUtil.getClassPublicMethods(implClass)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           final int modifiers = method.getModifiers();
           if (!Modifier.isAbstract(modifiers) &&
               !Modifier.isVolatile(modifiers) &&

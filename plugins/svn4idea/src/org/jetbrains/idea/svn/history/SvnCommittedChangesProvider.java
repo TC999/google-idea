@@ -25,6 +25,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.util.io.FileUtil;
+import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.committed.DecoratorManager;
 import com.intellij.openapi.vcs.changes.committed.VcsCommittedListsZipper;
@@ -39,16 +40,33 @@ import com.intellij.util.AsynchConsumer;
 import com.intellij.util.Consumer;
 import com.intellij.util.PairConsumer;
 import com.intellij.util.ThrowableConsumer;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.util.containers.ContainerUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.messages.MessageBusConnection;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.vcsUtil.VcsUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.idea.svn.*;
+import org.jetbrains.idea.svn.SvnBundle;
+import org.jetbrains.idea.svn.SvnUtil;
+import org.jetbrains.idea.svn.SvnVcs;
 import org.jetbrains.idea.svn.actions.ConfigureBranchesAction;
 import org.jetbrains.idea.svn.commandLine.SvnBindException;
 import org.tmatesoft.svn.core.*;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNLogClient;
+=======
+import org.tmatesoft.svn.core.wc.ISVNStatusHandler;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.tmatesoft.svn.core.wc.SVNRevision;
+import org.tmatesoft.svn.core.wc.SVNStatus;
+import org.tmatesoft.svn.core.wc.SVNStatusType;
+import org.tmatesoft.svn.core.wc2.SvnTarget;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -59,6 +77,9 @@ import java.util.*;
  * @author yole
  */
 public class SvnCommittedChangesProvider implements CachingCommittedChangesProvider<SvnChangeList, ChangeBrowserSettings> {
+
+  private final static Logger LOG = Logger.getInstance(SvnCommittedChangesProvider.class);
+
   private final Project myProject;
   private final SvnVcs myVcs;
   private final MessageBusConnection myConnection;
@@ -106,7 +127,7 @@ public class SvnCommittedChangesProvider implements CachingCommittedChangesProvi
   @Nullable
   public RepositoryLocation getLocationFor(final FilePath root) {
     final String url = SvnUtil.getExactLocation(myVcs, root.getIOFile());
-    return url == null ? null : new SvnRepositoryLocation(url);
+    return url == null ? null : new SvnRepositoryLocation(url, root);
   }
 
   public RepositoryLocation getLocationFor(final FilePath root, final String repositoryPath) {
@@ -128,7 +149,11 @@ public class SvnCommittedChangesProvider implements CachingCommittedChangesProvi
       final String repositoryRoot = getRepositoryRoot(svnLocation);
       final ChangeBrowserSettings.Filter filter = settings.createFilter();
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       getCommittedChangesImpl(settings, svnLocation, new String[]{""}, maxCount, new Consumer<SVNLogEntry>() {
+=======
+      getCommittedChangesImpl(settings, svnLocation, maxCount, new Consumer<SVNLogEntry>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         public void consume(final SVNLogEntry svnLogEntry) {
           final SvnChangeList cl = new SvnChangeList(myVcs, svnLocation, svnLogEntry, repositoryRoot);
           if (filter.accepts(cl)) {
@@ -147,7 +172,11 @@ public class SvnCommittedChangesProvider implements CachingCommittedChangesProvi
     final ArrayList<SvnChangeList> result = new ArrayList<SvnChangeList>();
     final String repositoryRoot = getRepositoryRoot(svnLocation);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     getCommittedChangesImpl(settings, svnLocation, new String[]{""}, maxCount, new Consumer<SVNLogEntry>() {
+=======
+    getCommittedChangesImpl(settings, svnLocation, maxCount, new Consumer<SVNLogEntry>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       public void consume(final SVNLogEntry svnLogEntry) {
         result.add(new SvnChangeList(myVcs, svnLocation, svnLogEntry, repositoryRoot));
       }
@@ -174,6 +203,7 @@ public class SvnCommittedChangesProvider implements CachingCommittedChangesProvi
       }
     });
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     getCommittedChangesImpl(settings, svnLocation, new String[]{""}, maxCount, new Consumer<SVNLogEntry>() {
       public void consume(final SVNLogEntry svnLogEntry) {
         try {
@@ -207,8 +237,24 @@ public class SvnCommittedChangesProvider implements CachingCommittedChangesProvi
       }
     }
     return repositoryRoot;
+=======
+    getCommittedChangesImpl(settings, svnLocation, maxCount, new Consumer<SVNLogEntry>() {
+      public void consume(final SVNLogEntry svnLogEntry) {
+        try {
+          mergeSourceTracker.consume(svnLogEntry);
+        }
+        catch (SVNException e) {
+          throw new RuntimeException(e);
+          // will not occur actually but anyway never eat them
+        }
+      }
+    }, true, false);
+
+    builder.finish();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private void getCommittedChangesImpl(ChangeBrowserSettings settings, final SvnRepositoryLocation location, final String[] filterUrls,
                                        final int maxCount, final Consumer<SVNLogEntry> resultConsumer, final boolean includeMergedRevisions,
                                        final boolean filterOutByDate) throws VcsException {
@@ -228,10 +274,20 @@ public class SvnCommittedChangesProvider implements CachingCommittedChangesProvi
       SVNLogClient logger = myVcs.createLogClient();
       logger.doLog(location.toSvnUrl(), filterUrls, revisionBefore, revisionBefore, revisionAfter, settings.STOP_ON_COPY, true,
                    includeMergedRevisions, maxCount, null, createLogHandler(resultConsumer, filterOutByDate, author));
+=======
+  private String getRepositoryRoot(@NotNull SvnRepositoryLocation svnLocation) throws VcsException {
+    // TODO: Additionally SvnRepositoryLocation could possibly be refactored to always contain FilePath (or similar local item)
+    // TODO: So here we could get repository url without performing remote svn command
+
+    SVNURL rootUrl;
+    try {
+      rootUrl = SvnUtil.getRepositoryRoot(myVcs, svnLocation.toSvnUrl());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     catch (SVNException e) {
-      throw new VcsException(e);
+      throw new SvnBindException(e);
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   @NotNull
@@ -294,6 +350,49 @@ public class SvnCommittedChangesProvider implements CachingCommittedChangesProvi
     }
     else {
       result = defaultValue.compute();
+=======
+
+    if (rootUrl == null) {
+      throw new SvnBindException("Could not resolve repository root url for " + svnLocation);
+    }
+
+    return rootUrl.toDecodedString();
+  }
+
+  private void getCommittedChangesImpl(ChangeBrowserSettings settings, final SvnRepositoryLocation location,
+                                       final int maxCount, final Consumer<SVNLogEntry> resultConsumer, final boolean includeMergedRevisions,
+                                       final boolean filterOutByDate) throws VcsException {
+    setCollectingChangesProgress(location);
+
+    String author = settings.getUserFilter();
+    Date dateFrom = settings.getDateAfterFilter();
+    Long changeFrom = settings.getChangeAfterFilter();
+    Date dateTo = settings.getDateBeforeFilter();
+    Long changeTo = settings.getChangeBeforeFilter();
+
+    SVNRevision revisionBefore = createRevision(dateTo, changeTo, SVNRevision.HEAD);
+    SVNRevision revisionAfter = createRevision(dateFrom, changeFrom, SVNRevision.create(1));
+
+    SvnTarget target = SvnTarget.fromURL(location.toSvnUrl(), revisionBefore);
+    myVcs.getFactory(target).createHistoryClient().doLog(target, revisionBefore, revisionAfter, settings.STOP_ON_COPY, true,
+                                                         includeMergedRevisions, maxCount, null,
+                                                         createLogHandler(resultConsumer, filterOutByDate, author));
+  }
+
+  @NotNull
+  private static SVNRevision createRevision(@Nullable Date date, @Nullable Long change, @NotNull SVNRevision defaultValue)
+    throws VcsException {
+    final SVNRevision result;
+
+    if (date != null) {
+      result = SVNRevision.create(date);
+    }
+    else if (change != null) {
+      result = SVNRevision.create(change.longValue());
+    }
+    else {
+      result = defaultValue;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     return result;
@@ -398,12 +497,65 @@ public class SvnCommittedChangesProvider implements CachingCommittedChangesProvi
     return true;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public Collection<FilePath> getIncomingFiles(final RepositoryLocation location) {
     // TODO: Implement this using "svn status -u" or probably use this command in other part of cache logic
     // TODO: How to map RepositoryLocation to concrete working copy ???
     // TODO: Seems that another parameter identifying local copy with for which we're detecting if repository location contains
     // TODO: incoming files.
     return null;
+=======
+  @Nullable
+  public Collection<FilePath> getIncomingFiles(final RepositoryLocation location) throws VcsException {
+    FilePath root = null;
+
+    if (Registry.is("svn.use.incoming.optimization")) {
+      root = ((SvnRepositoryLocation)location).getRoot();
+
+      if (root == null) {
+        LOG.info("Working copy root is not provided for repository location " + location);
+      }
+    }
+
+    return root != null ? getIncomingFiles(root) : null;
+  }
+
+  @NotNull
+  private Collection<FilePath> getIncomingFiles(@NotNull FilePath root) throws SvnBindException {
+    // TODO: "svn diff -r BASE:HEAD --xml --summarize" command is also suitable here and outputs only necessary changed files,
+    // TODO: while "svn status -u" also outputs other files which could be not modified on server. But for svn 1.7 "--xml --summarize"
+    // TODO: could only be used with url targets - so we could not use "svn diff" here now for all cases (we could not use url with
+    // TODO: concrete revision as there could be mixed revision working copy).
+
+    final Set<FilePath> result = ContainerUtil.newHashSet();
+    File rootFile = root.getIOFile();
+
+    try {
+      myVcs.getFactory(rootFile).createStatusClient()
+        .doStatus(rootFile, SVNRevision.UNDEFINED, SVNDepth.INFINITY, true, false, false, false, new ISVNStatusHandler() {
+          @Override
+          public void handleStatus(SVNStatus status) throws SVNException {
+            File file = status.getFile();
+            boolean changedOnServer = isNotNone(status.getRemoteContentsStatus()) ||
+                                      isNotNone(status.getRemoteNodeStatus()) ||
+                                      isNotNone(status.getRemotePropertiesStatus());
+
+            if (file != null && changedOnServer) {
+              result.add(VcsUtil.getFilePath(file, file.isDirectory()));
+            }
+          }
+        }, null);
+    }
+    catch (SVNException e) {
+      throw new SvnBindException(e);
+    }
+
+    return result;
+  }
+
+  private static boolean isNotNone(@Nullable SVNStatusType status) {
+    return status != null && !SVNStatusType.STATUS_NONE.equals(status);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public boolean refreshCacheByNumber() {

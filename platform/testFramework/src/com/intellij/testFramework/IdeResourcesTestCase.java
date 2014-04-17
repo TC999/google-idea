@@ -24,6 +24,7 @@ import com.intellij.util.containers.ContainerUtil;
 
 import java.net.URL;
 import java.util.Arrays;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.List;
 import java.util.Set;
 
@@ -70,6 +71,54 @@ public abstract class IdeResourcesTestCase extends PlatformTestCase {
 
   public void testTipFilesDuplicates() {
     List<String> errors = ContainerUtil.newArrayList();
+=======
+import java.util.Collection;
+import java.util.Set;
+
+/**
+ * This test-case should be extended in every IDE.
+ *
+ * @author gregsh
+ */
+public abstract class IdeResourcesTestCase extends PlatformTestCase {
+
+  @Override
+  protected boolean isRunInWriteAction() {
+    return false;
+  }
+
+  public void testFeatureTipsRegistered() {
+    ProductivityFeaturesRegistry registry = ProductivityFeaturesRegistry.getInstance();
+    Set<String> ids = registry.getFeatureIds();
+    assertNotEmpty(ids);
+
+    Collection<String> errors = ContainerUtil.newTreeSet();
+    for (String id : ids) {
+      FeatureDescriptor descriptor = registry.getFeatureDescriptor(id);
+      TipAndTrickBean tip = TipAndTrickBean.findByFileName(descriptor.getTipFileName());
+      if (tip == null) {
+        errors.add("<tipAndTrick file=\"" + descriptor.getTipFileName() + "\" feature-id=\"" + id + "\"/>");
+      }
+    }
+    assertEquals("Register the following extensions:\n" + StringUtil.join(errors, "\n"), 0, errors.size());
+  }
+
+  public void testTipFilesPresent() {
+    Collection<String> errors = ContainerUtil.newTreeSet();
+    TipAndTrickBean[] tips = TipAndTrickBean.EP_NAME.getExtensions();
+    assertNotEmpty(Arrays.asList(tips));
+    for (TipAndTrickBean tip : tips) {
+      URL url = ResourceUtil.getResource(tip.getPluginDescriptor().getPluginClassLoader(), "/tips/", tip.fileName);
+      if (url == null) {
+        errors.add(tip.fileName);
+      }
+    }
+    assertEquals(tips.length + " tips are checked, the following files are missing:\n" + StringUtil.join(errors, "\n"), 0, errors.size());
+  }
+
+  public void testTipFilesDuplicates() {
+    Collection<String> errors = ContainerUtil.newTreeSet();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     TipAndTrickBean[] tips = TipAndTrickBean.EP_NAME.getExtensions();
     assertNotEmpty(Arrays.asList(tips));
     Set<String> visited = ContainerUtil.newLinkedHashSet();

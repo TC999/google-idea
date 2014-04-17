@@ -15,6 +15,7 @@
  */
 package org.jetbrains.jps.incremental.artifacts.instructions;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.FileUtilRt;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,22 @@ public abstract class FileCopyingHandler {
     public void writeConfiguration(@NotNull PrintWriter out) {
     }
   };
+=======
+import com.intellij.openapi.util.io.FileUtilRt;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.jps.incremental.CompileContext;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * @author nik
+ */
+public abstract class FileCopyingHandler {
+  public static final FileCopyingHandler DEFAULT = new FilterCopyHandler(FileUtilRt.ALL_FILES);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public abstract void copyFile(@NotNull File from, @NotNull File to, @NotNull CompileContext context) throws IOException;
 

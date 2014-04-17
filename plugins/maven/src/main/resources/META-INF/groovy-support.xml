@@ -3,6 +3,10 @@
     <importer implementation="org.jetbrains.idea.maven.plugins.groovy.Groovy_1_0_Importer"/>
     <importer implementation="org.jetbrains.idea.maven.plugins.groovy.Groovy_1_1_plus_Importer"/>
     <importer implementation="org.jetbrains.idea.maven.plugins.groovy.GroovyGmavenImporter"/>
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    <importer implementation="org.jetbrains.idea.maven.plugins.groovy.GroovyEclipseCompilerImporter"/>
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     <pluginDescriptor mavenId="org.codehaus.groovy.maven:gmaven-plugin">
       <param name="source" languageProvider="org.jetbrains.idea.maven.plugins.groovy.MavenGroovyLanguageProvider"/>

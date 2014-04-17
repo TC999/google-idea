@@ -18,8 +18,13 @@ package com.intellij.psi;
 import com.intellij.JavaTestUtil;
 import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.openapi.vfs.JarFileSystem;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.vfs.VirtualFileSystem;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.impl.compiled.ClsFileImpl;
@@ -52,7 +57,20 @@ public class ClsMirrorBuildingTest extends LightIdeaTestCase {
   public void testLocalClass() { doTest(); }
   public void testBounds() { doTest(); }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void testTextPsiMismatch() throws Exception {
+    CommonCodeStyleSettings.IndentOptions options =
+      CodeStyleSettingsManager.getInstance(getProject()).getCurrentSettings().getIndentOptions(JavaFileType.INSTANCE);
+    int indent = options.INDENT_SIZE;
+    options.INDENT_SIZE *= 2;
+    try {
+      doTest("Bounds");
+    }
+    finally {
+      options.INDENT_SIZE = indent;
+    }
+=======
+  public void testTextPsiMismatch() {
     CommonCodeStyleSettings.IndentOptions options =
       CodeStyleSettingsManager.getInstance(getProject()).getCurrentSettings().getIndentOptions(JavaFileType.INSTANCE);
     int indent = options.INDENT_SIZE;
@@ -65,22 +83,32 @@ public class ClsMirrorBuildingTest extends LightIdeaTestCase {
     }
   }
 
+  public void testJdk8Class() {
+    String testDir = JavaTestUtil.getJavaTestDataPath();
+    String clsPath = testDir + "/../../mockJDK-1.8/jre/lib/rt.jar!/java/lang/Class.class";
+    String txtPath = testDir + "/psi/cls/mirror/" + "Class.txt";
+    doTest(clsPath, txtPath);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+  }
+
   private void doTest() {
     doTest(getTestName(false));
   }
 
   private static void doTest(String name) {
     String testDir = JavaTestUtil.getJavaTestDataPath() + "/psi/cls/mirror/";
+    doTest(testDir + "pkg/" + name + ".class", testDir + name + ".txt");
+  }
 
-    String clsPath = testDir + "pkg/" + name + ".class";
-    VirtualFile vFile = LocalFileSystem.getInstance().findFileByPath(clsPath);
+  private static void doTest(String clsPath, String txtPath) {
+    VirtualFileSystem fs = clsPath.contains("!/") ? JarFileSystem.getInstance() : LocalFileSystem.getInstance();
+    VirtualFile vFile = fs.findFileByPath(clsPath);
     assertNotNull(clsPath, vFile);
     PsiFile clsFile = getPsiManager().findFile(vFile);
     assertNotNull(vFile.getPath(), clsFile);
 
     String expected;
     try {
-      String txtPath = testDir + name + ".txt";
       expected = StringUtil.trimTrailing(PlatformTestUtil.loadFileText(txtPath));
     }
     catch (IOException e) {

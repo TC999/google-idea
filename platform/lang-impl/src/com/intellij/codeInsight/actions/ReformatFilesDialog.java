@@ -29,7 +29,10 @@ public class ReformatFilesDialog extends DialogWrapper implements ReformatFilesO
   @NotNull private Project myProject;
   private JPanel myPanel;
   private JCheckBox myOptimizeImports;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private JCheckBox myOnlyChangedText;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private JCheckBox myRearrangeEntriesCb;
 
   public ReformatFilesDialog(@NotNull Project project, @NotNull VirtualFile[] files) {
@@ -37,17 +40,6 @@ public class ReformatFilesDialog extends DialogWrapper implements ReformatFilesO
     myProject = project;
     setTitle(CodeInsightBundle.message("dialog.reformat.files.title"));
     myOptimizeImports.setSelected(isOptmizeImportsOptionOn());
-    boolean canTargetVcsChanges = false;
-    for (VirtualFile file : files) {
-      if (FormatChangedTextUtil.hasChanges(file, project)) {
-        canTargetVcsChanges = true;
-        break;
-      }
-    }
-    myOnlyChangedText.setEnabled(canTargetVcsChanges);
-    myOnlyChangedText.setSelected(
-      canTargetVcsChanges && PropertiesComponent.getInstance().getBoolean(LayoutCodeConstants.PROCESS_CHANGED_TEXT_KEY, false)
-    ); 
     myOptimizeImports.setSelected(isOptmizeImportsOptionOn());
     myRearrangeEntriesCb.setSelected(LayoutCodeSettingsStorage.getLastSavedRearrangeEntriesCbStateFor(myProject));
     init();
@@ -65,7 +57,11 @@ public class ReformatFilesDialog extends DialogWrapper implements ReformatFilesO
 
   @Override
   public boolean isProcessOnlyChangedText() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return myOnlyChangedText.isEnabled() && myOnlyChangedText.isSelected();
+=======
+    return false;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
@@ -77,7 +73,10 @@ public class ReformatFilesDialog extends DialogWrapper implements ReformatFilesO
   protected void doOKAction() {
     super.doOKAction();
     PropertiesComponent.getInstance().setValue(LayoutCodeConstants.OPTIMIZE_IMPORTS_KEY, Boolean.toString(myOptimizeImports.isSelected()));
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     PropertiesComponent.getInstance().setValue(LayoutCodeConstants.PROCESS_CHANGED_TEXT_KEY, Boolean.toString(myOnlyChangedText.isSelected()));
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     LayoutCodeSettingsStorage.saveRearrangeEntriesOptionFor(myProject, isRearrangeEntries());
   }
 

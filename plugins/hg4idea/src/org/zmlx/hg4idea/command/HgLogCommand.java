@@ -14,7 +14,6 @@ package org.zmlx.hg4idea.command;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -23,22 +22,25 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.zmlx.hg4idea.HgFile;
 import org.zmlx.hg4idea.HgFileRevision;
-import org.zmlx.hg4idea.HgRevisionNumber;
 import org.zmlx.hg4idea.HgVcs;
 import org.zmlx.hg4idea.execution.HgCommandException;
 import org.zmlx.hg4idea.execution.HgCommandExecutor;
 import org.zmlx.hg4idea.execution.HgCommandResult;
+import org.zmlx.hg4idea.log.HgBaseLogParser;
+import org.zmlx.hg4idea.log.HgFileRevisionLogParser;
+import org.zmlx.hg4idea.log.HgHistoryUtil;
 import org.zmlx.hg4idea.util.HgChangesetUtil;
 import org.zmlx.hg4idea.util.HgUtil;
 import org.zmlx.hg4idea.util.HgVersion;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class HgLogCommand {
 
   private static final Logger LOG = Logger.getInstance(HgLogCommand.class.getName());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static final int REVISION_INDEX = 0;
   private static final int CHANGESET_INDEX = 1;
   private static final int PARENTS_INDEX = 2;
@@ -53,6 +55,8 @@ public class HgLogCommand {
   private static final int FILES_COPIED_INDEX = 10;
 
   private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @NotNull private final Project myProject;
   @NotNull private HgVersion myVersion;
@@ -100,15 +104,21 @@ public class HgLogCommand {
       return Collections.emptyList();
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     String[] templates = constructTemplateArgument(includeFiles, myVersion);
     String template = HgChangesetUtil.makeTemplate(templates);
     int expectedItemCount = templates.length;
     boolean shouldParseOldTemplate = !myVersion.isBuiltInFunctionSupported();
 
+=======
+    String[] templates = HgBaseLogParser.constructFullTemplateArgument(includeFiles, myVersion);
+    String template = HgChangesetUtil.makeTemplate(templates);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     FilePath originalFileName = HgUtil.getOriginalFileName(hgFile.toFilePath(), ChangeListManager.getInstance(myProject));
     HgFile originalHgFile = new HgFile(hgFile.getRepo(), originalFileName);
     HgCommandResult result = execute(hgFile.getRepo(), template, limit, originalHgFile, argsForCmd);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final List<HgFileRevision> revisions = new LinkedList<HgFileRevision>();
     if (result == null) {
       return revisions;
@@ -200,6 +210,10 @@ public class HgLogCommand {
       }
     }
     return revisions;
+=======
+    return  HgHistoryUtil.getCommitRecords(myProject, result,
+                                           new HgFileRevisionLogParser(myProject, originalHgFile, myVersion));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable
@@ -239,6 +253,7 @@ public class HgLogCommand {
     HgCommandExecutor commandExecutor = new HgCommandExecutor(myProject);
     commandExecutor.setOutputAlwaysSuppressed(true);
     return commandExecutor.executeInCurrentThread(repo, "log", arguments);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   private static Set<String> parseFileList(String fileListString) {
@@ -318,6 +333,8 @@ public class HgLogCommand {
     }
     LOG.info("Unexpected output during parse copied files in log command " + str);
     return -1;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull

@@ -19,7 +19,14 @@ import com.intellij.debugger.NoDataException;
 import com.intellij.debugger.PositionManager;
 import com.intellij.debugger.PositionManagerEx;
 import com.intellij.debugger.SourcePosition;
+import com.intellij.debugger.engine.evaluation.EvaluationContext;
+import com.intellij.debugger.jdi.StackFrameProxyImpl;
 import com.intellij.debugger.requests.ClassPrepareRequestor;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.util.ThreeState;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.xdebugger.frame.XStackFrame;
 import com.sun.jdi.Location;
 import com.sun.jdi.ReferenceType;
@@ -32,6 +39,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class CompoundPositionManager extends PositionManagerEx {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  private static final Logger LOG = Logger.getInstance(CompoundPositionManager.class);
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private final ArrayList<PositionManager> myPositionManagers = new ArrayList<PositionManager>();
 
   @SuppressWarnings("UnusedDeclaration")
@@ -55,18 +67,24 @@ public class CompoundPositionManager extends PositionManagerEx {
       }
       catch (NoDataException ignored) {
       }
+      catch (Exception e) {
+        LOG.error(e);
+      }
     }
     return null;
   }
 
   @Override
   @NotNull
-  public List<ReferenceType> getAllClasses(SourcePosition classPosition) {
+  public List<ReferenceType> getAllClasses(@NotNull SourcePosition classPosition) {
     for (PositionManager positionManager : myPositionManagers) {
       try {
         return positionManager.getAllClasses(classPosition);
       }
       catch (NoDataException ignored) {
+      }
+      catch (Exception e) {
+        LOG.error(e);
       }
     }
     return Collections.emptyList();
@@ -74,24 +92,34 @@ public class CompoundPositionManager extends PositionManagerEx {
 
   @Override
   @NotNull
-  public List<Location> locationsOfLine(ReferenceType type, SourcePosition position) {
+  public List<Location> locationsOfLine(@NotNull ReferenceType type, @NotNull SourcePosition position) {
     for (PositionManager positionManager : myPositionManagers) {
       try {
         return positionManager.locationsOfLine(type, position);
       }
       catch (NoDataException ignored) {
       }
+      catch (Exception e) {
+        LOG.error(e);
+      }
     }
     return Collections.emptyList();
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public ClassPrepareRequest createPrepareRequest(ClassPrepareRequestor requestor, SourcePosition position) {
+=======
+  public ClassPrepareRequest createPrepareRequest(@NotNull ClassPrepareRequestor requestor, @NotNull SourcePosition position) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     for (PositionManager positionManager : myPositionManagers) {
       try {
         return positionManager.createPrepareRequest(requestor, position);
       }
       catch (NoDataException ignored) {
+      }
+      catch (Exception e) {
+        LOG.error(e);
       }
     }
 
@@ -100,6 +128,7 @@ public class CompoundPositionManager extends PositionManagerEx {
 
   @Nullable
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public XStackFrame createStackFrame(@NotNull Location location) {
     for (PositionManager positionManager : myPositionManagers) {
       if (positionManager instanceof PositionManagerEx) {
@@ -110,5 +139,43 @@ public class CompoundPositionManager extends PositionManagerEx {
       }
     }
     return null;
+=======
+  public XStackFrame createStackFrame(@NotNull StackFrameProxyImpl frame, @NotNull DebugProcessImpl debugProcess, @NotNull Location location) {
+    for (PositionManager positionManager : myPositionManagers) {
+      if (positionManager instanceof PositionManagerEx) {
+        try {
+          XStackFrame xStackFrame = ((PositionManagerEx)positionManager).createStackFrame(frame, debugProcess, location);
+          if (xStackFrame != null) {
+            return xStackFrame;
+          }
+        }
+        catch (Throwable e) {
+          LOG.error(e);
+        }
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public ThreeState evaluateCondition(@NotNull EvaluationContext context,
+                                      @NotNull StackFrameProxyImpl frame,
+                                      @NotNull Location location,
+                                      @NotNull String expression) {
+    for (PositionManager positionManager : myPositionManagers) {
+      if (positionManager instanceof PositionManagerEx) {
+        try {
+          ThreeState result = ((PositionManagerEx)positionManager).evaluateCondition(context, frame, location, expression);
+          if (result != ThreeState.UNSURE) {
+            return result;
+          }
+        }
+        catch (Throwable e) {
+          LOG.error(e);
+        }
+      }
+    }
+    return ThreeState.UNSURE;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

@@ -236,6 +236,8 @@ public class XmlGtTypedHandler extends TypedHandlerDelegate {
       Collection<TextRange> cdataReformatRanges = null;
       final XmlElementDescriptor descriptor = tag.getDescriptor();
 
+      EditorModificationUtil.typeInStringAtCaretHonorMultipleCarets(editor, "</" + name + ">", false, 0);
+      
       if (descriptor instanceof XmlElementDescriptorWithCDataContent) {
         final XmlElementDescriptorWithCDataContent cDataContainer = (XmlElementDescriptorWithCDataContent)descriptor;
 
@@ -247,14 +249,21 @@ public class XmlGtTypedHandler extends TypedHandlerDelegate {
           for (Caret caret : editor.getCaretModel().getAllCarets()) {
             int caretOffset = caret.getOffset();
             if (caretOffset >= cDataStart.length()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
               cdataReformatRanges.add(TextRange.from(caretOffset - cDataStart.length(), inserted.length()));
+=======
+              cdataReformatRanges.add(TextRange.from(caretOffset - cDataStart.length(), inserted.length() + 1));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             }
           }
         }
       }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       EditorModificationUtil.typeInStringAtCaretHonorMultipleCarets(editor, "</" + name + ">", false, 0);
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (cdataReformatRanges != null && !cdataReformatRanges.isEmpty()) {
         PsiDocumentManager.getInstance(project).commitDocument(editor.getDocument());
         try {          

@@ -15,6 +15,10 @@
  */
 package com.intellij.remoteServer.util;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.application.ApplicationManager;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.project.Project;
 import com.intellij.remoteServer.configuration.RemoteServer;
 import com.intellij.remoteServer.configuration.ServerConfigurationBase;
@@ -52,7 +56,11 @@ public abstract class CloudConnectionTask<
       return;
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final ServerConnection<DC> connection = ServerConnectionManager.getInstance().getOrCreateConnection(myServer);
+=======
+    final ServerConnection<DC> connection = ServerConnectionManager.getInstance().createTemporaryConnection(myServer);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     run(connection, semaphore, result);
   }
 
@@ -63,7 +71,22 @@ public abstract class CloudConnectionTask<
 
       @Override
       public void connected(@NotNull ServerRuntimeInstance<DC> serverRuntimeInstance) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         run((SR)serverRuntimeInstance, semaphore, result);
+=======
+        try {
+          run((SR)serverRuntimeInstance, semaphore, result);
+        }
+        finally {
+          ApplicationManager.getApplication().invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+              connection.disconnect();
+            }
+          });
+        }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
 
       @Override

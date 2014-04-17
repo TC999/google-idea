@@ -18,6 +18,7 @@ package com.intellij.codeInsight.template.postfix.completion;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.codeInsight.template.CustomTemplateCallback;
 import com.intellij.codeInsight.template.impl.LiveTemplateCompletionContributor;
 import com.intellij.codeInsight.template.postfix.settings.PostfixTemplatesSettings;
@@ -73,5 +74,68 @@ class PostfixTemplatesCompletionProvider extends CompletionProvider<CompletionPa
     }
 
     return true;
+=======
+import com.intellij.codeInsight.completion.PrefixMatcher;
+import com.intellij.codeInsight.template.impl.LiveTemplateCompletionContributor;
+import com.intellij.codeInsight.template.postfix.settings.PostfixTemplatesSettings;
+import com.intellij.codeInsight.template.postfix.templates.PostfixLiveTemplate;
+import com.intellij.patterns.StandardPatterns;
+import com.intellij.util.ProcessingContext;
+import org.jetbrains.annotations.NotNull;
+
+import static com.intellij.codeInsight.template.postfix.completion.PostfixTemplateCompletionContributor.getPostfixLiveTemplate;
+
+class PostfixTemplatesCompletionProvider extends CompletionProvider<CompletionParameters> {
+  @Override
+  protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+    if (!isCompletionEnabled(parameters) || LiveTemplateCompletionContributor.shouldShowAllTemplates() ||
+        parameters.getEditor().getCaretModel().getCaretCount() != 1) {
+      /**
+       * disabled or covered with {@link com.intellij.codeInsight.template.impl.LiveTemplateCompletionContributor}
+       */
+      return;
+    }
+
+    PostfixLiveTemplate postfixLiveTemplate = getPostfixLiveTemplate(parameters.getOriginalFile(), parameters.getEditor());
+    if (postfixLiveTemplate != null) {
+      postfixLiveTemplate.addCompletions(parameters, result.withPrefixMatcher(new MyPrefixMatcher(result.getPrefixMatcher().getPrefix())));
+      CharSequence documentContent = parameters.getEditor().getDocument().getCharsSequence();
+      String possibleKey = postfixLiveTemplate.computeTemplateKeyWithoutContextChecking(documentContent, parameters.getOffset());
+      if (possibleKey != null) {
+        result = result.withPrefixMatcher(possibleKey);
+        result.restartCompletionOnPrefixChange(StandardPatterns.string().oneOf(postfixLiveTemplate.getAllTemplateKeys()));
+      }
+    }
+  }
+
+  private static boolean isCompletionEnabled(@NotNull CompletionParameters parameters) {
+    if (!parameters.isAutoPopup()) {
+      return false;
+    }
+
+    PostfixTemplatesSettings settings = PostfixTemplatesSettings.getInstance();
+    if (settings == null || !settings.isPostfixTemplatesEnabled() || !settings.isTemplatesCompletionEnabled()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private static class MyPrefixMatcher extends PrefixMatcher {
+    protected MyPrefixMatcher(String prefix) {
+      super(prefix);
+    }
+
+    @Override
+    public boolean prefixMatches(@NotNull String name) {
+      return name.equalsIgnoreCase(myPrefix);
+    }
+
+    @NotNull
+    @Override
+    public PrefixMatcher cloneWithPrefix(@NotNull String prefix) {
+      return new MyPrefixMatcher(prefix);
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

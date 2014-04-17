@@ -1366,21 +1366,44 @@ class XInternalError {}
   }
 
   public void "test block selection from bottom to top with single-item insertion"() {
-    myFixture.configureByText "a.java", """
-class Foo {{
-  ret<caret>;
-  ret;
-}}"""
-    edt {
-      def caret = myFixture.editor.offsetToLogicalPosition(myFixture.editor.caretModel.offset)
-      myFixture.editor.selectionModel.setBlockSelection(new LogicalPosition(caret.line + 1, caret.column), caret)
+    EditorTestUtil.disableMultipleCarets()
+    try {
+      myFixture.configureByText "a.java", """
+  class Foo {{
+    ret<caret>;
+    ret;
+  }}"""
+      edt {
+        def caret = myFixture.editor.offsetToLogicalPosition(myFixture.editor.caretModel.offset)
+        myFixture.editor.selectionModel.setBlockSelection(new LogicalPosition(caret.line + 1, caret.column), caret)
+      }
+      myFixture.completeBasic()
+      myFixture.checkResult '''
+  class Foo {{
+    return<caret>;
+    return;
+  }}'''
     }
-    myFixture.completeBasic()
-    myFixture.checkResult '''
-class Foo {{
-  return<caret>;
-  return;
-}}'''
+    finally {
+      EditorTestUtil.enableMultipleCarets()
+    }
+  }
+
+  public void testMulticaretSingleItemInsertion() {
+    doTest()
+  }
+
+  public void testMulticaretMethodWithParen() {
+    doTest()
+  }
+
+  public void testMulticaretTyping() {
+    configure()
+    assert lookup
+    type('p')
+    assert lookup
+    type('\n')
+    checkResult()
   }
 
   public void testMulticaretSingleItemInsertion() {

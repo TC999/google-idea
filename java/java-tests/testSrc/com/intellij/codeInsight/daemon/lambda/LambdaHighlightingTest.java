@@ -99,6 +99,10 @@ public class LambdaHighlightingTest extends LightDaemonAnalyzerTestCase {
   public void testFinalInitializer() {doTest();}
   public void testBreakContinueInside() {doTest();}
   public void testSameLambdaParamNames() {doTest();}
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void testIDEA123308() {doTest();}
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private void doTest() {
     doTest(false);

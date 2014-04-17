@@ -18,6 +18,7 @@ import com.intellij.notification.NotificationListener;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ApplicationNamesInfo;
 import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.diff.impl.patch.formove.FilePathComparator;
 import com.intellij.openapi.editor.markup.TextAttributes;
@@ -38,6 +39,7 @@ import com.intellij.openapi.vcs.diff.DiffProvider;
 import com.intellij.openapi.vcs.history.VcsHistoryProvider;
 import com.intellij.openapi.vcs.merge.MergeProvider;
 import com.intellij.openapi.vcs.rollback.RollbackEnvironment;
+import com.intellij.openapi.vcs.roots.VcsRootDetector;
 import com.intellij.openapi.vcs.update.UpdateEnvironment;
 import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -48,12 +50,12 @@ import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.messages.Topic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.zmlx.hg4idea.action.HgCommandResultNotifier;
 import org.zmlx.hg4idea.provider.*;
 import org.zmlx.hg4idea.provider.annotate.HgAnnotationProvider;
 import org.zmlx.hg4idea.provider.commit.HgCheckinEnvironment;
 import org.zmlx.hg4idea.provider.commit.HgCommitAndPushExecutor;
 import org.zmlx.hg4idea.provider.update.HgUpdateEnvironment;
+import org.zmlx.hg4idea.roots.HgIntegrationEnabler;
 import org.zmlx.hg4idea.status.HgRemoteStatusUpdater;
 import org.zmlx.hg4idea.status.ui.HgHideableWidget;
 import org.zmlx.hg4idea.status.ui.HgIncomingOutgoingWidget;
@@ -63,6 +65,7 @@ import org.zmlx.hg4idea.util.HgVersion;
 
 import javax.swing.event.HyperlinkEvent;
 import java.io.File;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -76,6 +79,10 @@ public class HgVcs extends AbstractVcs<CommittedChangeList> {
   private static final Logger LOG = Logger.getInstance(HgVcs.class);
 
   public static final String VCS_NAME = "hg4idea";
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public static final String DISPLAY_NAME = "Mercurial";
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private final static VcsKey ourKey = createKey(VCS_NAME);
   private static final int MAX_CONSOLE_OUTPUT_SIZE = 10000;
 
@@ -129,7 +136,7 @@ public class HgVcs extends AbstractVcs<CommittedChangeList> {
   }
 
   public String getDisplayName() {
-    return HgVcsMessages.message("hg4idea.mercurial");
+    return DISPLAY_NAME;
   }
 
   public Configurable getConfigurable() {
@@ -402,6 +409,17 @@ public class HgVcs extends AbstractVcs<CommittedChangeList> {
   }
 
   @Override
+  @CalledInAwt
+  public void enableIntegration() {
+    ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
+      public void run() {
+        Collection<VcsRoot> roots = ServiceManager.getService(myProject, VcsRootDetector.class).detect();
+        new HgIntegrationEnabler(HgVcs.this).enable(roots);
+      }
+    });
+  }
+
+  @Override
   public CheckoutProvider getCheckoutProvider() {
     return new HgCheckoutProvider();
   }
@@ -412,7 +430,11 @@ public class HgVcs extends AbstractVcs<CommittedChangeList> {
    */
   public void checkVersion() {
     final String executable = getGlobalSettings().getHgExecutable();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     HgCommandResultNotifier errorNotification = new HgCommandResultNotifier(myProject);
+=======
+    VcsNotifier vcsNotifier = VcsNotifier.getInstance(myProject);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final String SETTINGS_LINK = "settings";
     final String UPDATE_LINK = "update";
     NotificationListener linkAdapter = new NotificationListener.Adapter() {
@@ -436,6 +458,7 @@ public class HgVcs extends AbstractVcs<CommittedChangeList> {
         String message = String.format("The <a href='" + SETTINGS_LINK + "'>configured</a> version of Hg is not supported: %s.<br/> " +
                                        "The minimal supported version is %s. Please <a href='" + UPDATE_LINK + "'>update</a>.",
                                        myVersion, HgVersion.MIN);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         errorNotification.notifyError(null, "Unsupported Hg version", message, linkAdapter);
       }
       else if (myVersion.hasUnsupportedExtensions()) {
@@ -444,6 +467,16 @@ public class HgVcs extends AbstractVcs<CommittedChangeList> {
         String message = String.format("Some hg extensions %s are not found or not supported by your hg version and will be ignored.\n" +
                                        "Please, update your hgrc or Mercurial.ini file", unsupportedExtensionsAsString);
         errorNotification.notifyWarning("Unsupported Hg version", message);
+=======
+        vcsNotifier.notifyError("Unsupported Hg version", message, linkAdapter);
+      }
+      else if (myVersion.hasUnsupportedExtensions()) {
+        String unsupportedExtensionsAsString = myVersion.getUnsupportedExtensions().toString();
+        LOG.warn("Unsupported Hg extensions: " + unsupportedExtensionsAsString);
+        String message = String.format("Some hg extensions %s are not found or not supported by your hg version and will be ignored.\n" +
+                                       "Please, update your hgrc or Mercurial.ini file", unsupportedExtensionsAsString);
+        vcsNotifier.notifyWarning("Unsupported Hg version", message);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
     catch (Exception e) {
@@ -452,6 +485,7 @@ public class HgVcs extends AbstractVcs<CommittedChangeList> {
         // so parse(output) throw ParseException, but hg and git executable seems to be valid in this case
         final String reason = (e.getCause() != null ? e.getCause() : e).getMessage();
         String message = HgVcsMessages.message("hg4idea.unable.to.run.hg", executable);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         errorNotification.notifyError(null, message,
                                       String.format(
                                         reason +
@@ -459,6 +493,17 @@ public class HgVcs extends AbstractVcs<CommittedChangeList> {
                                         SETTINGS_LINK +
                                         "'> settings </a>"),
                                       linkAdapter);
+=======
+        vcsNotifier.notifyError(message,
+                                  String.format(
+                                    reason +
+                                    "<br/> Please check your hg executable path in <a href='" +
+                                    SETTINGS_LINK +
+                                    "'> settings </a>"
+                                  ),
+                                  linkAdapter
+        );
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
   }

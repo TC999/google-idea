@@ -34,7 +34,6 @@ import com.intellij.debugger.impl.PositionUtil;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.markup.RangeHighlighter;
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
@@ -74,10 +73,13 @@ public class MethodBreakpoint extends BreakpointWithHighlighter<JavaMethodBreakp
 
   protected MethodBreakpoint(@NotNull Project project, XBreakpoint breakpoint) {
     super(project, breakpoint);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   private MethodBreakpoint(@NotNull Project project, @NotNull RangeHighlighter highlighter) {
     super(project, highlighter, null);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public boolean isStatic() {
@@ -189,7 +191,7 @@ public class MethodBreakpoint extends BreakpointWithHighlighter<JavaMethodBreakp
       locationFileName = location.sourceName();
     }
     catch (AbsentInformationException e) {
-      locationFileName = getSourcePosition().getFile().getName();
+      locationFileName = getFileName();
     }
     final int locationLine = location.lineNumber();
     if (event instanceof MethodEntryEvent) {
@@ -300,9 +302,9 @@ public class MethodBreakpoint extends BreakpointWithHighlighter<JavaMethodBreakp
   }
 
 
-  public boolean canMoveTo(final SourcePosition position) {
-    return super.canMoveTo(position) && PositionUtil.getPsiElementAt(getProject(), PsiMethod.class, position) != null;
-  }
+  //public boolean canMoveTo(final SourcePosition position) {
+  //  return super.canMoveTo(position) && PositionUtil.getPsiElementAt(getProject(), PsiMethod.class, position) != null;
+  //}
 
   /**
    * finds FQ method's class name and method's signature

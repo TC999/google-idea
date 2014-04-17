@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2000-2013 JetBrains s.r.o.
+=======
+ * Copyright 2000-2014 JetBrains s.r.o.
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +21,7 @@
 package org.jetbrains.plugins.groovy.lang.psi.impl;
 
 import com.intellij.openapi.util.Comparing;
+import com.intellij.openapi.util.VolatileNotNullLazyValue;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.pom.java.LanguageLevel;
 import com.intellij.psi.CommonClassNames;
@@ -30,18 +35,49 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.TypesUt
 /**
  * @author ven
  */
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 public class GrTupleType extends GrLiteralClassType {
   private final PsiType[] myComponentTypes;
   private final PsiType[] myParameters;
+=======
+public abstract class GrTupleType extends GrLiteralClassType {
+  private final VolatileNotNullLazyValue<PsiType[]> myParameters = new VolatileNotNullLazyValue<PsiType[]>() {
+    @NotNull
+    @Override
+    protected PsiType[] compute() {
+      PsiType[] types = getComponentTypes();
+      if (types.length == 0) return PsiType.EMPTY_ARRAY;
+      final PsiType leastUpperBound = getLeastUpperBound(types);
+      if (leastUpperBound == PsiType.NULL) return EMPTY_ARRAY;
+      return new PsiType[]{leastUpperBound};
+    }
+  };
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
-  public GrTupleType(PsiType[] componentTypes, JavaPsiFacade facade, GlobalSearchScope scope) {
-    this(componentTypes, facade, scope,LanguageLevel.JDK_1_5);
+  private final VolatileNotNullLazyValue<PsiType[]> myComponents = new VolatileNotNullLazyValue<PsiType[]>() {
+    @NotNull
+    @Override
+    protected PsiType[] compute() {
+      return inferComponents();
+    }
+  };
+
+  public GrTupleType(@NotNull GlobalSearchScope scope, @NotNull JavaPsiFacade facade) {
+    this(scope, facade, LanguageLevel.JDK_1_5);
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public GrTupleType(PsiType[] componentTypes, JavaPsiFacade facade, GlobalSearchScope scope,LanguageLevel languageLevel) {
     super(languageLevel, scope, facade);
     myComponentTypes = componentTypes;
 
     myParameters = inferParameters();
+=======
+
+  public GrTupleType(@NotNull GlobalSearchScope scope,
+                     @NotNull JavaPsiFacade facade,
+                     @NotNull LanguageLevel level) {
+    super(level, scope, facade);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull
@@ -59,6 +95,7 @@ public class GrTupleType extends GrLiteralClassType {
   @Override
   @NotNull
   public PsiType[] getParameters() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return myParameters;
   }
 
@@ -67,26 +104,32 @@ public class GrTupleType extends GrLiteralClassType {
     final PsiType leastUpperBound = getLeastUpperBound(myComponentTypes);
     if (leastUpperBound == PsiType.NULL) return EMPTY_ARRAY;
     return new PsiType[]{leastUpperBound};
+=======
+    return myParameters.getValue();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
   @NotNull
   public String getInternalCanonicalText() {
+    PsiType[] types = getComponentTypes();
+
     StringBuilder builder = new StringBuilder();
     builder.append("[");
-    for (int i = 0; i < myComponentTypes.length; i++) {
+    for (int i = 0; i < types.length; i++) {
       if (i >= 2) {
         builder.append(",...");
         break;
       }
 
       if (i > 0) builder.append(", ");
-      builder.append(getInternalCanonicalText(myComponentTypes[i]));
+      builder.append(getInternalCanonicalText(types[i]));
     }
     builder.append("]");
     return builder.toString();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @Override
   public boolean isValid() {
     for (PsiType initializer : myComponentTypes) {
@@ -101,11 +144,14 @@ public class GrTupleType extends GrLiteralClassType {
     return new GrTupleType(myComponentTypes, myFacade, myScope,languageLevel);
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public boolean equals(Object obj) {
     if (obj instanceof GrTupleType) {
-      PsiType[] otherComponents = ((GrTupleType) obj).myComponentTypes;
-      for (int i = 0; i < Math.min(myComponentTypes.length, otherComponents.length); i++) {
-        if (!Comparing.equal(myComponentTypes[i], otherComponents[i])) return false;
+      PsiType[] componentTypes = getComponentTypes();
+      PsiType[] otherComponents = ((GrTupleType)obj).getComponentTypes();
+      for (int i = 0; i < Math.min(componentTypes.length, otherComponents.length); i++) {
+        if (!Comparing.equal(componentTypes[i], otherComponents[i])) return false;
       }
       return true;
     }
@@ -115,9 +161,10 @@ public class GrTupleType extends GrLiteralClassType {
   @Override
   public boolean isAssignableFrom(@NotNull PsiType type) {
     if (type instanceof GrTupleType) {
-      PsiType[] otherComponents = ((GrTupleType) type).myComponentTypes;
-      for (int i = 0; i < Math.min(myComponentTypes.length, otherComponents.length); i++) {
-        PsiType componentType = myComponentTypes[i];
+      PsiType[] otherComponents = ((GrTupleType)type).getComponentTypes();
+      PsiType[] componentTypes = getComponentTypes();
+      for (int i = 0; i < Math.min(componentTypes.length, otherComponents.length); i++) {
+        PsiType componentType = componentTypes[i];
         PsiType otherComponent = otherComponents[i];
         if (otherComponent == null) {
           if (componentType != null && !TypesUtil.isClassType(componentType, CommonClassNames.JAVA_LANG_OBJECT)) return false;
@@ -130,8 +177,17 @@ public class GrTupleType extends GrLiteralClassType {
     return super.isAssignableFrom(type);
   }
 
+  @NotNull
   public PsiType[] getComponentTypes() {
-    return myComponentTypes;
+    return myComponents.getValue();
   }
 
+  @NotNull
+  protected abstract  PsiType[] inferComponents();
+
+  @NotNull
+  @Override
+  public PsiClassType setLanguageLevel(@NotNull LanguageLevel languageLevel) {
+    return new GrImmediateTupleType(getComponentTypes(), myFacade, getResolveScope());
+  }
 }

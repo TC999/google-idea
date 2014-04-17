@@ -71,7 +71,7 @@ public abstract class FileBasedIndexExtension<K, V> {
    *
    * Use carefully, because indexing large files may influence index update speed dramatically.
    *
-   * @see com.intellij.openapi.vfs.PersistentFSConstants#MAX_INTELLISENSE_FILESIZE
+   * @see com.intellij.openapi.vfs.PersistentFSConstants#getMaxIntellisenseFileSize()
    */
   @NotNull
   public Collection<FileType> getFileTypesWithSizeLimitNotApplicable() {
@@ -84,5 +84,12 @@ public abstract class FileBasedIndexExtension<K, V> {
 
   public boolean traceKeyHashToVirtualFileMapping() {
     return false;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  public boolean hasSnapshotMapping() {
+    return false;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

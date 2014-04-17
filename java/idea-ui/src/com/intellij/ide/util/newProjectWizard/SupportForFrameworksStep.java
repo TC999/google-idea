@@ -1,6 +1,11 @@
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
 /*
  * Copyright 2000-2013 JetBrains s.r.o.
+=======
+/*
+ * Copyright 2000-2014 JetBrains s.r.o.
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +60,7 @@ public class SupportForFrameworksStep extends ModuleWizardStep {
     myBuilder = builder;
     List<FrameworkSupportInModuleProvider> providers = FrameworkSupportUtil.getProviders(builder);
     myFrameworkSupportModel = new FrameworkSupportModelInWizard(librariesContainer, builder);
-    mySupportForFrameworksPanel = new AddSupportForFrameworksPanel(providers, myFrameworkSupportModel, false);
+    mySupportForFrameworksPanel = new AddSupportForFrameworksPanel(providers, myFrameworkSupportModel, false, null);
     myConfigurationUpdater = new ModuleBuilder.ModuleConfigurationUpdater() {
       public void update(@NotNull final Module module, @NotNull final ModifiableRootModel rootModel) {
         mySupportForFrameworksPanel.addSupport(module, rootModel);
@@ -67,10 +72,6 @@ public class SupportForFrameworksStep extends ModuleWizardStep {
   private static String getBaseDirectory(final ModuleBuilder builder) {
     final String path = builder.getContentEntryPath();
     return path != null ? FileUtil.toSystemIndependentName(path) : "";
-  }
-
-  public Icon getIcon() {
-    return ICON;
   }
 
   @Override

@@ -49,6 +49,8 @@ import groovy.lang.GroovyObject;
 import org.gradle.tooling.ProjectConnection;
 import org.gradle.tooling.model.DomainObjectSet;
 import org.gradle.tooling.model.GradleTask;
+import org.gradle.tooling.model.gradle.BasicGradleProject;
+import org.gradle.tooling.model.gradle.GradleBuild;
 import org.gradle.tooling.model.idea.*;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -61,11 +63,9 @@ import org.jetbrains.plugins.gradle.util.GradleUtil;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * {@link BaseGradleProjectResolverExtension} provides base implementation of Gradle project resolver.
@@ -126,6 +126,7 @@ public class BaseGradleProjectResolverExtension implements GradleProjectResolver
     if (moduleName == null) {
       throw new IllegalStateException("Module with undefined name detected: " + gradleModule);
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final String moduleConfigPath = GradleUtil.getConfigPath(gradleModule.getGradleProject(), projectData.getLinkedExternalProjectPath());
 
     if (ExternalSystemDebugEnvironment.DEBUG_ORPHAN_MODULES_PROCESSING) {
@@ -141,6 +142,21 @@ public class BaseGradleProjectResolverExtension implements GradleProjectResolver
                                            moduleName,
                                            moduleConfigPath,
                                            moduleConfigPath);
+=======
+
+    final String moduleConfigPath = getModuleConfigPath(gradleModule, projectData.getLinkedExternalProjectPath());
+
+    if (ExternalSystemDebugEnvironment.DEBUG_ORPHAN_MODULES_PROCESSING) {
+      LOG.info(String.format(
+        "Creating module data ('%s') with the external config path: '%s'", gradleModule.getGradleProject().getPath(), moduleConfigPath
+      ));
+    }
+
+    String gradlePath = gradleModule.getGradleProject().getPath();
+    String moduleId = StringUtil.isEmpty(gradlePath) || ":".equals(gradlePath) ? moduleName : gradlePath;
+    ModuleData moduleData =
+      new ModuleData(moduleId, GradleConstants.SYSTEM_ID, StdModuleTypes.JAVA.getId(), moduleName, moduleConfigPath, moduleConfigPath);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     final ModuleExtendedModel moduleExtendedModel = resolverCtx.getExtraProject(gradleModule, ModuleExtendedModel.class);
     if (moduleExtendedModel != null) {
@@ -279,9 +295,7 @@ public class BaseGradleProjectResolverExtension implements GradleProjectResolver
     throws IllegalArgumentException, IllegalStateException {
 
     final Collection<TaskData> tasks = ContainerUtil.newArrayList();
-
-    final String rootProjectPath = ideProject.getData().getLinkedExternalProjectPath();
-    final String moduleConfigPath = GradleUtil.getConfigPath(gradleModule.getGradleProject(), rootProjectPath);
+    final String moduleConfigPath = ideModule.getData().getLinkedExternalProjectPath();
 
     for (GradleTask task : gradleModule.getGradleProject().getTasks()) {
       String taskName = task.getName();
@@ -305,7 +319,12 @@ public class BaseGradleProjectResolverExtension implements GradleProjectResolver
   @NotNull
   @Override
   public Set<Class> getExtraProjectModelClasses() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return ContainerUtil.<Class>set(ModuleExtendedModel.class, ProjectDependenciesModel.class, BuildScriptClasspathModel.class);
+=======
+    return ContainerUtil.<Class>set(
+      GradleBuild.class, ModuleExtendedModel.class, ProjectDependenciesModel.class, BuildScriptClasspathModel.class);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull
@@ -382,6 +401,55 @@ public class BaseGradleProjectResolverExtension implements GradleProjectResolver
 
   @Override
   public void enhanceLocalProcessing(@NotNull List<URL> urls) {
+  }
+
+  @NotNull
+  private String getModuleConfigPath(@NotNull IdeaModule gradleModule, @NotNull String rootProjectPath) {
+    GradleBuild build = resolverCtx.getExtraProject(gradleModule, GradleBuild.class);
+    if (build != null) {
+      String gradlePath = gradleModule.getGradleProject().getPath();
+      File moduleDirPath = getModuleDirPath(build, gradlePath);
+      if (moduleDirPath == null) {
+        throw new IllegalStateException(String.format("Unable to find root directory for module '%s'", gradleModule.getName()));
+      }
+      try {
+        return ExternalSystemApiUtil.toCanonicalPath(moduleDirPath.getCanonicalPath());
+      }
+      catch (IOException e) {
+        LOG.warn("construction of the canonical path for the module fails", e);
+      }
+    }
+
+    return GradleUtil.getConfigPath(gradleModule.getGradleProject(), rootProjectPath);
+  }
+
+  /**
+   * Returns the physical path of the module's root directory (the path in the file system.)
+   * <p>
+   * It is important to note that Gradle has its own "logical" path that may or may not be equal to the physical path of a Gradle project.
+   * For example, the sub-project at ${projectRootDir}/apps/app will have the Gradle path :apps:app. Gradle also allows mapping physical
+   * paths to a different logical path. For example, in settings.gradle:
+   * <pre>
+   *   include ':app'
+   *   project(':app').projectDir = new File(rootDir, 'apps/app')
+   * </pre>
+   * In this example, sub-project at ${projectRootDir}/apps/app will have the Gradle path :app.
+   * </p>
+   *
+   * @param build contains information about the root Gradle project and its sub-projects. Such information includes the physical path of
+   *              the root Gradle project and its sub-projects.
+   * @param path  the Gradle "logical" path. This path uses colon as separator, and may or may not be equal to the physical path of a
+   *              Gradle project.
+   * @return the physical path of the module's root directory.
+   */
+  @Nullable
+  static File getModuleDirPath(@NotNull GradleBuild build, @NotNull String path) {
+    for (BasicGradleProject project : build.getProjects()) {
+      if (project.getPath().equals(path)) {
+        return project.getProjectDirectory();
+      }
+    }
+    return null;
   }
 
   /**
@@ -526,6 +594,6 @@ public class BaseGradleProjectResolverExtension implements GradleProjectResolver
   }
 
   private static boolean isIdeaTask(final String taskName) {
-    return taskName.toLowerCase().contains("idea");
+    return taskName.toLowerCase(Locale.ENGLISH).contains("idea");
   }
 }

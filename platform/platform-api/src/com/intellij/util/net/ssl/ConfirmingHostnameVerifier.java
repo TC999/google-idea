@@ -67,6 +67,7 @@ class ConfirmingHostnameVerifier implements X509HostnameVerifier {
 
   @Override
   public void verify(final String host, final X509Certificate cert) throws SSLException {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (!CertificatesManager.getInstance().getState().checkHostname) {
       return;
     }
@@ -85,6 +86,26 @@ class ConfirmingHostnameVerifier implements X509HostnameVerifier {
 
   private static boolean accepted(final String host, final X509Certificate cert) {
     return CertificatesManager.showAcceptDialog(new Callable<DialogWrapper>() {
+=======
+    if (!CertificateManager.getInstance().getState().CHECK_HOSTNAME) {
+      return;
+    }
+    try {
+      myVerifier.verify(host, cert);
+    }
+    catch (SSLException e) {
+      //noinspection ConstantConditions
+      if (!accepted(host, cert)) {
+        throw e;
+      }
+      // TODO: inclusion in some kind of persistent settings
+      // Read/Write lock to protect storage?
+    }
+  }
+
+  private static boolean accepted(final String host, final X509Certificate cert) {
+    return CertificateManager.showAcceptDialog(new Callable<DialogWrapper>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       @Override
       public DialogWrapper call() throws Exception {
         return CertificateWarningDialog.createHostnameMismatchWarning(cert, host);

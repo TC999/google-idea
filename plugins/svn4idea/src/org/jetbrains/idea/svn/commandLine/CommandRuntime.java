@@ -17,15 +17,20 @@ package org.jetbrains.idea.svn.commandLine;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Condition;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.jetbrains.idea.svn.SvnApplicationSettings;
 import org.jetbrains.idea.svn.SvnProgressCanceller;
 import org.jetbrains.idea.svn.SvnUtil;
 import org.jetbrains.idea.svn.SvnVcs;
+=======
+import org.jetbrains.idea.svn.*;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.tmatesoft.svn.core.SVNURL;
 
 import java.io.File;
@@ -153,6 +158,60 @@ public class CommandRuntime {
     }
   }
 
+  private static void handleSuccess(CommandExecutor executor) {
+    // could be situations when exit code = 0, but there is info "warning" in error stream for instance, for "svn status"
+    // on non-working copy folder
+    if (executor.getErrorOutput().length() > 0) {
+      // here exitCode == 0, but some warnings are in error stream
+      LOG.info("Detected warning - " + executor.getErrorOutput());
+    }
+  }
+
+  private static boolean handleErrorCode(CommandExecutor executor) throws SvnBindException {
+    // no errors found in error stream => we treat null exitCode as successful, otherwise exception is thrown
+    Integer exitCode = executor.getExitCodeReference();
+    if (exitCode != null) {
+      // here exitCode != null && exitCode != 0
+      LOG.info("Command - " + executor.getCommandText());
+      LOG.info("Command output - " + executor.getOutput());
+
+      throw new SvnBindException("Svn process exited with error code: " + exitCode);
+    }
+
+    return false;
+  }
+
+  private boolean handleErrorText(CommandExecutor executor, Command command) throws SvnBindException {
+    final String errText = executor.getErrorOutput().trim();
+    final AuthCallbackCase callback = executor instanceof TerminalExecutor ? null : createCallback(errText, command.getRepositoryUrl());
+    // do not handle possible authentication errors if command was manually cancelled
+    // force checking if command is cancelled and not just use corresponding value from executor - as there could be cases when command
+    // finishes quickly but with some auth error - this way checkCancelled() is not called by executor itself and so command is repeated
+    // "infinite" times despite it was cancelled.
+    if (!executor.checkCancelled() && callback != null) {
+      if (callback.getCredentials(errText)) {
+        if (myAuthCallback.getSpecialConfigDir() != null) {
+          command.setConfigDir(myAuthCallback.getSpecialConfigDir());
+        }
+        callback.updateParameters(command);
+        return true;
+      }
+    }
+
+    throw new SvnBindException(errText);
+  }
+
+  private void cleanupManualDestroy(CommandExecutor executor, Command command) throws SvnBindException {
+    if (executor.isManuallyDestroyed()) {
+      cleanup(executor, command.getWorkingDirectory());
+
+      String destroyReason = executor.getDestroyReason();
+      if (!StringUtil.isEmpty(destroyReason)) {
+        throw new SvnBindException(destroyReason);
+      }
+    }
+  }
+
   private void onFinish() {
     myAuthCallback.reset();
   }
@@ -204,17 +263,42 @@ public class CommandRuntime {
   private CommandExecutor newExecutor(@NotNull Command command) {
     final CommandExecutor executor;
 
-    if (!Registry.is("svn.use.terminal")) {
+    if (!(Registry.is("svn.use.terminal") && isForSshRepository(command)) || isLocal(command)) {
       command.putIfNotPresent("--non-interactive");
       executor = new CommandExecutor(exePath, command);
     }
     else {
-      command.put("--force-interactive");
-      executor = new TerminalExecutor(exePath, command);
+      // do not explicitly specify "--force-interactive" as it is not supported in svn 1.7 - commands will be interactive by default as
+      // running under terminal
+      executor = newTerminalExecutor(command);
       ((TerminalExecutor)executor).addInteractiveListener(new TerminalSshModule(this, executor));
     }
 
     return executor;
+  }
+
+  @NotNull
+  private TerminalExecutor newTerminalExecutor(@NotNull Command command) {
+    return SystemInfo.isWindows ? new WinTerminalExecutor(exePath, command) : new TerminalExecutor(exePath, command);
+  }
+
+  private static boolean isLocal(@NotNull Command command) {
+    return SvnCommandName.version.equals(command.getName()) ||
+           SvnCommandName.cleanup.equals(command.getName()) ||
+           SvnCommandName.add.equals(command.getName()) ||
+           // currently "svn delete" is only applied to local files
+           SvnCommandName.delete.equals(command.getName()) ||
+           SvnCommandName.revert.equals(command.getName()) ||
+           SvnCommandName.resolve.equals(command.getName()) ||
+           SvnCommandName.upgrade.equals(command.getName()) ||
+           SvnCommandName.changelist.equals(command.getName()) ||
+           command.isLocalInfo() || command.isLocalStatus() || command.isLocalProperty() || command.isLocalCat();
+  }
+
+  private static boolean isForSshRepository(@NotNull Command command) {
+    SVNURL url = command.getRepositoryUrl();
+
+    return url != null && StringUtil.equalsIgnoreCase(SvnAuthenticationManager.SVN_SSH, url.getProtocol());
   }
 
   @NotNull

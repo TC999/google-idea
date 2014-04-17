@@ -153,6 +153,7 @@ final class BrowserSettingsPanel {
 
     //noinspection unchecked
     defaultBrowserComboBox.setModel(new EnumComboBoxModel<DefaultBrowser>(DefaultBrowser.class));
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (BrowserLauncherImpl.canStartDefaultBrowser()) {
       defaultBrowserComboBox.addItemListener(new ItemListener() {
         @Override
@@ -204,6 +205,59 @@ final class BrowserSettingsPanel {
       @Override
       public void actionPerformed(ActionEvent e) {
         BrowserLauncherImpl.clearExtractedFiles();
+=======
+    if (BrowserLauncherAppless.canStartDefaultBrowser()) {
+      defaultBrowserComboBox.addItemListener(new ItemListener() {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+          boolean customPathEnabled = e.getItem() == DefaultBrowser.ALTERNATIVE;
+          if (e.getStateChange() == ItemEvent.DESELECTED) {
+            if (customPathEnabled) {
+              customPathValue = alternativeBrowserPathField.getText();
+            }
+          }
+          else if (e.getStateChange() == ItemEvent.SELECTED) {
+            alternativeBrowserPathField.setEnabled(customPathEnabled);
+            updateCustomPathTextFieldValue((DefaultBrowser)e.getItem());
+          }
+        }
+      });
+
+      defaultBrowserComboBox.setRenderer(new ListCellRendererWrapper<DefaultBrowser>() {
+        @Override
+        public void customize(JList list, DefaultBrowser value, int index, boolean selected, boolean hasFocus) {
+          String name;
+          switch (value) {
+            case SYSTEM:
+              name = "System default";
+              break;
+            case FIRST:
+              name = "First listed";
+              break;
+            case ALTERNATIVE:
+              name = "Custom path";
+              break;
+            default:
+              throw new IllegalStateException();
+          }
+
+          setText(name);
+        }
+      });
+
+      if (UIUtil.isUnderAquaLookAndFeel()) {
+        defaultBrowserComboBox.setBorder(new EmptyBorder(3, 0, 0, 0));
+      }
+    }
+    else {
+      defaultBrowserComboBox.setVisible(false);
+    }
+
+    clearExtractedFiles.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        BrowserLauncherAppless.clearExtractedFiles();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     });
   }

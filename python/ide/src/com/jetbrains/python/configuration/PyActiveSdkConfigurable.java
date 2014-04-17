@@ -29,7 +29,10 @@ import com.intellij.openapi.projectRoots.ProjectJdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModel;
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.projectRoots.impl.SdkListCellRenderer;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.ModuleRootModificationUtil;
 import com.intellij.openapi.roots.ProjectRootManager;
@@ -37,7 +40,10 @@ import com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectSdksModel;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.FixedSizeButton;
 import com.intellij.openapi.util.Computable;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.util.Disposer;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.CollectionComboBoxModel;
@@ -73,7 +79,10 @@ public class PyActiveSdkConfigurable implements UnnamedConfigurable {
   private JButton myDetailsButton;
   private static final String SHOW_ALL = "Show All";
   private NullableConsumer<Sdk> myDetailsCallback;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private PythonSdkDetailsDialog myMoreDialog;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public PyActiveSdkConfigurable(@NotNull Project project) {
     myModule = null;
@@ -129,6 +138,7 @@ public class PyActiveSdkConfigurable implements UnnamedConfigurable {
         }
       }
     };
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myMoreDialog = myModule == null ? new PythonSdkDetailsDialog(myProject, myDetailsCallback) :
                    new PythonSdkDetailsDialog(myModule, myDetailsCallback);
     myDetailsButton.addActionListener(new ActionListener() {
@@ -188,6 +198,76 @@ public class PyActiveSdkConfigurable implements UnnamedConfigurable {
     final PackagesNotificationPanel notificationsArea = new PackagesNotificationPanel(myProject);
     final JComponent notificationsComponent = notificationsArea.getComponent();
     final Dimension preferredSize = mySdkCombo.getPreferredSize();
+=======
+    myDetailsButton.addActionListener(new ActionListener() {
+                                        @Override
+                                        public void actionPerformed(ActionEvent e) {
+                                          PythonSdkDetailsStep.show(myProject, myProjectSdksModel.getSdks(),
+                                                                    myModule == null ? new PythonSdkDetailsDialog(myProject, myDetailsCallback) :
+                                                                    new PythonSdkDetailsDialog(myModule, myDetailsCallback), myMainPanel,
+                                                  myDetailsButton.getLocationOnScreen(),
+                                                  new NullableConsumer<Sdk>() {
+                                                    @Override
+                                                    public void consume(Sdk sdk) {
+                                                      if (sdk == null) return;
+                                                      final PySdkService sdkService = PySdkService.getInstance();
+                                                      sdkService.restoreSdk(sdk);
+                                                      if (myProjectSdksModel.findSdk(sdk) == null) {
+                                                        myProjectSdksModel.addSdk(sdk);
+                                                        myAddedSdks.add(sdk);
+                                                      }
+                                                      updateSdkList(false);
+                                                      mySdkCombo.getModel().setSelectedItem(sdk);
+                                                      myPackagesPanel.updatePackages(new PyPackageManagementService(myProject, sdk));
+                                                      myPackagesPanel.updateNotifications(sdk);
+                                                    }
+                                                  }
+                                            );
+                                        }
+                                      }
+    );
+
+  }
+
+  private void layoutPanel() {
+    final GridBagLayout layout = new GridBagLayout();
+    myMainPanel = new JPanel(layout);
+    final JLabel interpreterLabel = new JLabel("Project Interpreter:");
+    final JLabel emptyLabel = new JLabel("  ");
+    mySdkCombo = new ComboBox() {
+      @Override
+      public void setSelectedItem(Object item) {
+        if (SHOW_ALL.equals(item)) {
+          ApplicationManager.getApplication().invokeLater(new Runnable() {
+            public void run() {
+              PythonSdkDetailsDialog options = myModule == null ? new PythonSdkDetailsDialog(myProject, myDetailsCallback) :
+                                               new PythonSdkDetailsDialog(myModule, myDetailsCallback);
+              options.show();
+            }
+          });
+          return;
+        }
+        if (!PySdkListCellRenderer.SEPARATOR.equals(item))
+          super.setSelectedItem(item);
+      }
+      @Override
+      public void paint(Graphics g) {
+        try {
+          putClientProperty("JComboBox.isTableCellEditor", Boolean.FALSE);
+          super.paint(g);
+        } finally {
+          putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
+        }
+      }
+    };
+    mySdkCombo.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
+    mySdkCombo.setRenderer(new PySdkListCellRenderer());
+
+    final PackagesNotificationPanel notificationsArea = new PackagesNotificationPanel(myProject);
+    final JComponent notificationsComponent = notificationsArea.getComponent();
+    final Dimension preferredSize = mySdkCombo.getPreferredSize();
+    mySdkCombo.setPreferredSize(preferredSize);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     notificationsArea.hide();
     myDetailsButton = new FixedSizeButton();
     myDetailsButton.setIcon(PythonIcons.Python.InterpreterGear);
@@ -277,6 +357,10 @@ public class PyActiveSdkConfigurable implements UnnamedConfigurable {
         mySdkCombo.setSelectedItem(newSdk);
         myProjectSdksModel.apply();
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+      PySdkService.getInstance().solidifySdk(item);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     else {
       final Sdk sdk = myProjectSdksModel.findSdk(item);
@@ -360,7 +444,8 @@ public class PyActiveSdkConfigurable implements UnnamedConfigurable {
     updateSdkList(false);
 
     final Sdk sdk = getSdk();
-    mySdkCombo.setSelectedItem(myProjectSdksModel.getProjectSdks().get(sdk));
+    final Sdk projectSdk = myProjectSdksModel.getProjectSdks().get(sdk);
+    mySdkCombo.setSelectedItem(projectSdk);
   }
 
   private void updateSdkList(boolean preserveSelection) {

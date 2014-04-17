@@ -157,7 +157,24 @@ public class JUnit4TestRunnerUtil {
           catch (Throwable e) {
             //ignore
           }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           return Request.method(clazz, methodName);
+=======
+          final Filter methodFilter = Filter.matchMethodDescription(Description.createTestDescription(clazz, methodName));
+          return Request.aClass(clazz).filterWith(new Filter() {
+            public boolean shouldRun(Description description) {
+              if (description.isTest() && description.getDisplayName().startsWith("warning(junit.framework.TestSuite$")) {
+                return true;
+              }
+
+              return methodFilter.shouldRun(description);
+            }
+
+            public String describe() {
+              return methodFilter.describe();
+            }
+          });
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         } else if (name != null && suiteClassNames.length == 1) {
           final Class clazz = loadTestClass(suiteClassName);
           if (clazz != null) {

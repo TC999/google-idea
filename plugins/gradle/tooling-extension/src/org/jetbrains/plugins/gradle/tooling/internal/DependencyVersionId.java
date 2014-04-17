@@ -20,6 +20,7 @@ package org.jetbrains.plugins.gradle.tooling.internal;
  * @since 11/25/13
  */
 public class DependencyVersionId {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private final String myName;
   private final String myArtifactName;
   private final String myGroup;
@@ -88,6 +89,86 @@ public class DependencyVersionId {
   public String toString() {
     return "DependencyVersionId{" +
            "name='" + myName + '\'' +
+=======
+  private final String myId;
+  private final String myName;
+  private final String myArtifactName;
+  private final String myGroup;
+  private final String myVersion;
+  private final String myClassifier;
+
+  public DependencyVersionId(String id,
+                             String name,
+                             String artifactName,
+                             String group,
+                             String version,
+                             String classifier) {
+    myId = id;
+    myName = name;
+    myArtifactName = artifactName;
+    myGroup = group;
+    myVersion = version;
+    myClassifier = classifier;
+  }
+
+  public String getId() {
+    return myId;
+  }
+
+  public String getName() {
+    return myName;
+  }
+
+  public String getArtifactName() {
+    return myArtifactName;
+  }
+
+  public String getGroup() {
+    return myGroup;
+  }
+
+  public String getVersion() {
+    return myVersion;
+  }
+
+  public String getClassifier() {
+    return myClassifier;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof DependencyVersionId)) return false;
+
+    DependencyVersionId id = (DependencyVersionId)o;
+
+    if (myId != null ? !myId.equals(id.myId) : id.myId != null) return false;
+    if (myGroup != null ? !myGroup.equals(id.myGroup) : id.myGroup != null) return false;
+    if (myName != null ? !myName.equals(id.myName) : id.myName != null) return false;
+    if (myArtifactName != null ? !myArtifactName.equals(id.myArtifactName) : id.myArtifactName != null) return false;
+    if (myVersion != null ? !myVersion.equals(id.myVersion) : id.myVersion != null) return false;
+    if (myClassifier != null ? !myClassifier.equals(id.myClassifier) : id.myClassifier != null) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = myId != null ? myId.hashCode() : 0;
+    result = 31 * result + (myName != null ? myName.hashCode() : 0);
+    result = 31 * result + (myArtifactName != null ? myArtifactName.hashCode() : 0);
+    result = 31 * result + (myGroup != null ? myGroup.hashCode() : 0);
+    result = 31 * result + (myVersion != null ? myVersion.hashCode() : 0);
+    result = 31 * result + (myClassifier != null ? myClassifier.hashCode() : 0);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "DependencyVersionId{" +
+           "id='" + myId + '\'' +
+           ", name='" + myName + '\'' +
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
            ", artifactName='" + myArtifactName + '\'' +
            ", group='" + myGroup + '\'' +
            ", version='" + myVersion + '\'' +

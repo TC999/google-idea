@@ -148,7 +148,12 @@ public class Messages {
           .showMessageDialog(title, message, options, false, parentWindow, defaultOptionIndex, defaultOptionIndex, doNotAskOption);
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     return showIdeaMessageDialog(project, message, title, options, defaultOptionIndex, icon, doNotAskOption);
@@ -172,8 +177,12 @@ public class Messages {
   public static boolean canShowMacSheetPanel() {
     return SystemInfo.isMac
            && !isApplicationInUnitTestOrHeadless()
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
            && Registry.is("ide.mac.message.dialogs.as.sheets")
            && !SystemInfo.isJavaVersionAtLeast("1.8");
+=======
+           && Registry.is("ide.mac.message.dialogs.as.sheets");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
            //&& !DialogWrapper.isMultipleModalDialogs();
   }
 
@@ -203,7 +212,12 @@ public class Messages {
                              focusedOptionIndex, null);
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     MessageDialog dialog = new MoreInfoMessageDialog(project, message, title, moreInfo, options, defaultOptionIndex, focusedOptionIndex, icon);
@@ -230,7 +244,12 @@ public class Messages {
                                                              defaultOptionIndex, defaultOptionIndex, null);
         }
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       catch (Exception ignored) {
+=======
+      catch (Exception exception) {
+        LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
 
       MessageDialog dialog = new MessageDialog(parent, message, title, options, defaultOptionIndex, defaultOptionIndex, icon, false);
@@ -262,7 +281,12 @@ public class Messages {
                                                            doNotAskOption);
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     //what's it? if (application.isUnitTestMode()) throw new RuntimeException(message);
@@ -303,7 +327,12 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(project, message, title, new String[]{OK_BUTTON}, 0, icon);
@@ -316,7 +345,12 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(parent, message, title, new String[]{OK_BUTTON}, 0, icon);
@@ -329,11 +363,14 @@ public class Messages {
    * @see #showMessageDialog(Component, String, String, Icon)
    */
   public static void showMessageDialog(String message, @NotNull String title, @Nullable Icon icon) {
-    if (canShowMacSheetPanel()) {
-      MacMessages.getInstance().showOkMessageDialog(title, message, OK_BUTTON);
-      return;
+    try {
+      if (canShowMacSheetPanel()) {
+        MacMessages.getInstance().showOkMessageDialog(title, message, OK_BUTTON);
+        return;
+      }
+    }catch (Exception exception) {
+      LOG.error(exception);
     }
-
     showDialog(message, title, new String[]{OK_BUTTON}, 0, icon);
   }
 
@@ -352,7 +389,12 @@ public class Messages {
           .showYesNoDialog(title, message, yesText, noText, WindowManager.getInstance().suggestParentWindow(project));
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     int result = showDialog(project, message, title, new String[]{yesText, noText}, 0, icon) == 0 ? YES : NO;
@@ -372,7 +414,12 @@ public class Messages {
                                                          WindowManager.getInstance().suggestParentWindow(project));
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     int result = showYesNoDialog(project, message, title, YES_BUTTON, NO_BUTTON, icon);
@@ -392,7 +439,12 @@ public class Messages {
         return MacMessages.getInstance().showYesNoDialog(title, message, YES_BUTTON, NO_BUTTON, SwingUtilities.getWindowAncestor(parent));
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     int result = showDialog(parent, message, title, new String[]{YES_BUTTON, NO_BUTTON}, 0, icon) == 0 ? YES : NO;
@@ -416,7 +468,12 @@ public class Messages {
         return MacMessages.getInstance().showYesNoDialog(title, message, yesText, noText, null, doNotAskOption);
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     int result = showDialog(message, title, new String[]{yesText, noText}, 0, icon, doNotAskOption) == 0 ? YES : NO;
@@ -451,7 +508,12 @@ public class Messages {
         return MacMessages.getInstance().showYesNoDialog(title, message, YES_BUTTON, NO_BUTTON, null);
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     int result = showYesNoDialog(message, title, YES_BUTTON, NO_BUTTON, icon);
@@ -482,7 +544,12 @@ public class Messages {
         return result == YES ? OK : CANCEL;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     return showDialog(project, message, title, new String[]{okText, cancelText}, 0, icon, doNotAskOption) == 0 ? OK : CANCEL;
@@ -516,7 +583,12 @@ public class Messages {
         return result == YES ? OK : CANCEL;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     return showDialog(parent, message, title, new String[]{okText, cancelText}, 0, icon) == 0 ? OK : CANCEL;
@@ -569,7 +641,12 @@ public class Messages {
         return result == YES ? OK : CANCEL;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+      LOG.error(exception);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     return showDialog(message, title, new String[]{okText, cancelText}, 0, icon, doNotAskOption) == 0 ? OK : CANCEL;
@@ -613,7 +690,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(project, message, title, new String[]{OK_BUTTON}, 0, getErrorIcon());
@@ -626,7 +707,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(component, message, title, new String[]{OK_BUTTON}, 0, getErrorIcon());
@@ -640,7 +725,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(component, message, CommonBundle.getErrorTitle(), new String[]{OK_BUTTON}, 0, getErrorIcon());
@@ -659,7 +748,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(message, title, new String[]{OK_BUTTON}, 0, getErrorIcon());
@@ -672,7 +765,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(project, message, title, new String[]{OK_BUTTON}, 0, getWarningIcon());
@@ -685,7 +782,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(component, message, title, new String[]{OK_BUTTON}, 0, getWarningIcon());
@@ -704,7 +805,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showDialog(message, title, new String[]{OK_BUTTON}, 0, getWarningIcon());
@@ -732,7 +837,11 @@ public class Messages {
                                                                WindowManager.getInstance().suggestParentWindow(project), null);
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     int buttonNumber = showDialog(project, message, title, new String[]{yes, no, cancel}, 0, icon);
@@ -764,7 +873,11 @@ public class Messages {
                                                                SwingUtilities.getWindowAncestor(parent), null);
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     int buttonNumber = showDialog(parent, message, title, new String[]{yes, no, cancel}, 0, icon);
@@ -800,7 +913,11 @@ public class Messages {
         return MacMessages.getInstance().showYesNoCancelDialog(title, message, yes, no, cancel, null, doNotAskOption);
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     int buttonNumber = showDialog(message, title, new String[]{yes, no, cancel}, 0, icon, doNotAskOption);
@@ -1088,7 +1205,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showMessageDialog(component, message, title, getInformationIcon());
@@ -1104,7 +1225,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showMessageDialog(project, message, title, getInformationIcon());
@@ -1125,7 +1250,11 @@ public class Messages {
         return;
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     catch (Exception ignored) {
+=======
+    catch (Exception exception) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
 
     showMessageDialog(message, title, getInformationIcon());
@@ -1315,7 +1444,9 @@ public class Messages {
       setButtonsAlignment(SwingConstants.CENTER);
       setDoNotAskOption(doNotAskOption);
       init();
-      MacUtil.adjustFocusTraversal(myDisposable);
+      if (isMacSheetEmulation()) {
+        MacUtil.adjustFocusTraversal(myDisposable);
+      }
     }
 
     @NotNull
@@ -1392,7 +1523,7 @@ public class Messages {
             Method method = Class.forName("java.awt.Window").getDeclaredMethod("setOpacity", float.class);
             if (method != null) method.invoke(getPeer().getWindow(), .8f);
           }
-          catch (Exception ignored) {
+          catch (Exception exception) {
           }
         }
         setAutoAdjustable(false);

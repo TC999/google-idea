@@ -20,6 +20,10 @@ import com.intellij.dvcs.ui.CloneDvcsDialog;
 import com.intellij.dvcs.ui.DvcsBundle;
 import com.intellij.openapi.project.Project;
 import git4idea.GitUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import git4idea.GitVcs;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitLineHandlerPasswordRequestAware;
 import git4idea.commands.GitTask;
@@ -35,7 +39,11 @@ import java.io.File;
 public class GitCloneDialog extends CloneDvcsDialog {
 
   public GitCloneDialog(@NotNull Project project) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     super(project, GitUtil.DOT_GIT);
+=======
+    super(project, GitVcs.NAME, GitUtil.DOT_GIT);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   /*

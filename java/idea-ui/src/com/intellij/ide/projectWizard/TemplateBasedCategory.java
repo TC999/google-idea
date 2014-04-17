@@ -27,6 +27,7 @@ import javax.swing.*;
 public class TemplateBasedCategory extends ProjectCategory {
 
   private final ArchivedProjectTemplate myTemplate;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
   public TemplateBasedCategory(ArchivedProjectTemplate template) {
     myTemplate = template;
@@ -35,6 +36,18 @@ public class TemplateBasedCategory extends ProjectCategory {
   @Override
   public String getDisplayName() {
     return myTemplate.getName();
+=======
+  private final String myProjectType;
+
+  public TemplateBasedCategory(ArchivedProjectTemplate template, String projectType) {
+    myTemplate = template;
+    myProjectType = projectType;
+  }
+
+  @Override
+  public String getDisplayName() {
+    return myProjectType;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

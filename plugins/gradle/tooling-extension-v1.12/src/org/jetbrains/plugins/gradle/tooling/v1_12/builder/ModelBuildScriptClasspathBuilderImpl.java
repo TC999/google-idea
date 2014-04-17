@@ -86,8 +86,13 @@ public class ModelBuildScriptClasspathBuilderImpl implements ModelBuilderService
 
     if (!offline) {
       // download sources and/or javadoc
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       List<IdeExtendedRepoFileDependency> repoFileDependencies = dependenciesExtractor.extractRepoFileDependencies(
         project.getConfigurations(), plusConfigurations, new ArrayList<Configuration>(), downloadSources, downloadJavadoc);
+=======
+      Collection<IdeExtendedRepoFileDependency> repoFileDependencies = dependenciesExtractor.extractRepoFileDependencies(
+        project.getDependencies(), plusConfigurations, Collections.<Configuration>emptyList(), downloadSources, downloadJavadoc);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
       for (IdeExtendedRepoFileDependency dependency : repoFileDependencies) {
         if (dependency.getFile() == null) continue;

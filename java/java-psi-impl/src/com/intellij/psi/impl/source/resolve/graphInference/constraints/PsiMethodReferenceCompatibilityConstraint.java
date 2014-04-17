@@ -17,7 +17,10 @@ package com.intellij.psi.impl.source.resolve.graphInference.constraints;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.psi.impl.PsiImplUtil;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.impl.source.resolve.graphInference.FunctionalInterfaceParameterizationUtil;
 import com.intellij.psi.impl.source.resolve.graphInference.InferenceSession;
 import com.intellij.psi.impl.source.resolve.graphInference.PsiPolyExpressionUtil;
@@ -25,9 +28,17 @@ import com.intellij.psi.impl.source.tree.java.PsiMethodReferenceExpressionImpl;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtil;
 import com.intellij.util.containers.ContainerUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.util.containers.HashMap;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.*;
+=======
+import java.util.List;
+import java.util.Map;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 /**
  * User: anna
@@ -58,10 +69,14 @@ public class PsiMethodReferenceCompatibilityConstraint implements ConstraintForm
     final PsiSubstitutor substitutor = LambdaUtil.getSubstitutor(interfaceMethod, classResolveResult);
     final PsiParameter[] targetParameters = interfaceMethod.getParameterList().getParameters();
     final PsiType interfaceMethodReturnType = interfaceMethod.getReturnType();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     PsiType returnType = substitutor.substitute(interfaceMethodReturnType);
     if (myExpression.getTypeParameters().length == 0 && returnType != null) {
       returnType = PsiImplUtil.normalizeWildcardTypeByPosition(returnType, myExpression);
     }
+=======
+    final PsiType returnType = substitutor.substitute(interfaceMethodReturnType);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final PsiType[] typeParameters = myExpression.getTypeParameters();
     if (!myExpression.isExact()) {
       for (PsiParameter parameter : targetParameters) {
@@ -113,11 +128,15 @@ public class PsiMethodReferenceCompatibilityConstraint implements ConstraintForm
       return true;
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     Map<PsiMethodReferenceExpression, PsiType> map = PsiMethodReferenceUtil.ourRefs.get();
     if (map == null) {
       map = new HashMap<PsiMethodReferenceExpression, PsiType>();
       PsiMethodReferenceUtil.ourRefs.set(map);
     }
+=======
+    final Map<PsiMethodReferenceExpression, PsiType> map = PsiMethodReferenceUtil.getFunctionalTypeMap();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final PsiType added = map.put(myExpression, groundTargetType);
     final PsiElement resolve;
     try {
@@ -156,12 +175,27 @@ public class PsiMethodReferenceCompatibilityConstraint implements ConstraintForm
         session.initBounds(containingClass.getTypeParameters());
       }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       if (typeParameters.length == 0 && method.getTypeParameters().length > 0) {
         final PsiClass interfaceClass = classResolveResult.getElement();
         LOG.assertTrue(interfaceClass != null);
         if (PsiPolyExpressionUtil.mentionsTypeParameters(referencedMethodReturnType,
                                                          ContainerUtil.newHashSet(method.getTypeParameters()))) {
           constraints.add(new TypeCompatibilityConstraint(referencedMethodReturnType, returnType));
+=======
+      //if i) the method reference elides NonWildTypeArguments, 
+      //  ii) the compile-time declaration is a generic method, and 
+      // iii) the return type of the compile-time declaration mentions at least one of the method's type parameters;
+      if (typeParameters.length == 0 && method.getTypeParameters().length > 0) {
+        final PsiClass interfaceClass = classResolveResult.getElement();
+        LOG.assertTrue(interfaceClass != null);
+        if (PsiPolyExpressionUtil.mentionsTypeParameters(referencedMethodReturnType,
+                                                         ContainerUtil.newHashSet(method.getTypeParameters()))) {
+          //the constraint reduces to the bound set B3 which would be used to determine the method reference's invocation type 
+          //when targeting the return type of the function type, as defined in 18.5.2.
+          //as there is no parameters, only constraint for return types is left. Here you are:
+          session.registerConstraints(referencedMethodReturnType, returnType);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           return true;
         }
       }
@@ -198,6 +232,7 @@ public class PsiMethodReferenceCompatibilityConstraint implements ConstraintForm
     PsiType qualifierType;
     if (qualifierTypeElement != null) {
       qualifierType = qualifierTypeElement.getType();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     }
     else {
       LOG.assertTrue(qualifierExpression != null);
@@ -209,6 +244,22 @@ public class PsiMethodReferenceCompatibilityConstraint implements ConstraintForm
           PsiClass containingClass = (PsiClass)res;
           final boolean isRawSubst = !myExpression.isConstructor() &&
                                      PsiTreeUtil.isAncestor(containingClass, myExpression, true) &&
+=======
+      final PsiClass qualifierClass = PsiUtil.resolveClassInType(qualifierType);
+      if (qualifierClass != null) {
+        qualifierType = JavaPsiFacade.getElementFactory(myExpression.getProject()).createType(qualifierClass, PsiSubstitutor.EMPTY);
+      }
+    }
+    else {
+      LOG.assertTrue(qualifierExpression != null);
+      qualifierType = qualifierExpression.getType();
+      if (qualifierType == null && qualifierExpression instanceof PsiReferenceExpression) {
+        final JavaResolveResult resolveResult = ((PsiReferenceExpression)qualifierExpression).advancedResolve(false);
+        final PsiElement res = resolveResult.getElement();
+        if (res instanceof PsiClass) {
+          PsiClass containingClass = (PsiClass)res;
+          final boolean isRawSubst = !myExpression.isConstructor() &&
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                                      PsiUtil.isRawSubstitutor(containingClass, resolveResult.getSubstitutor());
           qualifierType = JavaPsiFacade.getElementFactory(res.getProject()).createType(containingClass, isRawSubst ? PsiSubstitutor.EMPTY : resolveResult.getSubstitutor());
         }
@@ -225,5 +276,10 @@ public class PsiMethodReferenceCompatibilityConstraint implements ConstraintForm
   @Override
   public void apply(PsiSubstitutor substitutor) {
     myT = substitutor.substitute(myT);
+  }
+
+  @Override
+  public String toString() {
+    return myExpression.getText() + " -> " + myT.getPresentableText();
   }
 }

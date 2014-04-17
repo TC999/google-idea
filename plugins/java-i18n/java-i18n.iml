@@ -20,6 +20,10 @@
     <orderEntry type="module" module-name="jsp-openapi" />
     <orderEntry type="module" module-name="testFramework-java" scope="TEST" />
     <orderEntry type="module" module-name="properties-psi-api" />
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    <orderEntry type="module" module-name="properties-psi-impl" />
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   </component>
 </module>
 

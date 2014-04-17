@@ -57,6 +57,7 @@ public class CloudAccountSelectionEditor<SC extends CloudConfigurationBase,
   private RemoteServer<SC> myNewServer;
   private RemoteServerConfigurable myServerConfigurable;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   protected CloudAccountSelectionEditor(ST cloudType) {
     myCloudType = cloudType;
   }
@@ -137,6 +138,89 @@ public class CloudAccountSelectionEditor<SC extends CloudConfigurationBase,
     result.setDeploymentSource(new ModuleDeploymentSourceImpl(modulePointer));
 
     result.setDeploymentConfiguration(deploymentConfiguration);
+=======
+  public CloudAccountSelectionEditor(ST cloudType) {
+    myCloudType = cloudType;
+  }
+
+  private void createUIComponents() {
+    myServerConfigurablePanel = createServerConfigurablePanel();
+  }
+
+  public void initUI() {
+    myServerComboBox.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        onAccountSelectionChanged();
+      }
+    });
+
+    for (RemoteServer<SC> server : RemoteServersManager.getInstance().getServers(myCloudType)) {
+      myServerComboBox.addItem(new ServerItem(server));
+    }
+    myServerComboBox.addItem(new ServerItem(myNewServer));
+  }
+
+  private void onAccountSelectionChanged() {
+    myServerConfigurablePanel.setVisible(getSelectedServerItem().isNew());
+  }
+
+  protected JPanel createServerConfigurablePanel() {
+    myNewServer = RemoteServersManager.getInstance().createServer(myCloudType, generateServerName());
+    myServerConfigurable = new RemoteServerConfigurable(myNewServer, null, true);
+    myServerConfigurablePanel = (JPanel)myServerConfigurable.createComponent();
+    return myServerConfigurablePanel;
+  }
+
+  private String generateServerName() {
+    return UniqueNameGenerator.generateUniqueName(myCloudType.getPresentableName(), new Condition<String>() {
+
+      @Override
+      public boolean value(String s) {
+        for (RemoteServer<?> server : RemoteServersManager.getInstance().getServers()) {
+          if (server.getName().equals(s)) {
+            return false;
+          }
+        }
+        return true;
+      }
+    });
+  }
+
+  public DeployToServerRunConfiguration<SC, DC> createRunConfiguration(Module module, DC deploymentConfiguration) {
+    Project project = module.getProject();
+
+    RemoteServer<SC> server = getServer();
+    if (server == null) {
+      return null;
+    }
+
+    if (getSelectedServerItem().isNew()) {
+      RemoteServersManager.getInstance().addServer(server);
+      myNewServer = null;
+    }
+
+    String serverName = server.getName();
+
+    String name = generateRunConfigurationName(serverName, module.getName());
+
+    final RunManagerEx runManager = RunManagerEx.getInstanceEx(project);
+    final RunnerAndConfigurationSettings runSettings
+      = runManager.createRunConfiguration(name, getRunConfigurationType().getConfigurationFactories()[0]);
+
+    final DeployToServerRunConfiguration<SC, DC> result = (DeployToServerRunConfiguration<SC, DC>)runSettings.getConfiguration();
+
+    result.setServerName(serverName);
+
+    final ModulePointer modulePointer = ModulePointerManager.getInstance(project).create(module);
+    result.setDeploymentSource(new ModuleDeploymentSourceImpl(modulePointer));
+
+    result.setDeploymentConfiguration(deploymentConfiguration);
+
+    runManager.addConfiguration(runSettings, false);
+    runManager.setSelectedConfiguration(runSettings);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     return result;
   }

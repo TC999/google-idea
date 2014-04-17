@@ -224,8 +224,29 @@ public interface CaretModel {
    * If multiple carets are not supported, the behaviour is unspecified.
    *
    * @see #supportsMultipleCarets()
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    */
   void setCaretsAndSelections(@NotNull List<CaretState> caretStates);
+=======
+   * @see #getCaretsAndSelections()
+   */
+  void setCaretsAndSelections(@NotNull List<CaretState> caretStates);
+
+  /**
+   * Returns the current positions of all carets and their selections. The order of entries in the returned list does not necessarily
+   * correspond to the order of {@link #getAllCarets()} method results. Passing the result of this method to
+   * {@link #setCaretsAndSelections(java.util.List)} will restore the state of carets, including the internal caret order, in particular,
+   * the caret, that was primary when this method was called, will be the primary one after corresponding
+   * {@link #setCaretsAndSelections(java.util.List)} invocation.
+   * <p>
+   * If multiple carets are not supported, the behaviour is unspecified.
+   *
+   * @see #supportsMultipleCarets()
+   * @see #setCaretsAndSelections(java.util.List)
+   */
+  @NotNull
+  List<CaretState> getCaretsAndSelections();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   /**
    * Executes the given task for each existing caret. Carets are iterated in their position order. Set of carets to iterate over is

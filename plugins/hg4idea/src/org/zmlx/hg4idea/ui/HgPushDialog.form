@@ -77,7 +77,11 @@
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                       <enabled value="false"/>
+=======
+                      <enabled value="true"/>
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                       <horizontalAlignment value="0"/>
                       <horizontalTextPosition value="11"/>
                       <text resource-bundle="org/zmlx/hg4idea/HgVcsMessages" key="hg4idea.push.asNewBranch"/>

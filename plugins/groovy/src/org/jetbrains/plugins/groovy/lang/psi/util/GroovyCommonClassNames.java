@@ -69,6 +69,10 @@ public final class GroovyCommonClassNames {
   @NonNls public static final String GROOVY_LANG_DELEGATES_TO_TARGET = "groovy.lang.DelegatesTo.Target";
   @NonNls public static final String GROOVY_TRANSFORM_COMPILE_DYNAMIC = "groovy.transform.CompileDynamic";
   @NonNls public static final String GROOVY_TRANSFORM_STC_CLOSURE_PARAMS = "groovy.transform.stc.ClosureParams";
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @NonNls public static final String GROOVY_TRANSFORM_BASE_SCRIPT = "groovy.transform.BaseScript";
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public static final Set<String> GROOVY_EXTENSION_CLASSES = Collections.unmodifiableSet(ContainerUtil.newLinkedHashSet(
     "org.codehaus.groovy.runtime.DateGroovyMethods",

@@ -78,7 +78,11 @@ public class GeneratedSourceFileChangeTrackerImpl extends GeneratedSourceFileCha
     MessageBusConnection connection = myProject.getMessageBus().connect();
     connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, new FileDocumentManagerAdapter() {
       @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       public void fileContentReloaded(VirtualFile file, @NotNull Document document) {
+=======
+      public void fileContentReloaded(@NotNull VirtualFile file, @NotNull Document document) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         myFilesToCheck.remove(file);
         if (myEditedGeneratedFiles.remove(file)) {
           myEditorNotifications.updateNotifications(file);

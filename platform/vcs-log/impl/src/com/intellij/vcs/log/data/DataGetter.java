@@ -81,7 +81,11 @@ public abstract class DataGetter<T extends VcsShortCommitDetails> implements Dis
   }
 
   @Nullable
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public <CommitId> T getCommitData(int row, @NotNull AbstractVcsLogTableModel<?, CommitId> tableModel) {
+=======
+  public T getCommitData(int row, @NotNull AbstractVcsLogTableModel<?> tableModel) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     assert EventQueue.isDispatchThread();
     Hash hash = tableModel.getHashAtRow(row);
     if (hash == null) {
@@ -113,10 +117,20 @@ public abstract class DataGetter<T extends VcsShortCommitDetails> implements Dis
       }
       return details;
     }
-    return (T)myDataHolder.getTopCommitDetails(hash);
+    return getFromAdditionalCache(hash);
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private <CommitId> void runLoadAroundCommitData(int row, @NotNull AbstractVcsLogTableModel<?, CommitId> tableModel) {
+=======
+  /**
+   * Lookup somewhere else but the standard cache.
+   */
+  @Nullable
+  protected abstract T getFromAdditionalCache(@NotNull Hash hash);
+
+  private void runLoadAroundCommitData(int row, @NotNull AbstractVcsLogTableModel<?> tableModel) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     long taskNumber = myCurrentTaskIndex++;
     MultiMap<VirtualFile, Hash> commits = getCommitsAround(row, tableModel, UP_PRELOAD_COUNT, DOWN_PRELOAD_COUNT);
     for (Map.Entry<VirtualFile, Collection<Hash>> hashesByRoots : commits.entrySet()) {
@@ -137,9 +151,14 @@ public abstract class DataGetter<T extends VcsShortCommitDetails> implements Dis
   }
 
   @NotNull
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static <CommitId> MultiMap<VirtualFile, Hash> getCommitsAround(int selectedRow,
                                                                          @NotNull AbstractVcsLogTableModel<?, CommitId> model,
                                                                          int above, int below) {
+=======
+  private static MultiMap<VirtualFile, Hash> getCommitsAround(int selectedRow, @NotNull AbstractVcsLogTableModel<?> model,
+                                                              int above, int below) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     MultiMap<VirtualFile, Hash> commits = MultiMap.create();
     for (int row = Math.max(0, selectedRow - above); row < selectedRow + below && row < model.getRowCount(); row++) {
       Hash hash = model.getHashAtRow(row);

@@ -27,13 +27,31 @@ import java.util.List;
 
 public class JavaHighlightUtil {
   public static boolean isSerializable(@NotNull PsiClass aClass) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     Project project = aClass.getManager().getProject();
     PsiClass serializableClass = JavaPsiFacade.getInstance(project).findClass("java.io.Serializable", aClass.getResolveScope());
+=======
+    return isSerializable(aClass, "java.io.Serializable");
+  }
+
+  public static boolean isSerializable(@NotNull PsiClass aClass,
+                                       String serializableClassName) {
+    Project project = aClass.getManager().getProject();
+    PsiClass serializableClass = JavaPsiFacade.getInstance(project).findClass(serializableClassName, aClass.getResolveScope());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return serializableClass != null && aClass.isInheritor(serializableClass, true);
   }
 
   public static boolean isSerializationRelatedMethod(PsiMethod method, PsiClass containingClass) {
-    if (containingClass == null || method.isConstructor()) return false;
+    if (containingClass == null) return false;
+    if (method.isConstructor()) {
+      if (isSerializable(containingClass, "java.io.Externalizable") && 
+          method.getParameterList().getParametersCount() == 0 &&
+          method.hasModifierProperty(PsiModifier.PUBLIC)) {
+        return true;
+      }
+      return false;
+    }
     if (method.hasModifierProperty(PsiModifier.STATIC)) return false;
     @NonNls String name = method.getName();
     PsiParameter[] parameters = method.getParameterList().getParameters();

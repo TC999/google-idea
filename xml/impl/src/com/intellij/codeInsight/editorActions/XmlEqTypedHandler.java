@@ -55,8 +55,14 @@ public class XmlEqTypedHandler extends TypedHandlerDelegate {
   @Override
   public Result charTyped(char c, Project project, @NotNull Editor editor, @NotNull PsiFile file) {
     for (Caret caret : caretsForInsertingQuotes) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       editor.getDocument().insertString(caret.getOffset(), "\"\"");
       caret.moveCaretRelatively(1, 0, false, true);
+=======
+      int offset = caret.getOffset();
+      editor.getDocument().insertString(offset, "\"\"");
+      caret.moveToOffset(offset + 1);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     if (editor.getCaretModel().getAllCarets().size() == caretsForInsertingQuotes.size()) {
       AutoPopupController.getInstance(project).scheduleAutoPopup(editor);

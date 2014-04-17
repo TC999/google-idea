@@ -34,7 +34,10 @@ import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.openapi.vfs.*;
 import com.intellij.openapi.vfs.impl.BulkVirtualFileListenerAdapter;
 import com.intellij.psi.*;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.psi.impl.PsiDocumentManagerBase;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.impl.PsiManagerImpl;
 import com.intellij.psi.impl.PsiTreeChangeEventImpl;
 import com.intellij.psi.impl.smartPointers.SmartPointerManagerImpl;
@@ -72,7 +75,7 @@ public class PsiVFSListener extends VirtualFileAdapter {
         myConnection.subscribe(ProjectTopics.PROJECT_ROOTS, new MyModuleRootListener());
         myConnection.subscribe(FileTypeManager.TOPIC, new FileTypeListener.Adapter() {
           @Override
-          public void fileTypesChanged(FileTypeEvent e) {
+          public void fileTypesChanged(@NotNull FileTypeEvent e) {
             myFileManager.processFileTypesChanged();
           }
         });
@@ -168,7 +171,7 @@ public class PsiVFSListener extends VirtualFileAdapter {
 
     final PsiFile psiFile = myFileManager.getCachedPsiFileInner(vFile);
     if (psiFile != null) {
-      myFileManager.removeCachedViewProvider(vFile);
+      myFileManager.setViewProvider(vFile, null);
 
       if (parentDir != null) {
         ApplicationManager.getApplication().runWriteAction(new ExternalChangeAction() {
@@ -318,8 +321,14 @@ public class PsiVFSListener extends VirtualFileAdapter {
     VirtualFile parent = vFile.getParent();
     final PsiDirectory parentDir = getCachedDirectory(parent);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (FileContentUtilCore.FORCE_RELOAD_REQUESTOR.equals(event.getRequestor())) {
       forceReload(vFile, oldPsiFile, parentDir);
+=======
+    if (oldFileViewProvider != null // there is no need to rebuild if there were no PSI in the first place
+        && FileContentUtilCore.FORCE_RELOAD_REQUESTOR.equals(event.getRequestor())) {
+      myFileManager.forceReload(vFile);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return;
     }
 
@@ -374,7 +383,7 @@ public class PsiVFSListener extends VirtualFileAdapter {
               final PsiFile newPsiFile = fileViewProvider.getPsi(fileViewProvider.getBaseLanguage());
               if(oldPsiFile != null) {
                 if (newPsiFile == null) {
-                  myFileManager.removeCachedViewProvider(vFile);
+                  myFileManager.setViewProvider(vFile, null);
 
                   treeEvent.setChild(oldPsiFile);
                   myManager.childRemoved(treeEvent);
@@ -383,7 +392,7 @@ public class PsiVFSListener extends VirtualFileAdapter {
                          newPsiFile.getFileType() != myFileTypeManager.getFileTypeByFileName((String)event.getOldValue()) ||
                          languageDialectChanged(newPsiFile, (String)event.getOldValue()) ||
                          !oldFileViewProvider.getLanguages().equals(fileViewProvider.getLanguages())) {
-                  myFileManager.cacheViewProvider(vFile, fileViewProvider);
+                  myFileManager.setViewProvider(vFile, fileViewProvider);
 
                   treeEvent.setOldChild(oldPsiFile);
                   treeEvent.setNewChild(newPsiFile);
@@ -398,7 +407,7 @@ public class PsiVFSListener extends VirtualFileAdapter {
                 }
               }
               else if (newPsiFile != null) {
-                myFileManager.cacheViewProvider(vFile, fileViewProvider);
+                myFileManager.setViewProvider(vFile, fileViewProvider);
                 if (parentDir != null) {
                   treeEvent.setChild(newPsiFile);
                   myManager.childAdded(treeEvent);
@@ -539,14 +548,14 @@ public class PsiVFSListener extends VirtualFileAdapter {
         public void run() {
           PsiTreeChangeEventImpl treeEvent = new PsiTreeChangeEventImpl(myManager);
           if (oldElement == null) {
-            myFileManager.cacheViewProvider(vFile, newViewProvider);
+            myFileManager.setViewProvider(vFile, newViewProvider);
             treeEvent.setParent(newParentDir);
             treeEvent.setChild(newElement);
             myManager.childAdded(treeEvent);
           }
           else {
             if (newElement == null) {
-              myFileManager.removeCachedViewProvider(vFile);
+              myFileManager.setViewProvider(vFile, null);
               treeEvent.setParent(oldParentDir);
               treeEvent.setChild(oldElement);
               myManager.childRemoved(treeEvent);
@@ -559,7 +568,7 @@ public class PsiVFSListener extends VirtualFileAdapter {
                 myManager.childMoved(treeEvent);
               }
               else {
-                myFileManager.cacheViewProvider(vFile, newViewProvider);
+                myFileManager.setViewProvider(vFile, newViewProvider);
                 PsiTreeChangeEventImpl treeRemoveEvent = new PsiTreeChangeEventImpl(myManager);
                 treeRemoveEvent.setParent(oldParentDir);
                 treeRemoveEvent.setChild(oldElement);
@@ -660,9 +669,16 @@ public class PsiVFSListener extends VirtualFileAdapter {
             @Override
             public void run() {
               if (FileDocumentManagerImpl.recomputeFileTypeIfNecessary(file)) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                 forceReload(file, psiFile, null);
               }
               myFileManager.reloadFromDisk(psiFile, true); // important to ignore document which might appear already!
+=======
+                myFileManager.forceReload(file);
+              } else {
+                myFileManager.reloadFromDisk(psiFile, true); // important to ignore document which might appear already!
+              }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
             }
           }
         );

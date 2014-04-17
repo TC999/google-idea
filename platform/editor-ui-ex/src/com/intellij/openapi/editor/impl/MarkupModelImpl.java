@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.UserDataHolderBase;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.Consumer;
+import com.intellij.util.DocumentUtil;
 import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +71,11 @@ public class MarkupModelImpl extends UserDataHolderBase implements MarkupModelEx
       throw new IndexOutOfBoundsException("lineNumber:" + lineNumber + ". Must be in [0, " + (getDocument().getLineCount() - 1) + "]");
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     int offset = getFirstNonSpaceCharOffset(getDocument(), lineNumber);
+=======
+    int offset = DocumentUtil.getFirstNonSpaceCharOffset(getDocument(), lineNumber);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return addRangeHighlighter(offset, offset, layer, textAttributes, HighlighterTargetArea.LINES_IN_RANGE);
   }
 
@@ -81,12 +86,17 @@ public class MarkupModelImpl extends UserDataHolderBase implements MarkupModelEx
       return null;
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     int offset = getFirstNonSpaceCharOffset(getDocument(), lineNumber);
+=======
+    int offset = DocumentUtil.getFirstNonSpaceCharOffset(getDocument(), lineNumber);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return addRangeHighlighter(PersistentRangeHighlighterImpl.create(this, offset, layer, HighlighterTargetArea.LINES_IN_RANGE, textAttributes, false), null);
   }
 
   private boolean isNotValidLine(int lineNumber) {
     return lineNumber >= getDocument().getLineCount() || lineNumber < 0;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   // The rationale why we don't bind to the line start offset here is that following: suppose particular breakpoint is hit
@@ -108,6 +118,8 @@ public class MarkupModelImpl extends UserDataHolderBase implements MarkupModelEx
       }
     }
     return startOffset;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   // NB: Can return invalid highlighters
@@ -194,6 +206,9 @@ public class MarkupModelImpl extends UserDataHolderBase implements MarkupModelEx
   @Override
   public void removeAllHighlighters() {
     ApplicationManager.getApplication().assertIsDispatchThread();
+    for (RangeHighlighter highlighter : getAllHighlighters()) {
+      highlighter.dispose();
+    }
     myCachedHighlighters = null;
     myHighlighterTree.clear();
   }
@@ -261,7 +276,8 @@ public class MarkupModelImpl extends UserDataHolderBase implements MarkupModelEx
 
   @Override
   public boolean processRangeHighlightersOverlappingWith(int start, int end, @NotNull Processor<? super RangeHighlighterEx> processor) {
-    return myHighlighterTree.processOverlappingWith(start, end, processor);
+    TextRangeInterval rangeInterval = roundToLineBoundaries(start, end);
+    return myHighlighterTree.processOverlappingWith(rangeInterval.getStartOffset(), rangeInterval.getEndOffset(), processor);
   }
 
   @Override
@@ -272,11 +288,20 @@ public class MarkupModelImpl extends UserDataHolderBase implements MarkupModelEx
   @Override
   @NotNull
   public DisposableIterator<RangeHighlighterEx> overlappingIterator(int startOffset, int endOffset) {
-    return myHighlighterTree.overlappingIterator(startOffset, endOffset);
+    return myHighlighterTree.overlappingIterator(roundToLineBoundaries(startOffset, endOffset));
+  }
+
+  @NotNull
+  private TextRangeInterval roundToLineBoundaries(int startOffset, int endOffset) {
+    Document document = getDocument();
+    int lineStartOffset = startOffset <= 0 ? 0 : document.getLineStartOffset(document.getLineNumber(startOffset));
+    int lineEndOffset = endOffset <= 0 ? 0 : endOffset >= document.getTextLength() ? document.getTextLength() : document.getLineEndOffset(document.getLineNumber(endOffset));
+    return new TextRangeInterval(lineStartOffset, lineEndOffset);
   }
 
   @Override
   public boolean sweep(int start, int end, @NotNull SweepProcessor<RangeHighlighterEx> sweepProcessor) {
-    return myHighlighterTree.sweep(start, end, sweepProcessor);
+    TextRangeInterval rangeInterval = roundToLineBoundaries(start, end);
+    return myHighlighterTree.sweep(rangeInterval.getStartOffset(), rangeInterval.getEndOffset(), sweepProcessor);
   }
 }

@@ -19,6 +19,7 @@ package com.intellij.xdebugger;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -109,6 +110,14 @@ public abstract class XDebuggerUtil {
    */
   public abstract void iterateLine(@NotNull Project project, @NotNull Document document, int line, @NotNull Processor<PsiElement> processor);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  /**
+   * Disable value lookup in specified editor
+   */
+  public abstract void disableValueLookup(@NotNull Editor editor);
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Nullable
   public abstract PsiElement findContextElement(@NotNull VirtualFile virtualFile, int offset, @NotNull Project project, boolean checkXml);
 }

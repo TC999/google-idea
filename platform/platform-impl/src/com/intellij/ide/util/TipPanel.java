@@ -25,12 +25,12 @@ import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.util.containers.ContainerUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.util.ui.UIUtil;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -41,7 +41,11 @@ public class TipPanel extends JPanel {
   private static final int DEFAULT_WIDTH = 400;
   private static final int DEFAULT_HEIGHT = 200;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private final JEditorPane myBrowserPanel;
+=======
+  private final JEditorPane myBrowser;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private final JLabel myPoweredByLabel;
   private final List<TipAndTrickBean> myTips = ContainerUtil.newArrayList();
 
@@ -58,6 +62,7 @@ public class TipPanel extends JPanel {
     jpanel.add(jlabel1, BorderLayout.CENTER);
     jpanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
     add(jpanel, BorderLayout.NORTH);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myBrowserPanel = new JEditorPane();
     myBrowserPanel.setEditable(false);
     myBrowserPanel.setEditorKit(new HTMLEditorKit());
@@ -72,6 +77,10 @@ public class TipPanel extends JPanel {
       }
     );
     JScrollPane scrollPane = ScrollPaneFactory.createScrollPane(myBrowserPanel);
+=======
+    myBrowser = TipUIUtil.createTipBrowser();
+    JScrollPane scrollPane = ScrollPaneFactory.createScrollPane(myBrowser);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     add(scrollPane, BorderLayout.CENTER);
 
     JPanel southPanel = new JPanel(new BorderLayout());
@@ -102,7 +111,11 @@ public class TipPanel extends JPanel {
 
   public void prevTip() {
     if (myTips.size() == 0) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       myBrowserPanel.setText(IdeBundle.message("error.tips.not.found", ApplicationNamesInfo.getInstance().getFullProductName()));
+=======
+      myBrowser.setText(IdeBundle.message("error.tips.not.found", ApplicationNamesInfo.getInstance().getFullProductName()));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return;
     }
     final GeneralSettings settings = GeneralSettings.getInstance();
@@ -118,10 +131,18 @@ public class TipPanel extends JPanel {
       tip = myTips.get(lastTip - 1);
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     setTip(tip, lastTip, myBrowserPanel, settings);
+=======
+    setTip(tip, lastTip, myBrowser, settings);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private void setTip (TipAndTrickBean tip, int lastTip, JEditorPane browser, GeneralSettings settings) {
+=======
+  private void setTip(TipAndTrickBean tip, int lastTip, JEditorPane browser, GeneralSettings settings) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     TipUIUtil.openTipInBrowser(tip, browser);
     myPoweredByLabel.setText(TipUIUtil.getPoweredByText(tip));
     settings.setLastTip(lastTip);
@@ -129,7 +150,11 @@ public class TipPanel extends JPanel {
 
   public void nextTip() {
     if (myTips.size() == 0) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       myBrowserPanel.setText(IdeBundle.message("error.tips.not.found", ApplicationNamesInfo.getInstance().getFullProductName()));
+=======
+      myBrowser.setText(IdeBundle.message("error.tips.not.found", ApplicationNamesInfo.getInstance().getFullProductName()));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return;
     }
     GeneralSettings settings = GeneralSettings.getInstance();
@@ -144,6 +169,10 @@ public class TipPanel extends JPanel {
       tip = myTips.get(lastTip - 1);
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     setTip(tip, lastTip, myBrowserPanel, settings);
+=======
+    setTip(tip, lastTip, myBrowser, settings);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

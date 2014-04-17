@@ -50,7 +50,11 @@ public class CertificateWarningDialog extends DialogWrapper {
 
     myCertificate = certificate;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     CertificatesManager manager = CertificatesManager.getInstance();
+=======
+    CertificateManager manager = CertificateManager.getInstance();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     setTitle(title);
     myMessagePane.setText(String.format("<html><body><p>%s</p></body></html>", message));
     myMessagePane.setBackground(UIUtil.getPanelBackground());

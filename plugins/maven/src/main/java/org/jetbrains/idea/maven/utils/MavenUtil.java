@@ -929,10 +929,16 @@ public class MavenUtil {
   }
 
   public static String getArtifactName(String packaging, Module module, boolean exploded) {
-    final String baseName = module.getName() + ":" + packaging;
-    return exploded ? baseName + " exploded" : baseName;
+    return module.getName() + ":" + packaging + (exploded ? " exploded" : "");
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public static String getEjbClientArtifactName(Module module) {
+    return module.getName() + ":ejb-client";
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public static String getIdeaVersionToPassToMavenProcess() {
     return ApplicationInfoImpl.getShadowInstance().getMajorVersion() + "." + ApplicationInfoImpl.getShadowInstance().getMinorVersion();
   }

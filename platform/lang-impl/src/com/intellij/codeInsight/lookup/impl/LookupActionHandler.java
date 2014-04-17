@@ -51,14 +51,22 @@ public abstract class LookupActionHandler extends EditorActionHandler {
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void execute(Editor editor, Caret caret, DataContext dataContext){
+=======
+  public void doExecute(Editor editor, Caret caret, DataContext dataContext){
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     LookupImpl lookup = (LookupImpl)LookupManager.getActiveLookup(editor);
     if (lookup == null || !lookup.isAvailableToUser() || myRequireFocusedLookup && !lookup.isFocused()) {
       Project project = editor.getProject();
       if (project != null) {
         LookupManager.getInstance(project).hideActiveLookup();
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       myOriginalHandler.executeInCaretContext(editor, caret, dataContext);
+=======
+      myOriginalHandler.execute(editor, caret, dataContext);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return;
     }
 
@@ -149,7 +157,11 @@ public abstract class LookupActionHandler extends EditorActionHandler {
     @Override
     protected void executeInLookup(final LookupImpl lookup, DataContext context, Caret caret) {
       if (!UISettings.getInstance().CYCLE_SCROLLING && !lookup.isFocused() && lookup.getList().getSelectedIndex() == 0) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         myOriginalHandler.executeInCaretContext(lookup.getEditor(), caret, context);
+=======
+        myOriginalHandler.execute(lookup.getEditor(), caret, context);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         return;
       }
       executeUpOrDown(lookup, true);
@@ -189,7 +201,11 @@ public abstract class LookupActionHandler extends EditorActionHandler {
     @Override
     protected void executeInLookup(final LookupImpl lookup, DataContext context, Caret caret) {
       if (!lookup.isCompletion()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         myOriginalHandler.executeInCaretContext(lookup.getEditor(), caret, context);
+=======
+        myOriginalHandler.execute(lookup.getEditor(), caret, context);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         return;
       }
 
@@ -216,7 +232,11 @@ public abstract class LookupActionHandler extends EditorActionHandler {
       final int offset = editor.getCaretModel().getOffset();
       CharSequence seq = editor.getDocument().getCharsSequence();
       if (seq.length() <= offset || !lookup.isCompletion()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         myOriginalHandler.executeInCaretContext(editor, caret, context);
+=======
+        myOriginalHandler.execute(editor, caret, context);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         return;
       }
 
@@ -224,7 +244,11 @@ public abstract class LookupActionHandler extends EditorActionHandler {
       CharFilter.Result lookupAction = LookupTypedHandler.getLookupAction(c, lookup);
 
       if (lookupAction != CharFilter.Result.ADD_TO_PREFIX || Character.isWhitespace(c)) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         myOriginalHandler.executeInCaretContext(editor, caret, context);
+=======
+        myOriginalHandler.execute(editor, caret, context);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         return;
       }
 

@@ -26,6 +26,7 @@ import com.intellij.tasks.trello.model.TrelloBoard;
 import com.intellij.tasks.trello.model.TrelloList;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.ListCellRendererWrapper;
+import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.util.Consumer;
 import com.intellij.util.ui.FormBuilder;
@@ -64,6 +65,7 @@ public class TrelloRepositoryEditor extends BaseRepositoryEditor<TrelloRepositor
   private ComboBox myListComboBox;
   private JBLabel myListLabel;
   private JBLabel myBoardLabel;
+  private JBCheckBox myAllCardsCheckBox;
 
   public TrelloRepositoryEditor(Project project,
                                 TrelloRepository repository,
@@ -74,6 +76,10 @@ public class TrelloRepositoryEditor extends BaseRepositoryEditor<TrelloRepositor
     myUsernameLabel.setVisible(false);
     myUserNameText.setVisible(false);
     myPasswordLabel.setText("Token:");
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    myAllCardsCheckBox.setSelected(myRepository.isIncludeAllCards());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     //setAnchor(myPasswordText);
 
     myPasswordText.getDocument().addDocumentListener(new DocumentAdapter() {
@@ -169,6 +175,8 @@ public class TrelloRepositoryEditor extends BaseRepositoryEditor<TrelloRepositor
         }
       }.runOnPooledThread();
     }
+
+    installListener(myAllCardsCheckBox);
   }
 
   @Nullable
@@ -181,10 +189,20 @@ public class TrelloRepositoryEditor extends BaseRepositoryEditor<TrelloRepositor
     myListComboBox = new ComboBox(300);
     myListLabel = new JBLabel("List:", SwingConstants.RIGHT);
     myListLabel.setLabelFor(myListComboBox);
+
+    myAllCardsCheckBox = new JBCheckBox("Include cards not assigned to me");
+
     return FormBuilder.createFormBuilder()
       .addLabeledComponent(myBoardLabel, myBoardComboBox)
       .addLabeledComponent(myListLabel, myListComboBox)
+      .addComponentToRightColumn(myAllCardsCheckBox)
       .getPanel();
+  }
+
+  @Override
+  public void apply() {
+    super.apply();
+    myRepository.setIncludeAllCards(myAllCardsCheckBox.isSelected());
   }
 
   @Override

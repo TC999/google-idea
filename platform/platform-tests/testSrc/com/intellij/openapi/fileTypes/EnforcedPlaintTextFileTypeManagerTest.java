@@ -29,10 +29,17 @@ public class EnforcedPlaintTextFileTypeManagerTest extends LightPlatformCodeInsi
     VirtualFile file = myFixture.getTempDirFixture().createFile("test.java");
     FileType originalType = file.getFileType();
     assertEquals("JAVA", originalType.getName());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     manager.markAsPlainText(file);
     FileType changedType = file.getFileType();
     assertEquals(EnforcedPlainTextFileTypeFactory.ENFORCED_PLAIN_TEXT, changedType.getName());
     manager.resetOriginalFileType(file);
+=======
+    manager.markAsPlainText(getProject(), file);
+    FileType changedType = file.getFileType();
+    assertEquals(EnforcedPlainTextFileTypeFactory.ENFORCED_PLAIN_TEXT, changedType.getName());
+    manager.resetOriginalFileType(getProject(), file);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     FileType revertedType = file.getFileType();
     assertEquals(originalType, revertedType);
   }

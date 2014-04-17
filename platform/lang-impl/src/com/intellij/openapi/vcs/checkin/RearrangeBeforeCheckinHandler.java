@@ -18,6 +18,7 @@ package com.intellij.openapi.vcs.checkin;
 import com.intellij.codeInsight.CodeInsightBundle;
 import com.intellij.codeInsight.actions.RearrangeCodeProcessor;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.VcsBundle;
@@ -86,6 +87,77 @@ public class RearrangeBeforeCheckinHandler extends CheckinHandler implements Che
     if (VcsConfiguration.getInstance(myProject).REARRANGE_BEFORE_PROJECT_COMMIT) {
       new RearrangeCodeProcessor(
         myProject, BeforeCheckinHandlerUtil.getPsiFiles(myProject, myPanel.getVirtualFiles()), COMMAND_NAME, performCheckoutAction
+=======
+import com.intellij.openapi.project.DumbService;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vcs.CheckinProjectPanel;
+import com.intellij.openapi.vcs.VcsBundle;
+import com.intellij.openapi.vcs.VcsConfiguration;
+import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
+import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class RearrangeBeforeCheckinHandler extends CheckinHandler implements CheckinMetaHandler {
+  public static final String COMMAND_NAME = CodeInsightBundle.message("process.rearrange.code.before.commit");
+
+  private final Project myProject;
+  private final CheckinProjectPanel myPanel;
+
+  public RearrangeBeforeCheckinHandler(@NotNull Project project, @NotNull CheckinProjectPanel panel) {
+    myProject = project;
+    myPanel = panel;
+  }
+
+  @Override
+  @Nullable
+  public RefreshableOnComponent getBeforeCheckinConfigurationPanel() {
+    final JCheckBox rearrangeBox = new JCheckBox(VcsBundle.message("checkbox.checkin.options.rearrange.code"));
+    CheckinHandlerUtil.disableWhenDumb(myProject, rearrangeBox, "Impossible until indices are up-to-date");
+    return new RefreshableOnComponent() {
+      @Override
+      public JComponent getComponent() {
+        final JPanel panel = new JPanel(new GridLayout(1, 0));
+        panel.add(rearrangeBox);
+        return panel;
+      }
+
+      @Override
+      public void refresh() {
+      }
+
+      @Override
+      public void saveState() {
+        getSettings().REARRANGE_BEFORE_PROJECT_COMMIT = rearrangeBox.isSelected();
+      }
+
+      @Override
+      public void restoreState() {
+        rearrangeBox.setSelected(getSettings().REARRANGE_BEFORE_PROJECT_COMMIT);
+      }
+    };
+  }
+
+  private VcsConfiguration getSettings() {
+    return VcsConfiguration.getInstance(myProject);
+  }
+
+  @Override
+  public void runCheckinHandlers(final Runnable finishAction) {
+    final Runnable performCheckoutAction = new Runnable() {
+      @Override
+      public void run() {
+        FileDocumentManager.getInstance().saveAllDocuments();
+        finishAction.run();
+      }
+    };
+
+    if (VcsConfiguration.getInstance(myProject).REARRANGE_BEFORE_PROJECT_COMMIT && !DumbService.isDumb(myProject)) {
+      new RearrangeCodeProcessor(
+        myProject, CheckinHandlerUtil.getPsiFiles(myProject, myPanel.getVirtualFiles()), COMMAND_NAME, performCheckoutAction
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       ).run();
     }
     else {

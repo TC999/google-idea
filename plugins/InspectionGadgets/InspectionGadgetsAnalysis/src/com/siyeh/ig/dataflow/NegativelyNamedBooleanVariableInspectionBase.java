@@ -32,7 +32,11 @@ public class NegativelyNamedBooleanVariableInspectionBase extends BaseInspection
 
   @NonNls
   private static final String[] NEGATIVE_NAMES = {"not", "isNot", "isNon", "shouldNot", "shallNot", "willNot", "cannot", "cant", "hasNot",
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     "couldNot", "hidden", "isHidden", "disabled", "isDisabled"};
+=======
+    "couldNot", "doesNot", "hidden", "isHidden", "disabled", "isDisabled", "isInvalid", "invalid"};
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @Nls
   @NotNull

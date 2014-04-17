@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2000-2013 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,6 +46,60 @@ public interface ApplicationEx extends Application {
   String getName();
 
   boolean holdsReadLock();
+=======
+ * Copyright 2000-2014 JetBrains s.r.o.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intellij.openapi.application.ex;
+
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.progress.Task;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.InvalidDataException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.io.IOException;
+
+/**
+ * @author max
+ */
+public interface ApplicationEx extends Application {
+  String LOCATOR_FILE_NAME = ".home";
+
+  /**
+   * Loads the application configuration from the specified path
+   *
+   * @param optionsPath Path to /config folder
+   * @throws IOException
+   * @throws InvalidDataException
+   */
+  void load(String optionsPath) throws IOException, InvalidDataException;
+  boolean isLoaded();
+
+  @NotNull
+  String getName();
+
+  boolean holdsReadLock();
+
+  /**
+   * @return true if the EDT performs write action now.
+   * @see #runWriteAction(Runnable)
+   */
+  boolean isWriteActionInProgress();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   void doNotSave();
   void doNotSave(boolean value);

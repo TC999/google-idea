@@ -26,6 +26,7 @@ public final class TextViewer extends EditorTextField {
 
     myEmbeddedIntoDialogWrapper = embeddedIntoDialogWrapper;
     myUseSoftWraps = useSoftWraps;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   private static Document createDocument(@NotNull String initialText) {
@@ -40,6 +41,24 @@ public final class TextViewer extends EditorTextField {
   protected EditorEx createEditor() {
     final EditorEx editor = super.createEditor();
     editor.setHorizontalScrollbarVisible(true);
+=======
+    setFontInheritedFromLAF(false);
+  }
+
+  private static Document createDocument(@NotNull String initialText) {
+    final Document document = EditorFactory.getInstance().createDocument(initialText);
+    if (document instanceof DocumentImpl) {
+      ((DocumentImpl)document).setAcceptSlashR(true);
+    }
+    return document;
+  }
+
+  @Override
+  protected EditorEx createEditor() {
+    final EditorEx editor = super.createEditor();
+    editor.setHorizontalScrollbarVisible(true);
+    editor.setCaretEnabled(true);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     editor.setVerticalScrollbarVisible(true);
     editor.setEmbeddedIntoDialogWrapper(myEmbeddedIntoDialogWrapper);
     editor.getComponent().setPreferredSize(null);

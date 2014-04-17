@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2000-2013 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -177,6 +178,195 @@ public class PostfixLiveTemplate extends CustomLiveTemplateBase {
         PostfixTemplate postfixTemplate = entry.getValue();
         if (entry.getKey().startsWith(key) && isApplicationTemplateFunction.value(postfixTemplate)) {
           result.put(postfixTemplate.getKey(), new PostfixTemplateLookupElement(this, postfixTemplate, postfixTemplate.getKey(), false));
+=======
+ * Copyright 2000-2014 JetBrains s.r.o.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intellij.codeInsight.template.postfix.templates;
+
+import com.intellij.codeInsight.completion.CompletionInitializationContext;
+import com.intellij.codeInsight.completion.JavaCompletionContributor;
+import com.intellij.codeInsight.template.CustomLiveTemplateBase;
+import com.intellij.codeInsight.template.CustomTemplateCallback;
+import com.intellij.codeInsight.template.impl.CustomLiveTemplateLookupElement;
+import com.intellij.codeInsight.template.impl.TemplateSettings;
+import com.intellij.codeInsight.template.postfix.completion.PostfixTemplateLookupElement;
+import com.intellij.codeInsight.template.postfix.settings.PostfixTemplatesSettings;
+import com.intellij.codeInsight.template.postfix.util.Aliases;
+import com.intellij.featureStatistics.FeatureUsageTracker;
+import com.intellij.lang.java.JavaLanguage;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.CommandProcessor;
+import com.intellij.openapi.command.undo.UndoConstants;
+import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.util.Condition;
+import com.intellij.openapi.util.Ref;
+import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.util.PsiUtilCore;
+import com.intellij.util.containers.ContainerUtil;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class PostfixLiveTemplate extends CustomLiveTemplateBase {
+  public static final String POSTFIX_TEMPLATE_ID = "POSTFIX_TEMPLATE_ID";
+
+  private static final Logger LOG = Logger.getInstance(PostfixLiveTemplate.class);
+  private final HashMap<String, PostfixTemplate> myTemplates = ContainerUtil.newHashMap();
+
+  public PostfixLiveTemplate() {
+    for (PostfixTemplate template : PostfixTemplate.EP_NAME.getExtensions()) {
+      register(template.getKey(), template);
+      Aliases aliases = template.getClass().getAnnotation(Aliases.class);
+      if (aliases != null) {
+        for (String key : aliases.value()) {
+          register(key, template);
+        }
+      }
+    }
+  }
+
+  private void register(@NotNull String key, @NotNull PostfixTemplate template) {
+    PostfixTemplate registered = myTemplates.put(key, template);
+    if (registered != null) {
+      LOG.error("Can't register postfix template. Duplicated key: " + template.getKey());
+    }
+  }
+
+  @Nullable
+  @Override
+  public String computeTemplateKey(@NotNull CustomTemplateCallback callback) {
+    Editor editor = callback.getEditor();
+    String key = computeTemplateKeyWithoutContextChecking(editor.getDocument().getCharsSequence(), editor.getCaretModel().getOffset());
+    if (key == null) return null;
+    return isApplicableTemplate(getTemplateByKey(key), key, callback.getContext().getContainingFile(), editor) ? key : null;
+  }
+  
+  @Nullable
+  @Override
+  public String computeTemplateKeyWithoutContextChecking(@NotNull CustomTemplateCallback callback) {
+    Editor editor = callback.getEditor();
+    return computeTemplateKeyWithoutContextChecking(editor.getDocument().getCharsSequence(), editor.getCaretModel().getOffset());
+  }
+
+  @Override
+  public boolean supportsMultiCaret() {
+    return false;
+  }
+
+  @Nullable
+  public String computeTemplateKeyWithoutContextChecking(@NotNull CharSequence documentContent, int currentOffset) {
+    int startOffset = currentOffset;
+    if (documentContent.length() < startOffset) {
+      return null;
+    }
+    while (startOffset > 0) {
+      char currentChar = documentContent.charAt(startOffset - 1);
+      if (!Character.isJavaIdentifierPart(currentChar)) {
+        if (currentChar != '.' && currentChar != '!') {
+          return null;
+        }
+        startOffset--;
+        break;
+      }
+      startOffset--;
+    }
+    return String.valueOf(documentContent.subSequence(startOffset, currentOffset));
+  }
+
+  @Override
+  public void expand(@NotNull final String key, @NotNull final CustomTemplateCallback callback) {
+    ApplicationManager.getApplication().assertIsDispatchThread();
+
+    FeatureUsageTracker.getInstance().triggerFeatureUsed("editing.completion.postfix");
+
+    final PostfixTemplate template = getTemplateByKey(key);
+    final Editor editor = callback.getEditor();
+    final PsiFile file = callback.getContext().getContainingFile();
+    if (isApplicableTemplate(template, key, file, editor)) {
+      int currentOffset = editor.getCaretModel().getOffset();
+      PsiElement newContext = deleteTemplateKey(file, editor.getDocument(), currentOffset, key);
+      newContext = addSemicolonIfNeeded(editor, editor.getDocument(), newContext, currentOffset - key.length());
+      expandTemplate(template, editor, newContext);
+    }
+    // don't care about errors in multiCaret mode
+    else if (editor.getCaretModel().getAllCarets().size() == 1) {
+      LOG.error("Template not found by key: " + key);
+    }
+  }
+
+  @Override
+  public boolean isApplicable(PsiFile file, int offset, boolean wrapping) {
+    PostfixTemplatesSettings settings = PostfixTemplatesSettings.getInstance();
+    if (wrapping  || file == null || settings == null || !settings.isPostfixTemplatesEnabled() ||
+        PsiUtilCore.getLanguageAtOffset(file, offset) != JavaLanguage.INSTANCE) {
+      return false;
+    }
+    return StringUtil.isNotEmpty(computeTemplateKeyWithoutContextChecking(file.getText(), offset + 1));
+  }
+
+  @Override
+  public boolean supportsWrapping() {
+    return false;
+  }
+
+  @Override
+  public void wrap(@NotNull String selection, @NotNull CustomTemplateCallback callback) {
+    throw new UnsupportedOperationException();
+  }
+
+  @NotNull
+  @Override
+  public String getTitle() {
+    return "Postfix";
+  }
+
+  @Override
+  public char getShortcut() {
+    PostfixTemplatesSettings settings = PostfixTemplatesSettings.getInstance();
+    return settings != null ? (char)settings.getShortcut() : TemplateSettings.TAB_CHAR;
+  }
+
+  @Override
+  public boolean hasCompletionItem(@NotNull PsiFile file, int offset) {
+    return true;
+  }
+
+  @NotNull
+  @Override
+  public Collection<? extends CustomLiveTemplateLookupElement> getLookupElements(@NotNull PsiFile file, @NotNull Editor editor, int offset) {
+    String key = computeTemplateKeyWithoutContextChecking(editor.getDocument().getCharsSequence(), offset);
+    if (key != null && editor.getCaretModel().getCaretCount() == 1) {
+      Map<String, CustomLiveTemplateLookupElement> result = ContainerUtil.newHashMap();
+      Condition<PostfixTemplate> isApplicationTemplateFunction = createIsApplicationTemplateFunction(key, file, editor);
+      for (Map.Entry<String, PostfixTemplate> entry : myTemplates.entrySet()) {
+        PostfixTemplate postfixTemplate = entry.getValue();
+        if (entry.getKey().startsWith(key) && isApplicationTemplateFunction.value(postfixTemplate)) {
+          result.put(postfixTemplate.getKey(), new PostfixTemplateLookupElement(this, postfixTemplate, entry.getKey(), false));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
       }
       return result.values();

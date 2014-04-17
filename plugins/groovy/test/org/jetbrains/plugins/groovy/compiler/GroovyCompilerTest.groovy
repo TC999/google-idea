@@ -796,6 +796,38 @@ string
     assertEmpty make()
   }
 
+  public void "test compiling static extension"() {
+    setupTestSources()
+    myFixture.addFileToProject "src/extension/Extension.groovy", """
+package extension
+import groovy.transform.CompileStatic
+
+@CompileStatic class Extension {
+    static <T> T test2(List<T> self) {
+        self.first()
+    }
+}"""
+    myFixture.addFileToProject "src/META-INF/services/org.codehaus.groovy.runtime.ExtensionModule", """
+moduleName=extension-verify
+moduleVersion=1.0-test
+extensionClasses=extension.Extension
+staticExtensionClasses=
+"""
+    myFixture.addFileToProject "tests/AppTest.groovy", """
+class AppTest {
+    @groovy.transform.CompileStatic
+    static main(args) {
+        List<String> list = new ArrayList<>()
+        list.add("b")
+        list.add("c")
+        println list.test2()
+    }
+}
+"""
+    assertEmpty make()
+    assertOutput 'AppTest', 'b'
+  }
+
   public static class IdeaModeTest extends GroovyCompilerTest {
     @Override protected boolean useJps() { false }
   }

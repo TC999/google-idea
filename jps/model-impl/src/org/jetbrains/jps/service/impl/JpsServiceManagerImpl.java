@@ -15,6 +15,7 @@
  */
 package org.jetbrains.jps.service.impl;
 
+import org.jetbrains.jps.plugin.JpsPluginManager;
 import org.jetbrains.jps.service.JpsServiceManager;
 
 import java.util.*;
@@ -54,15 +55,25 @@ public class JpsServiceManagerImpl extends JpsServiceManager {
   public <T> Iterable<T> getExtensions(Class<T> extensionClass) {
     List<?> cached = myExtensions.get(extensionClass);
     if (cached == null) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       final ServiceLoader<T> loader = ServiceLoader.load(extensionClass, extensionClass.getClassLoader());
       final List<T> extensions = new ArrayList<T>();
       for (T t : loader) {
         extensions.add(t);
+=======
+      final List<T> extensions = new ArrayList<T>(JpsPluginManager.getInstance().loadExtensions(extensionClass));
+      cached = myExtensions.putIfAbsent(extensionClass, extensions);
+      if (cached == null) {
+        cached = extensions;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       cached = myExtensions.putIfAbsent(extensionClass, extensions);
       if (cached == null) {
         cached = extensions;
       }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     //noinspection unchecked
     return (List<T>)cached;

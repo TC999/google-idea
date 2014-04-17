@@ -30,6 +30,7 @@ import java.util.Collection;
 public class MavenResourceFileFilter implements FileFilter {
   private String[] myNormalizedIncludes;
   private String[] myNormalizedExcludes;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private ResourceRootConfiguration myConfiguration;
   private File myRoot;
 
@@ -55,6 +56,33 @@ public class MavenResourceFileFilter implements FileFilter {
     }
     if (myNormalizedExcludes == null) {
       myNormalizedExcludes = normalizePatterns(myConfiguration.excludes);
+=======
+  private FilePattern myFilePattern;
+  private File myRoot;
+
+  public MavenResourceFileFilter(@NotNull File rootFile, @NotNull FilePattern filePattern) {
+    myFilePattern = filePattern;
+    myRoot = rootFile;
+  }
+
+  @Override
+  public boolean accept(@NotNull File file) {
+    final String relPath = FileUtil.getRelativePath(myRoot, file);
+    return relPath != null && isIncluded(relPath);
+  }
+
+  private boolean isIncluded(String relativePath) {
+    if (myNormalizedIncludes == null) {
+      if (myFilePattern.includes.isEmpty()) {
+        myNormalizedIncludes = new String[]{"**" + File.separatorChar + '*'};
+      }
+      else {
+        myNormalizedIncludes = normalizePatterns(myFilePattern.includes);
+      }
+    }
+    if (myNormalizedExcludes == null) {
+      myNormalizedExcludes = normalizePatterns(myFilePattern.excludes);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     return isIncluded(relativePath, myNormalizedIncludes, myNormalizedExcludes);
   }

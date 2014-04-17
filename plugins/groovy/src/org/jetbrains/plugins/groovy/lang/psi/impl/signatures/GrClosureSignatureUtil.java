@@ -15,6 +15,7 @@
  */
 package org.jetbrains.plugins.groovy.lang.psi.impl.signatures;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.Trinity;
 import com.intellij.psi.*;
@@ -57,8 +58,9 @@ import java.util.*;
 /**
  * @author Maxim.Medvedev
  */
-@SuppressWarnings("unchecked")
 public class GrClosureSignatureUtil {
+  private static final Logger LOG = Logger.getInstance(GrClosureSignatureUtil.class);
+
   private GrClosureSignatureUtil() {
   }
 
@@ -110,6 +112,7 @@ public class GrClosureSignatureUtil {
   }
 
   public static GrClosureSignature createSignature(final PsiMethod method, PsiSubstitutor substitutor) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return new GrImmediateClosureSignatureImpl(method.getParameterList().getParameters(), null, substitutor) {
       @Override
       public PsiType getReturnType() {
@@ -121,10 +124,14 @@ public class GrClosureSignatureUtil {
         return method.isValid();
       }
     };
+=======
+    return new GrMethodSignatureImpl(method, substitutor);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public static GrClosureSignature removeParam(final GrClosureSignature signature, int i) {
     final GrClosureParameter[] newParams = ArrayUtil.remove(signature.getParameters(), i);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return new GrImmediateClosureSignatureImpl(newParams, null, newParams.length > 0 && signature.isVarargs(), false) {
       @Override
       public PsiType getReturnType() {
@@ -136,9 +143,13 @@ public class GrClosureSignatureUtil {
         return signature.isValid();
       }
     };
+=======
+    return new GrClosureSignatureWithNewParameters(signature, newParams);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public static GrClosureSignature createSignatureWithErasedParameterTypes(final PsiMethod method) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final PsiParameter[] params = method.getParameterList().getParameters();
     final GrClosureParameter[] closureParams = ContainerUtil.map(params, new Function<PsiParameter, GrClosureParameter>() {
       @Override
@@ -158,17 +169,20 @@ public class GrClosureSignatureUtil {
         return method.isValid();
       }
     };
+=======
+    return new GrMethodSignatureWithErasedTypes(method);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull
   public static GrClosureSignature createSignatureWithErasedParameterTypes(final GrClosableBlock closure) {
-    final GrClosureSignature signature = createSignature(closure);
-    return rawSignature(signature);
+    return new GrClosableSignatureWithErasedParameters(closure);
   }
 
   @NotNull
   public static GrClosureSignature rawSignature(@NotNull final GrClosureSignature signature) {
     final GrClosureParameter[] params = signature.getParameters();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
     final GrClosureParameter[] closureParams = ContainerUtil.map(params, new Function<GrClosureParameter, GrClosureParameter>() {
       @Override
@@ -183,12 +197,18 @@ public class GrClosureSignatureUtil {
       public PsiType getReturnType() {
         return signature.getReturnType();
       }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+    final GrClosureParameter[] closureParams = ContainerUtil.map(params, new Function<GrClosureParameter, GrClosureParameter>() {
       @Override
-      public boolean isValid() {
-        return signature.isValid();
+      public GrClosureParameter fun(GrClosureParameter parameter) {
+        PsiType type = TypeConversionUtil.erasure(parameter.getType());
+        return new GrImmediateClosureParameterImpl(type, parameter.getName(), parameter.isOptional(), parameter.getDefaultInitializer());
       }
-    };
+    }, new GrClosureParameter[params.length]);
+
+    return new GrClosureSignatureWithNewParameters(signature, closureParams);
   }
 
 
@@ -380,6 +400,13 @@ public class GrClosureSignatureUtil {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public static boolean isVarArgsImpl(@NotNull GrClosureParameter[] parameters) {
+    return parameters.length > 0 && parameters[parameters.length - 1].getType() instanceof PsiArrayType;
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public enum ApplicabilityResult {
     applicable, inapplicable, canBeApplicable, ambiguous;
 
@@ -421,6 +448,8 @@ public class GrClosureSignatureUtil {
                                                                @NotNull Function<Arg, PsiType> typeComputer,
                                                                @NotNull PsiElement context,
                                                                boolean partial) {
+    LOG.assertTrue(signature.isValid(), signature.getClass());
+
     if (checkForOnlyMapParam(signature, args.length)) return ArgInfo.empty_array();
     GrClosureParameter[] params = signature.getParameters();
     if (args.length > params.length && !signature.isVarargs() && !partial) return null;
@@ -914,7 +943,7 @@ public class GrClosureSignatureUtil {
         for (int i = 0, size = arg.args.size(); i < size; i++) {
           args[i] = (GrNamedArgument)arg.args.get(i);
         }
-        return new GrMapType(first, args);
+        return GrMapType.createFromNamedArgs(first, args);
       }
       else {
         for (PsiElement elem : arg.args) {
@@ -1039,7 +1068,22 @@ public class GrClosureSignatureUtil {
         final ArrayList<GrClosureParameter> parameters = new ArrayList<GrClosureParameter>(original.length);
 
         for (GrClosureParameter parameter : original) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           parameters.add(new GrImmediateClosureParameterImpl(parameter.getType(), parameter.getName(), false, null));
+=======
+          parameters.add(new GrDelegatingClosureParameter(parameter) {
+            @Override
+            public boolean isOptional() {
+              return false;
+            }
+
+            @Nullable
+            @Override
+            public GrExpression getDefaultInitializer() {
+              return null;
+            }
+          });
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
 
         final int pcount = signature.isVarargs() ? signature.getParameterCount() - 2 : signature.getParameterCount() - 1;

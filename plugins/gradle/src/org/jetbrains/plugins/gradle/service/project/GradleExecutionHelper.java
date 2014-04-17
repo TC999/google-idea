@@ -48,6 +48,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * @author Denis Zhdanov
@@ -154,6 +155,12 @@ public class GradleExecutionHelper {
           return StringUtil.isEmpty(s) ? null : s;
         }
       });
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+      // TODO remove this replacement when --tests option will become available for tooling API
+      replaceTestCommandOptionWithInitScript(filteredArgs);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       operation.withArguments(ArrayUtil.toStringArray(filteredArgs));
     }
 
@@ -199,6 +206,9 @@ public class GradleExecutionHelper {
     ProjectConnection connection = getConnection(projectDir, settings);
     try {
       return f.fun(connection);
+    }
+    catch (ExternalSystemException e) {
+      throw e;
     }
     catch (Throwable e) {
       LOG.debug("Gradle execution error", e);
@@ -384,7 +394,11 @@ public class GradleExecutionHelper {
         LOG.warn("Can't get init script template");
         return null;
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       String s = FileUtil.loadTextAndClose(stream).replace("${EXTENSIONS_JARS_PATH}", getToolingExtensionsJarPaths());
+=======
+      String s = FileUtil.loadTextAndClose(stream).replaceFirst(Pattern.quote("${EXTENSIONS_JARS_PATH}"), getToolingExtensionsJarPaths());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (isBuildSrcProject) {
         String buildSrcDefaultInitScript = getBuildSrcDefaultInitScript();
         if (buildSrcDefaultInitScript == null) return null;
@@ -432,6 +446,55 @@ public class GradleExecutionHelper {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  private static void replaceTestCommandOptionWithInitScript(@NotNull List<String> args) {
+    Set<String> testIncludePatterns = ContainerUtil.newLinkedHashSet();
+    Iterator<String> it = args.iterator();
+    while (it.hasNext()) {
+      final String next = it.next();
+      if ("--tests".equals(next)) {
+        it.remove();
+        if (it.hasNext()) {
+          testIncludePatterns.add(it.next());
+          it.remove();
+        }
+      }
+    }
+    if (!testIncludePatterns.isEmpty()) {
+      StringBuilder buf = new StringBuilder();
+      buf.append('[');
+      for (Iterator<String> iterator = testIncludePatterns.iterator(); iterator.hasNext(); ) {
+        String pattern = iterator.next();
+        buf.append('\"').append(pattern).append('\"');
+        if (iterator.hasNext()) {
+          buf.append(',');
+        }
+      }
+      buf.append(']');
+
+      InputStream stream =
+        ProjectImportAction.class.getResourceAsStream("/org/jetbrains/plugins/gradle/tooling/internal/testFilterInit.gradle");
+      try {
+        if (stream == null) {
+          LOG.warn("Can't get test filter init script template");
+          return;
+        }
+        String s = FileUtil.loadTextAndClose(stream).replaceFirst(Pattern.quote("${TEST_NAME_INCLUDES}"), buf.toString());
+        final File tempFile = FileUtil.createTempFile("ijinit", '.' + GradleConstants.EXTENSION, true);
+        FileUtil.writeToFile(tempFile, s);
+        ContainerUtil.addAll(args, GradleConstants.INIT_SCRIPT_CMD_OPTION, tempFile.getAbsolutePath());
+      }
+      catch (Exception e) {
+        LOG.warn("Can't generate IJ gradle test filter init script", e);
+      }
+      finally {
+        StreamUtil.closeStream(stream);
+      }
+    }
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @NotNull
   private static String getToolingExtensionsJarPaths() throws ClassNotFoundException {
     final ArrayList<Class<?>> list = ContainerUtil.newArrayList(

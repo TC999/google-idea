@@ -15,6 +15,7 @@
  */
 package com.intellij.ide.browsers;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.CommonBundle;
 import com.intellij.Patches;
 import com.intellij.concurrency.JobScheduler;
@@ -496,5 +497,65 @@ final class BrowserLauncherImpl extends BrowserLauncher {
 
   private static boolean isOpenCommandUsed(@NotNull GeneralCommandLine command) {
     return SystemInfo.isMac && ExecUtil.getOpenCommandPath().equals(command.getExePath());
+=======
+import com.intellij.concurrency.JobScheduler;
+import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.util.ExecUtil;
+import com.intellij.ide.IdeBundle;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.options.ShowSettingsUtil;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.ui.AppUIUtil;
+
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+final class BrowserLauncherImpl extends BrowserLauncherAppless {
+  @Override
+  protected void doShowError(final String error, final WebBrowser browser, final Project project, final String title) {
+    AppUIUtil.invokeOnEdt(new Runnable() {
+      @Override
+      public void run() {
+        if (Messages.showYesNoDialog(project, StringUtil.notNullize(error, "Unknown error"),
+                                     title == null ? IdeBundle.message("browser.error") : title, Messages.OK_BUTTON,
+                                     IdeBundle.message("button.fix"), null) == Messages.NO) {
+          final BrowserSettings browserSettings = new BrowserSettings();
+          ShowSettingsUtil.getInstance().editConfigurable(project, browserSettings, browser == null ? null : new Runnable() {
+            @Override
+            public void run() {
+              browserSettings.selectBrowser(browser);
+            }
+          });
+        }
+      }
+    });
+  }
+
+  @Override
+  protected void checkCreatedProcess(final WebBrowser browser, final Project project, GeneralCommandLine commandLine, final Process process) {
+    if (isOpenCommandUsed(commandLine)) {
+      final Future<?> future = ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            if (process.waitFor() == 1) {
+              doShowError(ExecUtil.readFirstLine(process.getErrorStream(), null), browser, project, null);
+            }
+          }
+          catch (InterruptedException ignored) {
+          }
+        }
+      });
+      // 30 seconds is enough to start
+      JobScheduler.getScheduler().schedule(new Runnable() {
+        @Override
+        public void run() {
+          future.cancel(true);
+        }
+      }, 30, TimeUnit.MILLISECONDS);
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

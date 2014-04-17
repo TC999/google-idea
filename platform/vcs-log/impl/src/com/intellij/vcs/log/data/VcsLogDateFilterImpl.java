@@ -15,6 +15,7 @@
  */
 package com.intellij.vcs.log.data;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.vcs.log.VcsFullCommitDetails;
 import com.intellij.vcs.log.VcsLogDateFilter;
 import com.intellij.vcs.log.VcsLogDetailsFilter;
@@ -35,6 +36,28 @@ public class VcsLogDateFilterImpl implements VcsLogDateFilter, VcsLogDetailsFilt
 
   @Override
   public boolean matches(@NotNull VcsFullCommitDetails details) {
+=======
+import com.intellij.vcs.log.VcsCommitMetadata;
+import com.intellij.vcs.log.VcsLogDateFilter;
+import com.intellij.vcs.log.VcsLogDetailsFilter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Date;
+
+public class VcsLogDateFilterImpl implements VcsLogDateFilter, VcsLogDetailsFilter {
+
+  @Nullable private final Date myAfter;
+  @Nullable private final Date myBefore;
+
+  public VcsLogDateFilterImpl(@Nullable Date after, @Nullable Date before) {
+    myAfter = after;
+    myBefore = before;
+  }
+
+  @Override
+  public boolean matches(@NotNull VcsCommitMetadata details) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     Date date = new Date(details.getTime());  // Git itself also filters by commit time, not author time
     boolean matches = true;
     if (myAfter != null) {

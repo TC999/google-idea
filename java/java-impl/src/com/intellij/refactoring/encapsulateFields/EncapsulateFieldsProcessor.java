@@ -106,6 +106,39 @@ public class EncapsulateFieldsProcessor extends BaseRefactoringProcessor {
     return data;
   }
 
+  @Nullable
+  @Override
+  protected String getRefactoringId() {
+    return "refactoring.encapsulateFields";
+  }
+
+  @Nullable
+  @Override
+  protected RefactoringEventData getBeforeData() {
+    RefactoringEventData data = new RefactoringEventData();
+    final List<PsiElement> fields = new ArrayList<PsiElement>();
+    for (FieldDescriptor fieldDescriptor : myFieldDescriptors) {
+      fields.add(fieldDescriptor.getField());
+    }
+    data.addElements(fields);
+    return data;
+  }
+
+  @Nullable
+  @Override
+  protected RefactoringEventData getAfterData(UsageInfo[] usages) {
+    RefactoringEventData data = new RefactoringEventData();
+    List<PsiElement> elements = new ArrayList<PsiElement>();
+    if (myNameToGetter != null) {
+      elements.addAll(myNameToGetter.values());
+    }
+    if (myNameToSetter != null) {
+      elements.addAll(myNameToSetter.values());
+    }
+    data.addElements(elements);
+    return data;
+  }
+
   @NotNull
   protected UsageViewDescriptor createUsageViewDescriptor(UsageInfo[] usages) {
     FieldDescriptor[] fields = new FieldDescriptor[myFieldDescriptors.length];
@@ -235,9 +268,11 @@ public class EncapsulateFieldsProcessor extends BaseRefactoringProcessor {
         if (element == null) continue;
 
         final EncapsulateFieldHelper helper = EncapsulateFieldHelper.getHelper(element.getLanguage());
-        EncapsulateFieldUsageInfo usageInfo = helper.createUsage(myDescriptor, fieldDescriptor, reference);
-        if (usageInfo != null) {
-          array.add(usageInfo);
+        if (helper != null) {
+          EncapsulateFieldUsageInfo usageInfo = helper.createUsage(myDescriptor, fieldDescriptor, reference);
+          if (usageInfo != null) {
+            array.add(usageInfo);
+          }
         }
       }
     }

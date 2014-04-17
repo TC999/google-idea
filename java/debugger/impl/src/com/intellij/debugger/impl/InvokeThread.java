@@ -39,6 +39,7 @@ public abstract class InvokeThread<E extends PrioritizedTask> {
       myOwner = owner;
     }
 
+    @Override
     public void run() {
       synchronized (this) {
         while (myRequestFuture == null) {
@@ -144,10 +145,18 @@ public abstract class InvokeThread<E extends PrioritizedTask> {
 
           processEvent(myEvents.get());
         }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         catch (VMDisconnectedException e) {
+=======
+        catch (VMDisconnectedException ignored) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           break;
         }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         catch (EventQueueClosedException e) {
+=======
+        catch (EventQueueClosedException ignored) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           break;
         }
         catch (RuntimeException e) {
@@ -174,7 +183,11 @@ public abstract class InvokeThread<E extends PrioritizedTask> {
       }
 
       if (LOG.isDebugEnabled()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         LOG.debug("Request " + this.toString() + " exited");
+=======
+        LOG.debug("Request " + toString() + " exited");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }
 

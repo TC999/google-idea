@@ -37,6 +37,7 @@ public abstract class PostfixTemplatesUtils {
   }
 
   public static void createSimpleStatement(@NotNull PsiElement context, @NotNull Editor editor, @NotNull String text) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     PsiExpression expr = PostfixTemplate.getTopmostExpression(context);
     PsiElement parent = expr != null ? expr.getParent() : null;
     assert parent instanceof PsiStatement;
@@ -69,6 +70,53 @@ public abstract class PostfixTemplatesUtils {
   @Contract("null -> false")
   public static boolean isBoolean(@Nullable PsiType type) {
     return type != null && (PsiType.BOOLEAN.equals(type) || PsiType.BOOLEAN.equals(PsiPrimitiveType.getUnboxedType(type)));
+=======
+    createStatement(context, editor, text + " ", "");
+  }
+
+  public static void createStatement(@NotNull PsiElement context, @NotNull Editor editor, @NotNull String prefix, @NotNull String suffix) {
+    createStatement(context, editor, prefix, suffix, 0);
+  }
+
+  public static void createStatement(@NotNull PsiElement context, @NotNull Editor editor, @NotNull String prefix, @NotNull String suffix, int offset) {
+    PsiExpression expr = PostfixTemplate.getTopmostExpression(context);
+    PsiElement parent = expr != null ? expr.getParent() : null;
+    assert parent instanceof PsiStatement;
+    PsiElementFactory factory = JavaPsiFacade.getInstance(context.getProject()).getElementFactory();
+    PsiStatement statement = factory.createStatementFromText(prefix + expr.getText() + suffix + ";", parent);
+    PsiElement replace = parent.replace(statement);
+    editor.getCaretModel().moveToOffset(replace.getTextRange().getEndOffset() + offset);
+  }
+
+  @Contract("null -> false")
+  public static boolean isNotPrimitiveTypeExpression(@Nullable PsiExpression expression) {
+    return expression != null && !(expression.getType() instanceof PsiPrimitiveType);
+  }
+
+  @Contract("null -> false")
+  public static boolean isIterable(@Nullable PsiType type) {
+    return type != null && InheritanceUtil.isInheritor(type, CommonClassNames.JAVA_LANG_ITERABLE);
+  }
+
+  @Contract("null -> false")
+  public static boolean isThrowable(@Nullable PsiType type) {
+    return type != null && InheritanceUtil.isInheritor(type, CommonClassNames.JAVA_LANG_THROWABLE);
+  }
+
+  @Contract("null -> false")
+  public static boolean isArray(@Nullable PsiType type) {
+    return type != null && type instanceof PsiArrayType;
+  }
+
+  @Contract("null -> false")
+  public static boolean isBoolean(@Nullable PsiType type) {
+    return type != null && (PsiType.BOOLEAN.equals(type) || PsiType.BOOLEAN.equals(PsiPrimitiveType.getUnboxedType(type)));
+  }
+
+  @Contract("null -> false")
+  public static boolean isNonVoid(@Nullable PsiType type) {
+    return type != null && !PsiType.VOID.equals(type);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Contract("null -> false")

@@ -70,6 +70,7 @@ public class HgPushCommand {
       arguments.add(myRevision);
     }
     if (myBranchName != null) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       if (myIsNewBranch) {
         arguments.add("--new-branch");
       }
@@ -77,6 +78,17 @@ public class HgPushCommand {
         arguments.add("-b");
         arguments.add(myBranchName);
       }
+=======
+      arguments.add("-b");
+      arguments.add(myBranchName);
+    }
+    if (myIsNewBranch) {
+      arguments.add("--new-branch");
+    }
+    if (!StringUtil.isEmptyOrSpaces(myBookmarkName)) {
+      arguments.add("-B");
+      arguments.add(myBookmarkName);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     if (!StringUtil.isEmptyOrSpaces(myBookmarkName)) {
       arguments.add("-B");

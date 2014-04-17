@@ -23,6 +23,7 @@ import com.intellij.codeInsight.daemon.LineMarkerProvider;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -30,14 +31,18 @@ import com.intellij.psi.*;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
 import com.intellij.psi.util.InheritanceUtil;
 import com.intellij.psi.util.PsiTreeUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.util.ImageLoader;
 import com.intellij.util.ui.UIUtil;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -204,6 +209,7 @@ public class IconLineMarkerProvider implements LineMarkerProvider {
     if (project == null) return false;
     VirtualFile baseDir = project.getBaseDir();
     return baseDir != null && (baseDir.findChild("idea.iml") != null || baseDir.findChild("community-main.iml") != null);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   private static Icon createOrFindBetterIcon(VirtualFile file, boolean tryToFindBetter) throws IOException {
@@ -236,10 +242,20 @@ public class IconLineMarkerProvider implements LineMarkerProvider {
       }
     }
     return new ImageIcon(file.contentsToByteArray());
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static ImageIcon loadIcon(VirtualFile file, int scale) throws IOException {
     return new ImageIcon(ImageLoader.loadFromStream(file.getInputStream(), scale));
+=======
+  private static Icon createOrFindBetterIcon(VirtualFile file, boolean tryToFindBetter) throws IOException {
+    if (tryToFindBetter) {
+      return IconLoader.findIcon(new File(file.getPath()).toURI().toURL());
+    }
+    return new ImageIcon(file.contentsToByteArray());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private static boolean isIconClassType(PsiType type) {

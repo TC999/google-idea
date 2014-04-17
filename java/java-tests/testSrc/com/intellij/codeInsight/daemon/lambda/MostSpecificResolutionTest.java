@@ -39,6 +39,45 @@ public class MostSpecificResolutionTest extends LightDaemonAnalyzerTestCase {
     doTest();
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public void testNestedLambdaSpecifics() throws Exception {
+    doTest();
+  }
+
+  public void testBothVarargs() throws Exception {
+    doTest();
+  }
+
+  public void testNestedVarargs() throws Exception {
+    doTest();
+  }
+
+  public void testMostSpecificForSameFunctionalTypes() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA121884() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA121999() throws Exception {
+    doTest();
+  }
+
+  public void testRelatedSAMErasures() throws Exception {
+    doTest();
+  }
+
+  public void testJDK8034223() throws Exception {
+    doTest();
+  }
+
+  public void testIDEA123352() throws Exception {
+    doTest();
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private void doTest() {
     doTest(true);
   }

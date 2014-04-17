@@ -78,6 +78,10 @@ public class Java15APIUsageInspectionBase extends BaseJavaBatchLocalInspectionTo
   static {
     ourGenerifiedClasses.add("javax.swing.JComboBox");
     ourGenerifiedClasses.add("javax.swing.ListModel");
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    ourGenerifiedClasses.add("javax.swing.JList");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   protected LanguageLevel myEffectiveLanguageLevel = null;

@@ -38,6 +38,7 @@ public class Runner {
       create(oldVersionDesc, newVersionDesc, oldFolder, newFolder, patchFile, ignoredFiles, criticalFiles, optionalFiles);
     }
     else if (args.length >= 2 && "install".equals(args[0])) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       // install [--exit0] <destination_folder>
       int nextArg = 1;
 
@@ -54,6 +55,13 @@ public class Runner {
       logger.info("destFolder: " + destFolder);
 
       install(useExitCode0, destFolder);
+=======
+      String destFolder = args[1];
+      initLogger();
+      logger.info("destFolder: " + destFolder);
+
+      install(destFolder);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     else {
       printUsage();
@@ -104,10 +112,13 @@ public class Runner {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public static void infoStackTrace(String msg, Throwable e){
     logger.info(msg, e);
   }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public static void printStackTrace(Throwable e){
     logger.error(e.getMessage(), e);
   }
@@ -130,8 +141,13 @@ public class Runner {
   private static void printUsage() {
     System.err.println("Usage:\n" +
                        "create <old_version_description> <new_version_description> <old_version_folder> <new_version_folder>" +
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                        " <patch_file_name> <log_directory> [ignored=file1;file2;...] [critical=file1;file2;...] [optional=file1;file2;...]\n" +
                        "install [--exit0] <destination_folder> [log_directory]\n");
+=======
+                       " <patch_file_name> [ignored=file1;file2;...] [critical=file1;file2;...] [optional=file1;file2;...]\n" +
+                       "install <destination_folder> [log_directory]\n");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   private static void create(String oldBuildDesc,
@@ -175,13 +191,24 @@ public class Runner {
                               optionalFiles,
                               ui);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       logger.info("Packing jar file: " + outPatchJar );
       ui.startProcess("Packing jar file '" + outPatchJar + "'...");
 
       FileOutputStream fileOut = new FileOutputStream(outPatchJar);
+=======
+      logger.info("Packing jar file: " + patchFile );
+      ui.startProcess("Packing jar file '" + patchFile + "'...");
+
+      FileOutputStream fileOut = new FileOutputStream(patchFile);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       try {
         ZipOutputWrapper out = new ZipOutputWrapper(fileOut);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         ZipInputStream in = new ZipInputStream(new FileInputStream(resolvedJar));
+=======
+        ZipInputStream in = new ZipInputStream(new FileInputStream(resolveJarFile()));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         try {
           ZipEntry e;
           while ((e = in.getNextEntry()) != null) {

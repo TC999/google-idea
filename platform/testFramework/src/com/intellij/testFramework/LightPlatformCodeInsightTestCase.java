@@ -29,7 +29,9 @@ import com.intellij.openapi.application.ex.PathManagerEx;
 import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.*;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.openapi.editor.ex.util.EditorUtil;
@@ -40,6 +42,10 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileEditor.impl.TrailingSpacesStripper;
 import com.intellij.openapi.project.ProjectManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.util.ThrowableComputable;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.openapi.util.text.StringUtil;
@@ -62,6 +68,10 @@ import org.junit.runners.Parameterized;
 
 import java.io.File;
 import java.io.IOException;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import java.lang.IllegalArgumentException;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -75,33 +85,22 @@ public abstract class LightPlatformCodeInsightTestCase extends LightPlatformTest
 
   @Override
   protected void runTest() throws Throwable {
-    final Throwable[] throwable = {null};
-    Runnable action = new Runnable() {
-      @Override
-      public void run() {
-        CommandProcessor.getInstance().executeCommand(getProject(), new Runnable() {
-          @Override
-          public void run() {
-
-            try {
-              doRunTest();
-            }
-            catch (Throwable t) {
-              throwable[0] = t;
-            }
-          }
-        }, "", null);
-      }
-    };
     if (isRunInWriteAction()) {
-      ApplicationManager.getApplication().runWriteAction(action);
+      WriteCommandAction.runWriteCommandAction(getProject(), new ThrowableComputable<Void, Throwable>() {
+        @Override
+        public Void compute() throws Throwable {
+          doRunTest();
+          return null;
+        }
+      });
     }
     else {
-      action.run();
-    }
-
-    if (throwable[0] != null) {
-      throw throwable[0];
+      new WriteCommandAction.Simple(getProject()){
+        @Override
+        protected void run() throws Throwable {
+          doRunTest();
+        }
+      }.performCommand();
     }
   }
 
@@ -227,16 +226,13 @@ public abstract class LightPlatformCodeInsightTestCase extends LightPlatformTest
     }
   }
 
-  private static void deleteVFile() {
+  private static void deleteVFile() throws IOException {
     if (myVFile != null) {
-      ApplicationManager.getApplication().runWriteAction(new Runnable() {
+      ApplicationManager.getApplication().runWriteAction(new ThrowableComputable<Void, IOException>() {
         @Override
-        public void run() {
-          try {
-            myVFile.delete(this);
-          } catch (IOException e) {
-            LOG.error(e);
-          }
+        public Void compute() throws IOException {
+          myVFile.delete(this);
+          return null;
         }
       });
     }
@@ -467,7 +463,15 @@ public abstract class LightPlatformCodeInsightTestCase extends LightPlatformTest
   protected static void cutToLineEnd() {
     executeAction("EditorCutLineEnd");
   }
-
+  
+  protected static void deleteToLineStart() {
+    executeAction("EditorDeleteToLineStart");
+  }
+  
+  protected static void deleteToLineEnd() {
+    executeAction("EditorDeleteToLineEnd");
+  }
+  
   protected static void killToWordStart() {
     executeAction("EditorKillToWordStart");
   }
@@ -502,7 +506,11 @@ public abstract class LightPlatformCodeInsightTestCase extends LightPlatformTest
       public void run() {
         EditorActionManager actionManager = EditorActionManager.getInstance();
         EditorActionHandler actionHandler = actionManager.getActionHandler(actionId);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         actionHandler.executeInCaretContext(getEditor(), null, DataManager.getInstance().getDataContext());
+=======
+        actionHandler.execute(getEditor(), null, DataManager.getInstance().getDataContext());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     }, "", null);
   }
@@ -565,7 +573,16 @@ public abstract class LightPlatformCodeInsightTestCase extends LightPlatformTest
       fail("Parameterized test should implement FileBasedTestCaseHelper");
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     PathManagerEx.replaceLookupStrategy(klass, com.intellij.testFramework.Parameterized.class);
+=======
+    try {
+      PathManagerEx.replaceLookupStrategy(klass, com.intellij.testFramework.Parameterized.class);
+    }
+    catch (IllegalArgumentException ignore) {
+      //allow to run out of idea project
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     final FileBasedTestCaseHelper fileBasedTestCase = (FileBasedTestCaseHelper)testCase;
     String testDataPath = testCase.getTestDataPath();

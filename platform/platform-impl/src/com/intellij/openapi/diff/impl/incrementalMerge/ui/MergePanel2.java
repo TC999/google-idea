@@ -271,6 +271,14 @@ public class MergePanel2 implements DiffViewer {
     return myScrollSupport.isEnabled();
   }
 
+  public void setAutoScrollEnabled(boolean enabled) {
+    myScrollSupport.setEnabled(enabled);
+  }
+
+  public boolean isAutoScrollEnabled() {
+    return myScrollSupport.isEnabled();
+  }
+
   public void setHighlighterSettings(@Nullable EditorColorsScheme settings) {
     for (EditorPlace place : getEditorPlaces()) {
       setHighlighterSettings(settings, place);
@@ -331,7 +339,7 @@ public class MergePanel2 implements DiffViewer {
       String[] titles = myData.getContentTitles();
       for (int i = 0; i < myEditorsPanels.length; i++) {
         LabeledComponent editorsPanel = myEditorsPanels[i];
-        editorsPanel.getLabel().setText(titles[i]);
+        editorsPanel.getLabel().setText(titles[i].isEmpty() ? " " : titles[i]);
       }
       createMergeList();
       data.customizeToolbar(myPanel.resetToolbar());

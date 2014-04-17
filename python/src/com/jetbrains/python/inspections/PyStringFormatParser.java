@@ -181,12 +181,19 @@ public class PyStringFormatParser {
       final String group = matcher.group();
       final int start = matcher.start();
       final int end = matcher.end();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       if ("{{".equals(group)) {
+=======
+      if ("{{".equals(group) || "}}".equals(group)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         results.add(new ConstantChunk(start, end));
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       else if ("}}".equals(group)) {
         results.add(new ConstantChunk(start, end));
       }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       else if (group.startsWith("{") && group.endsWith("}")) {
         final SubstitutionChunk chunk = new SubstitutionChunk(start);
         chunk.setEndIndex(end);
@@ -303,6 +310,7 @@ public class PyStringFormatParser {
     return results;
   }
 
+  @SuppressWarnings("UnusedDeclaration")
   @NotNull
   public static List<SubstitutionChunk> getPositionalSubstitutions(@NotNull List<SubstitutionChunk> substitutions) {
     final ArrayList<SubstitutionChunk> result = new ArrayList<SubstitutionChunk>();
@@ -314,6 +322,7 @@ public class PyStringFormatParser {
     return result;
   }
 
+  @SuppressWarnings("UnusedDeclaration")
   @NotNull
   public static Map<String, SubstitutionChunk> getKeywordSubstitutions(@NotNull List<SubstitutionChunk> substitutions) {
     final Map<String, SubstitutionChunk> result = new HashMap<String, SubstitutionChunk>();

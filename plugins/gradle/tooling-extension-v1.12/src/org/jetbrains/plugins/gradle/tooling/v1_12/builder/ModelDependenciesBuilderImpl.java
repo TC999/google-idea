@@ -86,7 +86,11 @@ public class ModelDependenciesBuilderImpl implements ModelBuilderService {
       if (!offline) {
         final Collection<IdeExtendedRepoFileDependency> ideRepoFileDependencies =
           dependenciesExtractor.extractRepoFileDependencies(
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
             project.getConfigurations(), plusConfigurations, new ArrayList<Configuration>(), downloadSources, downloadJavadoc);
+=======
+            project.getDependencies(), plusConfigurations, new ArrayList<Configuration>(), downloadSources, downloadJavadoc);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         for (IdeExtendedRepoFileDependency repoFileDependency : ideRepoFileDependencies) {
           merge(scopesMap, repoFileDependency, userScopes);
         }

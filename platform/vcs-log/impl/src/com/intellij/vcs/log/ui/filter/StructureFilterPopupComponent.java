@@ -22,6 +22,7 @@ import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.Function;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.vcs.log.VcsLogStructureFilter;
 import com.intellij.vcs.log.data.VcsLogStructureFilterImpl;
@@ -32,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 class StructureFilterPopupComponent extends FilterPopupComponent<VcsLogStructureFilter> {
 
@@ -62,11 +64,33 @@ class StructureFilterPopupComponent extends FilterPopupComponent<VcsLogStructure
     }
     else if (files.size() == 1) {
       VirtualFile file = files.iterator().next();
-      setValue(StringUtil.shortenPathWithEllipsis(file.getPresentableUrl(), FILTER_LABEL_LENGTH));
+      setValue(StringUtil.shortenPathWithEllipsis(file.getPresentableUrl(), FILTER_LABEL_LENGTH), getTooltip(files));
     }
     else {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       setValue(files.size() + " items");
+=======
+      setValue(files.size() + " items", getTooltip(files));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
+  }
+
+  @NotNull
+  private static String getTooltip(@NotNull Collection<VirtualFile> files) {
+    List<VirtualFile> filesToDisplay = new ArrayList<VirtualFile>(files);
+    if (files.size() > 10) {
+      filesToDisplay = filesToDisplay.subList(0, 10);
+    }
+    String tooltip = StringUtil.join(filesToDisplay, new Function<VirtualFile, String>() {
+      @Override
+      public String fun(VirtualFile file) {
+        return file.getPresentableUrl();
+      }
+    }, "\n");
+    if (files.size() > 10) {
+      tooltip += "\n...";
+    }
+    return tooltip;
   }
 
   @NotNull

@@ -43,7 +43,6 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,6 +162,10 @@ public abstract class HTMLComposerImpl extends HTMLComposer {
         name = refEntity.getName();
       }
 
+      if (name == null) {
+        name = refEntity.getName();
+      }
+
       qName = name + qName;
       refEntity = refEntity.getOwner();
     }
@@ -178,9 +181,9 @@ public abstract class HTMLComposerImpl extends HTMLComposer {
   @Override
   public void appendElementReference(final StringBuffer buf, RefElement refElement, String linkText, @NonNls String frameName) {
     if (myExporter == null) {
-      final URL url = ((RefElementImpl)refElement).getURL();
+      final String url = ((RefElementImpl)refElement).getURL();
       if (url != null) {
-        appendElementReference(buf, url.toString(), linkText, frameName);
+        appendElementReference(buf, url, linkText, frameName);
       }
     }
     else {

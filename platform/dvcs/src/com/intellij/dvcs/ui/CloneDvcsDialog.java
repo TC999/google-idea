@@ -63,6 +63,7 @@ public abstract class CloneDvcsDialog extends DialogWrapper {
   private TextFieldWithBrowseButton myParentDirectory;
   private JButton myTestButton; // test repository
   private JTextField myDirectoryName;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
   @NotNull private String myTestURL; // the repository URL at the time of the last test
   @Nullable private Boolean myTestResult; // the test result of the last test or null if not tested
@@ -77,6 +78,24 @@ public abstract class CloneDvcsDialog extends DialogWrapper {
     init();
     initListeners();
     setTitle(DvcsBundle.getString("clone.title"));
+=======
+  private JLabel myRepositoryUrlLabel;
+
+  @NotNull private String myTestURL; // the repository URL at the time of the last test
+  @Nullable private Boolean myTestResult; // the test result of the last test or null if not tested
+  @NotNull private String myDefaultDirectoryName = "";
+  @NotNull protected final Project myProject;
+  @NotNull protected final String myVcsDirectoryName;
+
+  public CloneDvcsDialog(@NotNull Project project, @NotNull String displayName, @NotNull String vcsDirectoryName) {
+    super(project, true);
+    myProject = project;
+    myVcsDirectoryName = vcsDirectoryName;
+    init();
+    initListeners();
+    setTitle(DvcsBundle.getString("clone.title"));
+    myRepositoryUrlLabel.setText(DvcsBundle.message("clone.repository.url", displayName));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     setOKButtonText(DvcsBundle.getString("clone.button"));
   }
 

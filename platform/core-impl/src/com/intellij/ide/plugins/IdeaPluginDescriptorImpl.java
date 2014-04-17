@@ -18,6 +18,10 @@ package com.intellij.ide.plugins;
 import com.intellij.AbstractBundle;
 import com.intellij.CommonBundle;
 import com.intellij.diagnostic.PluginException;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.application.Application;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.components.ComponentConfig;
@@ -32,6 +36,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.MultiMap;
 import com.intellij.util.containers.StringInterner;
+import com.intellij.util.containers.WeakStringInterner;
 import com.intellij.util.xmlb.JDOMXIncluder;
 import com.intellij.util.xmlb.XmlSerializer;
 import org.jdom.Document;
@@ -115,7 +120,7 @@ public class IdeaPluginDescriptorImpl implements IdeaPluginDescriptor {
     return myPath;
   }
 
-  private static final StringInterner ourInterner = new StringInterner();
+  private static final StringInterner ourInterner = new WeakStringInterner();
 
   @NotNull
   public static String intern(@NotNull String s) {
@@ -129,7 +134,8 @@ public class IdeaPluginDescriptorImpl implements IdeaPluginDescriptor {
   }
 
   public void readExternal(@NotNull Document document, @NotNull URL url) throws InvalidDataException, FileNotFoundException {
-    document = JDOMXIncluder.resolve(document, url.toExternalForm());
+    Application application = ApplicationManager.getApplication();
+    document = JDOMXIncluder.resolve(document, url.toExternalForm(), application != null && application.isUnitTestMode());
     Element rootElement = document.getRootElement();
     internJDOMElement(rootElement);
     readExternal(document.getRootElement());
@@ -645,7 +651,11 @@ public class IdeaPluginDescriptorImpl implements IdeaPluginDescriptor {
     } catch (IOException e) {
       path = getPath().getAbsolutePath();
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (ApplicationManager.getApplication().isInternal()) {
+=======
+    if (ApplicationManager.getApplication() != null && ApplicationManager.getApplication().isInternal()) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (path.startsWith(PathManager.getHomePath() + File.separator + "out" + File.separator + "classes")) {
         return true;
       }

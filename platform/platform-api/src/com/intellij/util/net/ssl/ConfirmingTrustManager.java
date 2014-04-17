@@ -6,6 +6,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.StreamUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.containers.ContainerUtil;
@@ -128,6 +129,139 @@ public class ConfirmingTrustManager extends ClientOnlyTrustManager {
     });
     if (accepted) {
       LOG.info("Certificate was accepted");
+=======
+import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.util.ArrayUtil;
+import com.intellij.util.EventDispatcher;
+import com.intellij.util.containers.ContainerUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * The central piece of our SSL support - special kind of trust manager, that asks user to confirm
+ * untrusted certificate, e.g. if it wasn't found in system-wide storage.
+ *
+ * @author Mikhail Golubev
+ */
+public class ConfirmingTrustManager extends ClientOnlyTrustManager {
+  private static final Logger LOG = Logger.getInstance(ConfirmingTrustManager.class);
+  private static final X509Certificate[] NO_CERTIFICATES = new X509Certificate[0];
+  private static final X509TrustManager MISSING_TRUST_MANAGER = new ClientOnlyTrustManager() {
+    @Override
+    public void checkServerTrusted(X509Certificate[] certificates, String s) throws CertificateException {
+      LOG.debug("Trust manager is missing. Retreating.");
+      throw new CertificateException("Missing trust manager");
+    }
+
+    @Override
+    public X509Certificate[] getAcceptedIssuers() {
+      return NO_CERTIFICATES;
+    }
+  };
+
+  public static ConfirmingTrustManager createForStorage(@NotNull String path, @NotNull String password) {
+    return new ConfirmingTrustManager(getSystemDefault(), new MutableTrustManager(path, password));
+  }
+
+  private static X509TrustManager getSystemDefault() {
+    try {
+      TrustManagerFactory factory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+      // hacky way to get default trust store
+      factory.init((KeyStore)null);
+      // assume that only X509 TrustManagers exist
+      X509TrustManager systemManager = findX509TrustManager(factory.getTrustManagers());
+      if (systemManager != null && systemManager.getAcceptedIssuers().length != 0) {
+        return systemManager;
+      }
+    }
+    catch (Exception e) {
+      LOG.error("Cannot get system trust store", e);
+    }
+    return MISSING_TRUST_MANAGER;
+  }
+
+  private final X509TrustManager mySystemManager;
+  private final MutableTrustManager myCustomManager;
+
+
+  private ConfirmingTrustManager(X509TrustManager system, MutableTrustManager custom) {
+    mySystemManager = system;
+    myCustomManager = custom;
+  }
+
+  private static X509TrustManager findX509TrustManager(TrustManager[] managers) {
+    for (TrustManager manager : managers) {
+      if (manager instanceof X509TrustManager) {
+        return (X509TrustManager)manager;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public void checkServerTrusted(final X509Certificate[] certificates, String s) throws CertificateException {
+    try {
+      mySystemManager.checkServerTrusted(certificates, s);
+    }
+    catch (CertificateException e) {
+      // check-then-act sequence
+      synchronized (myCustomManager) {
+        try {
+          myCustomManager.checkServerTrusted(certificates, s);
+        }
+        catch (CertificateException e2) {
+          if (myCustomManager.isBroken() || !confirmAndUpdate(certificates)) {
+            throw e;
+          }
+        }
+      }
+    }
+  }
+
+  private boolean confirmAndUpdate(final X509Certificate[] chain) {
+    Application app = ApplicationManager.getApplication();
+    final X509Certificate endPoint = chain[0];
+    // IDEA-123467 and IDEA-123335 workaround
+    String threadClassName = StringUtil.notNullize(Thread.currentThread().getClass().getCanonicalName());
+    if (threadClassName.equals("sun.awt.image.ImageFetcher")) {
+      LOG.debug("Image Fetcher thread is detected. Certificate check will be skipped.");
+      return true;
+    }
+    CertificateManager.Config config = CertificateManager.getInstance().getState();
+    if (app.isUnitTestMode() || app.isHeadlessEnvironment() || config.ACCEPT_AUTOMATICALLY) {
+      LOG.debug("Certificate will be accepted automatically");
+      myCustomManager.addCertificate(endPoint);
+      return true;
+    }
+    boolean accepted = CertificateManager.showAcceptDialog(new Callable<DialogWrapper>() {
+      @Override
+      public DialogWrapper call() throws Exception {
+        // TODO may be another kind of warning, if default trust store is missing
+        return CertificateWarningDialog.createUntrustedCertificateWarning(endPoint);
+      }
+    });
+    if (accepted) {
+      LOG.info("Certificate was accepted by user");
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       myCustomManager.addCertificate(endPoint);
     }
     return accepted;

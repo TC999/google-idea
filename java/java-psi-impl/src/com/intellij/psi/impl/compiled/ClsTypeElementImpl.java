@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,13 @@
 package com.intellij.psi.impl.compiled;
 
 import com.intellij.openapi.util.AtomicNotNullLazyValue;
+import com.intellij.openapi.util.AtomicNullableLazyValue;
 import com.intellij.openapi.util.NotNullLazyValue;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.util.Ref;
+=======
+import com.intellij.openapi.util.NullableLazyValue;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.psi.*;
 import com.intellij.psi.impl.PsiImplUtil;
 import com.intellij.psi.impl.PsiJavaParserFacadeImpl;
@@ -46,8 +51,12 @@ public class ClsTypeElementImpl extends ClsElementImpl implements PsiTypeElement
     myParent = parent;
     myTypeText = TypeInfo.internFrequentType(typeText);
     myVariance = variance;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myChild = new AtomicNotNullLazyValue<Ref<ClsElementImpl>>() {
       @NotNull
+=======
+    myChild = new AtomicNullableLazyValue<ClsElementImpl>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       @Override
       protected Ref<ClsElementImpl> compute() {
         return Ref.create(calculateChild());
@@ -138,19 +147,18 @@ public class ClsTypeElementImpl extends ClsElementImpl implements PsiTypeElement
     if (PsiJavaParserFacadeImpl.getPrimitiveType(myTypeText) != null) {
       return null;
     }
-    else if (isArray()) {
+    if (isArray()) {
       return myVariance == VARIANCE_NONE
              ? new ClsTypeElementImpl(this, myTypeText.substring(0, myTypeText.length() - 2), myVariance)
              : new ClsTypeElementImpl(this, myTypeText, VARIANCE_NONE);
     }
-    else if (isVarArgs()) {
+    if (isVarArgs()) {
       return new ClsTypeElementImpl(this, myTypeText.substring(0, myTypeText.length() - 3), myVariance);
     }
-    else {
-      return myVariance != VARIANCE_INVARIANT ? new ClsJavaCodeReferenceElementImpl(this, myTypeText) : null;
-    }
+    return myVariance == VARIANCE_INVARIANT ? null : new ClsJavaCodeReferenceElementImpl(this, myTypeText);
   }
 
+  @NotNull
   private PsiType calculateType() {
     PsiType result = PsiJavaParserFacadeImpl.getPrimitiveType(myTypeText);
     if (result != null) return result;
@@ -175,7 +183,7 @@ public class ClsTypeElementImpl extends ClsElementImpl implements PsiTypeElement
         return new PsiEllipsisType(((PsiTypeElement)childElement).getType());
       }
     }
-    else if (childElement instanceof ClsJavaCodeReferenceElementImpl) {
+    if (childElement instanceof ClsJavaCodeReferenceElementImpl) {
       PsiClassReferenceType psiClassReferenceType = new PsiClassReferenceType((PsiJavaCodeReferenceElement)childElement, null);
       switch (myVariance) {
         case VARIANCE_NONE:
@@ -191,10 +199,8 @@ public class ClsTypeElementImpl extends ClsElementImpl implements PsiTypeElement
           return null;
       }
     }
-    else {
-      assert childElement == null : this;
-      return PsiWildcardType.createUnbounded(getManager());
-    }
+    assert childElement == null : this;
+    return PsiWildcardType.createUnbounded(getManager());
   }
 
   @Override

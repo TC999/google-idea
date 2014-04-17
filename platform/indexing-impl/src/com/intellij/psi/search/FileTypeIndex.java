@@ -15,6 +15,7 @@
  */
 package com.intellij.psi.search;
 
+import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeRegistry;
 import com.intellij.openapi.util.Comparing;
@@ -36,9 +37,10 @@ import java.util.Map;
  */
 public class FileTypeIndex extends ScalarIndexExtension<FileType>
   implements FileBasedIndex.InputFilter, KeyDescriptor<FileType>, DataIndexer<FileType, Void, FileContent> {
-  private final EnumeratorStringDescriptor myEnumeratorStringDescriptor = new EnumeratorStringDescriptor();
+  private static final EnumeratorStringDescriptor ENUMERATOR_STRING_DESCRIPTOR = new EnumeratorStringDescriptor();
 
-  public static Collection<VirtualFile> getFiles(FileType fileType, GlobalSearchScope scope) {
+  @NotNull
+  public static Collection<VirtualFile> getFiles(@NotNull FileType fileType, @NotNull GlobalSearchScope scope) {
     return FileBasedIndex.getInstance().getContainingFiles(NAME, fileType, scope);
   }
 
@@ -76,7 +78,7 @@ public class FileTypeIndex extends ScalarIndexExtension<FileType>
 
   @Override
   public boolean dependsOnFileContent() {
-    return false;
+    return true;
   }
 
   @Override
@@ -85,6 +87,11 @@ public class FileTypeIndex extends ScalarIndexExtension<FileType>
     int version = 1;
     for (FileType type : types) {
       version += type.getName().hashCode();
+    }
+
+    version *= 31;
+    for (FileTypeRegistry.FileTypeDetector detector : Extensions.getExtensions(FileTypeRegistry.FileTypeDetector.EP_NAME)) {
+      version += detector.getVersion();
     }
     return version;
   }
@@ -96,12 +103,20 @@ public class FileTypeIndex extends ScalarIndexExtension<FileType>
 
   @Override
   public void save(@NotNull DataOutput out, FileType value) throws IOException {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myEnumeratorStringDescriptor.save(out, value.getName());
+=======
+    ENUMERATOR_STRING_DESCRIPTOR.save(out, value.getName());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
   public FileType read(@NotNull DataInput in) throws IOException {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     String read = myEnumeratorStringDescriptor.read(in);
+=======
+    String read = ENUMERATOR_STRING_DESCRIPTOR.read(in);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return myFileTypeManager.findFileTypeByName(read);
   }
 
@@ -117,7 +132,7 @@ public class FileTypeIndex extends ScalarIndexExtension<FileType>
 
   @NotNull
   @Override
-  public Map<FileType, Void> map(FileContent inputData) {
+  public Map<FileType, Void> map(@NotNull FileContent inputData) {
     return Collections.singletonMap(inputData.getFileType(), null);
   }
 

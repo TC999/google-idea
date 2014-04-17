@@ -32,6 +32,7 @@ import org.jetbrains.annotations.TestOnly;
 
 import java.io.IOException;
 import java.util.Collection;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import java.util.List;
 
 /**
@@ -154,6 +155,141 @@ public abstract class DummyCachingFileSystem<T extends VirtualFile> extends Dumm
   @TestOnly
   public void cleanup() {
     clearCache();
+=======
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * @author gregsh
+ */
+public abstract class DummyCachingFileSystem<T extends VirtualFile> extends DummyFileSystem {
+  private static final Logger LOG = Logger.getInstance("com.intellij.openapi.vfs.ex.dummy.DummyCachingFileSystem");
+
+  private final String myProtocol;
+
+  private final BidirectionalMap<Project, String> myProject2Id = new BidirectionalMap<Project, String>();
+
+  private final FactoryMap<String, T> myCachedFiles = new ConcurrentFactoryMap<String, T>() {
+    @Override
+    protected T create(String key) {
+      if (ApplicationManager.getApplication().isUnitTestMode()) {
+        //noinspection TestOnlyProblems
+        cleanup();
+        initProjectMap();
+      }
+      return findFileByPathInner(key);
+    }
+
+    @Override
+    public T get(Object key) {
+      T file = super.get(key);
+      if (file != null && !file.isValid()) {
+        remove(key);
+        return super.get(key);
+      }
+      return file;
+    }
+  };
+
+  public DummyCachingFileSystem(String protocol) {
+    myProtocol = protocol;
+
+    final Application application = ApplicationManager.getApplication();
+    application.getMessageBus().connect(application).subscribe(ProjectManager.TOPIC, new ProjectManagerAdapter() {
+      @Override
+      public void projectOpened(final Project project) {
+        onProjectOpened(project);
+      }
+
+      @Override
+      public void projectClosed(final Project project) {
+        onProjectClosed(project);
+      }
+    });
+    initProjectMap();
+  }
+
+  @NotNull
+  @Override
+  public final String getProtocol() {
+    return myProtocol;
+  }
+
+  @Override
+  @Nullable
+  public final VirtualFile createRoot(String name) {
+    return null;
+  }
+
+  @Override
+  public final T findFileByPath(@NotNull String path) {
+    return myCachedFiles.get(path);
+  }
+
+  @Override
+  @NotNull
+  public String extractPresentableUrl(@NotNull String path) {
+    VirtualFile file = findFileByPath(path);
+    return file != null ? file.getPresentableName() : super.extractPresentableUrl(path);
+  }
+
+  protected abstract T findFileByPathInner(@NotNull String path);
+
+  protected void doRenameFile(VirtualFile vFile, String newName) {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  @Nullable
+  public Project getProject(String projectId) {
+    List<Project> list = myProject2Id.getKeysByValue(projectId);
+    return list == null || list.size() > 1 ? null : list.get(0);
+  }
+
+  @NotNull
+  public Collection<T> getCachedFiles() {
+    return myCachedFiles.notNullValues();
+  }
+
+  public void onProjectClosed(Project project) {
+    myProject2Id.remove(project);
+    clearCache();
+  }
+
+  public void onProjectOpened(Project project) {
+    clearCache();
+    String projectId = project.getLocationHash();
+    myProject2Id.put(project, projectId);
+
+    List<Project> projects = myProject2Id.getKeysByValue(projectId);
+    if (projects != null && projects.size() > 1) {
+      LOG.error("project " + projectId + " already registered: " + projects);
+    }
+  }
+
+  private void initProjectMap() {
+    for (Project project : ProjectManager.getInstance().getOpenProjects()) {
+      if (project.isOpen()) onProjectOpened(project);
+    }
+  }
+
+  protected void clearCache() {
+    clearInvalidFiles();
+  }
+
+  protected void clearInvalidFiles() {
+    for (Iterator<String> it = myCachedFiles.keySet().iterator(); it.hasNext(); ) {
+      String path = it.next();
+      T t = myCachedFiles.get(path);
+      if (t == null || !t.isValid()) {
+        it.remove();
+      }
+    }
+  }
+
+  @TestOnly
+  public void cleanup() {
+    myCachedFiles.clear();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myProject2Id.clear();
   }
 

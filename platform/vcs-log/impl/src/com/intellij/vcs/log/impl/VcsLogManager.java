@@ -12,6 +12,7 @@ import com.intellij.openapi.vcs.AbstractVcs;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.changes.ui.ChangesViewContentManager;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener;
 import com.intellij.openapi.wm.impl.ToolWindowImpl;
@@ -20,16 +21,18 @@ import com.intellij.ui.components.JBLoadingPanel;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManagerAdapter;
 import com.intellij.ui.content.ContentManagerEvent;
-import com.intellij.util.Consumer;
+import com.intellij.util.PairConsumer;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.MultiMap;
 import com.intellij.vcs.log.VcsLogProvider;
 import com.intellij.vcs.log.VcsLogRefresher;
 import com.intellij.vcs.log.VcsLogSettings;
+import com.intellij.vcs.log.data.DataPack;
 import com.intellij.vcs.log.data.VcsLogDataHolder;
 import com.intellij.vcs.log.data.VcsLogUiProperties;
 import com.intellij.vcs.log.ui.VcsLogColorManagerImpl;
-import com.intellij.vcs.log.ui.VcsLogUI;
+import com.intellij.vcs.log.ui.VcsLogUiImpl;
+import com.intellij.vcs.log.ui.frame.VcsLogGraphTable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,7 +56,11 @@ public class VcsLogManager implements Disposable {
 
   private PostponeableLogRefresher myLogRefresher;
   private volatile VcsLogDataHolder myLogDataHolder;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private volatile VcsLogUI myUi;
+=======
+  private volatile VcsLogUiImpl myUi;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public VcsLogManager(@NotNull Project project, @NotNull ProjectLevelVcsManager vcsManager,
                        @NotNull VcsLogSettings settings,
@@ -71,14 +78,33 @@ public class VcsLogManager implements Disposable {
     final VcsLogContainer mainPanel = new VcsLogContainer(myProject);
 
     myLogDataHolder = new VcsLogDataHolder(myProject, this, logProviders, mySettings);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myLogDataHolder.initialize(new Consumer<VcsLogDataHolder>() {
+=======
+    myLogDataHolder.initialize(new PairConsumer<VcsLogDataHolder, DataPack>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       public void consume(VcsLogDataHolder vcsLogDataHolder) {
         VcsLogUI logUI = new VcsLogUI(vcsLogDataHolder, myProject, mySettings,
                                       new VcsLogColorManagerImpl(logProviders.keySet()), myUiProperties);
+=======
+      public void consume(VcsLogDataHolder vcsLogDataHolder, DataPack dataPack) {
+        VcsLogUiImpl logUI = new VcsLogUiImpl(vcsLogDataHolder, myProject, mySettings,
+                                      new VcsLogColorManagerImpl(logProviders.keySet()), myUiProperties, dataPack);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         myLogDataHolder = vcsLogDataHolder;
         myUi = logUI;
         mainPanel.init(logUI.getMainFrame().getMainComponent());
+        final VcsLogGraphTable graphTable = logUI.getTable();
+        if (graphTable.getRowCount() > 0) {
+          IdeFocusManager.getInstance(myProject).requestFocus(graphTable, true).doWhenProcessed(new Runnable() {
+            @Override
+            public void run() {
+              graphTable.setRowSelectionInterval(0, 0);
+            }
+          });
+        }
         myLogRefresher = new PostponeableLogRefresher(myProject, vcsLogDataHolder);
         refreshLogOnVcsEvents(logProviders);
       }
@@ -123,10 +149,17 @@ public class VcsLogManager implements Disposable {
   }
 
   /**
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
    * The instance of the {@link VcsLogUI} or null if the log was not initialized yet.
    */
   @Nullable
   public VcsLogUI getLogUi() {
+=======
+   * The instance of the {@link com.intellij.vcs.log.ui.VcsLogUiImpl} or null if the log was not initialized yet.
+   */
+  @Nullable
+  public VcsLogUiImpl getLogUi() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return myUi;
   }
 

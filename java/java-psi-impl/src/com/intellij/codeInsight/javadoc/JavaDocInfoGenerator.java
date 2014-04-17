@@ -606,7 +606,11 @@ public class JavaDocInfoGenerator {
           String text = o.toString();
           PsiType type = variable.getType();
           if (type.equalsToText(CommonClassNames.JAVA_LANG_STRING)) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
             text = "\"" + StringUtil.trimLog(text, 120) + "\"";
+=======
+            text = "\"" + StringUtil.shortenPathWithEllipsis(text, 120) + "\"";
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
           else if (type.equalsToText("char")) text = "'" + text + "'";
           try {
@@ -1087,7 +1091,13 @@ public class JavaDocInfoGenerator {
           generateLinkValue(tag, buffer, false);
         }
         else if (tagName.equals(LITERAL_TAG)) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           generateLiteralValue(buffer, ((PsiInlineDocTagImpl)tag).getDataElementsIgnoreWhitespaces());
+=======
+          final PsiElement[] dataElements = tag instanceof PsiInlineDocTagImpl ?((PsiInlineDocTagImpl)tag).getDataElementsIgnoreWhitespaces() 
+                                                                               : tag.getDataElements();
+          generateLiteralValue(buffer, dataElements);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
         else if (tagName.equals(CODE_TAG)) {
           generateCodeValue(tag, buffer);

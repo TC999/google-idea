@@ -101,7 +101,11 @@ abstract class FilterPopupComponent<Filter extends VcsLogFilter> extends JPanel 
 
   protected void setValue(@NotNull String value, @NotNull String tooltip) {
     myFilterValueLabel.setText(value);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     setToolTipText(tooltip);
+=======
+    setToolTipText(tooltip.equals(value) ? null : tooltip);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull
@@ -116,6 +120,7 @@ abstract class FilterPopupComponent<Filter extends VcsLogFilter> extends JPanel 
   /**
    * Returns the special action that indicates that no filtering is selected in this component.
    */
+  @NotNull
   protected AnAction createAllAction() {
     return new AllAction(this);
   }

@@ -31,6 +31,11 @@
     <orderEntry type="module" module-name="jps-model-impl" />
     <orderEntry type="module" module-name="analysis-impl" exported="" />
     <orderEntry type="module" module-name="structure-view-impl" exported="" />
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    <orderEntry type="module" module-name="RegExpSupport" />
+    <orderEntry type="module" module-name="testFramework" scope="TEST" />
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   </component>
 </module>
 

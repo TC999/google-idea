@@ -65,6 +65,7 @@ public class JiraRestTask extends JiraTask {
   public Comment[] getComments() {
     return ContainerUtil.map2Array(myJiraIssue.getComments(), Comment.class, new Function<JiraComment, Comment>() {
       @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       public Comment fun(JiraComment comment) {
         final JiraComment comment1 = comment;
         return new Comment() {
@@ -123,6 +124,59 @@ public class JiraRestTask extends JiraTask {
   @Override
   public String getIssueUrl() {
     return myRepository.getUrl() + "/browse/" + myJiraIssue.getKey();
+=======
+      public Comment fun(final JiraComment comment) {
+        return new Comment() {
+
+          public String getText() {
+            return comment.getBody();
+          }
+
+          public String getAuthor() {
+            return comment.getAuthor().getDisplayName();
+          }
+
+          public Date getDate() {
+            return comment.getCreated();
+          }
+
+          @Override
+          public String toString() {
+            return comment.getAuthor().getDisplayName();
+          }
+        };
+      }
+    });
+  }
+
+  @Override
+  @Nullable
+  protected String getIconUrl() {
+    // iconUrl will be null in JIRA versions prior 5.x.x
+    return myJiraIssue.getIssueType().getIconUrl();
+  }
+
+  @NotNull
+  @Override
+  public TaskType getType() {
+    return getTypeByName(myJiraIssue.getIssueType().getName());
+  }
+
+  @Override
+  public TaskState getState() {
+    return getStateById(Integer.parseInt(myJiraIssue.getStatus().getId()));
+  }
+
+  @Nullable
+  @Override
+  public Date getUpdated() {
+    return myJiraIssue.getUpdated();
+  }
+
+  @Override
+  public Date getCreated() {
+    return myJiraIssue.getCreated();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   public JiraIssue getJiraIssue() {

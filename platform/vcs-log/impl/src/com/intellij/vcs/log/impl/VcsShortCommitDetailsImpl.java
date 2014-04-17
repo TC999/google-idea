@@ -2,26 +2,21 @@ package com.intellij.vcs.log.impl;
 
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcs.log.Hash;
-import com.intellij.vcs.log.TimedVcsCommit;
 import com.intellij.vcs.log.VcsShortCommitDetails;
 import com.intellij.vcs.log.VcsUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-/**
- * @author Kirill Likhodedov
- */
-public class VcsShortCommitDetailsImpl implements VcsShortCommitDetails {
+public class VcsShortCommitDetailsImpl extends TimedVcsCommitImpl implements VcsShortCommitDetails {
 
-  @NotNull private final TimedVcsCommit myTimeCommitParents;
   @NotNull private final String mySubject;
   @NotNull private final VcsUser myAuthor;
   @NotNull private final VirtualFile myRoot;
 
   public VcsShortCommitDetailsImpl(@NotNull Hash hash, @NotNull List<Hash> parents, long timeStamp, @NotNull VirtualFile root,
                                    @NotNull String subject, @NotNull VcsUser author) {
-    myTimeCommitParents = new TimedVcsCommitImpl(hash, parents, timeStamp);
+    super(hash, parents, timeStamp);
     myRoot = root;
     mySubject = subject;
     myAuthor = author;
@@ -29,14 +24,9 @@ public class VcsShortCommitDetailsImpl implements VcsShortCommitDetails {
 
   @NotNull
   @Override
-  public Hash getHash() {
-    return myTimeCommitParents.getHash();
-  }
-
-  @NotNull
-  @Override
   public VirtualFile getRoot() {
     return myRoot;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   @NotNull
@@ -48,6 +38,8 @@ public class VcsShortCommitDetailsImpl implements VcsShortCommitDetails {
   @Override
   public long getTime() {
     return myTimeCommitParents.getTime();
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

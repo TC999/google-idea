@@ -27,21 +27,24 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import gnu.trove.TIntHashSet;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.io.Writer;
-import java.util.Properties;
 
 /**
  * @author Denis Zhdanov
  * @since 10/5/11 2:35 PM
  */
 public class ResourceBundleUtil {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
   private static final TIntHashSet SYMBOLS_TO_ESCAPE = new TIntHashSet(new int[]{'#', '!', '=', ':'});
   private static final char        ESCAPE_SYMBOL     = '\\';
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private ResourceBundleUtil() {
   }
@@ -101,6 +104,7 @@ public class ResourceBundleUtil {
     return (ResourceBundleEditor)editors[0];
   }
   
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   /**
    * Allows to map given 'raw' property value text to the 'user-friendly' text to show at the resource bundle editor.
    * <p/>
@@ -161,4 +165,6 @@ public class ResourceBundleUtil {
     }
     return buffer.toString();
   }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

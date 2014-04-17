@@ -18,22 +18,63 @@ package com.maddyhome.idea.copyright.actions;
 
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.analysis.BaseAnalysisAction;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.analysis.BaseAnalysisActionDialog;
+import com.intellij.ide.util.PropertiesComponent;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.module.ModuleUtilCore;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.Task;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.ui.TitledSeparator;
+import com.intellij.util.SequentialModalProgressTask;
+import com.intellij.util.SequentialTask;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.maddyhome.idea.copyright.CopyrightManager;
 import com.maddyhome.idea.copyright.pattern.FileUtil;
 import com.maddyhome.idea.copyright.util.FileTypeUtil;
 import org.jetbrains.annotations.NotNull;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import org.jetbrains.annotations.Nullable;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 public class UpdateCopyrightAction extends BaseAnalysisAction {
   protected UpdateCopyrightAction() {
     super(UpdateCopyrightProcessor.TITLE, UpdateCopyrightProcessor.TITLE);
   }
+=======
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+public class UpdateCopyrightAction extends BaseAnalysisAction {
+  public static final String UPDATE_EXISTING_COPYRIGHTS = "update.existing.copyrights";
+  private JCheckBox myUpdateExistingCopyrightsCb;
+
+  protected UpdateCopyrightAction() {
+    super(UpdateCopyrightProcessor.TITLE, UpdateCopyrightProcessor.TITLE);
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public void update(AnActionEvent event) {
     final boolean enabled = isEnabled(event);
     event.getPresentation().setEnabled(enabled);
@@ -97,6 +138,7 @@ public class UpdateCopyrightAction extends BaseAnalysisAction {
     return true;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   @Override
   protected void analyze(@NotNull final Project project, @NotNull AnalysisScope scope) {
     if (scope.checkScopeWritable(project)) return;
@@ -106,5 +148,99 @@ public class UpdateCopyrightAction extends BaseAnalysisAction {
         new UpdateCopyrightProcessor(project, ModuleUtilCore.findModuleForPsiElement(file), file).run();
       }
     });
+=======
+  @Nullable
+  @Override
+  protected JComponent getAdditionalActionSettings(Project project, BaseAnalysisActionDialog dialog) {
+    final JPanel panel = new JPanel(new VerticalFlowLayout());
+    panel.add(new TitledSeparator());
+    myUpdateExistingCopyrightsCb = new JCheckBox("Update existing copyrights", 
+                                                 PropertiesComponent.getInstance().getBoolean(UPDATE_EXISTING_COPYRIGHTS, true));
+    panel.add(myUpdateExistingCopyrightsCb);
+    return panel;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  @Override
+  protected void analyze(@NotNull final Project project, @NotNull final AnalysisScope scope) {
+    PropertiesComponent.getInstance().setValue(UPDATE_EXISTING_COPYRIGHTS, String.valueOf(myUpdateExistingCopyrightsCb.isSelected()));
+    if (scope.checkScopeWritable(project)) return;
+    final List<Runnable> preparations = new ArrayList<Runnable>();
+    Task.Backgroundable task = new Task.Backgroundable(project, "Prepare Copyright...", true) {
+      @Override
+      public void run(@NotNull final ProgressIndicator indicator) {
+        scope.accept(new PsiElementVisitor() {
+          @Override
+          public void visitFile(final PsiFile file) {
+            if (indicator.isCanceled()) {
+              return;
+            }
+            preparations.add(new UpdateCopyrightProcessor(project, ModuleUtilCore.findModuleForPsiElement(file), file).preprocessFile(file, myUpdateExistingCopyrightsCb.isSelected()));
+          }
+        });
+      }
+
+      @Override
+      public void onSuccess() {
+        if (!preparations.isEmpty()) {
+          final SequentialModalProgressTask progressTask = new SequentialModalProgressTask(project, UpdateCopyrightProcessor.TITLE, true);
+          progressTask.setMinIterationTime(200);
+          progressTask.setTask(new UpdateCopyrightSequentialTask(preparations, progressTask));
+          CommandProcessor.getInstance().executeCommand(project, new Runnable() {
+            @Override
+            public void run() {
+              CommandProcessor.getInstance().markCurrentCommandAsGlobal(project);
+              ApplicationManager.getApplication().runWriteAction(new Runnable() {
+                @Override
+                public void run() {
+                  ProgressManager.getInstance().run(progressTask);
+                }
+              });
+            }
+          }, getTemplatePresentation().getText(), null);
+        }
+      }
+    };
+
+    ProgressManager.getInstance().run(task);
+  }
+
+  private static class UpdateCopyrightSequentialTask implements SequentialTask {
+    private final int mySize;
+    private final List<Runnable> myRunnables;
+    private final SequentialModalProgressTask myProgressTask;
+    private int myIdx = 0;
+
+    private UpdateCopyrightSequentialTask(List<Runnable> runnables, SequentialModalProgressTask progressTask) {
+      myRunnables = runnables;
+      myProgressTask = progressTask;
+      mySize = myRunnables.size();
+    }
+
+    @Override
+    public void prepare() {}
+
+    @Override
+    public boolean isDone() {
+      return myIdx > mySize - 1;
+    }
+
+    @Override
+    public boolean iteration() {
+      final ProgressIndicator indicator = myProgressTask.getIndicator();
+      if (indicator != null) {
+        indicator.setFraction((double) myIdx/mySize);
+      }
+      myRunnables.get(myIdx++).run();
+      return true;
+    }
+
+    @Override
+    public void stop() {
+      myIdx = mySize;
+    }
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

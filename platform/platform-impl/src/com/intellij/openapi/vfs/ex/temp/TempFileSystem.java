@@ -201,7 +201,11 @@ public class TempFileSystem extends LocalFileSystemBase {
   public byte[] contentsToByteArray(@NotNull final VirtualFile file) throws IOException {
     final FSItem fsItem = convert(file);
     if (fsItem == null) throw new FileNotFoundException("Cannot find temp for " + file.getPath());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     assert fsItem instanceof FSFile;
+=======
+    assert fsItem instanceof FSFile : fsItem;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return ((FSFile)fsItem).myContent;
   }
 

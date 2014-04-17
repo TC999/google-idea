@@ -26,6 +26,10 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.Function;
 import com.intellij.util.NullableFunction;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.util.ReflectionUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.containers.ConcurrentFactoryMap;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +48,11 @@ public abstract class ElementPresentationManager {
   private static final ConcurrentFactoryMap<Class,Method> ourNameValueMethods = new ConcurrentFactoryMap<Class, Method>() {
     @Nullable
     protected Method create(final Class key) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       for (final Method method : key.getMethods()) {
+=======
+      for (final Method method : ReflectionUtil.getClassPublicMethods(key)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       if (JavaMethod.getMethod(key, method).getAnnotation(NameValue.class) != null) {
         return method;
       }

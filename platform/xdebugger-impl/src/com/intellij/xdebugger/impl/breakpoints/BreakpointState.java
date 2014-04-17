@@ -36,6 +36,12 @@ public class BreakpointState<B extends XBreakpoint<P>, P extends XBreakpointProp
   private LogExpression myLogExpression;
   private Condition myCondition;
   private XBreakpointDependencyState myDependencyState;
+  @Tag("group")
+  private String myGroup;
+
+  @Tag("description")
+  private String myDescription;
+
   private long myTimeStamp;
 
   public BreakpointState() {
@@ -101,6 +107,25 @@ public class BreakpointState<B extends XBreakpoint<P>, P extends XBreakpointProp
     myLogMessage = logMessage;
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  public String getGroup() {
+    return myGroup;
+  }
+
+  public void setGroup(String group) {
+    myGroup = group;
+  }
+
+  public String getDescription() {
+    return myDescription;
+  }
+
+  public void setDescription(String description) {
+    myDescription = description;
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @Transient
   public String getLogExpression() {
     return myLogExpression != null ? myLogExpression.myExpression : null;

@@ -334,27 +334,22 @@ public class SchemesManagerImpl<T extends Scheme, E extends ExternalizableScheme
   }
 
   private VirtualFile ensureFileText(final String fileName, final byte[] text) throws IOException {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final IOException[] ex = {null};
     final VirtualFile _file = ApplicationManager.getApplication().runWriteAction(new Computable<VirtualFile>() {
+=======
+    return ApplicationManager.getApplication().runWriteAction(new ThrowableComputable<VirtualFile, IOException>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       @Override
-      public VirtualFile compute() {
+      public VirtualFile compute() throws IOException {
         VirtualFile file = myVFSBaseDir.findChild(fileName);
-        try {
-          if (file == null) file = myVFSBaseDir.createChildData(SchemesManagerImpl.this, fileName);
-          if (!Arrays.equals(file.contentsToByteArray(), text)) {
-            file.setBinaryContent(text);
-          }
+        if (file == null) file = myVFSBaseDir.createChildData(SchemesManagerImpl.this, fileName);
+        if (!Arrays.equals(file.contentsToByteArray(), text)) {
+          file.setBinaryContent(text);
         }
-        catch (IOException e) {
-          ex[0] = e;
-        }
-
         return file;
       }
     });
-
-    if (ex[0] != null) throw ex[0];
-    return _file;
   }
 
   private String checkFileNameIsFree(final String subPath, final String schemeName) {
@@ -600,11 +595,19 @@ public class SchemesManagerImpl<T extends Scheme, E extends ExternalizableScheme
 
   private static class SharedSchemeData {
     @NotNull private final Document original;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     private final String name;
     private final String user;
     private final String description;
 
     private SharedSchemeData(@NotNull Document original, String name, String user, String description) {
+=======
+    @NotNull private final String name;
+    private final String user;
+    private final String description;
+
+    private SharedSchemeData(@NotNull Document original, @NotNull String name, String user, String description) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       this.original = original;
       this.name = name;
       this.user = user;

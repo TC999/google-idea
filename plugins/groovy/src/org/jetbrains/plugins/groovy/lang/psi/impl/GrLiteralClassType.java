@@ -15,6 +15,7 @@
  */
 package org.jetbrains.plugins.groovy.lang.psi.impl;
 
+import com.intellij.openapi.util.NotNullLazyValue;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.pom.java.LanguageLevel;
 import com.intellij.psi.*;
@@ -46,11 +47,26 @@ public abstract class GrLiteralClassType extends PsiClassType {
   @Override
   @NotNull
   public ClassResolveResult resolveGenerics() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final PsiClass myBaseClass = resolve();
     final PsiSubstitutor substitutor = inferSubstitutor(myBaseClass);
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     return new ClassResolveResult() {
+      private final PsiClass myBaseClass = resolve();
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+      private final NotNullLazyValue<PsiSubstitutor> mySubstitutor = new NotNullLazyValue<PsiSubstitutor>() {
+        @NotNull
+        @Override
+        protected PsiSubstitutor compute() {
+          return inferSubstitutor(myBaseClass);
+        }
+      };
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       @Override
       public PsiClass getElement() {
         return myBaseClass;
@@ -59,7 +75,7 @@ public abstract class GrLiteralClassType extends PsiClassType {
       @Override
       @NotNull
       public PsiSubstitutor getSubstitutor() {
-        return substitutor;
+        return mySubstitutor.getValue();
       }
 
       @Override
@@ -167,7 +183,11 @@ public abstract class GrLiteralClassType extends PsiClassType {
 
   @Override
   public boolean equalsToText(@NotNull @NonNls String text) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return text != null && text.equals(getJavaClassName());
+=======
+    return text.equals(getJavaClassName());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

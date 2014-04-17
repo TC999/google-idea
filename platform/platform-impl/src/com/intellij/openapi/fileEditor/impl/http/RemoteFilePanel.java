@@ -31,6 +31,10 @@ import com.intellij.openapi.vfs.impl.http.FileDownloadingListener;
 import com.intellij.openapi.vfs.impl.http.HttpVirtualFile;
 import com.intellij.openapi.vfs.impl.http.RemoteFileInfo;
 import com.intellij.openapi.vfs.impl.http.RemoteFileState;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import com.intellij.ui.AppUIUtil;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.net.HTTPProxySettingsDialog;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.util.ui.update.MergingUpdateQueue;
@@ -103,8 +107,13 @@ public class RemoteFilePanel {
         new HTTPProxySettingsDialog().show();
       }
     });
-    showCard(DOWNLOADING_CARD);
-    remoteFileInfo.startDownloading();
+
+    if (remoteFileInfo.getState() != RemoteFileState.DOWNLOADED) {
+      showCard(DOWNLOADING_CARD);
+      remoteFileInfo.startDownloading();
+    }
+
+    // file could be from cache
     if (remoteFileInfo.getState() == RemoteFileState.DOWNLOADED) {
       switchEditor();
     }
@@ -132,10 +141,14 @@ public class RemoteFilePanel {
 
   private void switchEditor() {
     LOG.debug("Switching editor...");
-    ApplicationManager.getApplication().invokeLater(new Runnable() {
+    AppUIUtil.invokeOnEdt(new Runnable() {
       @Override
       public void run() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         final TextEditor textEditor = (TextEditor)TextEditorProvider.getInstance().createEditor(myProject, myVirtualFile);
+=======
+        TextEditor textEditor = (TextEditor)TextEditorProvider.getInstance().createEditor(myProject, myVirtualFile);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         textEditor.addPropertyChangeListener(myPropertyChangeListener);
         myEditorPanel.removeAll();
         myEditorPanel.add(textEditor.getComponent(), BorderLayout.CENTER);
@@ -143,7 +156,7 @@ public class RemoteFilePanel {
         showCard(EDITOR_CARD);
         LOG.debug("Editor for downloaded file opened.");
       }
-    });
+    }, myProject.getDisposed());
   }
 
   @Nullable

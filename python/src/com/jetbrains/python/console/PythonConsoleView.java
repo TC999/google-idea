@@ -76,9 +76,17 @@ public class PythonConsoleView extends JPanel implements LanguageConsoleView, Ob
   private boolean myHyperlink;
 
   private final LanguageConsoleViewImpl myLanguageConsoleView;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   
   private Disposable mySplitDisposable;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  private Disposable mySplitDisposable;
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public PythonConsoleView(final Project project, final String title, final Sdk sdk) {
     super(new BorderLayout());
 
@@ -92,6 +100,10 @@ public class PythonConsoleView extends JPanel implements LanguageConsoleView, Ob
     languageConsole.initComponents();
 
     myLanguageConsoleView = new LanguageConsoleViewImpl(languageConsole);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    Disposer.register(this, myLanguageConsoleView);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     add(myLanguageConsoleView.getComponent(), BorderLayout.CENTER);
 
@@ -372,7 +384,7 @@ public class PythonConsoleView extends JPanel implements LanguageConsoleView, Ob
 
   @Override
   public void dispose() {
-    myLanguageConsoleView.dispose();
+    Disposer.dispose(this);
   }
 
   @Override
@@ -414,7 +426,7 @@ public class PythonConsoleView extends JPanel implements LanguageConsoleView, Ob
     p.add(myLanguageConsoleView.getComponent(), JSplitPane.LEFT);
     mySplitDisposable = componentDisposable;
     p.add(component, JSplitPane.RIGHT);
-    p.setDividerLocation((int)getSize().getWidth()*2/3);
+    p.setDividerLocation((int)getSize().getWidth() * 2 / 3);
     add(p, BorderLayout.CENTER);
 
     validate();

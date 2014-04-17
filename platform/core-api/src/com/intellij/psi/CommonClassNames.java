@@ -100,4 +100,8 @@ public interface CommonClassNames {
   @NonNls String JAVA_LANG_INVOKE_MH_POLYMORPHIC = "java.lang.invoke.MethodHandle.PolymorphicSignature";
 
   @NonNls String CLASS_FILE_EXTENSION = ".class";
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @NonNls String JAVA_LANG_FUNCTIONAL_INTERFACE = "java.lang.FunctionalInterface";
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 }

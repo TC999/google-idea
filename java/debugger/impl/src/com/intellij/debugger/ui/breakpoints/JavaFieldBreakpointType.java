@@ -46,6 +46,14 @@ public class JavaFieldBreakpointType extends JavaLineBreakpointTypeBase<JavaFiel
     super("java-field", DebuggerBundle.message("field.watchpoints.tab.title"));
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  @Override
+  public boolean isAddBreakpointButtonVisible() {
+    return true;
+  }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   @NotNull
   @Override
   public Icon getEnabledIcon() {

@@ -24,7 +24,15 @@ public abstract class BaseEnterHandler extends EditorWriteActionHandler {
   private static final String GROUP_ID = "EnterHandler.GROUP_ID";
 
   protected BaseEnterHandler() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     super(true);
+=======
+    super(false);
+  }
+
+  protected BaseEnterHandler(boolean runForEachCaret) {
+    super(runForEachCaret);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override

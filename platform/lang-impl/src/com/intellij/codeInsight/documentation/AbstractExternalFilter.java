@@ -42,17 +42,15 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.concurrent.Future;
+import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
 
 /**
- * Created by IntelliJ IDEA.
- * User: db
- * Date: May 2, 2003
- * Time: 8:35:34 PM
- * To change this template use Options | File Templates.
+ * @author db
+ * @since May 2, 2003
  */
-
 public abstract class AbstractExternalFilter {
 
   private static final boolean EXTRACT_IMAGES_FROM_JARS = SystemProperties.getBooleanProperty("extract.doc.images", true);
@@ -156,11 +154,16 @@ public abstract class AbstractExternalFilter {
           boolean referenceUnpackedImage = true;
           if (!unpackedImage.isFile()) {
             referenceUnpackedImage = false;
-            JarFileSystem jarFileSystem = JarFileSystem.getInstance();
             try {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
               JarFile jarFile = jarFileSystem.getJarFile(jarFileSystem.findFileByPath(jarPath + URLUtil.JAR_SEPARATOR));
               if (jarFile != null) {
                 JarFile.JarEntry entry = jarFile.getEntry(imgPath);
+=======
+              JarFile jarFile = new JarFile(jarPath);
+              try {
+                ZipEntry entry = jarFile.getEntry(imgPath);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                 if (entry != null) {
                   FileUtilRt.createIfNotExists(unpackedImage);
                   FileOutputStream fOut = new FileOutputStream(unpackedImage);
@@ -176,9 +179,12 @@ public abstract class AbstractExternalFilter {
                 }
                 unpackedImage.deleteOnExit();
               }
+              finally {
+                jarFile.close();
+              }
             }
             catch (IOException e) {
-              // Do nothing
+              LOG.debug(e);
             }
           }
           if (referenceUnpackedImage) {
@@ -385,7 +391,7 @@ public abstract class AbstractExternalFilter {
 
     if (useDt) {
       boolean skip = false;
-      
+
       do {
         if (StringUtil.toUpperCase(read).contains(H2) && !read.toUpperCase().contains("H2")) { // read=class name in <H2>
           data.append(H2);

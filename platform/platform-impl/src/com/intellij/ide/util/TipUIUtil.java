@@ -15,6 +15,7 @@
  */
 package com.intellij.ide.util;
 
+import com.intellij.ide.BrowserUtil;
 import com.intellij.ide.IdeBundle;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManagerCore;
@@ -37,6 +38,13 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.StringReader;
@@ -65,6 +73,7 @@ public class TipUIUtil {
     if (tip == null && StringUtil.isNotEmpty(tipFileName)) {
       tip = new TipAndTrickBean();
       tip.fileName = tipFileName;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     }
     openTipInBrowser(tip, browser);
   }
@@ -75,8 +84,14 @@ public class TipUIUtil {
     if (!file.exists()) {
       browser.read(new StringReader("Tips for '" + feature.getDisplayName() + "' not found.  Make sure you installed IntelliJ IDEA correctly."), null);
       return;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
-    */
+    openTipInBrowser(tip, browser);
+  }
+
+  public static void openTipInBrowser(@Nullable TipAndTrickBean tip, JEditorPane browser) {
+    if (tip == null) return;
     try {
       PluginDescriptor pluginDescriptor = tip.getPluginDescriptor();
       ClassLoader tipLoader = pluginDescriptor == null ? TipUIUtil.class.getClassLoader() :
@@ -162,6 +177,49 @@ public class TipUIUtil {
     }
   }
 
+  private static void updateImages(StringBuffer text, ClassLoader tipLoader) {
+    final boolean dark = UIUtil.isUnderDarcula();
+    final boolean retina = UIUtil.isRetina();
+//    if (!dark && !retina) {
+//      return;
+//    }
+
+    String suffix = "";
+    if (retina) suffix += "@2x";
+    if (dark) suffix += "_dark";
+    int index = text.indexOf("<img", 0);
+    while (index != -1) {
+      final int end = text.indexOf(">", index + 1);
+      if (end == -1) return;
+      final String img = text.substring(index, end + 1).replace('\r', ' ').replace('\n',' ');
+      final int srcIndex = img.indexOf("src=");
+      final int endIndex = img.indexOf(".png", srcIndex);
+      if (endIndex != -1) {
+        String path = img.substring(srcIndex + 5, endIndex);
+        if (!path.endsWith("_dark") && !path.endsWith("@2x")) {
+          path += suffix + ".png";
+          URL url = ResourceUtil.getResource(tipLoader, "/tips/", path);
+          if (url != null) {
+            String newImgTag = "<img src=\"" + path + "\" ";
+            if (retina) {
+              try {
+                final BufferedImage image = ImageIO.read(url.openStream());
+                final int w = image.getWidth() / 2;
+                final int h = image.getHeight() / 2;
+                newImgTag += "width=\"" + w + "\" height=\"" + h + "\"";
+              } catch (Exception ignore) {
+                newImgTag += "width=\"400\" height=\"200\"";
+              }
+            }
+            newImgTag += "/>";
+            text.replace(index, end + 1, newImgTag);
+          }
+        }
+      }
+      index = text.indexOf("<img", index + 1);
+    }
+  }
+
   private static void updateShortcuts(StringBuffer text) {
     int lastIndex = 0;
     while(true) {
@@ -199,5 +257,31 @@ public class TipUIUtil {
       }
     }
     return null;
+  }
+
+  @NotNull
+  public static JEditorPane createTipBrowser() {
+    JEditorPane browser = new JEditorPane();
+    browser.setEditable(false);
+    browser.setBackground(UIUtil.getTextFieldBackground());
+    browser.addHyperlinkListener(
+      new HyperlinkListener() {
+        public void hyperlinkUpdate(HyperlinkEvent e) {
+          if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+            BrowserUtil.browse(e.getURL());
+          }
+        }
+      }
+    );
+    URL resource = ResourceUtil.getResource(TipUIUtil.class, "/tips/css/", UIUtil.isUnderDarcula() ? "tips_darcula.css" : "tips.css");
+    final StyleSheet styleSheet = UIUtil.loadStyleSheet(resource);
+    HTMLEditorKit kit = new HTMLEditorKit() {
+      @Override
+      public StyleSheet getStyleSheet() {
+        return styleSheet != null ? styleSheet : super.getStyleSheet();
+      }
+    };
+    browser.setEditorKit(kit);
+    return browser;
   }
 }

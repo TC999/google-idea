@@ -13,10 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author cdr
- */
 package com.intellij.testFramework;
 
 import com.intellij.codeHighlighting.Pass;
@@ -51,7 +47,7 @@ import com.intellij.util.NullableFunction;
 import com.intellij.util.containers.ContainerUtil;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,6 +59,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author cdr
+ */
 public class ExpectedHighlightingData {
   private static final Logger LOG = Logger.getInstance("#com.intellij.testFramework.ExpectedHighlightingData");
 
@@ -99,7 +98,11 @@ public class ExpectedHighlightingData {
   public void init() {
     new WriteCommandAction(null){
       @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       protected void run(Result result) throws Throwable {
+=======
+      protected void run(@NotNull Result result) throws Throwable {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         extractExpectedLineMarkerSet(myDocument);
         extractExpectedHighlightsSet(myDocument);
         refreshLineMarkers();

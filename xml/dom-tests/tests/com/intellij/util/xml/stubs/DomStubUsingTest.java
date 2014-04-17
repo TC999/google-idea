@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2012 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.intellij.util.xml.stubs;
 
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.vfs.VirtualFileFilter;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
@@ -116,5 +117,42 @@ public class DomStubUsingTest extends DomStubTest {
     XmlFile file = prepareFile("foo.xml");
     ((PsiManagerImpl)getPsiManager()).setAssertOnFileLoadingFilter(VirtualFileFilter.ALL, myTestRootDisposable);
     DomManager.getDomManager(getProject()).getFileElement(file, Foo.class);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  }
+
+  public void testStubbedElementUndefineNotExisting() {
+    final DomFileElement<Foo> fileElement = prepare("foo.xml", Foo.class);
+    final Bar bar = fileElement.getRootElement().getBars().get(0);
+
+    assertNotNull(bar);
+    assertTrue(bar.exists());
+
+    new WriteCommandAction.Simple(null) {
+      @Override
+      protected void run() throws Throwable {
+        bar.undefine();
+      }
+    }.execute().throwException();
+
+    assertFalse(bar.exists());
+  }
+
+  public void testRootElementUndefineNotExisting() {
+    final DomFileElement<Foo> fileElement = prepare("foo.xml", Foo.class);
+
+    final DomElement rootElement = fileElement.getRootElement();
+    assertNotNull(rootElement);
+    assertTrue(rootElement.exists());
+
+    new WriteCommandAction.Simple(null) {
+      @Override
+      protected void run() throws Throwable {
+        rootElement.undefine();
+      }
+    }.execute().throwException();
+
+    assertFalse(rootElement.exists());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

@@ -40,7 +40,10 @@ public class LayoutProjectCodeDialog extends DialogWrapper implements ReformatFi
 
   
   private JCheckBox myCbOptimizeImports;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private JCheckBox myCbOnlyVcsChangedRegions;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private JCheckBox myCbRearrangeEntries;
 
   public LayoutProjectCodeDialog(@NotNull Project project,
@@ -53,7 +56,10 @@ public class LayoutProjectCodeDialog extends DialogWrapper implements ReformatFi
     myText = text;
     mySuggestOptimizeImports = suggestOptimizeImports;
     myProject = project;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myEnableOnlyVCSChangedTextCb = enableOnlyVCSChangedTextCb;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     setOKButtonText(CodeInsightBundle.message("reformat.code.accept.button.text"));
     setTitle(title);
@@ -66,6 +72,7 @@ public class LayoutProjectCodeDialog extends DialogWrapper implements ReformatFi
       return new JLabel(myText);
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     JPanel panel = new JPanel(new GridLayout(4, 1));
     myCbOptimizeImports = new JCheckBox(CodeInsightBundle.message("reformat.option.optimize.imports"));
     myCbRearrangeEntries = new JCheckBox(CodeInsightBundle.message("reformat.option.rearrange.entries"));
@@ -82,6 +89,18 @@ public class LayoutProjectCodeDialog extends DialogWrapper implements ReformatFi
     myCbOnlyVcsChangedRegions.setSelected(
       myEnableOnlyVCSChangedTextCb && PropertiesComponent.getInstance().getBoolean(LayoutCodeConstants.PROCESS_CHANGED_TEXT_KEY, false)
     );
+=======
+    JPanel panel = new JPanel(new GridLayout(3, 1));
+    myCbOptimizeImports = new JCheckBox(CodeInsightBundle.message("reformat.option.optimize.imports"));
+    myCbRearrangeEntries = new JCheckBox(CodeInsightBundle.message("reformat.option.rearrange.entries"));
+
+    panel.add(new JLabel(myText));
+    panel.add(myCbOptimizeImports);
+    panel.add(myCbRearrangeEntries);
+
+    myCbOptimizeImports.setSelected(PropertiesComponent.getInstance().getBoolean(LayoutCodeConstants.OPTIMIZE_IMPORTS_KEY, false));
+    myCbRearrangeEntries.setSelected(LayoutCodeSettingsStorage.getLastSavedRearrangeEntriesCbStateFor(myProject));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     return panel;
   }
@@ -108,9 +127,12 @@ public class LayoutProjectCodeDialog extends DialogWrapper implements ReformatFi
     if (mySuggestOptimizeImports) {
       PropertiesComponent.getInstance().setValue(LayoutCodeConstants.OPTIMIZE_IMPORTS_KEY, Boolean.toString(isOptimizeImports()));
       LayoutCodeSettingsStorage.saveRearrangeEntriesOptionFor(myProject, isRearrangeEntries());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       if (myEnableOnlyVCSChangedTextCb) {
         PropertiesComponent.getInstance().setValue(LayoutCodeConstants.PROCESS_CHANGED_TEXT_KEY, Boolean.toString(myCbOnlyVcsChangedRegions.isSelected()));
       }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
   }
 
@@ -119,7 +141,7 @@ public class LayoutProjectCodeDialog extends DialogWrapper implements ReformatFi
   }
 
   public boolean isProcessOnlyChangedText() {
-    return myCbOnlyVcsChangedRegions.isEnabled() && myCbOnlyVcsChangedRegions.isSelected();
+    return false;
   }
 
 }

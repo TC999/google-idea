@@ -361,7 +361,12 @@ public class TypedHandler extends TypedActionHandlerBase {
       else {
         throw new AssertionError("Unknown char "+lparenChar);
       }
-      editor.getDocument().insertString(offset, text);
+      if (editor.getCaretModel().supportsMultipleCarets()) {
+        EditorModificationUtil.typeInStringAtCaretHonorMultipleCarets(editor, text, 0);
+      }
+      else {
+        editor.getDocument().insertString(offset, text);
+      }
     }
   }
 
@@ -417,8 +422,7 @@ public class TypedHandler extends TypedActionHandlerBase {
 
     if (!matched) return false;
 
-    editor.getCaretModel().moveToOffset(offset + 1);
-    editor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
+    EditorModificationUtil.moveAllCaretsRelatively(editor, 1);
     return true;
   }
 
@@ -436,8 +440,7 @@ public class TypedHandler extends TypedActionHandlerBase {
 
     if (offset < length && chars.charAt(offset) == quote){
       if (isClosingQuote(editor, quoteHandler, offset)){
-        editor.getCaretModel().moveToOffset(offset + 1);
-        editor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
+        EditorModificationUtil.moveAllCaretsRelatively(editor, 1);
         return true;
       }
     }
@@ -456,7 +459,9 @@ public class TypedHandler extends TypedActionHandlerBase {
       }
     }
 
-    myOriginalHandler.execute(editor, quote, dataContext);
+    if (myOriginalHandler != null) {
+      myOriginalHandler.execute(editor, quote, dataContext);
+    }
     offset = editor.getCaretModel().getOffset();
 
     if (quoteHandler instanceof MultiCharQuoteHandler) {
@@ -464,7 +469,12 @@ public class TypedHandler extends TypedActionHandlerBase {
       if (closingQuote != null && hasNonClosedLiterals(editor, quoteHandler, offset - 1)) {
         if (offset == document.getTextLength() ||
             !Character.isUnicodeIdentifierPart(document.getCharsSequence().charAt(offset))) { //any better heuristic or an API?
-          document.insertString(offset, closingQuote);
+          if (editor.getCaretModel().supportsMultipleCarets()) {
+            EditorModificationUtil.typeInStringAtCaretHonorMultipleCarets(editor, closingQuote.toString(), 0);
+          }
+          else {
+            document.insertString(offset, closingQuote);
+          }
           return true;
         }
       }
@@ -473,7 +483,12 @@ public class TypedHandler extends TypedActionHandlerBase {
     if (isOpeningQuote(editor, quoteHandler, offset - 1) && hasNonClosedLiterals(editor, quoteHandler, offset - 1)) {
       if (offset == document.getTextLength() ||
           !Character.isUnicodeIdentifierPart(document.getCharsSequence().charAt(offset))) { //any better heuristic or an API?
-        document.insertString(offset, String.valueOf(quote));
+        if (editor.getCaretModel().supportsMultipleCarets()) {
+          EditorModificationUtil.typeInStringAtCaretHonorMultipleCarets(editor, String.valueOf(quote), 0);
+        }
+        else {
+          document.insertString(offset, String.valueOf(quote));
+        }
       }
     }
 
@@ -558,24 +573,28 @@ public class TypedHandler extends TypedActionHandlerBase {
   }
 
   private static void indentBrace(@NotNull final Project project, @NotNull final Editor editor, final char braceChar) {
-    final int offset = editor.getCaretModel().getOffset() - 1;
-    final Document document = editor.getDocument();
-    CharSequence chars = document.getCharsSequence();
-    if (offset < 0 || chars.charAt(offset) != braceChar) return;
+    editor.getCaretModel().runForEachCaret(new CaretAction() {
+      @Override
+      public void perform(Caret caret) {
+        final int offset = editor.getCaretModel().getOffset() - 1;
+        final Document document = editor.getDocument();
+        CharSequence chars = document.getCharsSequence();
+        if (offset < 0 || chars.charAt(offset) != braceChar) return;
 
-    int spaceStart = CharArrayUtil.shiftBackward(chars, offset - 1, " \t");
-    if (spaceStart < 0 || chars.charAt(spaceStart) == '\n' || chars.charAt(spaceStart) == '\r'){
-      PsiDocumentManager documentManager = PsiDocumentManager.getInstance(project);
-      documentManager.commitDocument(document);
+        int spaceStart = CharArrayUtil.shiftBackward(chars, offset - 1, " \t");
+        if (spaceStart < 0 || chars.charAt(spaceStart) == '\n' || chars.charAt(spaceStart) == '\r'){
+          PsiDocumentManager documentManager = PsiDocumentManager.getInstance(project);
+          documentManager.commitDocument(document);
 
-      final PsiFile file = documentManager.getPsiFile(document);
-      if (file == null || !file.isWritable()) return;
-      PsiElement element = file.findElementAt(offset);
-      if (element == null) return;
+          final PsiFile file = documentManager.getPsiFile(document);
+          if (file == null || !file.isWritable()) return;
+          PsiElement element = file.findElementAt(offset);
+          if (element == null) return;
 
-      EditorHighlighter highlighter = ((EditorEx)editor).getHighlighter();
-      HighlighterIterator iterator = highlighter.createIterator(offset);
+          EditorHighlighter highlighter = ((EditorEx)editor).getHighlighter();
+          HighlighterIterator iterator = highlighter.createIterator(offset);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       final FileType fileType = file.getFileType();
       BraceMatcher braceMatcher = BraceMatchingUtil.getBraceMatcher(fileType, iterator);
       boolean rBraceToken = braceMatcher.isRBraceToken(iterator, chars, fileType);
@@ -615,10 +634,53 @@ public class TypedHandler extends TypedActionHandlerBase {
             catch(IncorrectOperationException e){
               LOG.error(e);
             }
+=======
+          final FileType fileType = file.getFileType();
+          BraceMatcher braceMatcher = BraceMatchingUtil.getBraceMatcher(fileType, iterator);
+          boolean rBraceToken = braceMatcher.isRBraceToken(iterator, chars, fileType);
+          final boolean isBrace = braceMatcher.isLBraceToken(iterator, chars, fileType) || rBraceToken;
+          int lBraceOffset = -1;
+
+          if (CodeInsightSettings.getInstance().REFORMAT_BLOCK_ON_RBRACE &&
+              rBraceToken &&
+              braceMatcher.isStructuralBrace(iterator, chars, fileType) && offset > 0) {
+            lBraceOffset = BraceMatchingUtil.findLeftLParen(
+              highlighter.createIterator(offset - 1),
+              braceMatcher.getOppositeBraceTokenType(iterator.getTokenType()),
+              editor.getDocument().getCharsSequence(),
+              fileType
+            );
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           }
-        });
+          if (element.getNode() != null && isBrace) {
+            final int finalLBraceOffset = lBraceOffset;
+            ApplicationManager.getApplication().runWriteAction(new Runnable() {
+              @Override
+              public void run(){
+                try{
+                  int newOffset;
+                  if (finalLBraceOffset != -1) {
+                    RangeMarker marker = document.createRangeMarker(offset, offset + 1);
+                    CodeStyleManager.getInstance(project).reformatRange(file, finalLBraceOffset, offset, true);
+                    newOffset = marker.getStartOffset();
+                    marker.dispose();
+                  } else {
+                    newOffset = CodeStyleManager.getInstance(project).adjustLineIndent(file, offset);
+                  }
+
+                  editor.getCaretModel().moveToOffset(newOffset + 1);
+                  editor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
+                  editor.getSelectionModel().removeSelection();
+                }
+                catch(IncorrectOperationException e){
+                  LOG.error(e);
+                }
+              }
+            });
+          }
+        }
       }
-    }
+    });
   }
 
 }

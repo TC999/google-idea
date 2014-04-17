@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2013 Dave Griffith, Bas Leijdekkers
+ * Copyright 2003-2014 Dave Griffith, Bas Leijdekkers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -155,12 +155,27 @@ public class ExpectedTypeUtils {
     @Override
     public void visitPolyadicExpression(@NotNull PsiPolyadicExpression polyadicExpression) {
       final PsiExpression[] operands = polyadicExpression.getOperands();
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+      for (PsiExpression operand : operands) {
+        if (operand == null || operand.getType() == null) {
+          expectedType = null;
+          return;
+        }
+=======
+      if (operands.length < 2) {
+        expectedType = null;
+        return;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+      }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
       for (PsiExpression operand : operands) {
         if (operand == null || operand.getType() == null) {
           expectedType = null;
           return;
         }
       }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       final IElementType tokenType = polyadicExpression.getOperationTokenType();
       final PsiType type = polyadicExpression.getType();
       final PsiType wrappedExpressionType = wrappedExpression.getType();
@@ -175,9 +190,12 @@ public class ExpectedTypeUtils {
         if (TypeConversionUtil.isPrimitiveAndNotNull(wrappedExpressionType)) {
           expectedType = wrappedExpressionType;
         }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         else if (operands.length > 2) {
           expectedType = PsiPrimitiveType.getUnboxedType(wrappedExpressionType);
         }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         else if (operands[0] == wrappedExpression) {
           if (TypeConversionUtil.isPrimitiveAndNotNull(operands[1].getType())) {
             expectedType = PsiPrimitiveType.getUnboxedType(wrappedExpressionType);
@@ -185,14 +203,29 @@ public class ExpectedTypeUtils {
           else {
             expectedType = TypeUtils.getObjectType(wrappedExpression);
           }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
         }
-        else {
+        else if (operands[1] == wrappedExpression) {
          if (TypeConversionUtil.isPrimitiveAndNotNull(operands[0].getType())) {
             expectedType = PsiPrimitiveType.getUnboxedType(wrappedExpressionType);
          }
           else {
            expectedType = TypeUtils.getObjectType(wrappedExpression);
          }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
+        }
+        else {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+         if (TypeConversionUtil.isPrimitiveAndNotNull(operands[0].getType())) {
+            expectedType = PsiPrimitiveType.getUnboxedType(wrappedExpressionType);
+         }
+          else {
+           expectedType = TypeUtils.getObjectType(wrappedExpression);
+         }
+=======
+          expectedType = PsiPrimitiveType.getUnboxedType(wrappedExpressionType);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
       }
       else if (ComparisonUtils.isComparisonOperation(tokenType)) {

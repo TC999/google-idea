@@ -154,14 +154,21 @@ public class IdeMenuBar extends JMenuBar implements IdeEventQueue.EventDispatche
   @Override
   public void doLayout() {
     super.doLayout();
-    if (myClockPanel != null) {
+    if (myClockPanel != null && myButton != null) {
       if (myState != State.EXPANDED) {
         myClockPanel.setVisible(true);
         myButton.setVisible(true);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         Dimension preferredSize = myClockPanel.getPreferredSize();
         myClockPanel.setBounds(getBounds().width - preferredSize.width, 0, preferredSize.width, preferredSize.height);
         preferredSize = myButton.getPreferredSize();
         myButton.setBounds(getBounds().width - preferredSize.width * 2 - myClockPanel.getWidth(), 0, preferredSize.width, preferredSize.height);
+=======
+        Dimension preferredSize = myButton.getPreferredSize();
+        myButton.setBounds(getBounds().width - preferredSize.width, 0, preferredSize.width, preferredSize.height);
+        preferredSize = myClockPanel.getPreferredSize();
+        myClockPanel.setBounds(getBounds().width - preferredSize.width - myButton.getWidth(), 0, preferredSize.width, preferredSize.height);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
       else {
         myClockPanel.setVisible(false);

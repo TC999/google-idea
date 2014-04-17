@@ -18,7 +18,11 @@ package com.intellij.index;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.fileTypes.UnknownFileType;
+=======
+import com.intellij.openapi.fileTypes.PlainTextFileType;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.openapi.util.Factory;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VfsUtil;
@@ -276,6 +280,7 @@ public class IndexTest extends IdeaTestCase {
 
     final VirtualFile vFile = createChildData(dir, "Foo.test");
     VfsUtil.saveText(vFile, "Foo");
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     assertEquals(UnknownFileType.INSTANCE, vFile.getFileType());
     assertEmpty(PsiSearchHelper.SERVICE.getInstance(myProject).findFilesWithPlainTextWords("Foo"));
 
@@ -303,6 +308,35 @@ public class IndexTest extends IdeaTestCase {
         PsiDocumentManager.getInstance(myProject).commitAllDocuments();
         assertEquals(" Foo", file.getText());
         assertEmpty(PsiSearchHelper.SERVICE.getInstance(myProject).findFilesWithPlainTextWords("Foo"));
+=======
+    assertEquals(PlainTextFileType.INSTANCE, vFile.getFileType());
+    assertOneElement(PsiSearchHelper.SERVICE.getInstance(myProject).findFilesWithPlainTextWords("Foo"));
+
+    final Document document = FileDocumentManager.getInstance().getDocument(vFile);
+    //todo should file type be changed silently without events?
+    //assertEquals(UnknownFileType.INSTANCE, vFile.getFileType());
+
+    final PsiFile file = getPsiFile(document);
+    assertInstanceOf(file, PsiPlainTextFile.class);
+    assertEquals("Foo", file.getText());
+
+    assertOneElement(PsiSearchHelper.SERVICE.getInstance(myProject).findFilesWithPlainTextWords("Foo"));
+
+    WriteCommandAction.runWriteCommandAction(myProject, new Runnable() {
+      @Override
+      public void run() {
+        document.insertString(0, " ");
+        assertEquals("Foo", file.getText());
+        assertOneElement(PsiSearchHelper.SERVICE.getInstance(myProject).findFilesWithPlainTextWords("Foo"));
+
+        FileDocumentManager.getInstance().saveDocument(document);
+        assertEquals("Foo", file.getText());
+        assertOneElement(PsiSearchHelper.SERVICE.getInstance(myProject).findFilesWithPlainTextWords("Foo"));
+
+        PsiDocumentManager.getInstance(myProject).commitAllDocuments();
+        assertEquals(" Foo", file.getText());
+        assertOneElement(PsiSearchHelper.SERVICE.getInstance(myProject).findFilesWithPlainTextWords("Foo"));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
       }
     });

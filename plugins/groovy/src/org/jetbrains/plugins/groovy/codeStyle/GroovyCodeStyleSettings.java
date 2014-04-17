@@ -47,7 +47,11 @@ public class GroovyCodeStyleSettings extends CustomCodeStyleSettings {
   public boolean SPACE_BEFORE_CLOSURE_LBRACE = true;
   public boolean SPACE_WITHIN_GSTRING_INJECTION_BRACES = false;
   public boolean SPACE_WITHIN_TUPLE_EXPRESSION = false;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public boolean INDENT_LABEL_BLOCKS = false;
+=======
+  public boolean INDENT_LABEL_BLOCKS = true;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public boolean SPACE_AROUND_REGEX_OPERATORS = true;
 
   //imports

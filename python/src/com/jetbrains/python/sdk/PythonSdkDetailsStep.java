@@ -15,6 +15,7 @@
  */
 package com.jetbrains.python.sdk;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.google.common.collect.Lists;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
@@ -158,6 +159,162 @@ public class PythonSdkDetailsStep extends BaseListPopupStep<String> {
       }
     }
 
+=======
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.options.ShowSettingsUtil;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.projectRoots.SdkAdditionalData;
+import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl;
+import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil;
+import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.ui.popup.*;
+import com.intellij.openapi.ui.popup.util.BaseListPopupStep;
+import com.intellij.util.NullableConsumer;
+import com.jetbrains.python.remote.PythonRemoteInterpreterManager;
+import com.jetbrains.python.sdk.flavors.PythonSdkFlavor;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+public class PythonSdkDetailsStep extends BaseListPopupStep<String> {
+  private DialogWrapper myMore;
+  private final Project myProject;
+  private final Component myOwnerComponent;
+  private final Sdk[] myExistingSdks;
+  private final NullableConsumer<Sdk> myCallback;
+
+  private static final String LOCAL = "Add Local";
+  private static final String REMOTE = "Add Remote";
+  private static final String VIRTUALENV = "Create VirtualEnv";
+  private static final String MORE = "More...";
+
+  public static void show(final Project project,
+                          final Sdk[] existingSdks,
+                          DialogWrapper moreDialog,
+                          JComponent ownerComponent, final Point popupPoint,
+                          final NullableConsumer<Sdk> callback) {
+
+    final ListPopupStep sdkHomesStep = new PythonSdkDetailsStep(project, moreDialog, ownerComponent, existingSdks, callback);
+    final ListPopup popup = JBPopupFactory.getInstance().createListPopup(sdkHomesStep);
+    popup.showInScreenCoordinates(ownerComponent, popupPoint);
+  }
+
+  public PythonSdkDetailsStep(Project project,
+                              DialogWrapper moreDialog, Component ownerComponent,
+                              Sdk[] existingSdks,
+                              NullableConsumer<Sdk> callback) {
+    super(null, getAvailableOptions(moreDialog != null));
+    myProject = project;
+    myMore = moreDialog;
+    myOwnerComponent = ownerComponent;
+    myExistingSdks = existingSdks;
+    myCallback = callback;
+  }
+
+  private static List<String> getAvailableOptions(boolean showMore) {
+    final List<String> options = new ArrayList<String>();
+    options.add(LOCAL);
+    if (PythonRemoteInterpreterManager.getInstance() != null) {
+      options.add(REMOTE);
+    }
+    options.add(VIRTUALENV);
+
+    if (showMore) {
+      options.add(MORE);
+    }
+    return options;
+  }
+
+  @Nullable
+  @Override
+  public ListSeparator getSeparatorAbove(String value) {
+    return MORE.equals(value) ? new ListSeparator() : null;
+  }
+
+  private void optionSelected(final String selectedValue) {
+    if (LOCAL.equals(selectedValue)) {
+      createLocalSdk();
+    }
+    else if (REMOTE.equals(selectedValue)) {
+      createRemoteSdk();
+    }
+    else if (VIRTUALENV.equals(selectedValue)) {
+      createVirtualEnvSdk();
+    }
+    else {
+      myMore.show();
+    }
+  }
+
+  private void createLocalSdk() {
+    ApplicationManager.getApplication().invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        SdkConfigurationUtil.createSdk(myProject, myExistingSdks, myCallback, false, PythonSdkType.getInstance());
+      }
+    }, ModalityState.any());
+  }
+
+  private void createRemoteSdk() {
+    PythonRemoteInterpreterManager remoteInterpreterManager = PythonRemoteInterpreterManager.getInstance();
+    if (remoteInterpreterManager != null) {
+      remoteInterpreterManager.addRemoteSdk(myProject, myOwnerComponent, Lists.newArrayList(myExistingSdks), myCallback);
+    }
+    else {
+      Messages.showErrorDialog("The Remote Hosts Access plugin is missing. Please enable the plugin in " +
+                               ShowSettingsUtil.getSettingsMenuName() +
+                               " | Plugins.", "Add Remote Interpreter");
+    }
+  }
+
+  private void createVirtualEnvSdk() {
+    CreateVirtualEnvDialog.VirtualEnvCallback callback = new CreateVirtualEnvDialog.VirtualEnvCallback() {
+      @Override
+      public void virtualEnvCreated(Sdk sdk, boolean associateWithProject) {
+        PythonSdkType.setupSdkPaths(sdk, myProject, null);
+        if (associateWithProject) {
+          SdkAdditionalData additionalData = sdk.getSdkAdditionalData();
+          if (additionalData == null) {
+            additionalData = new PythonSdkAdditionalData(PythonSdkFlavor.getFlavor(sdk.getHomePath()));
+            ((ProjectJdkImpl)sdk).setSdkAdditionalData(additionalData);
+          }
+          ((PythonSdkAdditionalData)additionalData).associateWithProject(myProject);
+        }
+        myCallback.consume(sdk);
+      }
+    };
+
+    final CreateVirtualEnvDialog dialog;
+    final List<Sdk> allSdks = Lists.newArrayList(myExistingSdks);
+    Iterables.removeIf(allSdks, new Predicate<Sdk>() {
+      @Override
+      public boolean apply(Sdk sdk) {
+        return !(sdk.getSdkType() instanceof PythonSdkType);
+      }
+    });
+    final List<PythonSdkFlavor> flavors = PythonSdkFlavor.getApplicableFlavors(false);
+    for (PythonSdkFlavor flavor : flavors) {
+      final Collection<String> strings = flavor.suggestHomePaths();
+      for (String string : SdkConfigurationUtil.filterExistingPaths(PythonSdkType.getInstance(), strings, myExistingSdks)) {
+        allSdks.add(new PyDetectedSdk(string));
+      }
+    }
+    final Set<String> sdks = PySdkService.getInstance().getAddedSdks();
+    for (String string : SdkConfigurationUtil.filterExistingPaths(PythonSdkType.getInstance(), sdks, myExistingSdks)) {
+      allSdks.add(new PyDetectedSdk(string));
+    }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (myProject != null) {
       dialog = new CreateVirtualEnvDialog(myProject, allSdks, null);
     }

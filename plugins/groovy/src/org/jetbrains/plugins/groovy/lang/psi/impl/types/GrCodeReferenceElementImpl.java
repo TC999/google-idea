@@ -466,7 +466,9 @@ public class GrCodeReferenceElementImpl extends GrReferenceElementImpl<GrCodeRef
     }
 
     @NotNull
-    private static GroovyResolveResult[] _resolve(GrCodeReferenceElementImpl ref, PsiManager manager, ReferenceKind kind) {
+    private static GroovyResolveResult[] _resolve(@NotNull GrCodeReferenceElementImpl ref,
+                                                  @NotNull PsiManager manager,
+                                                  @NotNull ReferenceKind kind) {
       final String refName = ref.getReferenceName();
       if (refName == null) {
         return GroovyResolveResult.EMPTY_ARRAY;
@@ -514,10 +516,19 @@ public class GrCodeReferenceElementImpl extends GrReferenceElementImpl<GrCodeRef
           else {
             // if ref is an annotation name reference we should not process declarations of annotated elements
             // because inner annotations are not permitted and it can cause infinite recursion
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
             PsiElement placeToStartWalking = isAnnotationRef(ref) ? FileContextUtil.getContextFile(ref) : ref;
             ResolveUtil.treeWalkUp(placeToStartWalking, processor, false);
             GroovyResolveResult[] candidates = processor.getCandidates();
             if (candidates.length > 0) return candidates;
+=======
+            PsiElement placeToStartWalking = isAnnotationRef(ref) ? getContainingFileSkippingStubFiles(ref) : ref;
+            if (placeToStartWalking != null) {
+              ResolveUtil.treeWalkUp(placeToStartWalking, processor, false);
+              GroovyResolveResult[] candidates = processor.getCandidates();
+              if (candidates.length > 0) return candidates;
+            }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
             if (kind == CLASS_OR_PACKAGE) {
               PsiPackage pkg = JavaPsiFacade.getInstance(ref.getProject()).findPackage(refName);
@@ -597,6 +608,18 @@ public class GrCodeReferenceElementImpl extends GrReferenceElementImpl<GrCodeRef
       return GroovyResolveResult.EMPTY_ARRAY;
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+    private static PsiFile getContainingFileSkippingStubFiles(GrCodeReferenceElementImpl ref) {
+      PsiFile file = ref.getContainingFile();
+      while (file != null && !file.isPhysical() && file.getContext() != null) {
+        PsiElement context = file.getContext();
+        file = context.getContainingFile();
+      }
+      return file;
+    }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     private static boolean isAnnotationRef(GrCodeReferenceElement ref) {
       final PsiElement parent = ref.getParent();
       return parent instanceof GrAnnotation || parent instanceof GrCodeReferenceElement && isAnnotationRef((GrCodeReferenceElement)parent);

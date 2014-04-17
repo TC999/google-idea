@@ -11,6 +11,7 @@ import java.util.Date;
 
 /**
  * Base class containing common interpretation of issues object's fields in
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * JIRA's SOAP and REST interfaces.
  *
  * @author Mikhail Golubev
@@ -53,6 +54,52 @@ public abstract class JiraTask extends Task {
 
   @Override
   public abstract String getIssueUrl();
+=======
+ * JIRA's XML-RPC and REST interfaces.
+ *
+ * @author Mikhail Golubev
+ */
+public abstract class JiraTask extends Task {
+  protected final TaskRepository myRepository;
+
+  protected JiraTask(@NotNull TaskRepository repository) {
+    myRepository = repository;
+  }
+
+  @NotNull
+  public abstract String getId();
+
+  @NotNull
+  public abstract String getSummary();
+
+  public abstract String getDescription();
+
+  @NotNull
+  public abstract Comment[] getComments();
+
+  // iconUrl will be null in JIRA versions prior 5.x.x
+  @Nullable
+  protected abstract String getIconUrl();
+
+  @NotNull
+  @Override
+  public abstract TaskType getType();
+
+  @Override
+  public abstract TaskState getState();
+
+  @Nullable
+  @Override
+  public abstract Date getUpdated();
+
+  @Override
+  public abstract Date getCreated();
+
+  @Override
+  public final String getIssueUrl() {
+    return myRepository.getUrl() + "/browse/" + getId();
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   @Override
   @NotNull

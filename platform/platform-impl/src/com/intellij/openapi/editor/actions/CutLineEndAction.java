@@ -24,17 +24,18 @@
  */
 package com.intellij.openapi.editor.actions;
 
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
 import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.util.text.CharArrayUtil;
 import org.jetbrains.annotations.NotNull;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 public class CutLineEndAction extends EditorAction {
   public CutLineEndAction() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     super(new Handler(true));
   }
 
@@ -85,5 +86,8 @@ public class CutLineEndAction extends EditorAction {
       }
       editor.getDocument().deleteString(start, end);
     }
+=======
+    super(new CutLineActionHandler(false, true, true));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

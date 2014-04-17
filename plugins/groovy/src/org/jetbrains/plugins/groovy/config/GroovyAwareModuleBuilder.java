@@ -51,7 +51,7 @@ public class GroovyAwareModuleBuilder extends JavaModuleBuilder {
 
   @Nullable
   @Override
-  public ModuleWizardStep modifySettingsStep(@NotNull SettingsStep settingsStep) {
+  public ModuleWizardStep modifyProjectTypeStep(@NotNull SettingsStep settingsStep) {
     return new GroovySdkForNewModuleWizardStep(this, settingsStep.getContext(), getFramework(), settingsStep);
   }
 
@@ -92,12 +92,21 @@ public class GroovyAwareModuleBuilder extends JavaModuleBuilder {
 
   @Override
   public String getParentGroup() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return getModuleTypeName();
   }
 
   @Override
   public boolean isTemplateBased() {
     return true;
+=======
+    return "Groovy";
+  }
+
+  @Override
+  public int getWeight() {
+    return 60;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable

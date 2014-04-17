@@ -36,6 +36,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.IndexNotReadyException;
+import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.*;
@@ -46,7 +47,6 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.*;
 import com.intellij.refactoring.introduceParameter.ExpressionConverter;
 import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.ObjectUtils;
 import com.intellij.util.VisibilityUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.HashSet;
@@ -56,10 +56,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.groovy.GroovyBundle;
 import org.jetbrains.plugins.groovy.GroovyFileType;
+import org.jetbrains.plugins.groovy.annotator.checkers.AnnotationChecker;
+import org.jetbrains.plugins.groovy.annotator.checkers.CustomAnnotationChecker;
 import org.jetbrains.plugins.groovy.annotator.intentions.*;
 import org.jetbrains.plugins.groovy.codeInspection.bugs.GrModifierFix;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.jetbrains.plugins.groovy.codeInspection.untypedUnresolvedAccess.GrUnresolvedAccessInspection;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.plugins.groovy.config.GroovyConfigUtils;
+import org.jetbrains.plugins.groovy.findUsages.LiteralConstructorReference;
 import org.jetbrains.plugins.groovy.lang.documentation.GroovyPresentationUtil;
 import org.jetbrains.plugins.groovy.lang.groovydoc.psi.api.GrDocComment;
 import org.jetbrains.plugins.groovy.lang.groovydoc.psi.api.GrDocReferenceElement;
@@ -96,6 +102,7 @@ import org.jetbrains.plugins.groovy.lang.psi.dataFlow.types.TypeInferenceHelper;
 import org.jetbrains.plugins.groovy.lang.psi.impl.PsiImplUtil;
 import org.jetbrains.plugins.groovy.lang.psi.impl.auxiliary.modifiers.GrAnnotationCollector;
 import org.jetbrains.plugins.groovy.lang.psi.impl.signatures.GrClosureSignatureUtil;
+import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.GrReferenceResolveUtil;
 import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.TypesUtil;
 import org.jetbrains.plugins.groovy.lang.psi.impl.synthetic.GroovyScriptClass;
 import org.jetbrains.plugins.groovy.lang.psi.util.GrStringUtil;
@@ -115,6 +122,24 @@ import static org.jetbrains.plugins.groovy.highlighter.DefaultHighlighter.*;
 @SuppressWarnings({"unchecked"})
 public class GroovyAnnotator extends GroovyElementVisitor {
   private static final Logger LOG = Logger.getInstance("org.jetbrains.plugins.groovy.annotator.GroovyAnnotator");
+  public static final Condition<PsiClass> IS_INTERFACE = new Condition<PsiClass>() {
+    @Override
+    public boolean value(PsiClass aClass) {
+      return aClass.isInterface();
+    }
+  };
+  private static final Condition<PsiClass> IS_NOT_INTERFACE = new Condition<PsiClass>() {
+    @Override
+    public boolean value(PsiClass aClass) {
+      return !aClass.isInterface();
+    }
+  };
+  public static final Condition<PsiClass> IS_TRAIT = new Condition<PsiClass>() {
+    @Override
+    public boolean value(PsiClass aClass) {
+      return PsiImplUtil.isTrait(aClass);
+    }
+  };
 
   private final AnnotationHolder myHolder;
 
@@ -314,7 +339,7 @@ public class GroovyAnnotator extends GroovyElementVisitor {
       LOG.assertTrue(nameElement != null);
       myHolder.createInfoAnnotation(nameElement, null).setTextAttributes(MAP_KEY);
     }
-    else if (GrUnresolvedAccessInspection.isClassReference(referenceExpression)) {
+    else if (GrReferenceResolveUtil.isClassReference(referenceExpression)) {
       PsiElement nameElement = referenceExpression.getReferenceNameElement();
       LOG.assertTrue(nameElement != null);
       myHolder.createInfoAnnotation(nameElement, null).setTextAttributes(KEYWORD);
@@ -549,10 +574,28 @@ public class GroovyAnnotator extends GroovyElementVisitor {
   }
 
   @Override
+  public void visitUnaryExpression(GrUnaryExpression expression) {
+    if (expression.getOperationTokenType() == GroovyTokenTypes.mINC ||
+        expression.getOperationTokenType() == GroovyTokenTypes.mDEC) {
+      GrExpression operand = expression.getOperand();
+      if (operand instanceof GrReferenceExpression && ((GrReferenceExpression)operand).getQualifier() == null) {
+        GrTraitTypeDefinition trait = PsiTreeUtil.getParentOfType(operand, GrTraitTypeDefinition.class);
+        if (trait != null) {
+          PsiElement resolved = ((GrReferenceExpression)operand).resolve();
+          if (resolved instanceof GrField && ((GrField)resolved).getContainingClass() instanceof GrTraitTypeDefinition) {
+            myHolder.createErrorAnnotation(expression, GroovyBundle
+              .message("0.expressions.on.trait.fields.properties.are.not.supported.in.traits", expression.getOperationToken().getText()));
+          }
+        }
+      }
+    }
+  }
+
+  @Override
   public void visitOpenBlock(GrOpenBlock block) {
     if (block.getParent() instanceof GrMethod) {
       final GrMethod method = (GrMethod)block.getParent();
-      if (method.hasModifierProperty(ABSTRACT)) {
+      if (method.hasModifierProperty(ABSTRACT) && !PsiImplUtil.isTrait(method.getContainingClass())) {
         final Annotation annotation = myHolder.createErrorAnnotation(block, GroovyBundle.message("abstract.methods.must.not.have.body"));
         registerMakeAbstractMethodNotAbstractFix(annotation, method, true);
       }
@@ -564,6 +607,9 @@ public class GroovyAnnotator extends GroovyElementVisitor {
     checkMethodWithTypeParamsShouldHaveReturnType(myHolder, method);
     checkInnerMethod(myHolder, method);
     checkOptionalParametersInAbstractMethod(myHolder, method);
+
+    checkConstructorOfImmutableClass(myHolder, method);
+    checkGetterOfImmutable(myHolder, method);
 
     checkConstructorOfImmutableClass(myHolder, method);
     checkGetterOfImmutable(myHolder, method);
@@ -846,7 +892,8 @@ public class GroovyAnnotator extends GroovyElementVisitor {
   @Override
   public void visitListOrMap(GrListOrMap listOrMap) {
     final PsiReference constructorReference = listOrMap.getReference();
-    if (constructorReference != null) {
+    if (constructorReference instanceof LiteralConstructorReference &&
+        ((LiteralConstructorReference)constructorReference).getConstructedClassType() != null) {
       final PsiElement startToken = listOrMap.getFirstChild();
       if (startToken != null && startToken.getNode().getElementType() == GroovyTokenTypes.mLBRACK) {
         myHolder.createInfoAnnotation(startToken, null).setTextAttributes(LITERAL_CONVERSION);
@@ -971,7 +1018,11 @@ public class GroovyAnnotator extends GroovyElementVisitor {
 
   private static void registerFix(Annotation annotation, LocalQuickFix fix, PsiElement place) {
     final InspectionManager manager = InspectionManager.getInstance(place.getProject());
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     assert !place.getTextRange().isEmpty();
+=======
+    assert !place.getTextRange().isEmpty() : place.getContainingFile().getName();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
     final ProblemDescriptor descriptor = manager.createProblemDescriptor(place, place, annotation.getMessage(),
                                                                          annotation.getHighlightType(), true, LocalQuickFix.EMPTY_ARRAY);
@@ -1448,6 +1499,7 @@ public class GroovyAnnotator extends GroovyElementVisitor {
 
   @Override
   public void visitAnnotation(GrAnnotation annotation) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final GrCodeReferenceElement ref = annotation.getClassReference();
     final PsiElement resolved = ref.resolve();
 
@@ -1471,10 +1523,14 @@ public class GroovyAnnotator extends GroovyElementVisitor {
     if (description != null) {
       myHolder.createErrorAnnotation(ref, description).registerFix(new GrRemoveAnnotationIntention());
     }
+=======
+    new AnnotationChecker(myHolder).checkApplicability(annotation, annotation.getOwner());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
   public void visitAnnotationArgumentList(GrAnnotationArgumentList annotationArgumentList) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     final GrAnnotation annotation = (GrAnnotation)annotationArgumentList.getParent();
 
     final PsiClass anno = ResolveUtil.resolveAnnotation(annotationArgumentList);
@@ -1490,22 +1546,21 @@ public class GroovyAnnotator extends GroovyElementVisitor {
     for (Map.Entry<PsiElement, String> entry : errors.entrySet()) {
       myHolder.createErrorAnnotation(entry.getKey(), entry.getValue());
     }
+=======
+    new AnnotationChecker(myHolder).checkAnnotationArgumentList((GrAnnotation)annotationArgumentList.getParent());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Override
-  public void visitDefaultAnnotationValue(GrDefaultAnnotationValue defaultAnnotationValue) {
-    final GrAnnotationMemberValue value = defaultAnnotationValue.getDefaultValue();
+  public void visitAnnotationMethod(GrAnnotationMethod annotationMethod) {
+    super.visitAnnotationMethod(annotationMethod);
+
+    final GrAnnotationMemberValue value = annotationMethod.getDefaultValue();
     if (value == null) return;
 
-    final PsiElement parent = defaultAnnotationValue.getParent();
-    assert parent instanceof GrAnnotationMethod;
-    final PsiType type = ((GrAnnotationMethod)parent).getReturnType();
+    final PsiType type = annotationMethod.getReturnType();
 
-    Map<PsiElement, String> errors = ContainerUtil.newHashMap();
-    CustomAnnotationChecker.checkAnnotationValueByType(errors, value, type, false);
-    for (Map.Entry<PsiElement, String> entry : errors.entrySet()) {
-      myHolder.createErrorAnnotation(entry.getKey(), entry.getValue());
-    }
+    CustomAnnotationChecker.checkAnnotationValueByType(myHolder, value, type, false);
   }
 
   @Override
@@ -1575,6 +1630,12 @@ public class GroovyAnnotator extends GroovyElementVisitor {
         return checkAnnotationAttributeValue(((GrUnaryExpression)value).getOperand(), toHighlight);
       }
     }
+    if (value instanceof GrUnaryExpression) {
+      final IElementType tokenType = ((GrUnaryExpression)value).getOperationTokenType();
+      if (tokenType == GroovyTokenTypes.mMINUS || tokenType == GroovyTokenTypes.mPLUS) {
+        return checkAnnotationAttributeValue(((GrUnaryExpression)value).getOperand(), toHighlight);
+      }
+    }
 
     myHolder.createErrorAnnotation(toHighlight, GroovyBundle.message("expected.0.to.be.inline.constant", value.getText()));
     return true;
@@ -1609,15 +1670,17 @@ public class GroovyAnnotator extends GroovyElementVisitor {
     if (typeDefinition.isAnnotationType()) {
       myHolder.createErrorAnnotation(extendsClause, GroovyBundle.message("annotation.types.may.not.have.extends.clause"));
     }
+    else if (typeDefinition.isTrait()) {
+      checkReferenceList(myHolder, extendsClause, IS_TRAIT, GroovyBundle.message("only.traits.expected.here"), null);
+    }
     else if (typeDefinition.isInterface()) {
-      checkReferenceList(myHolder, extendsClause, true, GroovyBundle.message("no.class.expected.here"), null);
+      checkReferenceList(myHolder, extendsClause, IS_INTERFACE, GroovyBundle.message("no.class.expected.here"), null);
     }
     else if (typeDefinition.isEnum()) {
       myHolder.createErrorAnnotation(extendsClause, GroovyBundle.message("enums.may.not.have.extends.clause"));
     }
     else {
-      checkReferenceList(myHolder, extendsClause, false, GroovyBundle.message("no.interface.expected.here"),
-                         new ChangeExtendsImplementsQuickFix(typeDefinition));
+      checkReferenceList(myHolder, extendsClause, IS_NOT_INTERFACE, GroovyBundle.message("no.interface.expected.here"), new ChangeExtendsImplementsQuickFix(typeDefinition));
       checkForWildCards(myHolder, extendsClause);
     }
 
@@ -1630,27 +1693,27 @@ public class GroovyAnnotator extends GroovyElementVisitor {
     if (typeDefinition.isAnnotationType()) {
       myHolder.createErrorAnnotation(implementsClause, GroovyBundle.message("annotation.types.may.not.have.implements.clause"));
     }
-    else if (typeDefinition.isInterface()) {
+    else if (typeDefinition.isInterface() && !typeDefinition.isTrait()) {
       myHolder.createErrorAnnotation(implementsClause, GroovyBundle.message("no.implements.clause.allowed.for.interface"))
         .registerFix(new ChangeExtendsImplementsQuickFix(typeDefinition));
     }
     else {
-      checkReferenceList(myHolder, implementsClause, true, GroovyBundle.message("no.class.expected.here"),
-                         new ChangeExtendsImplementsQuickFix(typeDefinition));
+      checkReferenceList(myHolder, implementsClause, IS_INTERFACE, GroovyBundle.message("no.class.expected.here"), new ChangeExtendsImplementsQuickFix(typeDefinition));
       checkForWildCards(myHolder, implementsClause);
     }
   }
 
   private static void checkReferenceList(@NotNull AnnotationHolder holder,
                                          @NotNull GrReferenceList list,
-                                         boolean interfaceExpected,
+                                         @NotNull Condition<PsiClass> applicabilityCondition,
                                          @NotNull String message,
                                          @Nullable IntentionAction fix) {
     for (GrCodeReferenceElement refElement : list.getReferenceElementsGroovy()) {
       final PsiElement psiClass = refElement.resolve();
-      if (psiClass instanceof PsiClass && ((PsiClass)psiClass).isInterface() != interfaceExpected) {
+      if (psiClass instanceof PsiClass && !applicabilityCondition.value((PsiClass)psiClass)) {
+        Annotation annotation = holder.createErrorAnnotation(refElement, message);
         if (fix != null) {
-          holder.createErrorAnnotation(refElement, message).registerFix(fix);
+          annotation.registerFix(fix);
         }
       }
     }
@@ -1748,8 +1811,9 @@ public class GroovyAnnotator extends GroovyElementVisitor {
     if (typeDefinition.isAnnotationType()) return;
     if (typeDefinition instanceof GrTypeParameter) return;
 
+
     PsiMethod abstractMethod = ClassUtil.getAnyAbstractMethod(typeDefinition);
-    if (abstractMethod== null) return;
+    if (abstractMethod == null) return;
 
     String notImplementedMethodName = abstractMethod.getName();
 
@@ -1796,7 +1860,11 @@ public class GroovyAnnotator extends GroovyElementVisitor {
       if (containingClass != null) {
         final PsiModifierList list = containingClass.getModifierList();
         if (list != null && !list.hasModifierProperty(ABSTRACT)) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
           registerFix(annotation, new GrModifierFix(containingClass, ABSTRACT, false, true, GrModifierFix.MODIFIER_LIST), list);
+=======
+          registerFix(annotation, new GrModifierFix(containingClass, ABSTRACT, false, true, GrModifierFix.MODIFIER_LIST_OWNER), containingClass);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
       }
     }
@@ -1961,6 +2029,7 @@ public class GroovyAnnotator extends GroovyElementVisitor {
       if (hasPublic) {
         registerFix(annotation, new GrModifierFix(member, PUBLIC, false, false, GrModifierFix.MODIFIER_LIST), modifierList);
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     }
     else if (member instanceof PsiMethod &&
              member.getContainingClass() instanceof GrInterfaceDefinition &&
@@ -1969,6 +2038,8 @@ public class GroovyAnnotator extends GroovyElementVisitor {
       final PsiElement publicModifier = ObjectUtils.assertNotNull(PsiUtil.findModifierInList(modifierList, PUBLIC));
       final Annotation annotation = holder.createErrorAnnotation(publicModifier, GroovyBundle.message("public.modifier.is.not.allowed.in.interfaces"));
       registerFix(annotation, new GrModifierFix(member, PUBLIC, false, false, GrModifierFix.MODIFIER_LIST), modifierList);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     else if (member instanceof PsiClass &&
              member.getContainingClass() == null &&
@@ -2007,9 +2078,13 @@ public class GroovyAnnotator extends GroovyElementVisitor {
     final GroovyConfigUtils configUtils = GroovyConfigUtils.getInstance();
     if (typeDefinition.isAnonymous()) {
       if (!configUtils.isVersionAtLeast(typeDefinition, GroovyConfigUtils.GROOVY1_7)) {
-        holder.createErrorAnnotation(typeDefinition.getNameIdentifierGroovy(), GroovyBundle.message("anonymous.classes.are.not.supported",
-                                                                                                    configUtils
-                                                                                                      .getSDKVersion(typeDefinition)));
+        holder.createErrorAnnotation(typeDefinition.getNameIdentifierGroovy(),
+                                     GroovyBundle.message("anonymous.classes.are.not.supported", configUtils.getSDKVersion(typeDefinition)));
+      }
+
+      PsiElement superClass = ((PsiAnonymousClass)typeDefinition).getBaseClassReference().resolve();
+      if (superClass instanceof GrTypeDefinition && ((GrTypeDefinition)superClass).isTrait()) {
+        holder.createErrorAnnotation(typeDefinition.getNameIdentifierGroovy(), GroovyBundle.message("anonymous.classes.cannot.be.created.from.traits"));
       }
     }
     else if (typeDefinition.getContainingClass() != null && !(typeDefinition instanceof GrEnumTypeDefinition)) {

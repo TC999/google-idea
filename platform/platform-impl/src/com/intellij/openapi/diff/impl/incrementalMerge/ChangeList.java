@@ -30,6 +30,10 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.HashSet;
 import com.intellij.util.diff.FilesTooBigForDiffException;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+import org.jetbrains.annotations.NotNull;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -44,7 +48,7 @@ public class ChangeList {
   private ArrayList<Change> myChanges;
   private ArrayList<Change> myAppliedChanges;
 
-  public ChangeList(Document base, Document version, Project project) {
+  public ChangeList(@NotNull Document base, @NotNull Document version, Project project) {
     myDocuments[0] = base;
     myDocuments[1] = version;
     myProject = project;
@@ -58,7 +62,7 @@ public class ChangeList {
     LOG.assertTrue(myListeners.remove(listener));
   }
 
-  public void setChanges(ArrayList<Change> changes) {
+  public void setChanges(@NotNull ArrayList<Change> changes) {
     if (myChanges != null) {
       HashSet<Change> newChanges = new HashSet<Change>(changes);
       LOG.assertTrue(newChanges.size() == changes.size());
@@ -79,6 +83,7 @@ public class ChangeList {
 
   public Project getProject() { return myProject; }
 
+  @NotNull
   public List<Change> getChanges() {
     return new ArrayList<Change>(myChanges);
   }
@@ -104,7 +109,8 @@ public class ChangeList {
     }
   }
 
-  public Document getDocument(FragmentSide side) {
+  @NotNull
+  public Document getDocument(@NotNull FragmentSide side) {
     return myDocuments[side.getIndex()];
   }
 
@@ -132,10 +138,19 @@ public class ChangeList {
   }
 
   private abstract static class DiffFragmentsEnumerator {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     private final DiffFragment[] myFragments;
     private final Context myContext;
+=======
+    @NotNull private final DiffFragment[] myFragments;
+    @NotNull private final Context myContext;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     private DiffFragmentsEnumerator(DiffFragment[] fragments) {
+=======
+    private DiffFragmentsEnumerator(@NotNull DiffFragment[] fragments) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       myContext = new Context();
       myFragments = fragments;
     }
@@ -158,6 +173,7 @@ public class ChangeList {
       return StringUtil.countNewLines(text);
     }
 
+    @NotNull
     protected Context getContext() {
       return myContext;
     }
@@ -174,15 +190,16 @@ public class ChangeList {
       return myFragment;
     }
 
-    public int getStart(FragmentSide side) {
+    public int getStart(@NotNull FragmentSide side) {
       return myStarts[side.getIndex()];
     }
 
-    public int getEnd(FragmentSide side) {
+    public int getEnd(@NotNull FragmentSide side) {
       return getStart(side) + StringUtil.length(side.getText(myFragment));
     }
 
-    public TextRange createRange(FragmentSide side) {
+    @NotNull
+    public TextRange createRange(@NotNull FragmentSide side) {
       return new TextRange(getStart(side), getEnd(side));
     }
   }
@@ -197,7 +214,7 @@ public class ChangeList {
     return LineBlocks.fromChanges(changes);
   }
 
-  public void remove(Change change) {
+  public void remove(@NotNull Change change) {
     if (change.getType().isApplied()) {
       LOG.assertTrue(myAppliedChanges.remove(change), change);
     }
@@ -208,7 +225,7 @@ public class ChangeList {
     fireOnChangeRemoved();
   }
 
-  public void apply(Change change) {
+  public void apply(@NotNull Change change) {
     LOG.assertTrue(myChanges.remove(change), change);
     myAppliedChanges.add(change);
     fireOnChangeApplied();

@@ -743,6 +743,7 @@ def bar() {
   }
 
   void testLabels() {
+    groovyCustomSettings.INDENT_LABEL_BLOCKS = false
     checkFormatting('''\
 def foo() {
 abc:foo()
@@ -798,6 +799,11 @@ def foo() {
     }
   }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  void testNoLineFeedsInGString() { doTest() }
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   private void doGeeseTest() {
     GroovyCodeStyleSettings customSettings = myTempSettings.getCustomSettings(GroovyCodeStyleSettings.class)
     boolean oldvalue = customSettings.USE_FLYING_GEESE_BRACES

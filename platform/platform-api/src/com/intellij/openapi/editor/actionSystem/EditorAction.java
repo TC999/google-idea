@@ -80,7 +80,11 @@ public abstract class EditorAction extends AnAction implements DumbAware {
     Runnable command = new Runnable() {
       @Override
       public void run() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         handler.executeInCaretContext(editor, null, getProjectAwareDataContext(editor, dataContext));
+=======
+        handler.execute(editor, null, getProjectAwareDataContext(editor, dataContext));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     };
 

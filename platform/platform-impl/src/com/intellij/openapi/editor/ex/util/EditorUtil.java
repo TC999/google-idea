@@ -27,6 +27,8 @@ import com.intellij.openapi.editor.impl.ComplementaryFontsRegistry;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.editor.impl.FontInfo;
 import com.intellij.openapi.editor.impl.IterationState;
+import com.intellij.openapi.fileEditor.impl.text.TextEditorImpl;
+import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.TextRange;
@@ -46,6 +48,17 @@ public final class EditorUtil {
 
   private EditorUtil() {
   }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+
+  /**
+   * @return true if the editor is in fact an ordinary file editor;
+   * false if the editor is part of EditorTextField, CommitMessage and etc.
+   */
+  public static boolean isRealFileEditor(@NotNull Editor editor) {
+    return TextEditorProvider.getInstance().getTextEditor(editor) instanceof TextEditorImpl;
+  }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   public static int getLastVisualLineColumnNumber(@NotNull Editor editor, final int line) {
     Document document = editor.getDocument();
@@ -395,44 +408,38 @@ public final class EditorUtil {
     EditorEx editorImpl = (EditorEx)editor;
     int offset = start;
     IterationState state = new IterationState(editorImpl, start, end, false);
-    int column;
-    try {
-      int fontType = state.getMergedAttributes().getFontType();
-      column = currentColumn[0];
-      int spaceSize = getSpaceWidth(fontType, editorImpl);
-      for (; column < columnNumber && offset < end; offset++) {
-        if (offset >= state.getEndOffset()) {
-          state.advance();
-          fontType = state.getMergedAttributes().getFontType();
-        }
-
-        char c = text.charAt(offset);
-        if (c == '\t') {
-          final int newX = nextTabStop(x, editorImpl);
-          final int columns = columnsNumber(newX - x, spaceSize);
-          if (debugBuffer != null) {
-            debugBuffer.append(String.format(
-              "Processing tabulation at the offset %d. Current X: %d, new X: %d, current column: %d, new column: %d%n",
-              offset, x, newX, column, column + columns
-            ));
-          }
-          x = newX;
-          column += columns;
-        }
-        else {
-          final int width = charWidth(c, fontType, editorImpl);
-          if (debugBuffer != null) {
-            debugBuffer.append(String.format(
-              "Processing symbol '%c' at the offset %d. Current X: %d, new X: %d%n", c, offset, x, x + width
-            ));
-          }
-          x += width;
-          column++;
-        }
+    int fontType = state.getMergedAttributes().getFontType();
+    int column = currentColumn[0];
+    int spaceSize = getSpaceWidth(fontType, editorImpl);
+    for (; column < columnNumber && offset < end; offset++) {
+      if (offset >= state.getEndOffset()) {
+        state.advance();
+        fontType = state.getMergedAttributes().getFontType();
       }
-    }
-    finally {
-      state.dispose();
+
+      char c = text.charAt(offset);
+      if (c == '\t') {
+        final int newX = nextTabStop(x, editorImpl);
+        final int columns = columnsNumber(newX - x, spaceSize);
+        if (debugBuffer != null) {
+          debugBuffer.append(String.format(
+            "Processing tabulation at the offset %d. Current X: %d, new X: %d, current column: %d, new column: %d%n",
+            offset, x, newX, column, column + columns
+          ));
+        }
+        x = newX;
+        column += columns;
+      }
+      else {
+        final int width = charWidth(c, fontType, editorImpl);
+        if (debugBuffer != null) {
+          debugBuffer.append(String.format(
+            "Processing symbol '%c' at the offset %d. Current X: %d, new X: %d%n", c, offset, x, x + width
+          ));
+        }
+        x += width;
+        column++;
+      }
     }
 
     if (column == columnNumber) {
@@ -718,7 +725,7 @@ public final class EditorUtil {
     LogicalPosition first = editor.visualToLogicalPosition(new VisualPosition(start.line, 0));
     for (
       int line = first.line, offset = document.getLineStartOffset(line);
-      offset > 0;
+      offset >= 0;
       offset = document.getLineStartOffset(line))
     {
       final FoldRegion foldRegion = foldingModel.getCollapsedRegionAtOffset(offset);
@@ -777,11 +784,7 @@ public final class EditorUtil {
   }
 
   public static void reinitSettings() {
-    for (Editor editor : EditorFactory.getInstance().getAllEditors()) {
-      if (editor instanceof EditorEx) {
-        ((EditorEx)editor).reinitSettings();
-      }
-    }
+    EditorFactory.getInstance().refreshAllEditors();
   }
 
   @NotNull

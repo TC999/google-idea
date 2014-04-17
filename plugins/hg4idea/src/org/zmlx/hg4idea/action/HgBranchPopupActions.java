@@ -221,7 +221,11 @@ public class HgBranchPopupActions {
         e.getPresentation().setEnabled(false);
         e.getPresentation().setDescription("Checkout of a new branch is not possible before the first commit.");
       }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       else if (Repository.State.MERGING.equals(myRepository.getState())) {
+=======
+      else if (!Repository.State.NORMAL.equals(myRepository.getState())) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         e.getPresentation().setEnabled(false);
       }
     }

@@ -32,10 +32,18 @@ public class BackspaceHandler extends EditorActionHandler {
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void execute(final Editor editor, Caret caret, final DataContext dataContext){
+=======
+  public void doExecute(final Editor editor, Caret caret, final DataContext dataContext){
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     LookupImpl lookup = (LookupImpl)LookupManager.getActiveLookup(editor);
     if (lookup == null){
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       myOriginalHandler.executeInCaretContext(editor, caret, dataContext);
+=======
+      myOriginalHandler.execute(editor, caret, dataContext);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return;
     }
 
@@ -57,7 +65,11 @@ public class BackspaceHandler extends EditorActionHandler {
     if (!lookup.performGuardedChange(new Runnable() {
       @Override
       public void run() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         handler.executeInCaretContext(editor, caret, dataContext);
+=======
+        handler.execute(editor, caret, dataContext);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       }
     })) {
       return;

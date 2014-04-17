@@ -41,7 +41,12 @@ public class InvokeTemplateAction extends AnAction {
   private final Project myProject;
 
   public InvokeTemplateAction(TemplateImpl template, Editor editor, Project project, Set<Character> usedMnemonicsSet) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     super(extractMnemonic(template.getKey(), usedMnemonicsSet) + ". " + template.getDescription());
+=======
+    super(extractMnemonic(template.getKey(), usedMnemonicsSet) +
+          (StringUtil.isEmptyOrSpaces(template.getDescription()) ? "" : ". " + template.getDescription()));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     myTemplate = template;
     myProject = project;
     myEditor = editor;

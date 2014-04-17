@@ -56,7 +56,11 @@ binding.setVariable("isEap", {
 binding.setVariable("mem32", "-server -Xms128m -Xmx512m -XX:MaxPermSize=250m -XX:ReservedCodeCacheSize=64m")
 binding.setVariable("mem64", "-Xms128m -Xmx750m -XX:MaxPermSize=350m -XX:ReservedCodeCacheSize=96m")
 binding.setVariable("common_vmoptions", "-ea -Dsun.io.useCanonCaches=false -Djava.net.preferIPv4Stack=true " +
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
                                         "-Didea.project.structure.max.errors.to.show=0 " +
+=======
+                                        "-Djsse.enableSNIExtension=false " +
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
                                         "-XX:+UseCodeCacheFlushing -XX:+UseConcMarkSweepGC -XX:SoftRefLRUPolicyMSPerMB=50")
 
 binding.setVariable("vmOptions", { "$common_vmoptions ${isEap() ? '-XX:+HeapDumpOnOutOfMemoryError' : ''}".trim() })
@@ -265,6 +269,8 @@ binding.setVariable("platformApiModules", [
   "vcs-api",
   "vcs-log-api",
   "xdebugger-api",
+  "remote-servers-api",
+  "remote-servers-agent-rt",
   "xml-analysis-api",
   "xml-openapi",
   "xml-psi-api",
@@ -295,10 +301,17 @@ binding.setVariable("platformImplementationModules", [
   "RegExpSupport",
   "spellchecker",
   "xdebugger-impl",
+  "remote-servers-impl",
   "xml",
   "xml-analysis-impl",
   "xml-psi-impl",
   "xml-structure-view-impl",
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  "protocol-reader-runtime",
+  "script-debugger-backend",
+  "script-debugger-ui"
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 ])
 
 binding.setVariable("layoutMacApp", { String path, String ch, Map args ->
@@ -497,19 +510,29 @@ binding.setVariable("unixScripts", { String target, String home, String name, Ma
   ant.fixcrlf(srcdir: "$target/bin", includes: "*.sh", eol: "unix")
 })
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 binding.setVariable("winVMOptions", { String target, Map args, String name, String name64 = null ->
   if (name != null) {
     def options = vmOptions32()
     options = options.replace(" -XX:+UseCodeCacheFlushing", "")
     options += " -Didea.platform.prefix=" + args.platform_prefix
     options += " -Didea.paths.selector="  + args.system_selector
+=======
+binding.setVariable("winVMOptions", { String target, String system_selector, String name, String name64 = null ->
+  if (name != null) {
+    def options = isEap() && system_selector != null ? vmOptions32yjp(system_selector) : vmOptions32()
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     ant.echo(file: "$target/bin/${name}.vmoptions", message: options.replace(' ', '\n'))
   }
 
   if (name64 != null) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     def options = vmOptions64()
     options += " -Didea.platform.prefix=" + args.platform_prefix
     options += " -Didea.paths.selector="  + args.system_selector
+=======
+    def options = isEap() && system_selector != null ? vmOptions64yjp(system_selector) : vmOptions64()
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     ant.echo(file: "$target/bin/${name64}.vmoptions", message: options.replace(' ', '\n'))
   }
 
@@ -813,6 +836,7 @@ binding.setVariable("buildWinLauncher", { String ch, String inputPath, String ou
         pathelement(location: it)
       }
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 })
 
@@ -821,6 +845,8 @@ binding.setVariable("layoutUpdater", { String target, String jarName = "updater.
     jar(jarName) {
       module("updater")
     }
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 })
 
@@ -894,4 +920,13 @@ binding.setVariable("buildSearchableOptions", { String target, List licenses, Cl
 
   ant.available(file: targetFile, property: "searchable.options.exists");
   ant.fail(unless: "searchable.options.exists", message: "Searchable options were not built.")
+})
+
+binding.setVariable("reassignAltClickToMultipleCarets", {String communityHome ->
+  String defaultKeymapContent = new File("$communityHome/platform/platform-resources/src/idea/Keymap_Default.xml").text
+  defaultKeymapContent = defaultKeymapContent.replace("<mouse-shortcut keystroke=\"alt button1\"/>", "")
+  defaultKeymapContent = defaultKeymapContent.replace("<mouse-shortcut keystroke=\"alt shift button1\"/>",
+                                                      "<mouse-shortcut keystroke=\"alt button1\"/>")
+  patchedKeymapFile = new File("${paths.sandbox}/classes/production/platform-resources/idea/Keymap_Default.xml")
+  patchedKeymapFile.write(defaultKeymapContent)
 })

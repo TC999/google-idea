@@ -38,7 +38,11 @@ public class VcsLogQuickSettingsActions extends DumbAwareAction {
     }
     VcsLogSettings settings = ServiceManager.getService(project, VcsLogSettings.class);
     VcsLogManager logManager = ServiceManager.getService(project, VcsLogManager.class);
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     VcsLogUI logUi = logManager.getLogUi();
+=======
+    VcsLogUiImpl logUi = logManager.getLogUi();
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     if (logUi == null) {
       return;
     }
@@ -70,9 +74,9 @@ public class VcsLogQuickSettingsActions extends DumbAwareAction {
   private static class MySettingsActionGroup extends ActionGroup {
 
     private final VcsLogSettings mySettings;
-    private final VcsLogUI myUi;
+    private final VcsLogUiImpl myUi;
 
-    public MySettingsActionGroup(VcsLogSettings settings, VcsLogUI ui) {
+    public MySettingsActionGroup(VcsLogSettings settings, VcsLogUiImpl ui) {
       mySettings = settings;
       myUi = ui;
     }

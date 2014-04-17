@@ -33,15 +33,15 @@ import org.zmlx.hg4idea.HgVcs;
 import org.zmlx.hg4idea.repo.HgConfig;
 import org.zmlx.hg4idea.repo.HgRepository;
 import org.zmlx.hg4idea.repo.HgRepositoryManager;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import org.zmlx.hg4idea.util.HgHistoryUtil;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.zmlx.hg4idea.util.HgUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * @author Nadya Zabrodina
- */
 public class HgLogProvider implements VcsLogProvider {
 
   private static final Logger LOG = Logger.getInstance(HgLogProvider.class);
@@ -51,6 +51,11 @@ public class HgLogProvider implements VcsLogProvider {
   @NotNull private final VcsLogRefManager myRefSorter;
   @NotNull private final VcsLogObjectsFactory myVcsObjectsFactory;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
+=======
+  private static final String RECENT_HEAD = "tip";
+
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   public HgLogProvider(@NotNull Project project, @NotNull HgRepositoryManager repositoryManager, @NotNull VcsLogObjectsFactory factory) {
     myProject = project;
     myRepositoryManager = repositoryManager;
@@ -60,15 +65,22 @@ public class HgLogProvider implements VcsLogProvider {
 
   @NotNull
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public List<? extends VcsFullCommitDetails> readFirstBlock(@NotNull VirtualFile root,
                                                              boolean ordered, int commitCount) throws VcsException {
     return HgHistoryUtil.history(myProject, root, commitCount, ordered ? Collections.<String>emptyList() : Arrays.asList("-r", "0:tip"));
+=======
+  public List<? extends VcsCommitMetadata> readFirstBlock(@NotNull VirtualFile root,
+                                                          @NotNull Requirements requirements) throws VcsException {
+    return HgHistoryUtil.loadMetadata(myProject, root, requirements.getCommitCount(),
+                                      requirements.isOrdered() ? Collections.<String>emptyList() : Arrays.asList("-r", "0:tip"));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @NotNull
   @Override
   public List<TimedVcsCommit> readAllHashes(@NotNull VirtualFile root, @NotNull Consumer<VcsUser> userRegistry) throws VcsException {
-    return HgHistoryUtil.readAllHashes(myProject, root, userRegistry);
+    return HgHistoryUtil.readAllHashes(myProject, root, userRegistry, Collections.<String>emptyList());
   }
 
   @NotNull
@@ -88,6 +100,9 @@ public class HgLogProvider implements VcsLogProvider {
   @Override
   public Collection<VcsRef> readAllRefs(@NotNull VirtualFile root) throws VcsException {
     myRepositoryManager.waitUntilInitialized();
+    if (myProject.isDisposed()) {
+      return Collections.emptyList();
+    }
     HgRepository repository = myRepositoryManager.getRepositoryForRoot(root);
     if (repository == null) {
       LOG.error("Repository not found for root " + root);
@@ -117,7 +132,11 @@ public class HgLogProvider implements VcsLogProvider {
     }
     String currentRevision = repository.getCurrentRevision();
     if (currentRevision != null) { // null => fresh repository
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
       refs.add(myVcsObjectsFactory.createRef(myVcsObjectsFactory.createHash(currentRevision), "tip", HgRefManager.HEAD, root));
+=======
+      refs.add(myVcsObjectsFactory.createRef(myVcsObjectsFactory.createHash(currentRevision), RECENT_HEAD, HgRefManager.HEAD, root));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     for (HgNameWithHashInfo tagInfo : tags) {
       refs.add(myVcsObjectsFactory.createRef(tagInfo.getHash(), tagInfo.getName(), HgRefManager.TAG, root));
@@ -155,9 +174,15 @@ public class HgLogProvider implements VcsLogProvider {
 
   @NotNull
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public List<? extends VcsFullCommitDetails> getFilteredDetails(@NotNull final VirtualFile root,
                                                                  @NotNull VcsLogFilterCollection filterCollection,
                                                                  int maxCount) throws VcsException {
+=======
+  public List<TimedVcsCommit> getCommitsMatchingFilter(@NotNull final VirtualFile root,
+                                                                       @NotNull VcsLogFilterCollection filterCollection,
+                                                                       int maxCount) throws VcsException {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     List<String> filterParameters = ContainerUtil.newArrayList();
 
     // branch filter and user filter may be used several times without delimiter
@@ -170,7 +195,11 @@ public class HgLogProvider implements VcsLogProvider {
 
       boolean atLeastOneBranchExists = false;
       for (String branchName : filterCollection.getBranchFilter().getBranchNames()) {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
         if (branchExists(repository, branchName)) {
+=======
+        if (branchName.equals(RECENT_HEAD) || branchExists(repository, branchName)) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
           filterParameters.add(prepareParameter("branch", branchName));
           atLeastOneBranchExists = true;
         }
@@ -216,7 +245,11 @@ public class HgLogProvider implements VcsLogProvider {
       }
     }
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     return HgHistoryUtil.history(myProject, root, maxCount, filterParameters);
+=======
+    return HgHistoryUtil.readAllHashes(myProject, root, Consumer.EMPTY_CONSUMER, filterParameters);
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
   @Nullable

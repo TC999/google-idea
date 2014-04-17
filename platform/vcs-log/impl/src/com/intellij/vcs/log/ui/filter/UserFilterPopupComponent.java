@@ -15,6 +15,7 @@
  */
 package com.intellij.vcs.log.ui.filter;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.actionSystem.*;
@@ -32,37 +33,63 @@ import com.intellij.ui.EditorCustomization;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.EditorTextFieldProvider;
 import com.intellij.ui.SoftWrapsEditorCustomization;
+=======
+import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.util.Condition;
+import com.intellij.openapi.vfs.VirtualFile;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.util.Function;
 import com.intellij.util.TextFieldCompletionProviderDumbAware;
 import com.intellij.util.containers.ContainerUtil;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.vcs.log.VcsFullCommitDetails;
+=======
+import com.intellij.vcs.log.VcsCommitMetadata;
+import com.intellij.vcs.log.VcsLogUserFilter;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import com.intellij.vcs.log.VcsUser;
 import com.intellij.vcs.log.data.VcsLogDataHolder;
 import com.intellij.vcs.log.data.VcsLogUiProperties;
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import com.intellij.vcs.log.VcsLogUserFilter;
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+=======
+import java.util.*;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
 /**
  * Show a popup to select a user or enter the user name.
  */
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 class UserFilterPopupComponent extends FilterPopupComponent<VcsLogUserFilter> {
+=======
+class UserFilterPopupComponent extends MultipleValueFilterPopupComponent<VcsLogUserFilter> {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private static final String ME = "me";
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   private static final char[] USERS_SEPARATORS = { ',', '|', '\n' };
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
 
   private final VcsLogDataHolder myDataHolder;
   private final VcsLogUiProperties myUiProperties;
 
   @Nullable private Collection<String> mySelectedUsers;
 
-  UserFilterPopupComponent(VcsLogClassicFilterUi filterUi, VcsLogDataHolder dataHolder, VcsLogUiProperties uiProperties) {
+  UserFilterPopupComponent(@NotNull VcsLogClassicFilterUi filterUi, @NotNull VcsLogDataHolder dataHolder,
+                           @NotNull VcsLogUiProperties uiProperties) {
     super(filterUi, "User");
     myDataHolder = dataHolder;
     myUiProperties = uiProperties;
@@ -70,6 +97,7 @@ class UserFilterPopupComponent extends FilterPopupComponent<VcsLogUserFilter> {
 
   @Override
   protected ActionGroup createActionGroup() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     AnAction allAction = new DumbAwareAction(ALL) {
       @Override
       public void actionPerformed(AnActionEvent e) {
@@ -87,18 +115,35 @@ class UserFilterPopupComponent extends FilterPopupComponent<VcsLogUserFilter> {
       for (List<String> recentGroup : recentlyFilteredUsers) {
         group.add(new UserAction(recentGroup));
       }
+=======
+    DefaultActionGroup group = new DefaultActionGroup();
+    group.add(createAllAction());
+    group.add(createSelectMultipleValuesAction());
+    if (!myDataHolder.getCurrentUser().isEmpty()) {
+      group.add(createPredefinedValueAction(Collections.singleton(ME)));
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
-    group.addSeparator();
-    group.add(new SelectUserAction());
+    group.addAll(createRecentItemsActionGroup());
     return group;
+  }
+
+  @NotNull
+  @Override
+  protected List<List<String>> getRecentValuesFromSettings() {
+    return myUiProperties.getRecentlyFilteredUserGroups();
   }
 
   @Nullable
   @Override
   protected VcsLogUserFilter getFilter() {
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     if (mySelectedUsers == null) {
+=======
+    if (getSelectedValues() == null) {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
       return null;
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     myUiProperties.addRecentlyFilteredUserGroup(new ArrayList<String>(mySelectedUsers));
     return new VcsLogUserFilterImpl(mySelectedUsers, myDataHolder.getCurrentUser());
   }
@@ -134,15 +179,54 @@ class UserFilterPopupComponent extends FilterPopupComponent<VcsLogUserFilter> {
     public void actionPerformed(AnActionEvent e) {
       apply(myUsers, displayableText(myUsers), tooltip(myUsers));
     }
+=======
+    return new VcsLogUserFilterImpl(getSelectedValues(), myDataHolder.getCurrentUser());
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 
-  private class SelectUserAction extends DumbAwareAction {
+  @Override
+  protected void rememberValuesInSettings(@NotNull Collection<String> values) {
+    myUiProperties.addRecentlyFilteredUserGroup(new ArrayList<String>(values));
+  }
 
-    SelectUserAction() {
-      super("Select...");
+  @NotNull
+  @Override
+  protected List<String> getAllValues() {
+    return ContainerUtil.map(myDataHolder.getAllUsers(), new Function<VcsUser, String>() {
+      @Override
+      public String fun(VcsUser user) {
+        return user.getName();
+      }
+    });
+  }
+
+  private static class VcsLogUserFilterImpl implements VcsLogUserFilter {
+
+    @NotNull private final Collection<String> myUsers;
+    @NotNull private final Map<VirtualFile, VcsUser> myData;
+
+    public VcsLogUserFilterImpl(@NotNull Collection<String> users, @NotNull Map<VirtualFile, VcsUser> meData) {
+      myUsers = users;
+      myData = meData;
+    }
+
+    @NotNull
+    @Override
+    public Collection<String> getUserNames(@NotNull final VirtualFile root) {
+      return ContainerUtil.mapNotNull(myUsers, new Function<String, String>() {
+        @Override
+        public String fun(String user) {
+          if (ME.equals(user)) {
+            VcsUser vcsUser = myData.get(root);
+            return vcsUser == null ? null : vcsUser.getName();
+          }
+          return user;
+        }
+      });
     }
 
     @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     public void actionPerformed(AnActionEvent e) {
       Project project = e.getProject();
       if (project == null) {
@@ -150,11 +234,18 @@ class UserFilterPopupComponent extends FilterPopupComponent<VcsLogUserFilter> {
       }
 
       Collection<String> users = ContainerUtil.map(myDataHolder.getAllUsers(), new Function<VcsUser, String>() {
+=======
+    public boolean matches(@NotNull final VcsCommitMetadata commit) {
+      return ContainerUtil.exists(getUserNames(commit.getRoot()), new Condition<String>() {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         @Override
-        public String fun(VcsUser user) {
-          return user.getName();
+        public boolean value(String user) {
+          String lowerUser = user.toLowerCase();
+          return commit.getAuthor().getName().toLowerCase().contains(lowerUser) ||
+                 commit.getAuthor().getEmail().toLowerCase().contains(lowerUser);
         }
       });
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
 
       final MultilinePopupBuilder popupBuilder = new MultilinePopupBuilder(project, users);
       JBPopup popup = popupBuilder.createPopup();
@@ -174,7 +265,10 @@ class UserFilterPopupComponent extends FilterPopupComponent<VcsLogUserFilter> {
         }
       });
       popup.showUnderneathOf(UserFilterPopupComponent.this);
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   }
 
   private static class MultilinePopupBuilder {
@@ -296,5 +390,7 @@ class UserFilterPopupComponent extends FilterPopupComponent<VcsLogUserFilter> {
       });
     }
 
+=======
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
   }
 }

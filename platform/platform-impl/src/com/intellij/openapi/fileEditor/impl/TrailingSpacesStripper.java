@@ -31,6 +31,7 @@ import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.ShutDownTracker;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.IdeFocusManager;
+import com.intellij.util.ArrayUtil;
 import com.intellij.util.text.CharArrayUtil;
 import gnu.trove.THashSet;
 import org.jetbrains.annotations.NotNull;
@@ -133,12 +134,26 @@ public final class TrailingSpacesStripper extends FileDocumentManagerAdapter {
     final boolean doStrip = !stripTrailingSpaces.equals(EditorSettingsExternalizable.STRIP_TRAILING_SPACES_NONE);
     final boolean inChangedLinesOnly = !stripTrailingSpaces.equals(EditorSettingsExternalizable.STRIP_TRAILING_SPACES_WHOLE);
 
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
     List<Integer> caretLines = new ArrayList<Integer>();
     if (activeEditor != null && inChangedLinesOnly && doStrip && !isVirtualSpaceEnabled) {
       List<Caret> carets = activeEditor.getCaretModel().getAllCarets();
       for (Caret caret : carets) {
         caretLines.add(caret.getLogicalPosition().line);
       }
+=======
+    int[] caretLines;
+    if (activeEditor != null && inChangedLinesOnly && doStrip && !isVirtualSpaceEnabled) {
+      List<Caret> carets = activeEditor.getCaretModel().getAllCarets();
+      caretLines = new int[carets.size()];
+      for (int i = 0; i < carets.size(); i++) {
+        Caret caret = carets.get(i);
+        caretLines[i] = caret.getLogicalPosition().line;
+      }
+    }
+    else {
+      caretLines = ArrayUtil.EMPTY_INT_ARRAY;
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     }
     ((DocumentImpl)document).clearLineModificationFlagsExcept(caretLines);
   }

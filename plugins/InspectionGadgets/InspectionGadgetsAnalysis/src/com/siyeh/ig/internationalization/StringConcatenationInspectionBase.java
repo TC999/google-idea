@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
  * Copyright 2003-2013 Dave Griffith, Bas Leijdekkers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -95,6 +96,121 @@ public class StringConcatenationInspectionBase extends BaseInspection {
           final PsiModifierListOwner modifierListOwner = (PsiModifierListOwner)target;
           final InspectionGadgetsFix fix = createAddAnnotationFix(modifierListOwner);
           result.add(fix);
+=======
+ * Copyright 2003-2014 Dave Griffith, Bas Leijdekkers
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.siyeh.ig.internationalization;
+
+import com.intellij.codeInsight.AnnotationUtil;
+import com.intellij.codeInsight.intention.AddAnnotationPsiFix;
+import com.intellij.codeInspection.ui.MultipleCheckboxOptionsPanel;
+import com.intellij.psi.*;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.util.InheritanceUtil;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.refactoring.util.RefactoringChangeUtil;
+import com.siyeh.InspectionGadgetsBundle;
+import com.siyeh.ig.BaseInspection;
+import com.siyeh.ig.BaseInspectionVisitor;
+import com.siyeh.ig.DelegatingFix;
+import com.siyeh.ig.InspectionGadgetsFix;
+import com.siyeh.ig.psiutils.ExpressionUtils;
+import com.siyeh.ig.psiutils.MethodUtils;
+import com.siyeh.ig.psiutils.ParenthesesUtils;
+import com.siyeh.ig.psiutils.TypeUtils;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class StringConcatenationInspectionBase extends BaseInspection {
+
+  @SuppressWarnings({"PublicField"})
+  public boolean ignoreAsserts = false;
+
+  @SuppressWarnings({"PublicField"})
+  public boolean ignoreSystemOuts = false;
+
+  @SuppressWarnings({"PublicField"})
+  public boolean ignoreSystemErrs = false;
+
+  @SuppressWarnings({"PublicField"})
+  public boolean ignoreThrowableArguments = false;
+
+  @SuppressWarnings({"PublicField"})
+  public boolean ignoreConstantInitializers = false;
+
+  @SuppressWarnings({"PublicField", "UnusedDeclaration"})
+  public boolean ignoreInTestCode = false; // keep for compatibility
+
+  @SuppressWarnings("PublicField")
+  public boolean ignoreInToString = false;
+
+  @Override
+  @NotNull
+  public String getDisplayName() {
+    return InspectionGadgetsBundle.message("string.concatenation.display.name");
+  }
+
+  @Override
+  @NotNull
+  public String buildErrorString(Object... infos) {
+    return InspectionGadgetsBundle.message("string.concatenation.problem.descriptor");
+  }
+
+  @Override
+  @NotNull
+  protected InspectionGadgetsFix[] buildFixes(Object... infos) {
+    final PsiPolyadicExpression polyadicExpression = (PsiPolyadicExpression)infos[0];
+    final Collection<InspectionGadgetsFix> result = new ArrayList();
+    final PsiElement parent = ParenthesesUtils.getParentSkipParentheses(polyadicExpression);
+    if (parent instanceof PsiVariable) {
+      final PsiVariable variable = (PsiVariable)parent;
+      final InspectionGadgetsFix fix = createAddAnnotationFix(variable);
+      result.add(fix);
+    }
+    else if (parent instanceof PsiAssignmentExpression) {
+      final PsiAssignmentExpression assignmentExpression = (PsiAssignmentExpression)parent;
+      final PsiExpression lhs = assignmentExpression.getLExpression();
+      if (lhs instanceof PsiReferenceExpression) {
+        final PsiReferenceExpression referenceExpression = (PsiReferenceExpression)lhs;
+        final PsiElement target = referenceExpression.resolve();
+        if (target instanceof PsiModifierListOwner) {
+          final PsiModifierListOwner modifierListOwner = (PsiModifierListOwner)target;
+          final InspectionGadgetsFix fix = createAddAnnotationFix(modifierListOwner);
+          result.add(fix);
+        }
+      }
+    }
+    else if (parent instanceof PsiExpressionList) {
+      final PsiElement grandParent = parent.getParent();
+      if (grandParent instanceof PsiMethodCallExpression) {
+        final PsiMethodCallExpression methodCallExpression = (PsiMethodCallExpression)grandParent;
+        final PsiReferenceExpression methodExpression = methodCallExpression.getMethodExpression();
+        final PsiExpression qualifierExpression = methodExpression.getQualifierExpression();
+        if (qualifierExpression instanceof PsiReferenceExpression) {
+          final PsiReferenceExpression referenceExpression = (PsiReferenceExpression)qualifierExpression;
+          final PsiElement target = referenceExpression.resolve();
+          if (target instanceof PsiModifierListOwner) {
+            final PsiModifierListOwner modifierListOwner = (PsiModifierListOwner)target;
+            result.add(createAddAnnotationFix(modifierListOwner));
+          }
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
         }
       }
     }

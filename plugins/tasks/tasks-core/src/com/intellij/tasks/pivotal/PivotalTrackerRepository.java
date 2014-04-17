@@ -263,7 +263,7 @@ public class PivotalTrackerRepository extends BaseRepositoryImpl {
 
   @Nullable
   @Override
-  public Task findTask(final String id) throws Exception {
+  public Task findTask(@NotNull final String id) throws Exception {
     final String realId = getRealId(id);
     if (realId == null) return null;
     final String url = API_URL + "/projects/" + myProjectId + "/stories/" + realId;
@@ -282,11 +282,12 @@ public class PivotalTrackerRepository extends BaseRepositoryImpl {
   }
 
   @Nullable
-  public String extractId(final String taskName) {
+  public String extractId(@NotNull final String taskName) {
     Matcher matcher = myPattern.matcher(taskName);
     return matcher.find() ? matcher.group(1) : null;
   }
 
+  @NotNull
   @Override
   public BaseRepository clone() {
     return new PivotalTrackerRepository(this);
@@ -322,7 +323,7 @@ public class PivotalTrackerRepository extends BaseRepositoryImpl {
 
   @Nullable
   @Override
-  public String getTaskComment(final Task task) {
+  public String getTaskComment(@NotNull final Task task) {
     if (isShouldFormatCommitMessage()) {
       final String id = task.getId();
       final String realId = getRealId(id);
@@ -334,7 +335,11 @@ public class PivotalTrackerRepository extends BaseRepositoryImpl {
   }
 
   @Override
+<<<<<<< HEAD   (675888 Merge "Remove unused cloud tools templates")
   public void setTaskState(Task task, TaskState state) throws Exception {
+=======
+  public void setTaskState(@NotNull Task task, @NotNull TaskState state) throws Exception {
+>>>>>>> BRANCH (925846 Snapshot 117b3dbedca758fa08dd37d4a36cf4a2320fae03 from idea/)
     final String realId = getRealId(task.getId());
     if (realId == null) return;
     final String stateName;
