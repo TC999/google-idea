@@ -19,6 +19,7 @@ import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -38,6 +39,10 @@ public abstract class WritingAccessProvider {
 
   public abstract boolean isPotentiallyWritable(@NotNull VirtualFile file);
 
+  protected boolean canAllowWrites(@NotNull VirtualFile file, @Nullable Project project) {
+    return isPotentiallyWritable(file);
+  }
+
   public static WritingAccessProvider[] getProvidersForProject(Project project) {
     return project == null || project.isDefault() ? new WritingAccessProvider[0] : Extensions.getExtensions(EP_NAME, project);
   }
@@ -45,7 +50,7 @@ public abstract class WritingAccessProvider {
   public static boolean isPotentiallyWritable(VirtualFile file, Project project) {
     WritingAccessProvider[] providers = getProvidersForProject(project);
     for (WritingAccessProvider provider : providers) {
-      if (!provider.isPotentiallyWritable(file)) {
+      if (!provider.canAllowWrites(file, project)) {
         return false;
       }
     }
