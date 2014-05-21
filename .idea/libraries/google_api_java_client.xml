@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="google-api-java-client">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../prebuilts/tools/common/google-api-java-client/1.8.0-rc" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../prebuilts/tools/common/google-api-java-client/1.8.0-rc" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/../../prebuilts/tools/common/google-api-java-client/1.8.0-rc" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../prebuilts/tools/common/google-api-java-client/1.8.0-rc" recursive="false" type="SOURCES" />
+  </library>
+</component>
