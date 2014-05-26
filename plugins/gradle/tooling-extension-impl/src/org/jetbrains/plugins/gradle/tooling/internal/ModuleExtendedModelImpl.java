@@ -17,6 +17,7 @@ package org.jetbrains.plugins.gradle.tooling.internal;
 
 import org.gradle.tooling.model.DomainObjectSet;
 import org.gradle.tooling.model.internal.ImmutableDomainObjectSet;
+import org.jetbrains.plugins.gradle.model.IdeaCompilerOutput;
 import org.jetbrains.plugins.gradle.model.ExtIdeaContentRoot;
 import org.jetbrains.plugins.gradle.model.ModuleExtendedModel;
 
@@ -35,6 +36,8 @@ public class ModuleExtendedModelImpl implements ModuleExtendedModel {
   private final String myVersion;
   private List<File> myArtifacts;
   private Set<ExtIdeaContentRoot> myContentRoots;
+  private IdeaCompilerOutput myMainOutput;
+  private IdeaCompilerOutput myCompilerOutput;
 
   public ModuleExtendedModelImpl(String name, String group, String version) {
     myName = name;
@@ -75,5 +78,14 @@ public class ModuleExtendedModelImpl implements ModuleExtendedModel {
 
   public void setContentRoots(Set<ExtIdeaContentRoot> contentRoots) {
     myContentRoots = contentRoots == null ? Collections.<ExtIdeaContentRoot>emptySet() : contentRoots;
+  }
+
+  @Override
+  public IdeaCompilerOutput getCompilerOutput() {
+    return myMainOutput;
+  }
+
+  public void setCompilerOutput(IdeaCompilerOutput mainOutput) {
+    myMainOutput = mainOutput;
   }
 }

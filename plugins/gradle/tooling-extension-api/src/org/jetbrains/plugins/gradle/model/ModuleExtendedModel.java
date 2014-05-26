@@ -60,4 +60,6 @@ public interface ModuleExtendedModel extends Serializable {
    * @return content roots
    */
   DomainObjectSet<? extends ExtIdeaContentRoot> getContentRoots();
+
+  IdeaCompilerOutput getCompilerOutput();
 }
