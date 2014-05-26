@@ -20,6 +20,7 @@ import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
+import org.gradle.api.tasks.SourceSetOutput;
 import org.gradle.api.tasks.bundling.Jar;
 import org.gradle.api.tasks.testing.Test;
 import org.gradle.plugins.ide.idea.IdeaPlugin;
@@ -28,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.gradle.model.ExtIdeaContentRoot;
 import org.jetbrains.plugins.gradle.model.ModuleExtendedModel;
 import org.jetbrains.plugins.gradle.tooling.ModelBuilderService;
+import org.jetbrains.plugins.gradle.tooling.internal.IdeaCompilerOutputImpl;
 import org.jetbrains.plugins.gradle.tooling.internal.IdeaContentRootImpl;
 import org.jetbrains.plugins.gradle.tooling.internal.IdeaSourceDirectoryImpl;
 import org.jetbrains.plugins.gradle.tooling.internal.ModuleExtendedModelImpl;
@@ -92,11 +94,25 @@ public class ModuleExtendedModelBuilderImpl implements ModelBuilderService {
       }
     }
 
+    IdeaCompilerOutputImpl mainOutput = new IdeaCompilerOutputImpl();
+    IdeaCompilerOutputImpl testOutput = new IdeaCompilerOutputImpl();
+
     if (project.hasProperty(SOURCE_SETS_PROPERTY)) {
       Object sourceSets = project.property(SOURCE_SETS_PROPERTY);
       if (sourceSets instanceof SourceSetContainer) {
         SourceSetContainer sourceSetContainer = (SourceSetContainer)sourceSets;
         for (SourceSet sourceSet : sourceSetContainer) {
+
+          SourceSetOutput output = sourceSet.getOutput();
+          if (SourceSet.TEST_SOURCE_SET_NAME.equals(sourceSet.getName())) {
+            testOutput.setOutputDir(output.getClassesDir());
+            testOutput.setResourcesDir(output.getResourcesDir());
+          }
+          if (SourceSet.MAIN_SOURCE_SET_NAME.equals(sourceSet.getName())) {
+            mainOutput.setOutputDir(output.getClassesDir());
+            mainOutput.setResourcesDir(output.getResourcesDir());
+          }
+
           for (File javaSrcDir : sourceSet.getAllJava().getSrcDirs()) {
             boolean isTestDir = isTestDir(sourceSet, testClassesDirs);
             addFilePath(isTestDir ? testDirectories : sourceDirectories, javaSrcDir);
@@ -163,6 +179,8 @@ public class ModuleExtendedModelBuilderImpl implements ModelBuilderService {
     }
 
     moduleVersionModel.setContentRoots(Collections.<ExtIdeaContentRoot>singleton(contentRoot));
+    moduleVersionModel.setMainOutput(mainOutput);
+    moduleVersionModel.setTestOutput(mainOutput);
     return moduleVersionModel;
   }
 
