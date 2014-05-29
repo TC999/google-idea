@@ -67,6 +67,7 @@ public interface ModuleExtendedModel extends Serializable {
    * @return the build directory.
    */
   File getBuildDir();
+<<<<<<< HEAD   (dc0e9a Merge "Update builder model prebuilt.")
 
   /**
    * The compiler output directories.
@@ -74,4 +75,6 @@ public interface ModuleExtendedModel extends Serializable {
    * @return the compiler output directories.
    */
   ExtIdeaCompilerOutput getCompilerOutput();
+=======
+>>>>>>> BRANCH (c667c1 Snapshot idea/138.343 from git://git.jetbrains.org/idea/comm)
 }

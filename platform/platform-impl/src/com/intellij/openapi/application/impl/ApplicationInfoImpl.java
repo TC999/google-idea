@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (dc0e9a Merge "Update builder model prebuilt.")
 /*
  * Copyright 2000-2014 JetBrains s.r.o.
  *
@@ -761,3 +762,5 @@ public class ApplicationInfoImpl extends ApplicationInfoEx implements JDOMExtern
     }
   }
 }
+=======
+>>>>>>> BRANCH (c667c1 Snapshot idea/138.343 from git://git.jetbrains.org/idea/comm)
