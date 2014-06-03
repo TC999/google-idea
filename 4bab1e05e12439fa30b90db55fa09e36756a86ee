@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dffef0bb_33f2cb78",
+        "filename": ".idea/libraries/google_api_java_client.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-06-03T15:16:20Z",
+      "side": 1,
+      "message": "shouldn\u0027t it directly point to the jar file instead of the jarDirectory? (See most other files inside .idea/libraries)",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 17
+      },
+      "revId": "4bab1e05e12439fa30b90db55fa09e36756a86ee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
