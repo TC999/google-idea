@@ -500,6 +500,7 @@ public def layoutCommunityPlugins(String home) {
       }
     }
 
+<<<<<<< HEAD   (ebae45 Merge "Merge remote-tracking branch 'aosp/upstream-master' i)
     // devkit not needed in AS
     // layoutPlugin("devkit") {
     //   dir("jps") {
@@ -521,6 +522,24 @@ public def layoutCommunityPlugins(String home) {
     //     module("common-eclipse-util")
     //   }
     // }
+=======
+    layoutPlugin("devkit") {
+      jar("devkit-jps-plugin.jar") {
+        module("devkit-jps-plugin")
+      }
+      fileset(dir: "${home}/plugins/devkit/lib") {
+        include(name: "**/*.jar")
+      }
+    }
+    layoutPlugin("eclipse") {
+      jar("eclipse-jps-plugin.jar") {
+        module("eclipse-jps-plugin")
+      }
+      jar("common-eclipse-util.jar") {
+        module("common-eclipse-util")
+      }
+    }
+>>>>>>> BRANCH (9ea672 Snapshot idea/138.538 from git://git.jetbrains.org/idea/comm)
 
     layoutPlugin("terminal") {
       jar("terminal.jar") {
