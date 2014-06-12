@@ -32,8 +32,39 @@ target(compile: "Compile project") {
 
   loadProject()
   projectBuilder.targetFolder = out
-  projectBuilder.cleanOutput()
-  projectBuilder.buildAll()
+  //projectBuilder.cleanOutput()
+  //projectBuilder.buildAll()
+}
+
+target(createManifest: "Build the classpath manifest") {
+  manifestJarName = "${out}/test/_test_classpath_manifest.jar"
+
+  // Stuff the classpaths into a manifest in a jar file since Windows can't handle
+  // anything longer than 8191 characters on the command line.
+  path(id: "classpaths") {
+    projectBuilder.moduleRuntimeClasspath(findModule("community-main"), true).each {
+      // Filter out junit.jar and explicitly include it in -classpath,
+      // or else *something* won't be happy about it.
+      if (!it.contains("junit.jar")) {
+        pathelement(location: it)
+      }
+    }
+  }
+
+  // Default maxParentLevels is 2. 50 ought to be enough for the number of parent directories to pop.
+  manifestclasspath(property: "manifestClasspaths", jarfile: "${manifestJarName}", maxParentLevels: 50) {
+    classpath(refid: "classpaths")
+  }
+
+  ant.jar(destfile: manifestJarName) {
+    manifest() {
+      attribute(name: "Class-Path", value: "${manifestClasspaths}")
+    }
+  }
+}
+
+target(deleteManifest: "Delete the classpath manifest file createManifest generated") {
+  delete(file: createManifest.manifestJarName)
 }
 
 private pass(String prop) {
@@ -43,8 +74,10 @@ private pass(String prop) {
 }
 
 target('run_tests': 'Run java tests') {
-  depends([check, compile])
+  depends([check, compile, createManifest, run_junit_tests, deleteManifest])
+}
 
+target('run_junit_tests': 'Run JUnit tests') {
   ant.junit(fork: "yes", showoutput: "true", logfailedtests:false, printsummary: "true") {
     pass("idea.test.group")
     pass("idea.test.patterns")
@@ -69,8 +102,11 @@ target('run_tests': 'Run java tests') {
 
     classpath {
       projectBuilder.moduleRuntimeClasspath(findModule("community-main"), true).each {
-        pathelement(location: it)
+        if (it.contains("junit.jar")) {
+          pathelement(location: it)
+        }
       }
+      pathelement(location: createManifest.manifestJarName)
       pathelement(location: "${jdkHome}/lib/tools.jar")
     }
 
