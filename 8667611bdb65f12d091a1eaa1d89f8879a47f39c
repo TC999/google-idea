@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df74307d_be9f5852",
+        "filename": "build/scripts/common_tests.gant",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1047759
+      },
+      "writtenOn": "2014-06-13T00:13:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f49844c_b8c7617a",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "8667611bdb65f12d091a1eaa1d89f8879a47f39c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df74307d_be43d827",
         "filename": "build/scripts/common_tests.gant",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-12T23:57:21Z",
       "side": 1,
       "message": "I don\u0027t know if it is nicer to access a global variable, or to access a variable defined within a closure :)",
+      "range": {
+        "startLine": 67,
+        "startChar": 15,
+        "endLine": 67,
+        "endChar": 45
+      },
+      "revId": "8667611bdb65f12d091a1eaa1d89f8879a47f39c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf713c8e_a3eca475",
+        "filename": "build/scripts/common_tests.gant",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1047759
+      },
+      "writtenOn": "2014-06-13T00:13:05Z",
+      "side": 1,
+      "message": "Probably global is better.",
+      "parentUuid": "df74307d_be43d827",
       "range": {
         "startLine": 67,
         "startChar": 15,
