@@ -16,6 +16,24 @@
       "revId": "1380cc9d7a3b82e79b46723b773ee3fd4e7a0a2e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3264d4_0a365b1e",
+        "filename": "platform/platform-resources-en/src/messages/IdeBundle.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-06-16T17:27:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f6e38af_ff946a2d",
+      "revId": "1380cc9d7a3b82e79b46723b773ee3fd4e7a0a2e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
