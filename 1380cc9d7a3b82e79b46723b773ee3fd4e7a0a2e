@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f6e38af_ff946a2d",
+        "filename": "platform/platform-resources-en/src/messages/IdeBundle.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-06-16T17:23:04Z",
+      "side": 1,
+      "message": "It\u0027s not just performance issues;  in https://plus.google.com/115716480495055328736/posts/Z52huF2t7yH for example it\u0027s clear the UI isn\u0027t repainting correctly. Maybe tack on \"and UI bugs\" ?\n\nPerhaps also add in \"the\" before Oracle ((using the ...\").",
+      "revId": "1380cc9d7a3b82e79b46723b773ee3fd4e7a0a2e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
