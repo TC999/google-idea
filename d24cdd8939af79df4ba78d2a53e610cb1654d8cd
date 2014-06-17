@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e44ec981_79154fa2",
+        "filename": ".idea/runConfigurations/Android_Plugin_Tests.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-06-17T18:34:15Z",
+      "side": 1,
+      "message": "Could we add the necessary env vars here? (set them to invalid or empty values if necessary). That way we don\u0027t need a doc.",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "d24cdd8939af79df4ba78d2a53e610cb1654d8cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
