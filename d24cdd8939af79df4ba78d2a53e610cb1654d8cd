@@ -22,6 +22,24 @@
       "revId": "d24cdd8939af79df4ba78d2a53e610cb1654d8cd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e44ec981_7445562c",
+        "filename": ".idea/runConfigurations/Android_Plugin_Tests.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2014-06-17T18:52:13Z",
+      "side": 1,
+      "message": "The problem is, if I put in invalid values, each programmer will have to check the file out locally to modify it but not be allowed to check it in.",
+      "parentUuid": "e44ec981_79154fa2",
+      "revId": "d24cdd8939af79df4ba78d2a53e610cb1654d8cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
