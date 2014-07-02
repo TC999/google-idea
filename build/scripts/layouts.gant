@@ -746,6 +746,15 @@ def layoutCloud() {
         include(name: "**/*.jar")
       }
     }
+    layoutPlugin("login") {
+      jar("google-android-login.jar") {
+        module("login")
+      }
+      fileset(dir: "${home}/../studio/cloud/lib") {
+        include(name: "**/*.jar")
+      }
+      fileset(file: "${home}/../../prebuilts/tools/common/google-api-java-client/1.8.0-rc/google-api-java-client-min-repackaged.jar")
+    }
   }
 }
 
