@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4c6c9d8_688edb6b",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-07-02T19:55:15Z",
+      "side": 1,
+      "message": "I think Appu did this split (lib, lib-working) saying that only one of them would be used until he got everything working. If everything is now working, then we shouldn\u0027t have this split. I\u0027ll wait for Appu to +1 this CL.",
+      "range": {
+        "startLine": 756,
+        "startChar": 44,
+        "endLine": 756,
+        "endChar": 47
+      },
+      "revId": "0ebdb1ea6015fd063157f8807aa469558599bc5c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04cafddd_09812d3c",
+        "filename": "community-main.iml",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-07-02T19:55:15Z",
+      "side": 1,
+      "message": "could we have a better name (google-login) maybe?",
+      "range": {
+        "startLine": 107,
+        "startChar": 43,
+        "endLine": 107,
+        "endChar": 48
+      },
+      "revId": "0ebdb1ea6015fd063157f8807aa469558599bc5c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
