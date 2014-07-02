@@ -746,6 +746,17 @@ def layoutCloud() {
         include(name: "**/*.jar")
       }
     }
+    layoutPlugin("login") {
+      jar("google-android-login.jar") {
+        module("login")
+      }
+      fileset(dir: "${home}/../studio/cloud/lib") {
+        include(name: "**/*.jar")
+      }
+      fileset(dir: "${home}/../studio/cloud/lib-working") {
+        include(name: "**/*.jar")
+      }
+    }
   }
 }
 
