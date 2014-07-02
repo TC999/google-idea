@@ -253,7 +253,7 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
 
 public def layoutCommunityPlugins(String home) {
   layoutAndroid()
-  layoutCloud()
+  layoutGoogle()
 
   dir("plugins") {
     def simplePlugins = ["commander", "copyright", "java-i18n", "hg4idea", "github"] //, "tasks-time-tracking"]
@@ -730,7 +730,7 @@ def layoutAndroid() {
   }
 }
 
-def layoutCloud() {
+def layoutGoogle() {
   dir("plugins") {
     layoutPlugin("google-cloud-tools") {
       jar("google-cloud-tools.jar") {
@@ -745,6 +745,15 @@ def layoutCloud() {
       fileset(dir: "${home}/../studio/cloud/lib") {
         include(name: "**/*.jar")
       }
+    }
+    layoutPlugin("google-login") {
+      jar("google-login.jar") {
+        module("google-login")
+      }
+      fileset(dir: "${home}/../studio/cloud/lib") {
+        include(name: "**/*.jar")
+      }
+      fileset(file: "${home}/../../prebuilts/tools/common/google-api-java-client/1.8.0-rc/google-api-java-client-min-repackaged.jar")
     }
   }
 }
