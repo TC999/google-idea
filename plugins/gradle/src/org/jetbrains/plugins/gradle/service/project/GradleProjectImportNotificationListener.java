@@ -27,6 +27,7 @@ import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+<<<<<<< HEAD   (6470cd Make the default update channel search for updates "beta" in)
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.gradle.util.GradleConstants;
@@ -81,5 +82,99 @@ public class GradleProjectImportNotificationListener extends ExternalSystemTaskN
     if (start == -1) return null;
     int end = str.indexOf(close, start + open.length());
     return end != -1 ? str.substring(start + open.length(), end) : null;
+=======
+import com.intellij.pom.Navigatable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.plugins.gradle.util.GradleConstants;
+
+import java.io.File;
+
+import static org.jetbrains.plugins.gradle.tooling.ErrorMessageBuilder.*;
+
+/**
+ * @author Vladislav.Soroka
+ * @since 5/13/2014
+ */
+public class GradleProjectImportNotificationListener extends ExternalSystemTaskNotificationListenerAdapter {
+  @Override
+  public void onTaskOutput(@NotNull ExternalSystemTaskId id, @NotNull String text, boolean stdOut) {
+    if (!stdOut && !StringUtil.isEmpty(text) &&
+        GradleConstants.SYSTEM_ID.getId().equals(id.getProjectSystemId().getId()) &&
+        id.getType() == ExternalSystemTaskType.RESOLVE_PROJECT) {
+      final Project project = id.findProject();
+      if (project != null) {
+        if (StringUtil.startsWith(text, GROUP_TAG)) {
+          final String group = substringBetween(text, GROUP_TAG, GROUP_TAG);
+          if (StringUtil.isEmpty(group)) return;
+
+          int start = (GROUP_TAG.length() * 2) + group.length();
+
+          String path = null;
+          String errorMessage = text.substring(start);
+          if (StringUtil.startsWith(errorMessage, NAV_TAG)) {
+            path = substringBetween(errorMessage, NAV_TAG, NAV_TAG);
+            if (!StringUtil.isEmpty(path)) {
+              start += (NAV_TAG.length() * 2) + path.length();
+            }
+          }
+
+          errorMessage = text.substring(start).replaceAll(EOL_TAG, "\n");
+          NotificationData notification = new NotificationData(
+            group, errorMessage, NotificationCategory.WARNING, NotificationSource.PROJECT_SYNC);
+
+          if (path != null) {
+            notification.setNavigatable(new MyNavigatable(new File(path), project));
+          }
+
+          ExternalSystemNotificationManager.getInstance(project).showNotification(id.getProjectSystemId(), notification);
+        }
+      }
+    }
+  }
+
+  @Nullable
+  private static String substringBetween(@NotNull String str, @NotNull String open, @NotNull String close) {
+    int start = str.indexOf(open);
+    if (start == -1) return null;
+    int end = str.indexOf(close, start + open.length());
+    return end != -1 ? str.substring(start + open.length(), end) : null;
+  }
+
+  private static class MyNavigatable implements Navigatable {
+
+    private final @NotNull File myFile;
+    private final @NotNull Project myProject;
+    private volatile OpenFileDescriptor openFileDescriptor;
+
+    public MyNavigatable(@NotNull File file, @NotNull Project project) {
+      myFile = file;
+      myProject = project;
+    }
+
+    @Override
+    public void navigate(boolean requestFocus) {
+      OpenFileDescriptor fileDescriptor = openFileDescriptor;
+      if (fileDescriptor == null) {
+        final VirtualFile virtualFile = ExternalSystemUtil.waitForTheFile(myFile.getPath());
+        if (virtualFile != null) {
+          openFileDescriptor = fileDescriptor = new OpenFileDescriptor(myProject, virtualFile);
+        }
+      }
+      if (fileDescriptor != null && fileDescriptor.canNavigate()) {
+        fileDescriptor.navigate(requestFocus);
+      }
+    }
+
+    @Override
+    public boolean canNavigate() {
+      return myFile.exists();
+    }
+
+    @Override
+    public boolean canNavigateToSource() {
+      return canNavigate();
+    }
+>>>>>>> BRANCH (15111b Snapshot idea/135.1146 from git://git.jetbrains.org/idea/com)
   }
 }
