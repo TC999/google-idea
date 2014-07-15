@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79d0c40f_6af02643",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 7
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-07-15T20:36:14Z",
+      "side": 1,
+      "message": "layoutGoogle instead maybe?",
+      "range": {
+        "startLine": 733,
+        "startChar": 4,
+        "endLine": 733,
+        "endChar": 15
+      },
+      "revId": "e299273c59a9d04b9accf3b6971a8312c1b9acbb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79d0c40f_aafa2e20",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 7
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-07-15T20:36:14Z",
+      "side": 1,
+      "message": "maybe just google-login.jar?",
+      "range": {
+        "startLine": 750,
+        "startChar": 18,
+        "endLine": 750,
+        "endChar": 25
+      },
+      "revId": "e299273c59a9d04b9accf3b6971a8312c1b9acbb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
