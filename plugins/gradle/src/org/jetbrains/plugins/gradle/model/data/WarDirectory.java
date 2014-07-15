@@ -17,12 +17,21 @@ package org.jetbrains.plugins.gradle.model.data;
 
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
+<<<<<<< HEAD   (38117e Merge "Gradle: Tooling API libs upgraded up to 2.0" into ide)
+=======
+
+import java.io.Serializable;
+>>>>>>> BRANCH (19eb4b Snapshot idea/135.1228 from git://git.jetbrains.org/idea/com)
 
 /**
  * @author Vladislav.Soroka
  * @since 2/10/14
  */
+<<<<<<< HEAD   (38117e Merge "Gradle: Tooling API libs upgraded up to 2.0" into ide)
 public class WarDirectory {
+=======
+public class WarDirectory implements Serializable {
+>>>>>>> BRANCH (19eb4b Snapshot idea/135.1228 from git://git.jetbrains.org/idea/com)
   /**
    * Public files typically include the following:
    * HTML files.
