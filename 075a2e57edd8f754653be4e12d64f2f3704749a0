@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "592060de_b1a2821c",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 8
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-07-15T21:18:14Z",
+      "side": 1,
+      "message": "Could you add a note here saying \"Also see similar issue in Google Cloud Login plugin\"",
+      "range": {
+        "startLine": 667,
+        "startChar": 11,
+        "endLine": 667,
+        "endChar": 16
+      },
+      "revId": "075a2e57edd8f754653be4e12d64f2f3704749a0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "592060de_71700aea",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 8
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-07-15T21:18:14Z",
+      "side": 1,
+      "message": "Add a comment above saying \"Additional libraries that need to be manually copied, see how freemarker is copied by the Android plugin\".",
+      "range": {
+        "startLine": 756,
+        "startChar": 6,
+        "endLine": 756,
+        "endChar": 13
+      },
+      "revId": "075a2e57edd8f754653be4e12d64f2f3704749a0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
