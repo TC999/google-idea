@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "592060de_7c2bc19d",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 8
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2014-07-15T21:24:33Z",
+      "side": 1,
+      "message": "We\u0027re copying the libs twice here (once in the google-cloud-tools), maybe separate the libraries out here?",
+      "range": {
+        "startLine": 754,
+        "startChar": 31,
+        "endLine": 754,
+        "endChar": 33
+      },
+      "revId": "075a2e57edd8f754653be4e12d64f2f3704749a0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "592060de_71700aea",
         "filename": "build/scripts/layouts.gant",
         "patchSetId": 8
