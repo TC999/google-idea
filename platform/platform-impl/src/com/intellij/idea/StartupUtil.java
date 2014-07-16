@@ -142,7 +142,7 @@ public class StartupUtil {
     return true;
   }
 
-  private synchronized static boolean checkSystemFolders() {
+  public synchronized static boolean checkSystemFolders() {
     String configPath = PathManager.getConfigPath();
     PathManager.ensureConfigFolderExists();
     if (!new File(configPath).isDirectory()) {
@@ -203,7 +203,7 @@ public class StartupUtil {
     return true;
   }
 
-  private synchronized static boolean lockSystemFolders(String[] args) {
+  public synchronized static boolean lockSystemFolders(String[] args) {
     if (ourLock == null) {
       ourLock = new SocketLock();
     }

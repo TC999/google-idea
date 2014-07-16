@@ -132,7 +132,7 @@ public class Main {
     return args.length > 0 && Comparing.strEqual(args[0], "traverseUI");
   }
 
-  private static void installPatch() throws IOException {
+  public static void installPatch() throws IOException {
     String platform = System.getProperty(PLATFORM_PREFIX_PROPERTY, "idea");
     String patchFileName = ("jetbrains.patch.jar." + platform).toLowerCase(Locale.US);
     String tempDir = System.getProperty("java.io.tmpdir");
