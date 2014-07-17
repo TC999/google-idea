@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "996ad864_0a621b8d",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 8
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1030953
+      },
+      "writtenOn": "2014-07-17T20:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "592060de_b1a2821c",
+      "revId": "075a2e57edd8f754653be4e12d64f2f3704749a0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "592060de_7c2bc19d",
         "filename": "build/scripts/layouts.gant",
         "patchSetId": 8
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5964e099_883b77b7",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 8
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1030953
+      },
+      "writtenOn": "2014-07-17T20:48:17Z",
+      "side": 1,
+      "message": "Moved login dependent jars into studio/cloud/login/lib",
+      "parentUuid": "592060de_7c2bc19d",
+      "revId": "075a2e57edd8f754653be4e12d64f2f3704749a0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "592060de_71700aea",
         "filename": "build/scripts/layouts.gant",
         "patchSetId": 8
@@ -65,6 +101,24 @@
         "endLine": 756,
         "endChar": 13
       },
+      "revId": "075a2e57edd8f754653be4e12d64f2f3704749a0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "996ad864_2a5fdfcb",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 8
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 1030953
+      },
+      "writtenOn": "2014-07-17T20:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "592060de_71700aea",
       "revId": "075a2e57edd8f754653be4e12d64f2f3704749a0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
