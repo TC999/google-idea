@@ -73,6 +73,7 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
     "compiler-impl",
     "debugger-impl",
     "dom-impl",
+    "duplicates-analysis",
     "execution-impl",
     "external-system-impl",
     "idea-ui",
@@ -242,7 +243,6 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
             module("IntelliLang")
             module("IntelliLang-java")
             module("IntelliLang-xml")
-            module("IntelliLang-javaee")
           }
           jar("intellilang-jps-plugin.jar") {
             module("intellilang-jps-plugin")
@@ -262,7 +262,7 @@ public def layoutCommunityPlugins(String home) {
   layoutCloud()
 
   dir("plugins") {
-    def simplePlugins = ["commander", "copyright", "java-i18n", "hg4idea", "github"] //, "tasks-time-tracking"]
+    def simplePlugins = ["commander", "copyright", "java-i18n", "hg4idea", "github", "typeMigration"] //, "tasks-time-tracking"]
 
     simplePlugins.each {
       layoutPlugin it
@@ -342,10 +342,6 @@ public def layoutCommunityPlugins(String home) {
     }
 
     layoutPlugin("gradle") {
-      jar("gradle.jar") {
-        module("gradle")
-      }
-
       jar("gradle-tooling-extension-api.jar") {
         module("gradle-tooling-extension-api")
       }
@@ -369,10 +365,6 @@ public def layoutCommunityPlugins(String home) {
       fileset(dir: "$home/plugins/git4idea/lib/ini4j") {
         include(name: "ini4j*.jar")
         exclude(name: "ini4j*sources.jar")
-      }
-      fileset(dir: "$home/plugins/git4idea/lib/jgit") {
-        include(name: "org.eclipse.jgit*.jar")
-        exclude(name: "*.zip")
       }
     }
 
@@ -463,6 +455,7 @@ public def layoutCommunityPlugins(String home) {
           module("groovy-psi") {
             exclude(name: "standardDsls/**")
           }
+          module("structuralsearch-groovy")
         }
         //layout of groovy jars must be consistent with GroovyBuilder.getGroovyRtRoot method
         jar("groovy-jps-plugin.jar") {
@@ -521,12 +514,56 @@ public def layoutCommunityPlugins(String home) {
     // }
 
     layoutPlugin("terminal") {
-      jar("terminal.jar") {
-        module("terminal")
-      }
       fileset(dir: "$home/plugins/terminal/lib") {
         include(name: "*.jar")
         include(name: "*.in")
+      }
+    }
+
+    pluginDir("coverage") {
+      dir("lib") {
+        jar("coverage.jar") {
+          noResources("coverage-common")
+          noResources("coverage")
+        }
+
+        jar("coverage_rt.jar") {
+          noResources("coverage_rt")
+        }
+
+        jar("resources_en.jar") {
+          module("coverage-common") {
+            patternset(refid: "resources.included")
+          }
+          module("coverage") {
+            patternset(refid: "resources.included")
+          }
+        }
+
+        fileset(dir: "${home}/plugins/coverage-common/lib") {
+          exclude(name: "finder.jar")
+          exclude(name: "**/coverage-src.zip")
+        }
+
+        fileset(dir: "${home}/plugins/coverage/lib", excludes: "**/jacoco_src.zip")
+      }
+    }
+
+    pluginDir("structuralsearch") {
+      dir("lib") {
+        jar("structuralsearch.jar") {
+          module("structuralsearch")
+          module("structuralsearch-java")
+        }
+      }
+    }
+
+    pluginDir("java-decompiler") {
+      dir("lib") {
+        jar("java-decompiler.jar") {
+          module("java-decompiler")
+        }
+        fileset(file: "$home/plugins/java-decompiler/lib/fernflower.jar")
       }
     }
   }
@@ -672,6 +709,7 @@ def reorder(String home, String targetDirectory) {
 
 def layoutAndroid() {
   dir("plugins") {
+<<<<<<< HEAD   (3827bb Merge "72680: Handle Studio settings upgrades more automatic)
     def androidModule = "android"
     dir(androidModule) {
       dir("lib") {
@@ -759,6 +797,61 @@ def layoutAndroid() {
             include(name: "gradle-projects/**")
           }
         }
+=======
+    layoutPlugin("android") {
+      fileset(dir: "${androidHome}/android/lib") {
+        include(name: "**/*.jar")
+        exclude(name: "**/ddmlib_1.jar")
+        exclude(name: "src/*.jar")
+      }
+
+      jar("android-common.jar") {
+        module("android-common")
+      }
+
+      jar("android-rt.jar") {
+        module("android-rt")
+      }
+
+      jar("common.jar") {
+        module("common")
+      }
+      jar("sdklib.jar") {
+        module("sdklib")
+      }
+      jar("layoutlib-api.jar") {
+        module("layoutlib-api")
+      }
+      jar("manifest-merger.jar") {
+        module("manifest-merger")
+      }
+      jar("sdk-tools.jar") {
+        module("assetstudio")
+        module("ddmlib")
+        module("dvlib")
+        module("draw9patch")
+        module("lint-api")
+        module("lint-checks")
+        module("ninepatch")
+        module("sdk-common")
+        module("perflib")
+      }
+      jar("androidAnnotations.jar") {
+        fileset(dir: "$androidHome/android/annotations")
+      }
+      dir("jps") {
+        jar("android-gradle-jps.jar") { module("android-gradle-jps") }
+      }
+      dir("device-art-resources") {
+        fileset(dir: "$androidHome/android/device-art-resources")
+      }
+
+      dir("jps") {
+        jar("android-jps-plugin.jar") { module("android-jps-plugin") }
+      }
+      dir("templates") {
+        fileset(dir: "$androidHome/tools-base/templates")
+>>>>>>> BRANCH (65f60e Snapshot idea/138.1029 from git://git.jetbrains.org/idea/com)
       }
     }
   }
@@ -816,7 +909,7 @@ def layoutJps(String home, String targetDir, String buildNumber, Closure additio
         include(name: "jdom.jar")
         include(name: "jna.jar")
         include(name: "trove4j.jar")
-        include(name: "asm4-all.jar")
+        include(name: "asm-all.jar")
         include(name: "nanoxml-*.jar")
         include(name: "protobuf-*.jar")
         include(name: "cli-parser-*.jar")
@@ -856,8 +949,12 @@ def layout_core(String home, String target) {
       module("annotations")
     }
 
+    jar("intellij-core-analysis-api.jar") {
+      analysisApiModules.each { module it; }
+    }
+
     fileset(dir: "$home/lib") {
-      include(name: "guava-14.0.1.jar")
+      include(name: "guava-17.0.jar")
       include(name: "picocontainer.jar")
       include(name: "trove4j.jar")
       include(name: "asm.jar")

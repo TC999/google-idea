@@ -142,10 +142,16 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   def macAppRoot = "Android Studio.app"
   def linTarRoot = "android-studio"
 
+<<<<<<< HEAD   (3827bb Merge "72680: Handle Studio settings upgrades more automatic)
   androidBuildNumber = p("buildNumber")
   //def macAppRoot = isEap() ?
   //                 "IntelliJ IDEA ${p("component.version.major")} CE EAP.app" :
   //                 "IntelliJ IDEA ${p("component.version.major")} CE.app"
+=======
+  def macAppRoot = isEap() ?
+                   "IntelliJ IDEA ${p("component.version.major")} CE EAP.app/Contents" :
+                   "IntelliJ IDEA ${p("component.version.major")} CE.app/Contents"
+>>>>>>> BRANCH (65f60e Snapshot idea/138.1029 from git://git.jetbrains.org/idea/com)
 
   def winZip = "$paths.artifacts/android-studio-${androidBuildNumber}.win.zip"
   def macZip = "$paths.artifacts/android-studio-${androidBuildNumber}.mac.zip"
