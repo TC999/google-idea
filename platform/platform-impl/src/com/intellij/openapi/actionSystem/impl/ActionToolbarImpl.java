@@ -318,6 +318,16 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
         }
         catch (Exception ignore) {}
       }
+
+      final AnAction googleLoginAction = ActionManager.getInstance().getAction("GoogleLogin.LoginService");
+      if (googleLoginAction != null) {
+        try {
+          final CustomComponentAction googleLoginComponentAction = (CustomComponentAction)googleLoginAction;
+          final JComponent googleLoginComponent = googleLoginComponentAction.createCustomComponent(googleLoginAction.getTemplatePresentation());
+          add(googleLoginComponent);
+        }
+        catch (Exception ignore) {}
+      }
     }
   }
 
@@ -727,12 +737,17 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
     }
 
     if (getComponentCount() > 0 && size2Fit.width < Integer.MAX_VALUE) {
-      final Component component = getComponent(getComponentCount() - 1);
-      if (component instanceof JComponent && ((JComponent)component).getClientProperty("SEARCH_EVERYWHERE") == Boolean.TRUE) {
-        int max = 0;
+      final Component searchComponent = getComponent(getComponentCount() - 2);
+      int max = 0;
+      if (searchComponent instanceof JComponent && ((JComponent)searchComponent).getClientProperty("SEARCH_EVERYWHERE") == Boolean.TRUE) {
         for (int i = 0; i < bounds.size() - 2; i++) {
           max = Math.max(max, bounds.get(i).height);
         }
+        bounds.set(bounds.size() - 2, new Rectangle(size2Fit.width - 50, 0, 25, max));
+      }
+
+      final Component loginComponent = getComponent(getComponentCount() - 1);
+      if (loginComponent instanceof JComponent) {
         bounds.set(bounds.size() - 1, new Rectangle(size2Fit.width - 25, 0, 25, max));
       }
     }
