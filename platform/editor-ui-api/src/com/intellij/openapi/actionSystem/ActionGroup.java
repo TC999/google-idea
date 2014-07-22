@@ -137,7 +137,12 @@ public abstract class ActionGroup extends AnAction {
   @NotNull
   public abstract AnAction[] getChildren(@Nullable AnActionEvent e);
 
-  final void setAsPrimary(AnAction action, boolean isPrimary) {
+  /**
+   * Returns true if the action at the given index is right aligned.
+   */
+  public boolean isRightAligned(int index) { return false; }
+
+    final void setAsPrimary(AnAction action, boolean isPrimary) {
     if (isPrimary) {
       if (mySecondaryActions != null) {
         mySecondaryActions.remove(action);

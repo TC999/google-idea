@@ -112,10 +112,13 @@ public final class ActionManagerImpl extends ActionManagerEx implements Applicat
   @NonNls public static final String ABBREVIATION_ELEMENT_NAME = "abbreviation";
   @NonNls public static final String GROUPID_ATTR_NAME = "group-id";
   @NonNls public static final String ANCHOR_ELEMENT_NAME = "anchor";
+  @NonNls public static final String ALIGNMENT_ELEMENT_NAME = "alignment";
   @NonNls public static final String FIRST = "first";
   @NonNls public static final String LAST = "last";
   @NonNls public static final String BEFORE = "before";
   @NonNls public static final String AFTER = "after";
+  @NonNls public static final String RIGHT = "right";
+  @NonNls public static final String LEFT = "left";
   @NonNls public static final String SECONDARY = "secondary";
   @NonNls public static final String RELATIVE_TO_ACTION_ATTR_NAME = "relative-to-action";
   @NonNls public static final String FIRST_KEYSTROKE_ATTR_NAME = "first-keystroke";
@@ -712,11 +715,13 @@ public final class ActionManagerImpl extends ActionManagerEx implements Applicat
       return;
     }
 
+    final Alignment alignment = parseAlignment(element.getAttributeValue(ALIGNMENT_ELEMENT_NAME), actionName, pluginId);
+
     final String relativeToActionId = element.getAttributeValue(RELATIVE_TO_ACTION_ATTR_NAME);
     if (!checkRelativeToAction(relativeToActionId, anchor, actionName, pluginId)) {
       return;
     }
-    addToGroupInner(parentGroup, action, new Constraints(anchor, relativeToActionId), secondary);
+    addToGroupInner(parentGroup, action, new Constraints(anchor, relativeToActionId, alignment), secondary);
   }
 
   private void addToGroupInner(AnAction group, AnAction action, Constraints constraints, boolean secondary) {
@@ -760,6 +765,27 @@ public final class ActionManagerImpl extends ActionManagerEx implements Applicat
       return null;
     }
   }
+
+  @Nullable
+  public static Alignment parseAlignment(final String alignmentStr,
+                                   @Nullable final String actionName,
+                                   @Nullable final PluginId pluginId) {
+    if (alignmentStr == null) {
+      return Alignment.DEFAULT;
+    }
+
+    if (RIGHT.equalsIgnoreCase(alignmentStr)) {
+      return Alignment.RIGHT;
+    }
+    else if (LEFT.equalsIgnoreCase(alignmentStr)) {
+      return Alignment.DEFAULT;
+    }
+    else {
+      reportActionError(pluginId, actionName + ": alignment should be one of the following constants: \"right\", or \"left\"");
+      return null;
+    }
+  }
+
 
   @Nullable
   public AnAction getParentGroup(final String groupId,

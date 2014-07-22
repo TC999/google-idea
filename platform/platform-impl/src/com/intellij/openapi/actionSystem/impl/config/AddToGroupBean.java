@@ -30,4 +30,7 @@ public class AddToGroupBean {
 
   @Attribute(ActionManagerImpl.RELATIVE_TO_ACTION_ATTR_NAME)
   public String relativeToAction;
+
+  @Attribute(ActionManagerImpl.ALIGNMENT_ELEMENT_NAME)
+  public String alignment;
 }

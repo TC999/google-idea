@@ -25,8 +25,8 @@ import org.jetbrains.annotations.NonNls;
  */
 public class Constraints implements Cloneable {
 
-  public final static Constraints FIRST = new Constraints(Anchor.FIRST, null);
-  public final static Constraints LAST = new Constraints(Anchor.LAST, null);
+  public final static Constraints FIRST = new Constraints(Anchor.FIRST, null, null);
+  public final static Constraints LAST = new Constraints(Anchor.LAST, null, null);
   /**
    * Anchor.
    */
@@ -40,6 +40,12 @@ public class Constraints implements Cloneable {
   public String myRelativeToActionId;
 
   /**
+   * Alignment
+   *
+   */
+  public Alignment myAlignment;
+
+  /**
    * Creates a new constraints instance with the specified anchor type and
    * id of the relative action.
    *
@@ -47,8 +53,21 @@ public class Constraints implements Cloneable {
    * @param relativeToActionId Id of the relative action
    */
   public Constraints(Anchor anchor, @NonNls String relativeToActionId){
+    this(anchor, relativeToActionId, null);
+  }
+
+  /**
+   * Creates a new constraints instance with the specified anchor type and
+   * id of the relative action.
+   *
+   * @param anchor anchor
+   * @param relativeToActionId Id of the relative action
+   * @param alignment default or right aligned.
+   */
+  public Constraints(Anchor anchor, @NonNls String relativeToActionId, Alignment alignment){
     myAnchor = anchor;
     myRelativeToActionId = relativeToActionId;
+    myAlignment = alignment == null ? Alignment.DEFAULT : alignment;
   }
 
   @Override

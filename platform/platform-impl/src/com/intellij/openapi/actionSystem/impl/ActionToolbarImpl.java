@@ -267,10 +267,11 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
     }
   }
 
-  private void fillToolBar(final List<AnAction> actions, boolean layoutSecondaries) {
+  private void fillToolBar(final List<AnAction> actions, boolean layoutSecondaries, int rightAlignmentStart) {
     if (myAddSeparatorFirst) {
       add(new MySeparator());
     }
+
     for (int i = 0; i < actions.size(); i++) {
       final AnAction action = actions.get(i);
 //      if (action instanceof Separator && isNavBar()) {
@@ -281,6 +282,8 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
       //  ((ComboBoxAction)action).setSmallVariant(true);
       //}
 
+      boolean rightAligned = i >= rightAlignmentStart;
+
       if (layoutSecondaries) {
         if (!myActionGroup.isPrimary(action)) {
           mySecondaryActions.add(action);
@@ -288,16 +291,25 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
         }
       }
 
+      JComponent componentToAdd = null;
+
       if (action instanceof Separator) {
         if (i > 0 && i < actions.size() - 1) {
-          add(new MySeparator());
+          componentToAdd = new MySeparator();
         }
       }
       else if (action instanceof CustomComponentAction) {
-        add(getCustomComponent(action));
+        componentToAdd = getCustomComponent(action);
       }
       else {
-        add(createToolbarButton(action));
+        componentToAdd = createToolbarButton(action);
+      }
+
+      if (componentToAdd != null) {
+        if (rightAligned) {
+          componentToAdd.putClientProperty("RIGHT_ALIGN", Boolean.TRUE);
+        }
+        add(componentToAdd);
       }
     }
 
@@ -313,8 +325,13 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
         try {
           final CustomComponentAction searchEveryWhereAction = (CustomComponentAction)searchEverywhereAction;
           final JComponent searchEverywhere = searchEveryWhereAction.createCustomComponent(searchEverywhereAction.getTemplatePresentation());
-          searchEverywhere.putClientProperty("SEARCH_EVERYWHERE", Boolean.TRUE);
-          add(searchEverywhere);
+          searchEverywhere.putClientProperty("RIGHT_ALIGN", Boolean.TRUE);
+          if (rightAlignmentStart >= 0) {
+            add(searchEverywhere, rightAlignmentStart);
+          }
+          else {
+            add(searchEverywhere);
+          }
         }
         catch (Exception ignore) {}
       }
@@ -727,13 +744,27 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
     }
 
     if (getComponentCount() > 0 && size2Fit.width < Integer.MAX_VALUE) {
-      final Component component = getComponent(getComponentCount() - 1);
-      if (component instanceof JComponent && ((JComponent)component).getClientProperty("SEARCH_EVERYWHERE") == Boolean.TRUE) {
-        int max = 0;
-        for (int i = 0; i < bounds.size() - 2; i++) {
-          max = Math.max(max, bounds.get(i).height);
+      int maxheight = 0;
+      for (int i = 0; i < bounds.size() - 2; i++) {
+        maxheight = Math.max(maxheight, bounds.get(i).height);
+      }
+
+      //right aligned components must be at the end of the component list.
+      //REVIEW -- should this take into account vertically aligned toolbars?
+      int countfromend = getComponentCount() - 1;
+      Component component = getComponent(countfromend);
+      int rightEdge = size2Fit.width;
+      while (component instanceof JComponent && ((JComponent)component).getClientProperty("RIGHT_ALIGN") == Boolean.TRUE) {
+        Rectangle oldbounds = bounds.get(countfromend);
+        bounds.set(countfromend, new Rectangle(rightEdge - oldbounds.width, oldbounds.y, oldbounds.width, oldbounds.height));
+        countfromend--;
+        rightEdge = rightEdge - oldbounds.width;
+        if (countfromend >= 0) {
+          component = getComponent(countfromend);
         }
-        bounds.set(bounds.size() - 1, new Rectangle(size2Fit.width - 25, 0, 25, max));
+        else {
+          component = null;
+        }
       }
     }
   }
@@ -921,7 +952,12 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
         myNewVisibleActions.clear();
         final DataContext dataContext = getDataContext();
 
-        Utils.expandActionGroup(myActionGroup, myNewVisibleActions, myPresentationFactory, dataContext, myPlace, myActionManager, transparentOnly);
+        int rightAlignIndex = -1;
+        Utils.expandActionGroup(myActionGroup, myNewVisibleActions, myPresentationFactory,
+                                dataContext, myPlace, myActionManager, transparentOnly, false, Alignment.DEFAULT);
+        rightAlignIndex += myNewVisibleActions.size();
+        Utils.expandActionGroup(myActionGroup, myNewVisibleActions, myPresentationFactory,
+                                dataContext, myPlace, myActionManager, transparentOnly, false, Alignment.RIGHT);
 
         if (forced || !myNewVisibleActions.equals(myVisibleActions)) {
           // should rebuild UI
@@ -937,7 +973,7 @@ public class ActionToolbarImpl extends JPanel implements ActionToolbar {
           removeAll();
           mySecondaryActions.removeAll();
           mySecondaryActionsButton = null;
-          fillToolBar(myVisibleActions, getLayoutPolicy() == AUTO_LAYOUT_POLICY && myOrientation == SwingConstants.HORIZONTAL);
+          fillToolBar(myVisibleActions, getLayoutPolicy() == AUTO_LAYOUT_POLICY && myOrientation == SwingConstants.HORIZONTAL, rightAlignIndex);
 
           Dimension newSize = getPreferredSize();
 

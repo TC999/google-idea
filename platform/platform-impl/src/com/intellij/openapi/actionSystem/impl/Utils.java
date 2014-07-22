@@ -27,6 +27,7 @@ import com.intellij.openapi.util.ActionCallback;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.wm.IdeFocusManager;
+import com.intellij.util.ThreeState;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -92,7 +93,7 @@ public class Utils{
                                        @NotNull String place,
                                        ActionManager actionManager,
                                        boolean transparentOnly) {
-    expandActionGroup(group, list, presentationFactory, context, place, actionManager, transparentOnly, false);
+    expandActionGroup(group, list, presentationFactory, context, place, actionManager, transparentOnly, false, null);
   }
 
   /**
@@ -107,6 +108,23 @@ public class Utils{
                                        ActionManager actionManager,
                                        boolean transparentOnly,
                                        boolean hideDisabled) {
+    expandActionGroup(group, list, presentationFactory, context, place, actionManager, transparentOnly, false, null);
+
+  }
+
+    /**
+     * @param list this list contains expanded actions.
+     * @param actionManager manager
+     */
+  public static void expandActionGroup(@NotNull ActionGroup group,
+                                       List<AnAction> list,
+                                       PresentationFactory presentationFactory,
+                                       DataContext context,
+                                       @NotNull String place,
+                                       ActionManager actionManager,
+                                       boolean transparentOnly,
+                                       boolean hideDisabled,
+                                       Alignment alignmentFilter) {
     Presentation presentation = presentationFactory.getPresentation(group);
     AnActionEvent e = new AnActionEvent(
       null,
@@ -123,6 +141,15 @@ public class Utils{
     }
     AnAction[] children = group.getChildren(e);
     for (int i = 0; i < children.length; i++) {
+      //note that the alignment filter does not recurse down and that's by design.
+      if (alignmentFilter != null) {
+        if (alignmentFilter == Alignment.DEFAULT && group.isRightAligned(i)) {
+          continue;
+        }
+        if (alignmentFilter == Alignment.RIGHT && !group.isRightAligned(i)) {
+          continue;
+        }
+      }
       AnAction child = children[i];
       if (child == null) {
         String groupId = ActionManager.getInstance().getId(group);

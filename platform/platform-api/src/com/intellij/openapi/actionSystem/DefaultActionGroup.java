@@ -49,6 +49,11 @@ public class DefaultActionGroup extends ActionGroup {
    * Contains instances of AnAction
    */
   private final List<AnAction> mySortedChildren = ContainerUtil.createLockFreeCopyOnWriteList();
+
+  /**
+   * The count of right aligned children.
+   */
+  private int rightalignedcount = 0;
   /**
    * Contains instances of Pair
    */
@@ -151,10 +156,27 @@ public class DefaultActionGroup extends ActionGroup {
     constraint = (Constraints)constraint.clone();
 
     if (constraint.myAnchor == Anchor.FIRST) {
-      mySortedChildren.add(0, action);
+      if (constraint.myAlignment == Alignment.DEFAULT) {
+        mySortedChildren.add(0, action);
+      }
+      else {
+        mySortedChildren.add(mySortedChildren.size() - rightalignedcount, action);
+        rightalignedcount++;
+      }
     }
     else if (constraint.myAnchor == Anchor.LAST) {
-      mySortedChildren.add(action);
+      if (constraint.myAlignment == Alignment.DEFAULT) {
+        if (rightalignedcount > 0) {
+          mySortedChildren.add(mySortedChildren.size() - rightalignedcount, action);
+        }
+        else {
+          mySortedChildren.add(action);
+        }
+      }
+      else {
+        mySortedChildren.add(action);
+        rightalignedcount++;
+      }
     }
     else {
       if (addToSortedList(action, constraint, actionManager)) {
@@ -186,6 +208,12 @@ public class DefaultActionGroup extends ActionGroup {
     }
   }
 
+  @Override
+  public boolean isRightAligned(int index) {
+    //true if its a valid index and within the range described by the rightalignedcount.
+    return index >= mySortedChildren.size() - rightalignedcount && index < mySortedChildren.size() && index >= 0;
+  }
+
   private boolean addToSortedList(@NotNull AnAction action, Constraints constraint, ActionManager actionManager) {
     int index = findIndex(constraint.myRelativeToActionId, mySortedChildren, actionManager);
     if (index == -1) {
@@ -196,6 +224,9 @@ public class DefaultActionGroup extends ActionGroup {
     }
     else {
       mySortedChildren.add(index + 1, action);
+    }
+    if (isRightAligned(index)) {
+      rightalignedcount++;
     }
     return true;
   }
