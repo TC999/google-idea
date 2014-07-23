@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "997bb85f_25ddf82c",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-23T15:03:43Z",
+      "side": 1,
+      "message": "Enums are heavily used in java, I imagine we could control deserialization to use a default if that was a worry. I take your point about being consistent with the rest of the jetbrains codebase. I wonder when that Action class was written.  Let\u0027s see what Dmitry has to say.",
+      "parentUuid": "f9c674d8_a811f3bd",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9c674d8_683c1b4b",
         "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
         "patchSetId": 1
@@ -153,6 +171,24 @@
       "side": 1,
       "message": "Suppose we can have LEFT and RIGHT if that\u0027s what you mean.",
       "parentUuid": "f9c674d8_683c1b4b",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9c07cc0_668bb00e",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-23T15:03:43Z",
+      "side": 1,
+      "message": "Or all three.",
+      "parentUuid": "b9c07cc0_06b75cd8",
       "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
