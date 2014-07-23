@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "996498c9_5db72f6e",
+        "filename": "platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-23T16:24:19Z",
+      "side": 1,
+      "message": "None of the other APIs of ActionGroup take index as a parameter. This should most likely take AnAction instead. Also the JetBrains code style requires line breaks around the body.",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c07cc0_26dd382d",
         "filename": "platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionGroup.java",
         "patchSetId": 1
@@ -72,6 +89,23 @@
     },
     {
       "key": {
+        "uuid": "996498c9_fdde43a1",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-23T16:24:19Z",
+      "side": 1,
+      "message": "It\u0027s not \"relative to another action\" but rather \"within a container\".",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c07cc0_8614ec1b",
         "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
         "patchSetId": 1
@@ -136,6 +170,24 @@
       "side": 1,
       "message": "Enums are heavily used in java, I imagine we could control deserialization to use a default if that was a worry. I take your point about being consistent with the rest of the jetbrains codebase. I wonder when that Action class was written.  Let\u0027s see what Dmitry has to say.",
       "parentUuid": "f9c674d8_a811f3bd",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b995dcbe_7e886d10",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-23T16:24:19Z",
+      "side": 1,
+      "message": "Please use an enum. None of the OpenAPI classes are intended to support serialization.",
+      "parentUuid": "997bb85f_25ddf82c",
       "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -293,6 +345,29 @@
       "writtenOn": "2014-07-23T14:39:46Z",
       "side": 1,
       "message": "camelCase",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d998d0f7_1fe5a7ad",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-23T16:24:19Z",
+      "side": 1,
+      "message": "And please use the \u0027my\u0027 prefix for field names.",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 31
+      },
       "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
