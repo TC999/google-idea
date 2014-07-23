@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b9c07cc0_46b154e0",
+        "filename": "platform/editor-ui-api/src/com/intellij/openapi/actionSystem/ActionGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-23T14:54:59Z",
+      "side": 1,
+      "message": "yeah I saw that and plan to fix in the next set.",
+      "parentUuid": "b9c07cc0_26dd382d",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c07cc0_06dabc34",
         "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-07-23T14:39:46Z",
       "side": 1,
       "message": "being a total noob I\u0027m surprised we can add classes to intellij packages.",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9c674d8_28ad031f",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-23T14:54:59Z",
+      "side": 1,
+      "message": "Yes, though it should probably not say \"Android Open Source Project\"  Will let the jetbrains folks put the right header when they merge.",
+      "parentUuid": "b9c07cc0_06dabc34",
       "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "f9c674d8_a811f3bd",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-23T14:54:59Z",
+      "side": 1,
+      "message": "In c# (java may be different), enums don\u0027t version very well.  A new value will throw when deserialized into an old enum version. so a lot of folks use this pattern.\n\nIts actually modeled after the existing Anchor class.\nI suppose its up to intellij.  This is consistent with what they have done in the past.",
+      "parentUuid": "b9c07cc0_a60f6806",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9c674d8_683c1b4b",
         "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
         "patchSetId": 1
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "b9c07cc0_06b75cd8",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Alignment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-23T14:54:59Z",
+      "side": 1,
+      "message": "Suppose we can have LEFT and RIGHT if that\u0027s what you mean.",
+      "parentUuid": "f9c674d8_683c1b4b",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "997bb85f_8597a468",
         "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Constraints.java",
         "patchSetId": 1
@@ -98,6 +170,24 @@
       "writtenOn": "2014-07-23T14:39:46Z",
       "side": 1,
       "message": "if we don\u0027t have an alignment to pass why don\u0027t we use the fewer arg constructor?",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "997bb85f_2556d8e8",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/Constraints.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-23T14:54:59Z",
+      "side": 1,
+      "message": "yes.  simply because I did this first.  this part of the change can be undone.",
+      "parentUuid": "997bb85f_8597a468",
       "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -132,6 +222,24 @@
       "writtenOn": "2014-07-23T14:39:46Z",
       "side": 1,
       "message": "let\u0027s just be consistent in terms of extra lines between variables and the following block comment. I\u0027m not sure that the style guide has an opinion here.",
+      "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "997bb85f_4553dcf7",
+        "filename": "platform/platform-api/src/com/intellij/openapi/actionSystem/DefaultActionGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-23T14:54:59Z",
+      "side": 1,
+      "message": "k",
+      "parentUuid": "f9c674d8_c8a38f52",
       "revId": "cba40316c2a724a8df7002490eb6e9113cd688dd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
