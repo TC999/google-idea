@@ -26,6 +26,7 @@ import com.intellij.ide.ui.customization.CustomActionsSchema;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
+import com.intellij.openapi.actionSystem.impl.ActionToolbarImpl;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
@@ -216,6 +217,9 @@ public class IdeRootPane extends JRootPane implements UISettingsListener {
       group,
       true
     );
+    if (myUISettings.SHOW_SECONDARYACTIONS_RIGHTALIGNED && toolBar instanceof ActionToolbarImpl) {
+      ((ActionToolbarImpl)toolBar).setRightAlignSecondaries(true);
+    }
     toolBar.setLayoutPolicy(ActionToolbar.WRAP_LAYOUT_POLICY);
 
     DefaultActionGroup menuGroup = new DefaultActionGroup();

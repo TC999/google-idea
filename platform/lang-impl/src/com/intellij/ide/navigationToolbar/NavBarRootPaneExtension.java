@@ -27,6 +27,7 @@ import com.intellij.ide.ui.customization.CustomActionsSchema;
 import com.intellij.ide.ui.customization.CustomisedActionGroup;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.actionSystem.ex.ComboBoxAction;
+import com.intellij.openapi.actionSystem.impl.ActionToolbarImpl;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.wm.IdeRootPaneNorthExtension;
@@ -135,6 +136,9 @@ public class NavBarRootPaneExtension extends IdeRootPaneNorthExtension {
       if (toolbarRunGroup instanceof ActionGroup) {
         final boolean needGap = isNeedGap(toolbarRunGroup);
         final ActionToolbar actionToolbar = manager.createActionToolbar(ActionPlaces.NAVIGATION_BAR, (ActionGroup)toolbarRunGroup, true);
+        if (UISettings.getInstance().SHOW_SECONDARYACTIONS_RIGHTALIGNED && actionToolbar instanceof ActionToolbarImpl) {
+          ((ActionToolbarImpl)actionToolbar).setRightAlignSecondaries(true);
+        }
         final JComponent component = actionToolbar.getComponent();
         component.setOpaque(false);
         myRunPanel = new JPanel(new BorderLayout()) {
