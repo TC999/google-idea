@@ -1,0 +1,376 @@
+/*
+ * Copyright (C) 2013 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+# IMPORTANT: to run this script, the environment variable BUNDLE_SRC_DIR
+# must point to the absolute windows path where the diadmond bundle file
+# has been unzipped.
+
+Name "Android Studio"
+
+# General Symbol Definitions
+!define REGKEY "SOFTWARE\$(^Name)"
+
+!define EXE_NAME_32 "studio.exe"
+!define EXE_NAME_64 "studio64.exe"
+
+!define VERSION_MAJOR 1
+!define VERSION_MINOR 0
+!define VERSION ${VERSION_MAJOR}.${VERSION_MINOR}
+!define VENDOR Android
+!define COMPANY "Google Inc."
+!define URL http://developer.android.com
+
+# The ideal terminal folder we'd create by default (e.g. c:\programs\blah\$NAME)
+!define DEFAULT_FOLDER_NAME "android-studio"
+
+# MultiUser Symbol Definitions
+# See http://nsis.sourceforge.net/Docs/MultiUser/Readme.html for details
+#
+# Note: we request the "highest" mode available to the current user.
+# This allows the install folder to be selected in Program Files if possible.
+!define MULTIUSER_EXECUTIONLEVEL Highest
+!define MULTIUSER_MUI
+!define MULTIUSER_INSTALLMODE_COMMANDLINE
+!define MULTIUSER_INSTALLMODE_INSTDIR ${VENDOR}\${DEFAULT_FOLDER_NAME}
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "${REGKEY}"
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUE Path
+# Default is to install for current user. MUI's PAGE_INSTALLMODE below lets the user change it.
+!define MULTIUSER_INSTALLMODE_DEFAULT_CURRENTUSER
+!define MULTIUSER_INSTALLMODEPAGE_TEXT_TOP "Select whether you want to install $(^Name) for yourself or for all users of this computer (SDK Manager will need to run as administrator later.) Click Next to continue."
+
+# MUI Symbol Definitions
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install-nsis.ico"
+!define MUI_FINISHPAGE_NOAUTOCLOSE
+!define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
+!define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
+!define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "$(^Name)"
+!define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_TEXT "Start $(^Name)"
+!define MUI_FINISHPAGE_RUN_FUNCTION s_StartApp
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall-nsis.ico"
+!define MUI_UNFINISHPAGE_NOAUTOCLOSE
+
+# Included files
+!include MultiUser.nsh
+!include Sections.nsh
+!include MUI2.nsh
+!include x64.nsh
+!include LogicLib.nsh
+!include WinVer.nsh
+!include nsDialogs.nsh
+!include StrFunc.nsh
+
+# Installer attributes
+OutFile setup.exe
+CRCCheck on
+XPStyle on
+ShowInstDetails hide
+VIProductVersion ${VERSION}.0.0
+VIAddVersionKey ProductName "$(^Name)"
+VIAddVersionKey ProductVersion "${VERSION}"
+VIAddVersionKey CompanyName "${COMPANY}"
+VIAddVersionKey CompanyWebsite "${URL}"
+VIAddVersionKey FileVersion "${VERSION}"
+VIAddVersionKey FileDescription ""
+VIAddVersionKey LegalCopyright ""
+InstallDirRegKey HKLM "${REGKEY}" Path
+ShowUninstDetails hide
+
+
+# Variables
+Var s_StartMenuGroup
+Var s_ComputeInstDir
+
+# Installer pages
+!insertmacro MUI_PAGE_WELCOME
+# We do not need a license page in the open-source tools installer
+# !insertmacro MUI_PAGE_LICENSE license.rtf
+!insertmacro MULTIUSER_PAGE_INSTALLMODE
+!define MUI_PAGE_CUSTOMFUNCTION_PRE   s_DirPagePre
+!define MUI_PAGE_CUSTOMFUNCTION_SHOW  s_DirPageShow
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE s_DirPageLeave
+!define MUI_DIRECTORYPAGE_TEXT_TOP "Setup will install $(^Name) in the following folder. To install in a different folder, click Browse and select another empty folder. Click Next to continue."
+DirText "" "" "" "Select an empty folder to install $(^Name) in:"
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_STARTMENU Application $s_StartMenuGroup
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+
+# Installer languages
+!insertmacro MUI_LANGUAGE English
+
+
+# ---------- Sections ----------------------------------------
+
+# Installer sections
+Section -Main SectionMain
+    SetOutPath $INSTDIR
+    SetOverwrite on
+
+    # The environment variable BUNDLE_SRC_DIR must point to the absolute windows path
+    # where the diadmond bundle file has been unzipped.
+    File /r "$%BUNDLE_SRC_DIR%\*"
+    WriteRegStr HKLM "${REGKEY}\Components" Main 1
+SectionEnd
+
+# MS VC Redistributable
+Section -Redist SectionRedist
+    SetOutPath $TEMP
+
+    # Always add the VS.Net 2008 redistributable CRT installers, relative to this script
+    # Note: /q:a is "almost silent with progress bar", /q is totally silent but might
+    # still display an EULA & install page on some systems.
+    File ..\..\..\microsoft\vcredist_x86_2008.exe
+    ExecWait '"$TEMP\vcredist_x86_2008.exe" /q:a'
+    Delete /REBOOTOK "$TEMP\vcredist_x86_2008.exe"
+
+    ${If} ${RunningX64}
+        File ..\..\..\microsoft\vcredist_x64_2008.exe
+        ExecWait '"$TEMP\vcredist_x64_2008.exe" /q:a'
+        Delete /REBOOTOK "$TEMP\vcredist_x64_2008.exe"
+    ${EndIf}
+
+    # For some reason we also need the redist for VS.Net 2010 on Win7
+    ${If} ${AtLeastWin7}
+        File ..\..\..\microsoft\vcredist_x86_2010.exe
+        ExecWait '"$TEMP\vcredist_x86_2010.exe" /passive /norestart /showfinalerror'
+        Delete /REBOOTOK "$TEMP\vcredist_x86_2010.exe"
+
+        ${If} ${RunningX64}
+            File ..\..\..\microsoft\vcredist_x64_2010.exe
+            ExecWait '"$TEMP\vcredist_x64_2010.exe" /passive /norestart /showfinalerror'
+            Delete /REBOOTOK "$TEMP\vcredist_x64_2010.exe"
+        ${EndIf}
+    ${EndIf}
+
+SectionEnd
+
+Section -Post SectionSystem
+    WriteRegStr HKLM "${REGKEY}" Path $INSTDIR
+    SetOutPath $INSTDIR
+    WriteUninstaller $INSTDIR\uninstall.exe
+    !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+    SetOutPath $SMPROGRAMS\$s_StartMenuGroup
+
+    CreateShortcut "$SMPROGRAMS\$s_StartMenuGroup\Uninstall $(^Name).lnk" $INSTDIR\uninstall.exe
+    ${If} ${RunningX64}
+        CreateShortcut "$SMPROGRAMS\$s_StartMenuGroup\$(^Name).lnk" "$INSTDIR\bin\${EXE_NAME_64}"
+    ${Else}
+        CreateShortcut "$SMPROGRAMS\$s_StartMenuGroup\$(^Name).lnk" "$INSTDIR\bin\${EXE_NAME_32}"
+    ${EndIf}
+
+    !insertmacro MUI_STARTMENU_WRITE_END
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" Publisher "${COMPANY}"
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" URLInfoAbout "${URL}"
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayIcon "$INSTDIR\bin\${EXE_NAME_32}"
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" UninstallString $INSTDIR\uninstall.exe
+    WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoModify 1
+    WriteRegDWORD HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
+SectionEnd
+
+# Macro for selecting uninstaller sections
+!macro SELECT_UNSECTION SECTION_NAME UNSECTION_ID
+    Push $R0
+    ReadRegStr $R0 HKLM "${REGKEY}\Components" "${SECTION_NAME}"
+    StrCmp $R0 1 0 next${UNSECTION_ID}
+    !insertmacro SelectSection "${UNSECTION_ID}"
+    GoTo done${UNSECTION_ID}
+next${UNSECTION_ID}:
+    !insertmacro UnselectSection "${UNSECTION_ID}"
+done${UNSECTION_ID}:
+    Pop $R0
+!macroend
+
+# Uninstaller sections
+Section /o -un.Main UNSectionMain
+    # To uninstall, we don't have a specific list of files that can be safely removed.
+    # We used to nuke INSTDIR using /r (remove recursively) but that turns out to be a
+    # really Bad Idea[tm] when the user installed at the root of the drive (nevermind that
+    # means they bypassed the install check that prevents from installing in a non-empty
+    # directory.)
+    # A plausable work-around is to forcefully remove the selected known sub-folders of
+    # the IDE since this list rarely changes.
+    RmDir /r /REBOOTOK $INSTDIR\bin
+    RmDir /r /REBOOTOK $INSTDIR\lib
+    RmDir /r /REBOOTOK $INSTDIR\license
+    RmDir /r /REBOOTOK $INSTDIR\plugins
+    RmDir /r /REBOOTOK $INSTDIR\sdk
+    Delete   /REBOOTOK $INSTDIR\build.txt
+    Delete   /REBOOTOK $INSTDIR\LICENSE.txt
+    # It's safe to call RmDir on instdir without /r, it won't do anything if the
+    # directory is not empty.
+    RmDir $INSTDIR
+    DeleteRegValue HKLM "${REGKEY}\Components" Main
+SectionEnd
+
+Section -un.post UNSectionSystem
+    DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
+    DeleteRegValue HKLM "${REGKEY}" StartMenuGroup
+    DeleteRegValue HKLM "${REGKEY}" Path
+    DeleteRegKey /IfEmpty HKLM "${REGKEY}\Components"
+    DeleteRegKey /IfEmpty HKLM "${REGKEY}"
+
+    Delete /REBOOTOK "$SMPROGRAMS\$s_StartMenuGroup\$(^Name).lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$s_StartMenuGroup\Uninstall $(^Name).lnk"
+    RmDir  /REBOOTOK "$SMPROGRAMS\$s_StartMenuGroup"
+
+    Delete /REBOOTOK $INSTDIR\uninstall.exe
+    # Warning: Do not use /r (remove recursively) when removing instdir.
+    RmDir  /REBOOTOK $INSTDIR
+
+    Push $R0
+    StrCpy $R0 $s_StartMenuGroup 1
+    StrCmp $R0 ">" no_smgroup
+no_smgroup:
+    Pop $R0
+SectionEnd
+
+# ---------- Functions ---------------------------------------
+
+# Installer functions
+Function .onInit
+    InitPluginsDir
+
+    # Disabled -- we don't really need a splash screen
+    #Push $R1
+    #File /oname=$PLUGINSDIR\spltmp.bmp splash.bmp
+    #advsplash::show 1000 232 172 -1 $PLUGINSDIR\spltmp
+    #Pop $R1
+    #Pop $R1
+
+    !insertmacro MULTIUSER_INIT
+
+    # Reuse previous install location, if any.
+    ReadRegStr $0 HKLM "${REGKEY}" Path
+    ${If} $0 != ""
+        StrCpy $INSTDIR $0
+    ${Endif}
+
+FunctionEnd
+
+# Uninstaller functions
+Function un.onInit
+    !insertmacro MUI_STARTMENU_GETFOLDER Application $s_StartMenuGroup
+    !insertmacro MULTIUSER_UNINIT
+    !insertmacro SELECT_UNSECTION Main ${UNSectionMain}
+FunctionEnd
+
+# Function invoked by MUI_FINISHPAGE_RUN
+Function s_StartApp
+
+    # ExecShell sets the CWD using $OUTDIR, which in this context is the
+    # StartMenu>Shortcuts folder.
+    # We change it to $INSTDIR (where SDK Manager.exe is actually located)
+    # for this invocation and then restore it.
+
+    Push $OUTDIR
+    SetOutPath $INSTDIR
+    ${If} ${RunningX64}
+        ExecShell "" "$INSTDIR\bin\${EXE_NAME_64}"
+    ${Else}
+        ExecShell "" "$INSTDIR\bin\${EXE_NAME_32}"
+    ${EndIf}
+    Pop $OUTDIR
+
+FunctionEnd
+
+
+# Check whether directory is empty: use FindFirst/FindNext,
+# skipping the "." and ".." directories.
+# Return 1 (true) if empty and 0 (false) if not empty.
+Function s___isEmptyDir
+    Exch $0                         # $0 = Get dir
+    Push $1
+    Push $2
+    StrCpy $2 1                     # result is 1/true by default (empty)
+
+    FindFirst  $0 $1 "$0\*.*"       # $0 <= find handle, $1 <= first match, 
+    ${DoWhile} $1 != ""             # Find returns "" when done
+        ${If}    $1 != "."
+        ${AndIf} $1 != ".." 
+            StrCpy $2 0             # result is false (not empty)
+            ${Break}
+        ${Endif}
+        FindNext $0 $1
+    ${Loop}
+
+    ClearErrors
+    FindClose $0
+    StrCpy $0 $2                    # $0 is result (0 or 1)
+    Pop  $2
+    Pop  $1
+    Exch $0
+FunctionEnd
+
+!macro s__IsEmptyDir VAR DIR
+    Push ${DIR}
+    call s___isEmptyDir
+    Pop ${VAR}
+!macroend
+
+!define s_IsEmptyDir "!insertmacro s__IsEmptyDir"
+
+# Called before the DirectoryPage is first shown.
+# Note that INSTDIR seems to always be reset to the default install path.
+Function s_DirPagePre
+    # If we haven't computed an install directory yet, use the default.
+    ${If} $s_ComputeInstDir == ""
+        StrCpy $s_ComputeInstDir $INSTDIR
+    ${Endif}
+
+    # Check whether that install directory is empty. If not, compute a new value.
+    ${s_IsEmptyDir} $0 $s_ComputeInstDir
+    ${If} $0 == 0
+        Push $R0
+        Push $R1
+        StrCpy $R0 0
+        ${Do}
+            IntOp $R0 $R0 + 1
+            StrCpy $R1 "$s_ComputeInstDir$R0"
+            ${s_IsEmptyDir} $0 $R1
+        ${LoopUntil} $0 != 0
+
+        StrCpy $s_ComputeInstDir $R1
+
+        Pop $R1
+        Pop $R0
+    ${Endif}
+FunctionEnd
+
+# Called when the DirectoryPage is shown.
+Function s_DirPageShow
+    # Update the installation directory with the value we computed or captured when leaving the page.
+    StrCpy $INSTDIR $s_ComputeInstDir
+    SendMessage $mui.DirectoryPage.Directory ${WM_SETTEXT} 0 STR:$INSTDIR
+FunctionEnd
+
+
+# Called when leaving the DirectoryPage.
+Function s_DirPageLeave
+    # Capture the actual install directory.
+    StrCpy $s_ComputeInstDir $INSTDIR
+
+    ${s_IsEmptyDir} $0 $s_ComputeInstDir
+    ${If} $0 == 0
+        MessageBox MB_OK|MB_ICONEXCLAMATION "Please select an empty folder to install $(^Name)." /SD IDOK
+        Abort
+    ${Endif}
+FunctionEnd
