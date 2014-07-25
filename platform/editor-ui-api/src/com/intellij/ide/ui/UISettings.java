@@ -116,6 +116,7 @@ public class UISettings implements PersistentStateComponent<UISettings>, Exporta
   public boolean MARK_MODIFIED_TABS_WITH_ASTERISK = false;
   public boolean SHOW_TABS_TOOLTIPS = true;
   public boolean SHOW_DIRECTORY_FOR_NON_UNIQUE_FILENAMES = false;
+  public boolean SHOW_SECONDARYACTIONS_RIGHTALIGNED = false;
 
   private final EventListenerList myListenerList;
 
