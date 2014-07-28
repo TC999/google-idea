@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f922f488_64c1bf13",
+        "filename": "platform/editor-ui-api/src/com/intellij/ide/ui/UISettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-28T19:38:44Z",
+      "side": 1,
+      "message": "If we don\u0027t expect this to be changeable by the user, I wouldn\u0027t put this into the UI settings. It\u0027s better to put it into the registry (see the Registry class).",
+      "range": {
+        "startLine": 119,
+        "startChar": 59,
+        "endLine": 119,
+        "endChar": 60
+      },
+      "revId": "a29e161ae9658125ec70ff79a688693c2e403628",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f922f488_84bebb98",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-28T19:38:44Z",
+      "side": 1,
+      "message": "I think it\u0027s cleaner to merge the two checks into a single if statement. I think the comment explains it clearly enough.",
+      "range": {
+        "startLine": 320,
+        "startChar": 12,
+        "endLine": 320,
+        "endChar": 36
+      },
+      "revId": "a29e161ae9658125ec70ff79a688693c2e403628",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f922f488_a4c9f73c",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-28T19:38:44Z",
+      "side": 1,
+      "message": "please use lowerCamelCase for variable names",
+      "range": {
+        "startLine": 774,
+        "startChar": 10,
+        "endLine": 774,
+        "endChar": 19
+      },
+      "revId": "a29e161ae9658125ec70ff79a688693c2e403628",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f922f488_c4cef341",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-28T19:38:44Z",
+      "side": 1,
+      "message": "I think the \"- 2\" here assumes a single right-aligned component and needs to be updated for the new code.",
+      "range": {
+        "startLine": 775,
+        "startChar": 42,
+        "endLine": 775,
+        "endChar": 43
+      },
+      "revId": "a29e161ae9658125ec70ff79a688693c2e403628",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f922f488_44dbe300",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-28T19:38:44Z",
+      "side": 1,
+      "message": "Make sure this works in a reasonable way when the toolbar is not wide enough to fit both the left-aligned and right-aligned components.",
+      "revId": "a29e161ae9658125ec70ff79a688693c2e403628",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f974b47c_a3dad920",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-28T19:38:44Z",
+      "side": 1,
+      "message": "just put a \u0027break\u0027 here",
+      "range": {
+        "startLine": 792,
+        "startChar": 10,
+        "endLine": 792,
+        "endChar": 19
+      },
+      "revId": "a29e161ae9658125ec70ff79a688693c2e403628",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
