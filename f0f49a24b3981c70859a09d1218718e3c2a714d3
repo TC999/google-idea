@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "560aef14_81454081",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-07-29T14:21:40Z",
+      "side": 1,
+      "message": "For greater build script portability maybe use File.createTempFile(\"NOTICE\", \"txt\") instead (or if you want to control the name of the file but don\u0027t care about the directory, do new File(System.getProperty(\"java.io.tmpdir\") + File.separator + \"NOTICE\")",
+      "revId": "f0f49a24b3981c70859a09d1218718e3c2a714d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7615332e_6566b12f",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-07-29T14:21:40Z",
+      "side": 1,
+      "message": "Instead of \"/tmp/NOTICE\" here use noticeFile.getPath()",
+      "revId": "f0f49a24b3981c70859a09d1218718e3c2a714d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7615332e_2550b943",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-07-29T14:21:40Z",
+      "side": 1,
+      "message": "nit - existant\u003d\u003eexistent",
+      "revId": "f0f49a24b3981c70859a09d1218718e3c2a714d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
