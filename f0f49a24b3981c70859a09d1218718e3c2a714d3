@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36f65b4a_9a710ff1",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-07-29T14:54:23Z",
+      "side": 1,
+      "message": "I\u0027ll adopt the second suggestion. I couldn\u0027t figure out how to use ant to rename a file while copying in this context.",
+      "parentUuid": "560aef14_81454081",
+      "revId": "f0f49a24b3981c70859a09d1218718e3c2a714d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7615332e_6566b12f",
         "filename": "build/scripts/layouts.gant",
         "patchSetId": 1
