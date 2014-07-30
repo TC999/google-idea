@@ -2,6 +2,194 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6f76345_26a31c56",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "I think you should probably explicitly say secondaryActions instead of secondaries.",
+      "range": {
+        "startLine": 271,
+        "startChar": 17,
+        "endLine": 271,
+        "endChar": 40
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6204393_9efb6189",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "is it possible to align the toolbar vertically?",
+      "range": {
+        "startLine": 272,
+        "startChar": 38,
+        "endLine": 272,
+        "endChar": 50
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f76345_86eaf050",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "There\u0027s no hard and fast rule where to define a method, but for private convenience methods I tend to prefer right after they are first used, as that\u0027s when I want to know what they are. feel free to ignore if that doesn\u0027t suit you.",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6204393_5e914942",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "atEnd sounds like it\u0027s supposed to add a component at the end of whatever you\u0027re adding to. But it looks like it\u0027s just a flag indicating that it\u0027s the last component being added. Why is the caller of this even adding a separator at the end?",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6204393_1ea631ad",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "this kind of comment is very useful thanks.",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6204393_feba55bf",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "am I reading this right that both conditions do the same thing?",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f76345_26f9dc2c",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "clarifying parens are encouraged in this kind of statement. https://engdoc.corp.google.com/eng/doc/devguide/java/styleguide.shtml?cl\u003dhead#s4.7-grouping-parentheses",
+      "range": {
+        "startLine": 328,
+        "startChar": 39,
+        "endLine": 328,
+        "endChar": 41
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f76345_661804df",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "Capitalize all your complete sentences. Also prepend a space between the // and your comment.\nalso \"that it\u0027s last\"",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f76345_06a2601f",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "this loop seems a little hard to read.  Could we assume that the component is a JComponent? Also it could be clearer if we moved the \u0027break\u0027 condition at the bottom of the while statement into the loop condition.",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f76345_46dbc8b2",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-30T22:05:41Z",
+      "side": 1,
+      "message": "camelCase variable names.",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6016bf5_2ffad1d9",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
