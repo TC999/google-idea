@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6016bf5_2ffad1d9",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-30T20:42:37Z",
+      "side": 1,
+      "message": "this check is new.  if we ever find that moving to right aligned actually doesnt move it right, we give up and leave it left.",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
