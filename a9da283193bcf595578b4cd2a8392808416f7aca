@@ -148,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "f6f76345_2c9d3be5",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-31T14:52:44Z",
+      "side": 1,
+      "message": "I see. What about renaming the atEnd flag to \u0027isFirstOrLast\u0027 or something else that makes its purpose clearer?",
+      "parentUuid": "b61a4b65_19188b0b",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6204393_1ea631ad",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -247,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "f6204393_a45f2cc9",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-31T14:52:44Z",
+      "side": 1,
+      "message": "yeah. I\u0027m suggesting (i \u003d\u003d 0) || (i \u003d\u003d actions.size() - 1). That being said Google is pretty conservative on readability. As Dmitry pointed out this is jetbrains code, so if this is consistent with their style you can leave it.",
+      "parentUuid": "f6204393_047380b6",
+      "range": {
+        "startLine": 328,
+        "startChar": 39,
+        "endLine": 328,
+        "endChar": 41
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f76345_661804df",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -311,6 +353,24 @@
       "side": 1,
       "message": "Probably safe to assume jcomponent from my analysis.  Note that the existing code is being defensive here and is implying that it could be something else.",
       "parentUuid": "f6f76345_06a2601f",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6016bf5_d56c1cd2",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1048978
+      },
+      "writtenOn": "2014-07-31T14:52:44Z",
+      "side": 1,
+      "message": "I\u0027m fine with leaving it in, especially if you restructure to a for loop as Dmitry suggested.",
+      "parentUuid": "f6204393_44597838",
       "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
