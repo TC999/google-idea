@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "f922f488_2786e057",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-31T00:19:40Z",
+      "side": 1,
+      "message": "It is possible to align _a_ toolbar vertically, but the main toolbar of IntelliJ is always horizontally aligned. Therefore this check is appropriate.",
+      "parentUuid": "f6204393_9efb6189",
+      "range": {
+        "startLine": 272,
+        "startChar": 38,
+        "endLine": 272,
+        "endChar": 50
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f76345_86eaf050",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -76,6 +100,24 @@
       "writtenOn": "2014-07-30T22:05:41Z",
       "side": 1,
       "message": "atEnd sounds like it\u0027s supposed to add a component at the end of whatever you\u0027re adding to. But it looks like it\u0027s just a flag indicating that it\u0027s the last component being added. Why is the caller of this even adding a separator at the end?",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b61a4b65_19188b0b",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-31T00:19:40Z",
+      "side": 1,
+      "message": "A toolbar can be constructed from multiple action groups which can be contributed by plugins or customized by the user. So there\u0027s no single caller.",
+      "parentUuid": "f6204393_5e914942",
       "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -156,6 +198,24 @@
     },
     {
       "key": {
+        "uuid": "b61a4b65_79465fe5",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-31T00:19:40Z",
+      "side": 1,
+      "message": "Thankfully the JetBrains team doesn\u0027t care about any of those stylistic issues (except for the last one).",
+      "parentUuid": "f6f76345_661804df",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f76345_06a2601f",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -201,6 +261,70 @@
       "writtenOn": "2014-07-30T20:42:37Z",
       "side": 1,
       "message": "this check is new.  if we ever find that moving to right aligned actually doesnt move it right, we give up and leave it left.",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f974b47c_a20ba945",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-31T00:19:40Z",
+      "side": 1,
+      "message": "This doesn\u0027t quite make sense to me. If you don\u0027t have enough space to fit all the components, you\u0027ll have them overlap in a random place in the middle of the toolbar. I don\u0027t think that\u0027s the best behavior in that situation.",
+      "parentUuid": "b6016bf5_2ffad1d9",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b61a4b65_f9594fc0",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-31T00:19:40Z",
+      "side": 1,
+      "message": "-\u003d",
+      "range": {
+        "startLine": 784,
+        "startChar": 20,
+        "endLine": 784,
+        "endChar": 29
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f974b47c_2226b9d5",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1045657
+      },
+      "writtenOn": "2014-07-31T00:19:40Z",
+      "side": 1,
+      "message": "By the way it may be cleaner to restructure this as \"for (int componentIndex \u003d getComponentCount()-1; componentIndex \u003e\u003d 0; componentIndex--)\" and put the RIGHT_ALIGN check in the body of the loop.",
+      "range": {
+        "startLine": 785,
+        "startChar": 27,
+        "endLine": 785,
+        "endChar": 28
+      },
       "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
