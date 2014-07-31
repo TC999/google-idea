@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6f76345_4c96473d",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-31T12:03:11Z",
+      "side": 1,
+      "message": "makes sense",
+      "parentUuid": "f6f76345_26a31c56",
+      "range": {
+        "startLine": 271,
+        "startChar": 17,
+        "endLine": 271,
+        "endChar": 40
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6204393_9efb6189",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -158,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "f6f76345_2ca65bad",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-31T12:03:11Z",
+      "side": 1,
+      "message": "yes, I meant to collapse them.  the difference is accounted for further down.",
+      "parentUuid": "f6204393_feba55bf",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f76345_26f9dc2c",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -169,6 +211,30 @@
       "writtenOn": "2014-07-30T22:05:41Z",
       "side": 1,
       "message": "clarifying parens are encouraged in this kind of statement. https://engdoc.corp.google.com/eng/doc/devguide/java/styleguide.shtml?cl\u003dhead#s4.7-grouping-parentheses",
+      "range": {
+        "startLine": 328,
+        "startChar": 39,
+        "endLine": 328,
+        "endChar": 41
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6204393_047380b6",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-31T12:03:11Z",
+      "side": 1,
+      "message": "not sure I get it.  this is \"X || Y\".  are you suggesting it would be \"(X) || (Y)\".  Is that increasing readability because someone might think || takes precendence over \u003d\u003d?",
+      "parentUuid": "f6f76345_26f9dc2c",
       "range": {
         "startLine": 328,
         "startChar": 39,
@@ -233,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "f6204393_44597838",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-31T12:03:11Z",
+      "side": 1,
+      "message": "Probably safe to assume jcomponent from my analysis.  Note that the existing code is being defensive here and is implying that it could be something else.",
+      "parentUuid": "f6f76345_06a2601f",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f76345_46dbc8b2",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -285,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "f6204393_c4934896",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-31T12:03:11Z",
+      "side": 1,
+      "message": "Actually that is what its avoiding.  If wrap is off, then we don\u0027t want them overlapping when there isn\u0027t enough space, so we break and leave them left aligned, cutting off.  The main toolbar has wrap on.  The nav toolbar has wrap off, but the toolbar itself is right aligned.\nThis condition is there to prevent any right align action that would mistakenly move the component left of where it is now.",
+      "parentUuid": "f974b47c_a20ba945",
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b61a4b65_f9594fc0",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -308,6 +410,30 @@
     },
     {
       "key": {
+        "uuid": "f6f76345_8c8c4f2b",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-31T12:03:11Z",
+      "side": 1,
+      "message": "(Y)",
+      "parentUuid": "b61a4b65_f9594fc0",
+      "range": {
+        "startLine": 784,
+        "startChar": 20,
+        "endLine": 784,
+        "endChar": 29
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f974b47c_2226b9d5",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
         "patchSetId": 1
@@ -319,6 +445,30 @@
       "writtenOn": "2014-07-31T00:19:40Z",
       "side": 1,
       "message": "By the way it may be cleaner to restructure this as \"for (int componentIndex \u003d getComponentCount()-1; componentIndex \u003e\u003d 0; componentIndex--)\" and put the RIGHT_ALIGN check in the body of the loop.",
+      "range": {
+        "startLine": 785,
+        "startChar": 27,
+        "endLine": 785,
+        "endChar": 28
+      },
+      "revId": "a9da283193bcf595578b4cd2a8392808416f7aca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6016bf5_8ab8b364",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionToolbarImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2014-07-31T12:03:11Z",
+      "side": 1,
+      "message": "makes sense",
+      "parentUuid": "f974b47c_2226b9d5",
       "range": {
         "startLine": 785,
         "startChar": 27,
