@@ -17,7 +17,6 @@ package org.jetbrains.plugins.gradle.integrations.maven;
 
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.application.Result;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.externalSystem.util.ExternalSystemConstants;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -37,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.idea.maven.indices.MavenIndex;
 import org.jetbrains.idea.maven.indices.MavenProjectIndicesManager;
 import org.jetbrains.idea.maven.model.MavenRemoteRepository;
+import org.jetbrains.plugins.gradle.settings.GradleSettings;
 import org.jetbrains.plugins.gradle.util.GradleConstants;
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.GrVariable;
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.arguments.GrNamedArgument;
@@ -75,6 +75,7 @@ public class ImportMavenRepositoriesTask implements Runnable {
   @Override
   public void run() {
     if(myProject.isDisposed()) return;
+    if (!GradleSettings.getInstance(myProject).isAutomaticallyIndexRepositories()) return;
 
     final LocalFileSystem localFileSystem = LocalFileSystem.getInstance();
     final List<PsiFile> psiFileList = ContainerUtil.newArrayList();

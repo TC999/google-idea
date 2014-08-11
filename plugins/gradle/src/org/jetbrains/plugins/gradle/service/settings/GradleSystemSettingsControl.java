@@ -58,6 +58,7 @@ public class GradleSystemSettingsControl implements ExternalSystemSettingsContro
   private JBTextField               myGradleVmOptionsField;
   private boolean                   myServiceDirectoryPathModifiedByUser;
   private JBCheckBox                myOfflineModeBox;
+  private JBCheckBox                myAutoIndexRepositoriesBox;
 
   public GradleSystemSettingsControl(@NotNull GradleSettings settings) {
     myInitialSettings = settings;
@@ -67,6 +68,9 @@ public class GradleSystemSettingsControl implements ExternalSystemSettingsContro
   public void fillUi(@NotNull PaintAwarePanel canvas, int indentLevel) {
     myOfflineModeBox = new JBCheckBox(GradleBundle.message("gradle.settings.text.offline_work"));
     canvas.add(myOfflineModeBox, ExternalSystemUiUtil.getFillLineConstraints(indentLevel));
+
+    myAutoIndexRepositoriesBox = new JBCheckBox(GradleBundle.message("gradle.settings.text.auto.index"));
+    canvas.add(myAutoIndexRepositoriesBox, ExternalSystemUiUtil.getFillLineConstraints(indentLevel));
 
     myServiceDirectoryLabel = new JBLabel(GradleBundle.message("gradle.settings.text.service.dir.path"));
     preparePathControl();
@@ -125,6 +129,7 @@ public class GradleSystemSettingsControl implements ExternalSystemSettingsContro
     
     myGradleVmOptionsField.setText(trimIfPossible(myInitialSettings.getGradleVmOptions()));
     myOfflineModeBox.setSelected(myInitialSettings.isOfflineWork());
+    myAutoIndexRepositoriesBox.setSelected(myInitialSettings.isAutomaticallyIndexRepositories());
   }
 
   private void deduceServiceDirectoryIfPossible() {
@@ -143,7 +148,8 @@ public class GradleSystemSettingsControl implements ExternalSystemSettingsContro
            && !Comparing.equal(ExternalSystemApiUtil.normalizePath(myServiceDirectoryPathField.getText()),
                                ExternalSystemApiUtil.normalizePath(myInitialSettings.getServiceDirectoryPath())))
            || !Comparing.equal(trimIfPossible(myGradleVmOptionsField.getText()), trimIfPossible(myInitialSettings.getGradleVmOptions()))
-           || myOfflineModeBox.isSelected() != myInitialSettings.isOfflineWork();
+           || myOfflineModeBox.isSelected() != myInitialSettings.isOfflineWork()
+           || myAutoIndexRepositoriesBox.isSelected() != myInitialSettings.isAutomaticallyIndexRepositories();
   }
 
   @Nullable
@@ -162,6 +168,7 @@ public class GradleSystemSettingsControl implements ExternalSystemSettingsContro
     }
     settings.setGradleVmOptions(trimIfPossible(myGradleVmOptionsField.getText()));
     settings.setOfflineWork(myOfflineModeBox.isSelected());
+    settings.setAutomaticallyIndexRepositories(myAutoIndexRepositoriesBox.isSelected());
   }
 
   @Override

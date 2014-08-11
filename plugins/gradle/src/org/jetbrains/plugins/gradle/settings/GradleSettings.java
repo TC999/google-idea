@@ -47,6 +47,7 @@ public class GradleSettings extends AbstractExternalSystemSettings<GradleSetting
   @Nullable private String myServiceDirectoryPath;
   @Nullable private String myGradleVmOptions;
   private boolean myIsOfflineWork;
+  private boolean myAutomaticallyIndexRepositories;
 
   public GradleSettings(@NotNull Project project) {
     super(GradleSettingsListener.TOPIC, project);
@@ -68,6 +69,7 @@ public class GradleSettings extends AbstractExternalSystemSettings<GradleSetting
     myServiceDirectoryPath = settings.getServiceDirectoryPath();
     myGradleVmOptions = settings.getGradleVmOptions();
     myIsOfflineWork = settings.isOfflineWork();
+    myAutomaticallyIndexRepositories = settings.isAutomaticallyIndexRepositories();
   }
 
   @SuppressWarnings("unchecked")
@@ -79,6 +81,7 @@ public class GradleSettings extends AbstractExternalSystemSettings<GradleSetting
     state.serviceDirectoryPath = myServiceDirectoryPath;
     state.gradleVmOptions = myGradleVmOptions;
     state.offlineWork = myIsOfflineWork;
+    state.automaticallyIndexRepositories = myAutomaticallyIndexRepositories;
     return state;
   }
 
@@ -88,6 +91,7 @@ public class GradleSettings extends AbstractExternalSystemSettings<GradleSetting
     myServiceDirectoryPath = state.serviceDirectoryPath;
     myGradleVmOptions = state.gradleVmOptions;
     myIsOfflineWork = state.offlineWork;
+    myAutomaticallyIndexRepositories = state.automaticallyIndexRepositories;
   }
 
   /**
@@ -130,6 +134,14 @@ public class GradleSettings extends AbstractExternalSystemSettings<GradleSetting
     myIsOfflineWork = isOfflineWork;
   }
 
+  public boolean isAutomaticallyIndexRepositories() {
+    return myAutomaticallyIndexRepositories;
+  }
+
+  public void setAutomaticallyIndexRepositories(boolean automaticallyIndexRepositories) {
+    this.myAutomaticallyIndexRepositories = automaticallyIndexRepositories;
+  }
+
   @Override
   protected void checkSettings(@NotNull GradleProjectSettings old, @NotNull GradleProjectSettings current) {
     if (!Comparing.equal(old.getGradleHome(), current.getGradleHome())) {
@@ -146,6 +158,7 @@ public class GradleSettings extends AbstractExternalSystemSettings<GradleSetting
     public String serviceDirectoryPath;
     public String gradleVmOptions;
     public boolean offlineWork;
+    public boolean automaticallyIndexRepositories = true;
 
     @AbstractCollection(surroundWithTag = false, elementTypes = {GradleProjectSettings.class})
     public Set<GradleProjectSettings> getLinkedExternalProjectsSettings() {
