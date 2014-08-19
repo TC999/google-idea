@@ -7,8 +7,15 @@ setProperty("cucumber_test_dirs", [["git4idea", "Idea", "$home/plugins/git4idea/
 
 def isMac = System.getProperty("os.name").toLowerCase().startsWith("mac")
 def args = [
+<<<<<<< HEAD   (00d319 Merge "navigator: show android pane before scope pane" into )
         "-Xmx1024m",
         "-XX:MaxPermSize=630m",
+=======
+        "-Xmx450m",
+        "-XX:MaxPermSize=430m",
+        "-XX:ReservedCodeCacheSize=96m",
+        "-XX:+UseCodeCacheFlushing"
+>>>>>>> BRANCH (c1a28f Snapshot idea/135.1272 from git://git.jetbrains.org/idea/com)
 ]
 if (isMac) args << "-d32";
 
