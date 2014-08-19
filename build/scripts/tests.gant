@@ -7,8 +7,14 @@ setProperty("cucumber_test_dirs", [["git4idea", "Idea", "$home/plugins/git4idea/
 
 def isMac = System.getProperty("os.name").toLowerCase().startsWith("mac")
 def args = [
+<<<<<<< HEAD   (890d9a Merge "Update google tools (cloud/login) build files")
         "-Xmx1024m",
         "-XX:MaxPermSize=630m",
+=======
+        "-Xmx450m",
+        "-XX:MaxPermSize=430m",
+        "-XX:ReservedCodeCacheSize=96m"
+>>>>>>> BRANCH (02cf98 Snapshot idea/138.1503 from git://git.jetbrains.org/idea/com)
 ]
 if (isMac) args << "-d32";
 
