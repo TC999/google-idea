@@ -70,6 +70,7 @@ public class UpdatesXmlLoader {
 
           URL requestUrl = prepareRequestUrl(updateUrl);
 
+<<<<<<< HEAD   (3b3787 Merge "Remove defunct library gradle-import")
           URLConnection cnx;
           int followCount = 2;
           while(true) {
@@ -91,6 +92,12 @@ public class UpdatesXmlLoader {
           }
 
           final InputStream inputStream = cnx.getInputStream();
+=======
+          URLConnection connection = requestUrl.openConnection();
+          connection.setConnectTimeout(HttpConfigurable.CONNECTION_TIMEOUT);
+          connection.setReadTimeout(HttpConfigurable.CONNECTION_TIMEOUT);
+          final InputStream inputStream = connection.getInputStream();
+>>>>>>> BRANCH (1aa2e0 Snapshot idea/138.1696 from git://git.jetbrains.org/idea/com)
           Reader reader = new InputStreamReader(inputStream);
           try {
             return new UpdatesInfo(JDOMUtil.loadDocument(inputStream).getRootElement());
