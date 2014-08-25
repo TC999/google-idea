@@ -20,7 +20,6 @@ import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.AppUIUtil;
 import com.intellij.util.PlatformUtils;
 import com.intellij.util.SystemProperties;
 import com.intellij.util.ThreeState;
@@ -29,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -58,26 +56,8 @@ public class ConfigImportHelper {
 
   public static void importConfigsTo(String newConfigPath) {
     ConfigImportSettings settings = getConfigImportSettings();
-
     File oldConfigDir = findOldConfigDir(newConfigPath, settings.getCustomPathsSelector());
-    do {
-      ImportOldConfigsPanel dialog = new ImportOldConfigsPanel(oldConfigDir, settings);
-      dialog.setModalityType(Dialog.ModalityType.TOOLKIT_MODAL);
-      AppUIUtil.updateWindowIcon(dialog);
-      dialog.setVisible(true);
-      if (dialog.isImportEnabled()) {
-        File instHome = dialog.getSelectedFile();
-        oldConfigDir = getOldConfigDir(instHome, settings);
-        if (!validateOldConfigDir(instHome, oldConfigDir, settings)) continue;
-
-        doImport(newConfigPath, oldConfigDir);
-        settings.importFinished(newConfigPath);
-        System.setProperty(CONFIG_IMPORTED_IN_CURRENT_SESSION_KEY, Boolean.TRUE.toString());
-      }
-
-      break;
-    }
-    while (true);
+    settings.importConfig(newConfigPath, oldConfigDir);
   }
 
   private static ConfigImportSettings getConfigImportSettings() {
@@ -160,6 +140,20 @@ public class ConfigImportHelper {
   private static String getPrefixFromSelector(String selector) {
     return (SystemInfo.isMac ? "" : ".") + selector.replaceAll("\\d", "");
   }
+
+  public static boolean performConfigImport(ConfigImportSettings settings, File instHome,
+                                            File oldConfigDir, String newDir) {
+    if (validateOldConfigDir(instHome, oldConfigDir, settings)) {
+      doImport(newDir, oldConfigDir);
+      settings.importFinished(newDir);
+      System.setProperty(CONFIG_IMPORTED_IN_CURRENT_SESSION_KEY, Boolean.TRUE.toString());
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
 
   public static void doImport(final String newConfigPath, final File oldConfigDir) {
     try {
