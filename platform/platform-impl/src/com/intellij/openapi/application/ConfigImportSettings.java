@@ -16,11 +16,13 @@
 package com.intellij.openapi.application;
 
 import com.intellij.openapi.util.SystemInfo;
+import com.intellij.ui.AppUIUtil;
 import com.intellij.util.SystemProperties;
 import com.intellij.util.ThreeState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -108,5 +110,19 @@ public class ConfigImportSettings {
     // by default "Info.plist", "idea.properties"; "idea.sh,idea.bat,..." and 
     // "product_lower_name.sh, product_lower_name.bat,..." are used
     return Collections.emptyList();
+  }
+
+  public void importConfig(String newDir, @Nullable File detectedDir) {
+    File instanceHome;
+    ImportOldConfigsPanel dialog;
+    do {
+      dialog = new ImportOldConfigsPanel(detectedDir, this);
+      dialog.setModalityType(Dialog.ModalityType.TOOLKIT_MODAL);
+      AppUIUtil.updateWindowIcon(dialog);
+      dialog.setVisible(true);
+      instanceHome = dialog.getSelectedFile();
+      detectedDir = ConfigImportHelper.getOldConfigDir(instanceHome, this);
+    }
+    while (dialog.isImportEnabled() && !ConfigImportHelper.performConfigImport(this, instanceHome, detectedDir, newDir));
   }
 }
