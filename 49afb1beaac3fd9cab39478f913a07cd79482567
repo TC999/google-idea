@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "532cc17a_ae82c3ad",
+        "filename": "platform/extensions/src/com/intellij/openapi/extensions/impl/ExtensionsAreaImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2014-09-02T15:04:13Z",
+      "side": 1,
+      "message": "Nit: the wording of \"just\" seems a bit awkward here.\n\nMaybe cut it? Or change the wording to something like:\n\n\"This can happen if a new version of Android Studio is installed in place over an existing older version.\"\n\n?",
+      "revId": "49afb1beaac3fd9cab39478f913a07cd79482567",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
