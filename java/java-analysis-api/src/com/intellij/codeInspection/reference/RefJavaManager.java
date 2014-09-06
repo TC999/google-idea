@@ -71,6 +71,9 @@ public abstract class RefJavaManager implements RefManagerExtension<RefJavaManag
 
   public abstract PsiClass getServlet();
 
+  public abstract PsiClass getAndroidContext();
+  public abstract PsiClass getAndroidFragment(boolean support);
+
   public abstract EntryPointsManager getEntryPointsManager();
 
   @NotNull

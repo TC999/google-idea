@@ -56,6 +56,7 @@ public class RefClassImpl extends RefJavaElementImpl implements RefClass {
   private static final int IS_SERVLET_MASK   = 0x400000;
   private static final int IS_TESTCASE_MASK  = 0x800000;
   private static final int IS_LOCAL_MASK     = 0x1000000;
+  private static final int IS_ANDROID_MASK   = 0x2000000;
 
   private Set<RefClass> myBases; // singleton (to conserve the memory) or THashSet
   private Set<RefClass> mySubClasses; // singleton (to conserve the memory) or THashSet
@@ -135,6 +136,21 @@ public class RefClassImpl extends RefJavaElementImpl implements RefClass {
       if (isTestClass) {
         for (RefClass refBase : getBaseClasses()) {
           ((RefClassImpl)refBase).setTestCase(true);
+        }
+      }
+    }
+
+    final PsiClass context = getRefJavaManager().getAndroidContext();
+    if (context != null && psiClass.isInheritor(context, true)) {
+      setAndroidPublic(true);
+    } else {
+      PsiClass fragment = getRefJavaManager().getAndroidFragment(false);
+      if (fragment != null && psiClass.isInheritor(fragment, true)) {
+        setAndroidPublic(true);
+      } else {
+        PsiClass fragmentV4 = getRefJavaManager().getAndroidFragment(false);
+        if (fragmentV4 != null && psiClass.isInheritor(fragmentV4, true)) {
+          setAndroidPublic(true);
         }
       }
     }
@@ -491,6 +507,11 @@ public class RefClassImpl extends RefJavaElementImpl implements RefClass {
   }
 
   @Override
+  public boolean isAndroidPublic() {
+    return checkFlag(IS_ANDROID_MASK);
+  }
+
+  @Override
   public boolean isTestCase() {
     return checkFlag(IS_TESTCASE_MASK);
   }
@@ -555,6 +576,10 @@ public class RefClassImpl extends RefJavaElementImpl implements RefClass {
 
   private void setServlet(boolean servlet) {
     setFlag(servlet, IS_SERVLET_MASK);
+  }
+
+  private void setAndroidPublic(boolean android) {
+    setFlag(android, IS_ANDROID_MASK);
   }
 
   private void setTestCase(boolean testCase) {

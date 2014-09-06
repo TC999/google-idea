@@ -46,6 +46,9 @@ public class RefJavaManagerImpl extends RefJavaManager {
   private PsiMethod myAppAgentmainPattern;
   private PsiClass myApplet;
   private PsiClass myServlet;
+  private PsiClass myAndroidContext;
+  private PsiClass myAndroidFragment;
+  private PsiClass myAndroidV4Fragment;
   private RefPackage myDefaultPackage;
   private THashMap<String, RefPackage> myPackages;
   private final RefManagerImpl myRefManager;
@@ -66,9 +69,13 @@ public class RefJavaManagerImpl extends RefJavaManager {
       LOG.error(e);
     }
 
-    myApplet = JavaPsiFacade.getInstance(psiManager.getProject()).findClass("java.applet.Applet", GlobalSearchScope.allScope(project));
-    myServlet = JavaPsiFacade.getInstance(psiManager.getProject()).findClass("javax.servlet.Servlet", GlobalSearchScope.allScope(project));
-
+    GlobalSearchScope scope = GlobalSearchScope.allScope(project);
+    JavaPsiFacade psiFacade = JavaPsiFacade.getInstance(psiManager.getProject());
+    myApplet = psiFacade.findClass("java.applet.Applet", scope);
+    myServlet = psiFacade.findClass("javax.servlet.Servlet", scope);
+    myAndroidContext = psiFacade.findClass("android.content.Context", scope);
+    myAndroidFragment = psiFacade.findClass("android.app.Fragment", scope);
+    myAndroidFragment = psiFacade.findClass("android.support.v4.app.Fragment", scope);
   }
 
   @Override
@@ -158,6 +165,16 @@ public class RefJavaManagerImpl extends RefJavaManager {
   }
 
   @Override
+  public PsiClass getAndroidContext() {
+    return myAndroidContext;
+  }
+
+  @Override
+  public PsiClass getAndroidFragment(boolean support) {
+    return support ? myAndroidV4Fragment : myAndroidFragment;
+  }
+
+  @Override
   public RefParameter getParameterReference(PsiParameter param, int index) {
     LOG.assertTrue(myRefManager.isValidPointForReference(), "References may become invalid after process is finished");
     RefElement ref = myRefManager.getFromRefTable(param);
@@ -203,6 +220,9 @@ public class RefJavaManagerImpl extends RefJavaManager {
     myAppPremainPattern = null;
     myAppAgentmainPattern = null;
     myServlet = null;
+    myAndroidContext = null;
+    myAndroidFragment = null;
+    myAndroidV4Fragment = null;
     myDefaultPackage = null;
     myProjectIterator = null;
   }
