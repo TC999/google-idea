@@ -70,6 +70,30 @@
       "revId": "c6b547cdb596e820385454ca5c5be3338be6ecfc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10f15fa2_91377e16",
+        "filename": "resources/src/META-INF/IdeaPlugin.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-09-09T16:06:23Z",
+      "side": 1,
+      "message": "Like I said on the previous patch, I\u0027d rather be conservative in cases where there is no proof that this bothers a real user.\n\nI\u0027d bet that not 1% of the users have opened the defaults tab in the run configurations and gotten confused about all these settings, and cursed at Google for complicating things :)\n\nReal complexities are elsewhere and I\u0027d rather focus on them.",
+      "parentUuid": "50075752_b7854786",
+      "range": {
+        "startLine": 1173,
+        "startChar": 79,
+        "endLine": 1173,
+        "endChar": 107
+      },
+      "revId": "c6b547cdb596e820385454ca5c5be3338be6ecfc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
