@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0edabca_07206ab5",
+        "filename": "resources/src/META-INF/IdeaPlugin.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-09-09T15:18:28Z",
+      "side": 1,
+      "message": "Is this for running command line Java apps? It may be possible that Java lib modules have classes with \"static void main\" and users may want to run them?\nI don\u0027t know this is common, but just wanted to mention it.",
+      "range": {
+        "startLine": 1173,
+        "startChar": 79,
+        "endLine": 1173,
+        "endChar": 107
+      },
+      "revId": "c6b547cdb596e820385454ca5c5be3338be6ecfc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
