@@ -46,6 +46,30 @@
       "revId": "c6b547cdb596e820385454ca5c5be3338be6ecfc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50075752_b7854786",
+        "filename": "resources/src/META-INF/IdeaPlugin.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1017944
+      },
+      "writtenOn": "2014-09-09T15:50:45Z",
+      "side": 1,
+      "message": "We don\u0027t need to account for every possible thing a user could conceivably want to do here. I think we tend to worry too much about edge cases.",
+      "parentUuid": "50075752_17d1b38c",
+      "range": {
+        "startLine": 1173,
+        "startChar": 79,
+        "endLine": 1173,
+        "endChar": 107
+      },
+      "revId": "c6b547cdb596e820385454ca5c5be3338be6ecfc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
