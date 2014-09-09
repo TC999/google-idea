@@ -22,6 +22,30 @@
       "revId": "c6b547cdb596e820385454ca5c5be3338be6ecfc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50075752_17d1b38c",
+        "filename": "resources/src/META-INF/IdeaPlugin.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-09-09T15:44:56Z",
+      "side": 1,
+      "message": "Yeah, this is was another thing I was debating. I\u0027ll leave this in as well..",
+      "parentUuid": "f0edabca_07206ab5",
+      "range": {
+        "startLine": 1173,
+        "startChar": 79,
+        "endLine": 1173,
+        "endChar": 107
+      },
+      "revId": "c6b547cdb596e820385454ca5c5be3338be6ecfc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
