@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "709e1b6e_7a4e48fc",
+        "filename": "platform/analysis-api/src/com/intellij/lang/annotation/AnnotationHolder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-09-13T01:36:47Z",
+      "side": 1,
+      "message": "message and tooltip",
+      "range": {
+        "startLine": 159,
+        "startChar": 57,
+        "endLine": 159,
+        "endChar": 64
+      },
+      "revId": "b626503301e36371a235dfcf0b049940d18cdbb4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0933369_5fda5b85",
+        "filename": "platform/analysis-api/src/com/intellij/lang/annotation/AnnotationHolder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-09-13T01:36:47Z",
+      "side": 1,
+      "message": "htmlTooltip",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 19
+      },
+      "revId": "b626503301e36371a235dfcf0b049940d18cdbb4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0933369_1ff9b3e5",
+        "filename": "platform/analysis-impl/src/com/intellij/codeInsight/daemon/impl/AnnotationHolderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-09-13T01:36:47Z",
+      "side": 1,
+      "message": "are these two comments still applicable?",
+      "range": {
+        "startLine": 143,
+        "startChar": 19,
+        "endLine": 143,
+        "endChar": 41
+      },
+      "revId": "b626503301e36371a235dfcf0b049940d18cdbb4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
