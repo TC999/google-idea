@@ -55,13 +55,15 @@ public class TableLinkMouseListener extends AbstractBaseTagMouseListener {
     return tag;
   }
 
+  @Nullable
   protected Object tryGetTag(MouseEvent e, JTable table, int row, int column) {
     return null;
   }
 
+  @Nullable
   private static Object forColoredRenderer(MouseEvent e, JTable table, int row, int column, ColoredTableCellRenderer renderer) {
     renderer.getTableCellRendererComponent(table, table.getValueAt(row, column), false, false, row, column);
     final Rectangle rc = table.getCellRect(row, column, false);
-    return renderer.getFragmentTagAt(e.getX() - rc.x);
+    return renderer.getFragmentTagAt(e.getX() - rc.x, e.getY() - rc.y);
   }
 }

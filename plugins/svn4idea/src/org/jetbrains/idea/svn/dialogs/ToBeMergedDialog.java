@@ -304,7 +304,8 @@ public class ToBeMergedDialog extends DialogWrapper implements MergeDialogI {
         int column = table.columnAtPoint(e.getPoint());
         if (row == -1 || column == -1) return null;
         listCellRenderer.customizeCellRenderer(table, table.getValueAt(row, column), table.isRowSelected(row), false, row, column);
-        return listCellRenderer.myRenderer.getFragmentTagAt(e.getPoint().x - table.getCellRect(row, column, false).x);
+        Rectangle cellRect = table.getCellRect(row, column, false);
+        return listCellRenderer.myRenderer.getFragmentTagAt(e.getPoint().x - cellRect.x, e.getPoint().y - cellRect.y);
       }
     };
     mouseListener.installOn(myRevisionsList);

@@ -113,7 +113,7 @@ public abstract class StatusText {
 
     Rectangle b = getTextComponentBound();
     if (b.contains(point)) {
-      int index = myComponent.findFragmentAt(point.x - b.x);
+      int index = myComponent.findFragmentAt(point.x - b.x, point.y - b.y);
       if (index >= 0 && index < myClickListeners.size()) {
         return myClickListeners.get(index);
       }
@@ -159,7 +159,7 @@ public abstract class StatusText {
     return appendText(text, attrs, null);
   }
 
-  public StatusText appendText(String text, SimpleTextAttributes attrs, ActionListener listener) {
+  public StatusText appendText(String text, SimpleTextAttributes attrs, @Nullable ActionListener listener) {
     if (myIsDefaultText) {
       clear();
       myIsDefaultText = false;

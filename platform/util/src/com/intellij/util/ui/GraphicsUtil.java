@@ -19,6 +19,7 @@ import com.intellij.openapi.ui.GraphicsConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
@@ -44,6 +45,14 @@ public class GraphicsUtil {
   public static int stringWidth(String text, Font font) {
     setupAntialiasing(ourGraphics, true, true);
     return ourGraphics.getFontMetrics(font).stringWidth(text);
+  }
+
+  public static void stringDimension(@NotNull String text, @NotNull Font font, @NotNull Dimension resultHolder) {
+    setupAntialiasing(ourGraphics, true, true);
+    FontMetrics metrics = ourGraphics.getFontMetrics(font);
+    Rectangle2D bounds = metrics.getStringBounds(text, 0, text.length(), ourGraphics);
+    resultHolder.width = (int)bounds.getWidth();
+    resultHolder.height = (int)bounds.getHeight();
   }
 
   public static int charsWidth(char[] data, int off, int len, Font font) {

@@ -15,6 +15,7 @@
  */
 package com.intellij.openapi.vcs.changes.issueLinks;
 
+import com.intellij.ui.SimpleColoredComponent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -33,6 +34,7 @@ public class TreeNodePartListener extends LinkMouseListenerBase {
     myRenderer = renderer;
   }
 
+  @Override
   protected Object getTagAt(@NotNull final MouseEvent e) {
     final JTree tree = (JTree) e.getSource();
     final TreePath path = tree.getPathForLocation(e.getX(), e.getY());
@@ -46,10 +48,14 @@ public class TreeNodePartListener extends LinkMouseListenerBase {
       if (myRenderedComp != null) {
         Rectangle bounds = tree.getPathBounds(path);
         if (bounds != null) {
-          Component root =
-            tree.getCellRenderer().getTreeCellRendererComponent(tree, treeNode, false, false, treeNode.isLeaf(), -1, false);
+          Component root = tree.getCellRenderer().getTreeCellRendererComponent(tree, treeNode, false, false, treeNode.isLeaf(), -1, false);
           root.setSize(bounds.getSize());
           root.doLayout();
+          if (root instanceof SimpleColoredComponent) {
+            SimpleColoredComponent component = (SimpleColoredComponent)root;
+            int fragmentIndex = component.findFragmentAt(e.getX() - bounds.x, e.getY() - bounds.y);
+            return fragmentIndex >= 0 ? component.getFragmentTag(fragmentIndex) : null;
+          }
           final int compX = myRenderedComp.getX() + bounds.x;
           final int compY = myRenderedComp.getY() + bounds.y;
           if ((compX < e.getX()) && ((compX + myRenderedComp.getWidth()) > e.getX()) &&
