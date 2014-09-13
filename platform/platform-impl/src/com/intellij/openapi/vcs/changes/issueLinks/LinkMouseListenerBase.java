@@ -32,7 +32,7 @@ public abstract class LinkMouseListenerBase<T> extends ClickListener implements 
       @Override
       protected Object getTagAt(@NotNull MouseEvent e) {
         //noinspection unchecked
-        return ((SimpleColoredComponent)e.getSource()).getFragmentTagAt(e.getX());
+        return ((SimpleColoredComponent)e.getSource()).getFragmentTagAt(e.getX(), e.getY());
       }
 
       @Override

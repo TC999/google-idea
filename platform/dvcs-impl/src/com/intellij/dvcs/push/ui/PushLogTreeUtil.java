@@ -35,16 +35,18 @@ public class PushLogTreeUtil {
       final Rectangle rectangle = tree.getPathBounds(path);
       assert rectangle != null;
       int dx = e.getX() - rectangle.x;
+      int dy = e.getY() - rectangle.y;
       final TreeNode treeNode = (TreeNode)path.getLastPathComponent();
       final int row = tree.getRowForLocation(e.getX(), e.getY());
       tree.getCellRenderer().getTreeCellRendererComponent(tree, treeNode, false, false, true, row, true);
       if (treeNode instanceof RepositoryNode) {
         RepositoryNode repositoryNode = (RepositoryNode)treeNode;
-        int checkBoxWidth = repositoryNode.isCheckboxVisible() ? renderer.getCheckbox().getWidth() : 0;
-        tag = renderer.getTextRenderer().getFragmentTagAt(dx - checkBoxWidth);
+        final int checkBoxWidth = repositoryNode.isCheckboxVisible() ? renderer.getCheckbox().getWidth() : 0;
+        final int checkBoxHeight = repositoryNode.isCheckboxVisible() ? renderer.getCheckbox().getHeight() : 0;
+        tag = renderer.getTextRenderer().getFragmentTagAt(dx - checkBoxWidth, e.getY() - checkBoxHeight);
       }
       else {
-        tag = renderer.getTextRenderer().getFragmentTagAt(dx);
+        tag = renderer.getTextRenderer().getFragmentTagAt(dx, dy);
       }
     }
     return tag;

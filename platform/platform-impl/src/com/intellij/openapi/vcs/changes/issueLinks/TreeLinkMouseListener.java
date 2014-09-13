@@ -38,7 +38,7 @@ public class TreeLinkMouseListener extends LinkMouseListenerBase {
     myRenderer = renderer;
   }
 
-  protected void showTooltip(final JTree tree, final MouseEvent e, final HaveTooltip launcher) {
+  protected void showTooltip(final JTree tree, final MouseEvent e, @Nullable final HaveTooltip launcher) {
     final String text = tree.getToolTipText(e);
     final String newText = launcher == null ? null : launcher.getTooltip();
     if (!Comparing.equal(text, newText)) {
@@ -56,13 +56,12 @@ public class TreeLinkMouseListener extends LinkMouseListenerBase {
     if (path != null) {
       final Rectangle rectangle = tree.getPathBounds(path);
       assert rectangle != null;
-      int dx = e.getX() - rectangle.x;
       final TreeNode treeNode = (TreeNode)path.getLastPathComponent();
       if (myLastHitNode == null || myLastHitNode.get() != treeNode) {
         myLastHitNode = new WeakReference<TreeNode>(treeNode);
         myRenderer.getTreeCellRendererComponent(tree, treeNode, false, false, treeNode.isLeaf(), -1, false);
       }
-      tag = myRenderer.getFragmentTagAt(dx);
+      tag = myRenderer.getFragmentTagAt(e.getX() - rectangle.x, e.getY() - rectangle.y);
       if (tag != null && treeNode instanceof HaveTooltip) {
         haveTooltip = (HaveTooltip)treeNode;
       }
