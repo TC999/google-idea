@@ -26,6 +26,7 @@ import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.help.HelpManager;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -292,7 +293,28 @@ public class RenameDialog extends RefactoringDialog {
     LOG.assertTrue(myPsiElement.isValid());
 
     final String newName = getNewName();
-    performRename(newName);
+        final RenameConstraint[] extensions = Extensions.getExtensions(RenameConstraint.EP_NAME);
+        final int[] i = { -1 };
+        RenameConstraint.Callback callback = new RenameConstraint.Callback() {
+
+              @Override
+          public void goFurther() {
+              for (i[0]++; i[0] < extensions.length; i[0]++) {
+                   RenameConstraint extension = extensions[i[0]];
+                   if (!extension.onRename(myPsiElement, newName, this)) {
+                       return;
+                      }
+                  }
+                performRename(newName);
+              }
+
+             @Override
+            public void cancel() {
+                close(DialogWrapper.CANCEL_EXIT_CODE);
+              }
+          };
+
+          callback.goFurther();
   }
 
   @TestOnly
