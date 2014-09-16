@@ -142,10 +142,16 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   def macAppRoot = "Android Studio.app"
   def linTarRoot = "android-studio"
 
+<<<<<<< HEAD   (146f40 Merge "Updated IDE to use Android Gradle plug-in v0.13.0." i)
   androidBuildNumber = p("buildNumber")
   //def macAppRoot = isEap() ?
   //                 "IntelliJ IDEA ${p("component.version.major")} CE EAP.app" :
   //                 "IntelliJ IDEA ${p("component.version.major")} CE.app"
+=======
+  def macAppRoot = isEap() ?
+                   "IntelliJ IDEA ${p("component.version.major")} CE EAP.app/Contents" :
+                   "IntelliJ IDEA ${p("component.version.major")} CE.app/Contents"
+>>>>>>> BRANCH (f0b2e3 Snapshot idea/135.1286 from git://git.jetbrains.org/idea/com)
 
   def winZip = "$paths.artifacts/android-studio-${androidBuildNumber}.win.zip"
   def macZip = "$paths.artifacts/android-studio-${androidBuildNumber}.mac.zip"
