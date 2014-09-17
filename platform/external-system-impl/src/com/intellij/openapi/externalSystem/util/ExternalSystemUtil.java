@@ -35,6 +35,7 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.externalSystem.ExternalSystemManager;
+import com.intellij.openapi.externalSystem.ExternalSystemTopics;
 import com.intellij.openapi.externalSystem.importing.ImportSpec;
 import com.intellij.openapi.externalSystem.importing.ImportSpecBuilder;
 import com.intellij.openapi.externalSystem.model.*;
@@ -459,6 +460,8 @@ public class ExternalSystemUtil {
           DataNode<ProjectData> externalProject = task.getExternalProject();
 
           if(externalProject != null) {
+            project.getMessageBus().syncPublisher(ExternalSystemTopics.EXTERNAL_PROJECT)
+                   .onExternalProjectState(externalSystemId, externalProject);
             Set<String> externalModulePaths = ContainerUtil.newHashSet();
             Collection<DataNode<ModuleData>> moduleNodes = ExternalSystemApiUtil.findAll(externalProject, ProjectKeys.MODULE);
             for (DataNode<ModuleData> node : moduleNodes) {
