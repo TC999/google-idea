@@ -1,11 +1,19 @@
 <component name="libraryTable">
   <library name="builder-model">
     <CLASSES>
+<<<<<<< HEAD   (e222a9 Merge "75431: Remove inapplicable run configuration types, t)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/builder-model/builder-model-0.13.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/builder-model/builder-model-0.13.0-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/builder-model-0.12.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/builder-model-0.12.0-sources.jar!/" />
+>>>>>>> BRANCH (e782c5 Snapshot idea/138.2210 from git://git.jetbrains.org/idea/com)
     </SOURCES>
   </library>
 </component>

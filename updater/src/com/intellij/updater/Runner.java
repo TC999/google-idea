@@ -175,8 +175,13 @@ public class Runner {
                               optionalFiles,
                               ui);
 
+<<<<<<< HEAD   (e222a9 Merge "75431: Remove inapplicable run configuration types, t)
       logger.info("Packing jar file: " + outPatchJar );
       ui.startProcess("Packing jar file '" + outPatchJar + "'...");
+=======
+      logger.info("Packing JAR file: " + patchFile );
+      ui.startProcess("Packing JAR file '" + patchFile + "'...");
+>>>>>>> BRANCH (e782c5 Snapshot idea/138.2210 from git://git.jetbrains.org/idea/com)
 
       FileOutputStream fileOut = new FileOutputStream(outPatchJar);
       try {
@@ -326,8 +331,8 @@ public class Runner {
 
   private static File resolveJarFile() throws IOException {
     URL url = Runner.class.getResource("");
-    if (url == null) throw new IOException("Cannot resolve jar file path");
-    if (!"jar".equals(url.getProtocol())) throw new IOException("Patch file is not a 'jar' file");
+    if (url == null) throw new IOException("Cannot resolve JAR file path");
+    if (!"jar".equals(url.getProtocol())) throw new IOException("Patch file is not a JAR file");
 
     String path = url.getPath();
 

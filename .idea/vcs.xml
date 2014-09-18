@@ -2,9 +2,14 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+<<<<<<< HEAD   (e222a9 Merge "75431: Remove inapplicable run configuration types, t)
     <mapping directory="$PROJECT_DIR$/../adt/idea" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../base" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../studio/cloud" vcs="Git" />
+=======
+    <mapping directory="$PROJECT_DIR$/android" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/android/tools-base" vcs="Git" />
+>>>>>>> BRANCH (e782c5 Snapshot idea/138.2210 from git://git.jetbrains.org/idea/com)
   </component>
 </project>
 

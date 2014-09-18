@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="lombok-ast">
     <CLASSES>
+<<<<<<< HEAD   (e222a9 Merge "75431: Remove inapplicable run configuration types, t)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/com/android/tools/external/lombok/lombok-ast/0.2.2/lombok-ast-0.2.2.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -13,6 +14,18 @@
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/com/android/tools/external/lombok/lombok-ast/0.2.2/lombok-ast-0.2.2-sources.jar!/src/ecjTransformer" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/com/android/tools/external/lombok/lombok-ast/0.2.2/lombok-ast-0.2.2-sources.jar!/src/javacTransformer" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/com/android/tools/external/lombok/lombok-ast/0.2.2/lombok-ast-0.2.2-sources.jar!/build/lombok.ast_generatedSource" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/lombok-ast-0.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/lombok-ast-0.2.2-src.zip!/src/main" />
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/lombok-ast-0.2.2-src.zip!/src/printer" />
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/lombok-ast-0.2.2-src.zip!/src/template" />
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/lombok-ast-0.2.2-src.zip!/src/ecjTransformer" />
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/lombok-ast-0.2.2-src.zip!/src/javacTransformer" />
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/lombok-ast-0.2.2-src.zip!/build/lombok.ast_generatedSource" />
+>>>>>>> BRANCH (e782c5 Snapshot idea/138.2210 from git://git.jetbrains.org/idea/com)
     </SOURCES>
   </library>
 </component>

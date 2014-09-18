@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="easymock-tools">
     <CLASSES>
+<<<<<<< HEAD   (e222a9 Merge "75431: Remove inapplicable run configuration types, t)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/easymock-tools/easymock-3.1.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -9,5 +10,12 @@
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/easymock-tools/easymock-3.1-sources.jar!/" />
     </SOURCES>
+=======
+      <root url="jar://$PROJECT_DIR$/lib/dev/easymockclassextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/dev/easymock.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+>>>>>>> BRANCH (e782c5 Snapshot idea/138.2210 from git://git.jetbrains.org/idea/com)
   </library>
 </component>

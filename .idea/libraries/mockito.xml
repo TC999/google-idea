@@ -1,12 +1,20 @@
 <component name="libraryTable">
   <library name="mockito">
     <CLASSES>
+<<<<<<< HEAD   (e222a9 Merge "75431: Remove inapplicable run configuration types, t)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5-sources.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/mockito-all-1.9.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/android/android/lib/mockito-all-1.9.5.jar!/" />
+>>>>>>> BRANCH (e782c5 Snapshot idea/138.2210 from git://git.jetbrains.org/idea/com)
     </SOURCES>
   </library>
 </component>

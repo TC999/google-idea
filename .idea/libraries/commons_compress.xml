@@ -1,7 +1,11 @@
 <component name="libraryTable">
   <library name="commons-compress">
     <CLASSES>
+<<<<<<< HEAD   (e222a9 Merge "75431: Remove inapplicable run configuration types, t)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/commons-compress/commons-compress-1.0.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/commons-compress-1.0.jar!/" />
+>>>>>>> BRANCH (e782c5 Snapshot idea/138.2210 from git://git.jetbrains.org/idea/com)
     </CLASSES>
     <JAVADOC />
     <SOURCES />

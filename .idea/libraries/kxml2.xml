@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="kxml2">
     <CLASSES>
+<<<<<<< HEAD   (e222a9 Merge "75431: Remove inapplicable run configuration types, t)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/kxml2-tools/kxml2-2.3.0.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -9,5 +10,11 @@
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/kxml2-tools/kxml2-src-2.3.0.zip!/src" />
     </SOURCES>
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/kxml2-2.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+>>>>>>> BRANCH (e782c5 Snapshot idea/138.2210 from git://git.jetbrains.org/idea/com)
   </library>
 </component>
