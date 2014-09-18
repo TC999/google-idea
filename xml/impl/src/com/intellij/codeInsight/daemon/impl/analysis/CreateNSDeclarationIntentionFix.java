@@ -45,16 +45,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.cache.impl.id.IdTableBuilding;
 import com.intellij.psi.meta.PsiMetaData;
-import com.intellij.psi.xml.XmlDocument;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.psi.xml.XmlTag;
-import com.intellij.psi.xml.XmlToken;
+import com.intellij.psi.xml.*;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
-import com.intellij.xml.XmlNamespaceHelper;
 import com.intellij.xml.XmlElementDescriptor;
 import com.intellij.xml.XmlExtension;
+import com.intellij.xml.XmlNamespaceHelper;
+import com.intellij.xml.XmlSchemaProvider;
 import com.intellij.xml.impl.schema.AnyXmlElementDescriptor;
 import com.intellij.xml.impl.schema.XmlNSDescriptorImpl;
 import com.intellij.xml.util.XmlUtil;
@@ -63,10 +61,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Maxim.Mossienko
@@ -144,15 +139,52 @@ public class CreateNSDeclarationIntentionFix implements HintAction, LocalQuickFi
     return element != null && element.isValid();
   }
 
+  /** Looks up the unbound namespaces and sorts them */
+  @NotNull
+  private List<String> getNamespaces(PsiElement element, XmlFile xmlFile) {
+    if (element instanceof XmlAttribute) {
+      element = element.getParent();
+    }
+    Set<String> set = getXmlExtension().guessUnboundNamespaces(element, xmlFile);
+    List<String> namespaces = new ArrayList<String>(set);
+
+    final String match = getUnboundNamespaceForPrefix(myNamespacePrefix, xmlFile, set);
+    if (match != null) {
+      Collections.sort(namespaces, new Comparator<String>() {
+        @Override
+        public int compare(String s1, String s2) {
+          // Always sort best guess to the front, then the rest alphabetically
+          int compare = s1.compareTo(s2);
+          if (compare == 0) {
+            return 0;
+          }
+          else if (s1.equals(match)) {
+            return -1;
+          }
+          else if (s2.equals(match)) {
+            return 1;
+          }
+          else {
+            return compare;
+          }
+        }
+      });
+    }
+    else {
+      Collections.sort(namespaces);
+    }
+
+    return namespaces;
+  }
+
   @Override
   public void invoke(@NotNull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
     if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
 
     final PsiElement element = myElement.retrieve();
     if (element == null) return;
-    final Set<String> set = getXmlExtension().guessUnboundNamespaces(element, getFile());
-    final String[] namespaces = ArrayUtil.toStringArray(set);
-    Arrays.sort(namespaces);
+    XmlFile xmlFile = getFile();
+    final String[] namespaces = ArrayUtil.toStringArray(getNamespaces(element, xmlFile));
 
     runActionOverSeveralAttributeValuesAfterLettingUserSelectTheNeededOne(
       namespaces,
@@ -195,6 +227,22 @@ public class CreateNSDeclarationIntentionFix implements HintAction, LocalQuickFi
       editor);
   }
 
+  /** Given a prefix in a file and a set of candidate namespaces, returns the namespace that matches the prefix (if any)
+   * as determined by the {@link com.intellij.xml.XmlSchemaProvider#getDefaultPrefix(String, com.intellij.psi.xml.XmlFile)}
+   * implementations */
+  @Nullable
+  public static String getUnboundNamespaceForPrefix(String prefix, XmlFile xmlFile, Set<String> namespaces) {
+    final List<XmlSchemaProvider> providers = XmlSchemaProvider.getAvailableProviders(xmlFile);
+    for (XmlSchemaProvider provider : providers) {
+      for (String namespace : namespaces) {
+        if (prefix.equals(provider.getDefaultPrefix(namespace, xmlFile))) {
+          return namespace;
+        }
+      }
+    }
+    return null;
+  }
+
   private String getTitle() {
     return XmlErrorMessages.message("select.namespace.title", StringUtil.capitalize(getXmlExtension().getNamespaceAlias(getFile())));
   }
@@ -216,7 +264,7 @@ public class CreateNSDeclarationIntentionFix implements HintAction, LocalQuickFi
     }
     final PsiElement element = myElement.retrieve();
     if (element == null) return false;
-    final Set<String> namespaces = getXmlExtension().guessUnboundNamespaces(element, getFile());
+    final List<String> namespaces = getNamespaces(element, getFile());
     if (!namespaces.isEmpty()) {
       final String message = ShowAutoImportPass.getMessage(namespaces.size() > 1, namespaces.iterator().next());
       final String title = getTitle();
