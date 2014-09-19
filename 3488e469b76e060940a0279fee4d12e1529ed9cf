@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f05a0bdc_eb454530",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-09-19T15:30:46Z",
+      "side": 1,
+      "message": "not following this: why does the android plugin depend on this? Shouldn\u0027t only the Google plugins depend on this?",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "3488e469b76e060940a0279fee4d12e1529ed9cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
