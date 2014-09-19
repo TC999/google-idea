@@ -22,6 +22,30 @@
       "revId": "3488e469b76e060940a0279fee4d12e1529ed9cf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301bc308_11a55c8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2014-09-19T18:21:41Z",
+      "side": 1,
+      "message": "Sample Import depends on this : https://android-review.googlesource.com/#/c/97360/",
+      "parentUuid": "f05a0bdc_eb454530",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "3488e469b76e060940a0279fee4d12e1529ed9cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
