@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="layoutlib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../internal_master/out/host/linux-x86/sdk/sdk/android-sdk_eng.deepanshu_linux-x86/platforms/android-L/data/layoutlib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../../internal_master/frameworks/base/tools/layoutlib/bridge/src" />
+      <root url="file://$PROJECT_DIR$/../../../internal_master/frameworks/base/core/java" />
+      <root url="file://$PROJECT_DIR$/../../../internal_master/frameworks/base/graphics/java" />
+    </SOURCES>
+  </library>
+</component>
