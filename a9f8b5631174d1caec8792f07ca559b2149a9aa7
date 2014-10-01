@@ -22,6 +22,30 @@
       "revId": "a9f8b5631174d1caec8792f07ca559b2149a9aa7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "304d84af_9c34c500",
+        "filename": "platform/lang-impl/src/com/intellij/diagnostic/logging/LogConsoleBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-01T22:37:10Z",
+      "side": 1,
+      "message": "I\u0027m going to Jetbrains do the correct fix: https://youtrack.jetbrains.com/issue/IDEA-130724\n\nThis particular method is only called from line 411. Over there, they have a check for myOriginalDocument !\u003d null at line 386, but this call is outside that check. I\u0027m not entirely sure what it should be doing, but in any case, I don\u0027t think this is triggered because of the way it is used by the Android plugin..",
+      "parentUuid": "70437c81_9e52fda5",
+      "range": {
+        "startLine": 424,
+        "startChar": 56,
+        "endLine": 424,
+        "endChar": 74
+      },
+      "revId": "a9f8b5631174d1caec8792f07ca559b2149a9aa7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
