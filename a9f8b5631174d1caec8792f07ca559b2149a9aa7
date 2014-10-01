@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70437c81_9e52fda5",
+        "filename": "platform/lang-impl/src/com/intellij/diagnostic/logging/LogConsoleBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-01T22:32:34Z",
+      "side": 1,
+      "message": "Just in case it helps: A lot of places in this file are doing getOriginalDocument() instead; which initializes myOriginalDocument. It only leaves it in null if there is no console, but three lines above getConsoleNotNull is asserting there is a console.",
+      "range": {
+        "startLine": 424,
+        "startChar": 56,
+        "endLine": 424,
+        "endChar": 74
+      },
+      "revId": "a9f8b5631174d1caec8792f07ca559b2149a9aa7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
