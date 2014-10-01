@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d07188c8_224c548c",
+        "filename": "community-main.iml",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-01T14:38:29Z",
+      "side": 0,
+      "message": "not following this, why is this being excluded?",
+      "range": {
+        "startLine": 106,
+        "startChar": 43,
+        "endLine": 106,
+        "endChar": 49
+      },
+      "revId": "93d72ce59d2bced53572b6a06d3dcf32bb6ceffa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
