@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30fbc487_86e0dea4",
+        "filename": "updater/src/com/intellij/updater/NativeFileManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-06T23:18:41Z",
+      "side": 1,
+      "message": "Maybe add a doc comment for those not familiar with the Windows API or JNA. Also mention how this works on Linux/Mac.",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "ec37d449fc19193ab24f1a6cd278faf4173d5d85",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
