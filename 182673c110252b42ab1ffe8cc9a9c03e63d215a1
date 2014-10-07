@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30e904d0_ebdc3df5",
+        "filename": "updater/src/com/intellij/updater/RestartManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001100
+      },
+      "writtenOn": "2014-10-07T18:26:20Z",
+      "side": 1,
+      "message": "Suggestion: rename this to Win32RestartManager and/or place it into some kind of util package namespace (com.intellij.util.win32.RestartManager maybe?)",
+      "revId": "182673c110252b42ab1ffe8cc9a9c03e63d215a1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
