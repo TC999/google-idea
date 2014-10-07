@@ -16,6 +16,24 @@
       "revId": "182673c110252b42ab1ffe8cc9a9c03e63d215a1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30e904d0_11b436f4",
+        "filename": "updater/src/com/intellij/updater/RestartManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-07T20:50:17Z",
+      "side": 1,
+      "message": "Done. I\u0027ve only renamed it as I\u0027d prefer to keep it in the same place. I will probably try to upstream the change, and they will surely change it anyway...",
+      "parentUuid": "30e904d0_ebdc3df5",
+      "revId": "182673c110252b42ab1ffe8cc9a9c03e63d215a1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
