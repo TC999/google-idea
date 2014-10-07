@@ -3,7 +3,7 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/pluginResources">
-      <sourceFolder url="file://$MODULE_DIR$/pluginResources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/pluginResources" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/pluginTestSrc">
       <sourceFolder url="file://$MODULE_DIR$/pluginTestSrc" isTestSource="true" />
