@@ -22,6 +22,30 @@
       "revId": "ec37d449fc19193ab24f1a6cd278faf4173d5d85",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50dcb82f_03da32f6",
+        "filename": "updater/src/com/intellij/updater/NativeFileManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-07T00:25:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30fbc487_86e0dea4",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "ec37d449fc19193ab24f1a6cd278faf4173d5d85",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
