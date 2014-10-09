@@ -29,7 +29,7 @@ public class Digester {
       }
       catch (IOException e) {
         Runner.printStackTrace(e);
-        return doDigestRegularFile(file);
+        return digestRegularFile(file);
       }
 
       try {
@@ -39,10 +39,10 @@ public class Digester {
         zipFile.close();
       }
     }
-    return doDigestRegularFile(file);
+    return digestRegularFile(file);
   }
 
-  private static long doDigestRegularFile(File file) throws IOException {
+  public static long digestRegularFile(File file) throws IOException {
     InputStream in = new BufferedInputStream(new FileInputStream(file));
     try {
       return digestStream(in);

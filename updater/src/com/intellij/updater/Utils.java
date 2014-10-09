@@ -11,7 +11,7 @@ public class Utils {
   private static File myTempDir;
 
   public static boolean isZipFile(String fileName) {
-    return fileName.endsWith(".zip") || fileName.endsWith(".jar");
+    return !Runner.zipAsBinary && (fileName.endsWith(".zip") || fileName.endsWith(".jar"));
   }
 
   /**

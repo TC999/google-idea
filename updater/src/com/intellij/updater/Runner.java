@@ -18,6 +18,8 @@ import java.util.zip.ZipInputStream;
 public class Runner {
   public static Logger logger = null;
 
+  public static boolean zipAsBinary = false;
+
   private static final String PATCH_FILE_NAME = "patch-file.zip";
   private static final String PATCH_PROPERTIES_ENTRY = "patch.properties";
   private static final String OLD_BUILD_DESCRIPTION = "old.build.description";
@@ -31,6 +33,8 @@ public class Runner {
       String newFolder = args[4];
       String patchFile = args[5];
       initLogger();
+
+      zipAsBinary = Arrays.asList(args).contains("--zip_as_binary");
 
       List<String> ignoredFiles = extractFiles(args, "ignored");
       List<String> criticalFiles = extractFiles(args, "critical");
