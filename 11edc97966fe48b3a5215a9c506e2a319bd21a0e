@@ -22,6 +22,47 @@
       "revId": "11edc97966fe48b3a5215a9c506e2a319bd21a0e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0992c84_c7dcbc9e",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-09T15:54:12Z",
+      "side": 1,
+      "message": "Maybe change to ZIP_AS_BINARY? I know it\u0027s not a constant, but for client code it should be treated as such (and there\u0027s some precedent in IntelliJ codebase for similar fields being capitalized.",
+      "parentUuid": "f0992c84_c7b3dcdd",
+      "range": {
+        "startLine": 21,
+        "startChar": 24,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "11edc97966fe48b3a5215a9c506e2a319bd21a0e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07c14f2_28664b4a",
+        "filename": "updater/src/com/intellij/updater/Utils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-09T15:54:12Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to add this Runner.zipAsBinary check in the two places where it\u0027s called instead (Digester.digestFile, and Patch.calculateActions) ? \n\nI agree that this is a smaller diff, but I think this is a change that IntelliJ would really want to upstream anyway, so it seems more correct to preserve the semantics of what it means for a filename to represent a zipfile, and instead have the clients which act on that method look up whether they should be special casing zip files.",
+      "revId": "11edc97966fe48b3a5215a9c506e2a319bd21a0e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
