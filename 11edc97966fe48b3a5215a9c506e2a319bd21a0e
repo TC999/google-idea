@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0992c84_c7b3dcdd",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-09T14:07:49Z",
+      "side": 1,
+      "message": "Maybe add a comment saying \"Treats zip files as regular binary files. When false, zip/jar files are unzipped and diffed file by file. When true, the entire zip file is diffed as a single file. Set to true if you preserving the timestamps of the files inside the zip is important\".",
+      "range": {
+        "startLine": 21,
+        "startChar": 24,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "11edc97966fe48b3a5215a9c506e2a319bd21a0e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
