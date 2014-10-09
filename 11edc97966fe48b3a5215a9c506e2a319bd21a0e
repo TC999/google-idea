@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "90a8f091_fee94d14",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-09T16:37:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0992c84_c7b3dcdd",
+      "range": {
+        "startLine": 21,
+        "startChar": 24,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "11edc97966fe48b3a5215a9c506e2a319bd21a0e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "508af82f_d0dc82f5",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-09T16:37:10Z",
+      "side": 1,
+      "message": "Done. Ewww :)",
+      "parentUuid": "f0992c84_c7dcbc9e",
+      "range": {
+        "startLine": 21,
+        "startChar": 24,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "11edc97966fe48b3a5215a9c506e2a319bd21a0e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07c14f2_28664b4a",
         "filename": "updater/src/com/intellij/updater/Utils.java",
         "patchSetId": 1
@@ -60,6 +108,24 @@
       "writtenOn": "2014-10-09T15:54:12Z",
       "side": 1,
       "message": "Wouldn\u0027t it be better to add this Runner.zipAsBinary check in the two places where it\u0027s called instead (Digester.digestFile, and Patch.calculateActions) ? \n\nI agree that this is a smaller diff, but I think this is a change that IntelliJ would really want to upstream anyway, so it seems more correct to preserve the semantics of what it means for a filename to represent a zipfile, and instead have the clients which act on that method look up whether they should be special casing zip files.",
+      "revId": "11edc97966fe48b3a5215a9c506e2a319bd21a0e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a8f091_9ee20131",
+        "filename": "updater/src/com/intellij/updater/Utils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-09T16:37:10Z",
+      "side": 1,
+      "message": "Done. Yeah, as you said I was trying to minimize the diff, otherwise I wouldn\u0027t have gone with a global variable anyway. I tried doing it \"the right way\" but their code is not particularly well decoupled and had to change way too many files.",
+      "parentUuid": "b07c14f2_28664b4a",
       "revId": "11edc97966fe48b3a5215a9c506e2a319bd21a0e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
