@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "10f960d6_f8a2d58d",
+        "filename": "updater/src/com/intellij/updater/BaseDeleteAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-13T21:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10f960d6_185db135",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 4
+      },
+      "revId": "77dd563d11f33ffb5595f471d454bdc6bb4d1ea2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "901b9006_fac3e513",
         "filename": "updater/src/com/intellij/updater/DeleteZipAction.java",
         "patchSetId": 3
