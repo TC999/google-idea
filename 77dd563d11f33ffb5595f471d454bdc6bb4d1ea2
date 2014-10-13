@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d038a85e_390cfa2c",
+        "filename": "updater/src/com/intellij/updater/BaseDeleteAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-13T20:45:15Z",
+      "side": 1,
+      "message": "copyright",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "77dd563d11f33ffb5595f471d454bdc6bb4d1ea2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10f960d6_185db135",
+        "filename": "updater/src/com/intellij/updater/BaseDeleteAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-13T20:45:15Z",
+      "side": 1,
+      "message": "trailing space, also in line 31 (seems inherited, but good to remove tho)",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 4
+      },
+      "revId": "77dd563d11f33ffb5595f471d454bdc6bb4d1ea2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "901b9006_fac3e513",
+        "filename": "updater/src/com/intellij/updater/DeleteZipAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-13T20:45:15Z",
+      "side": 1,
+      "message": "copyright",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "77dd563d11f33ffb5595f471d454bdc6bb4d1ea2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
