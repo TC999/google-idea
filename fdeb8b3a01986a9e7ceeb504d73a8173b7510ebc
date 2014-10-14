@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d038a85e_183c8659",
+        "filename": "updater/src/com/intellij/updater/BaseDeleteAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-14T23:26:08Z",
+      "side": 1,
+      "message": "I\u0027d add a comment in the commit message saying isModified() should not be called for directories..",
+      "range": {
+        "startLine": 54,
+        "startChar": 25,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "fdeb8b3a01986a9e7ceeb504d73a8173b7510ebc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
