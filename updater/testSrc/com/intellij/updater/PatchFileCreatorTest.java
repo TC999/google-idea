@@ -4,8 +4,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -92,6 +91,26 @@ public class PatchFileCreatorTest extends PatchTestCase {
     PatchFileCreator.PreparationResult preparationResult = PatchFileCreator.prepareAndValidate(myFile, myOlderDir, TEST_UI);
     preparationResult.patch.getActions().add(new MyFailOnApplyPatchAction());
     assertNothingHasChanged(preparationResult, new HashMap<String, ValidationResult.Option>());
+  }
+
+  @Test
+  public void testRevertedWhenFileToDeleteLocked() throws Exception {
+    PatchFileCreator.create(myOlderDir, myNewerDir, myFile, Collections.<String>emptyList(), Collections.<String>emptyList(),
+                            Collections.<String>emptyList(), TEST_UI);
+
+
+    RandomAccessFile raf = new RandomAccessFile(new File(myOlderDir, "bin/idea.bat"),"rw");
+    // Lock the file
+    int b = raf.read();
+    raf.seek(0);
+    raf.write(b);
+
+    try {
+      assertAppliedAndRevertedCorrectly(PatchFileCreator.prepareAndValidate(myFile, myOlderDir, TEST_UI));
+    }
+    finally {
+      raf.close();
+    }
   }
 
   @Test
