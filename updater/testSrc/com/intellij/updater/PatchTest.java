@@ -145,8 +145,8 @@ public class PatchTest extends PatchTestCase {
             new ValidationResult(ValidationResult.Kind.ERROR,
                                  "Readme.txt",
                                  ValidationResult.Action.UPDATE,
-                                 ValidationResult.ACCESS_DENIED_MESSAGE,
-                                 ValidationResult.Option.IGNORE))),
+                                 "Locked by: Java(TM) Platform SE binary",
+                                 ValidationResult.Option.KILL_PROCESS))),
           new HashSet<ValidationResult>(result));
       }
       finally {
