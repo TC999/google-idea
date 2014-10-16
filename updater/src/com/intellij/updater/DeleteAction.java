@@ -28,12 +28,10 @@ public class DeleteAction extends PatchAction {
     if (toFile.exists() && isModified(toFile)) {
       ValidationResult.Option[] options = myPatch.isStrict()
                                           ? new ValidationResult.Option[]{ValidationResult.Option.DELETE}
-                                          : new ValidationResult.Option[]{ValidationResult.Option.REPLACE, ValidationResult.Option.KEEP};
-      return new ValidationResult(ValidationResult.Kind.CONFLICT,
-                                  myPath,
-                                  ValidationResult.Action.DELETE,
-                                  "Modified",
-                                  options);
+                                          : new ValidationResult.Option[]{ValidationResult.Option.DELETE, ValidationResult.Option.KEEP};
+      ValidationResult.Action action = myChecksum == -1 ? ValidationResult.Action.VALIDATE : ValidationResult.Action.DELETE;
+      String message = myChecksum == -1 ? "Unknown" : "Modified";
+      return new ValidationResult(ValidationResult.Kind.CONFLICT, myPath, action, message, options);
     }
     return null;
   }
@@ -48,10 +46,12 @@ public class DeleteAction extends PatchAction {
     Utils.delete(toFile);
   }
 
+  @Override
   protected void doBackup(File toFile, File backupFile) throws IOException {
     Utils.copy(toFile, backupFile);
   }
 
+  @Override
   protected void doRevert(File toFile, File backupFile) throws IOException {
     if (!toFile.exists() || toFile.isDirectory() || isModified(toFile)) {
       Utils.delete(toFile); // make sure there is no directory remained on this path (may remain from previous 'create' actions
