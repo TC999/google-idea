@@ -15,11 +15,13 @@
  */
 package org.jetbrains.plugins.gradle.service.project;
 
+import org.gradle.initialization.BuildCancellationToken;
 import org.gradle.internal.classpath.ClassPath;
 import org.gradle.internal.classpath.DefaultClassPath;
 import org.gradle.logging.ProgressLogger;
 import org.gradle.logging.ProgressLoggerFactory;
 import org.gradle.tooling.GradleConnectionException;
+import org.gradle.tooling.internal.consumer.DefaultExecutorServiceFactory;
 import org.gradle.tooling.internal.consumer.Distribution;
 import org.gradle.tooling.internal.consumer.DistributionFactory;
 import org.gradle.util.DistributionLocator;
@@ -40,6 +42,7 @@ public class DistributionFactoryExt extends DistributionFactory {
   private final File userHomeDir;
 
   public DistributionFactoryExt(File userHomeDir) {
+    super(new DefaultExecutorServiceFactory());
     this.userHomeDir = userHomeDir;
   }
 
@@ -67,6 +70,7 @@ public class DistributionFactoryExt extends DistributionFactory {
       this.progressLoggerFactory = progressLoggerFactory;
     }
 
+    @Override
     public void download(URI address, File destination) throws Exception {
       ProgressLogger progressLogger = progressLoggerFactory.newOperation(DistributionFactory.class);
       progressLogger.setDescription(String.format("Download %s", address));
@@ -91,11 +95,15 @@ public class DistributionFactoryExt extends DistributionFactory {
       this.locationDisplayName = locationDisplayName;
     }
 
+    @Override
     public String getDisplayName() {
       return displayName;
     }
 
-    public ClassPath getToolingImplementationClasspath(ProgressLoggerFactory progressLoggerFactory, File userHomeDir) {
+    @Override
+    public ClassPath getToolingImplementationClasspath(ProgressLoggerFactory progressLoggerFactory,
+                                                       File file,
+                                                       BuildCancellationToken buildCancellationToken) {
       ProgressLogger progressLogger = progressLoggerFactory.newOperation(DistributionFactory.class);
       progressLogger.setDescription("Validate distribution");
       progressLogger.started();
@@ -140,11 +148,15 @@ public class DistributionFactoryExt extends DistributionFactory {
       myUserHomeDir = userHomeDir;
     }
 
+    @Override
     public String getDisplayName() {
       return String.format("Gradle distribution '%s'", wrapperConfiguration.getDistribution());
     }
 
-    public ClassPath getToolingImplementationClasspath(ProgressLoggerFactory progressLoggerFactory, File userHomeDir) {
+    @Override
+    public ClassPath getToolingImplementationClasspath(ProgressLoggerFactory progressLoggerFactory,
+                                                       File userHomeDir,
+                                                       BuildCancellationToken buildCancellationToken) {
       if (installedDistribution == null) {
         File installDir;
         try {
@@ -162,7 +174,7 @@ public class DistributionFactoryExt extends DistributionFactory {
         }
         installedDistribution = new InstalledDistribution(installDir, getDisplayName(), getDisplayName());
       }
-      return installedDistribution.getToolingImplementationClasspath(progressLoggerFactory, userHomeDir);
+      return installedDistribution.getToolingImplementationClasspath(progressLoggerFactory, userHomeDir, buildCancellationToken);
     }
   }
 }
