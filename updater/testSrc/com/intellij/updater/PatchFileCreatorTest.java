@@ -228,7 +228,7 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
   public void testApplyWhenNewFileExists() throws Exception {
     Patch patch = PatchFileCreator.create(myPatchSpec, myFile, TEST_UI);
 
-    FileUtil.writeToFile(new File(myOlderDir, "newfile.txt"),"hello");
+    FileUtil.writeToFile(new File(myOlderDir, "newfile.txt"), "hello");
 
     PatchFileCreator.PreparationResult preparationResult = PatchFileCreator.prepareAndValidate(myFile, myOlderDir, TEST_UI);
     assertTrue(preparationResult.validationResults.isEmpty());
@@ -243,7 +243,6 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
     Patch patch = PatchFileCreator.create(myPatchSpec, myFile, TEST_UI);
 
     FileUtil.writeToFile(new File(myOlderDir, "newfile.txt"), "hello");
-    FileUtil.writeToFile(new File(myOlderDir, "lib/java_pid1234.hprof"), "bye!");
 
     PatchFileCreator.PreparationResult preparationResult = PatchFileCreator.prepareAndValidate(myFile, myOlderDir, TEST_UI);
     assertEquals(1, preparationResult.validationResults.size());
@@ -263,6 +262,40 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
 
     PatchFileCreator.PreparationResult preparationResult = PatchFileCreator.prepareAndValidate(myFile, myOlderDir, TEST_UI);
     assertEquals(0, preparationResult.validationResults.size());
+    assertAppliedAndRevertedCorrectly(patch, preparationResult);
+  }
+
+  @Test
+  public void testApplyWhenNewDirectoryExistsStrict() throws Exception {
+    myPatchSpec.setStrict(true);
+    new File(myOlderDir, "delete").mkdirs();
+    FileUtil.writeToFile(new File(myOlderDir, "delete/deleteme.txt"), "bye!");
+
+    Patch patch = PatchFileCreator.create(myPatchSpec, myFile, TEST_UI);
+
+    new File(myOlderDir, "unexpected_newdir").mkdirs();
+    FileUtil.writeToFile(new File(myOlderDir, "unexpected_newdir/unexpected.txt"), "bye!");
+
+    new File(myOlderDir, "newDir").mkdir();
+
+    PatchFileCreator.PreparationResult preparationResult = PatchFileCreator.prepareAndValidate(myFile, myOlderDir, TEST_UI);
+    assertEquals(3, preparationResult.validationResults.size());
+    assertEquals(new ValidationResult(ValidationResult.Kind.CONFLICT,
+                                      "unexpected_newdir/unexpected.txt",
+                                      ValidationResult.Action.VALIDATE,
+                                      "Unexpected file",
+                                      ValidationResult.Option.DELETE), preparationResult.validationResults.get(0));
+    assertEquals(new ValidationResult(ValidationResult.Kind.CONFLICT,
+                                      "unexpected_newdir/",
+                                      ValidationResult.Action.VALIDATE,
+                                      "Unexpected file",
+                                      ValidationResult.Option.DELETE), preparationResult.validationResults.get(1));
+    assertEquals(new ValidationResult(ValidationResult.Kind.CONFLICT,
+                                      "newDir/",
+                                      ValidationResult.Action.CREATE,
+                                      ValidationResult.ALREADY_EXISTS_MESSAGE,
+                                      ValidationResult.Option.REPLACE), preparationResult.validationResults.get(2));
+    new File(myOlderDir, "newDir").delete();
     assertAppliedAndRevertedCorrectly(patch, preparationResult);
   }
 
@@ -288,7 +321,7 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
     throws IOException, OperationCancelledException {
 
     Map<String, Long> original = patch.digestFiles(myOlderDir, Collections.<String>emptyList(), TEST_UI);
-
+    Map<String, Long> target = patch.digestFiles(myNewerDir, Collections.<String>emptyList(), TEST_UI);
     File backup = getTempFile("backup");
 
     for (ValidationResult each : preparationResult.validationResults) {
@@ -297,13 +330,19 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
 
     List<PatchAction> appliedActions =
       PatchFileCreator.apply(preparationResult, new HashMap<String, ValidationResult.Option>(), backup, TEST_UI).appliedActions;
-    assertAppliedCorrectly();
+    Map<String, Long> patched = patch.digestFiles(myOlderDir, Collections.<String>emptyList(), TEST_UI);
 
-    assertFalse(original.equals(patch.digestFiles(myOlderDir, Collections.<String>emptyList(), TEST_UI)));
+    if (patch.isStrict()) {
+      assertEquals(patched, target);
+    } else {
+      assertAppliedCorrectly();
+    }
+
+    assertNotEquals(original, patched);
 
     PatchFileCreator.revert(preparationResult, appliedActions, backup, TEST_UI);
-
-    assertEquals(original, patch.digestFiles(myOlderDir, Collections.<String>emptyList(), TEST_UI));
+    Map<String, Long> reverted = patch.digestFiles(myOlderDir, Collections.<String>emptyList(), TEST_UI);
+    assertEquals(original, reverted);
   }
 
   protected void assertAppliedCorrectly() throws IOException {
@@ -362,7 +401,7 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
 
   private static class MyFailOnApplyPatchAction extends PatchAction {
     public MyFailOnApplyPatchAction(Patch patch) {
-      super(patch, "_dummy_file_", -1);
+      super(patch, "_dummy_file_", Digester.INVALID);
     }
 
     @Override
