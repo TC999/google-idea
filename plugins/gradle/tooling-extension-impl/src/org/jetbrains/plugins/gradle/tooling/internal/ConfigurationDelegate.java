@@ -77,8 +77,8 @@ public class ConfigurationDelegate implements Configuration {
   }
 
   @Override
-  public Configuration setExtendsFrom(Set<Configuration> superConfigs) {
-    return delegate.setExtendsFrom(superConfigs);
+  public Configuration setExtendsFrom(Iterable<Configuration> configurations) {
+    return delegate.setExtendsFrom(configurations);
   }
 
   @Override

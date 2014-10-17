@@ -36,4 +36,9 @@ public class IdeaSourceDirectoryImpl implements IdeaSourceDirectory, Serializabl
   public File getDirectory() {
     return myDirectory;
   }
+
+  @Override
+  public boolean isGenerated() {
+    return false;
+  }
 }
