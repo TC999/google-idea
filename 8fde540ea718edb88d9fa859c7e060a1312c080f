@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30474440_203892f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-20T18:29:17Z",
+      "side": 1,
+      "message": "Nit: The commit message doesn\u0027t explain why we are doing any of this..If I had to decide whether to use the strict mode or not, what info do I need? A little bit of detail around:\n - the need for this, \n - the proposed solution\n - and the impact of that solution (i.e. cost in terms of additional data in the patch)\nwould be helpful. I think you have described the solution here, but missed out the need and impact..",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30474440_d56a2e0d",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-20T18:29:17Z",
+      "side": 1,
+      "message": "Just a minor concern: Encoding it inside the patch file probably implies that this patch file cannot be decoded by anything other than the jar file embedded with the patch.\n\nAs a minor change, maybe we can switch the order around: the first two strings can describe the old and new builds, followed by the list of options. That way, all versions only need to know that they ought to parse the first two strings and then parse the options appropriately..",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 27
+      },
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02c147c_ab56351d",
+        "filename": "updater/testSrc/com/intellij/updater/PatchFileCreatorBinaryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-20T18:29:17Z",
+      "side": 1,
+      "message": "empty test, or TODO?\n\nMaybe remove it if it is not used..",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 39
+      },
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
