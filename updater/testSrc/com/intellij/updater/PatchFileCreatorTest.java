@@ -8,7 +8,6 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 
 import static org.junit.Assert.*;
 
@@ -23,7 +22,7 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
     super.setUp();
     myFile = getTempFile("patch.zip");
     myPatchSpec = new PatchSpec()
-      .setOldFolder(myOlderDir.getAbsolutePath())
+      .addOldFolder(myOlderDir.getAbsolutePath())
       .setNewFolder(myNewerDir.getAbsolutePath());
   }
 
@@ -282,7 +281,7 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
     PatchFileCreator.apply(preparationResult, options, TEST_UI);
     Map<String, Long> after = patch.digestFiles(myOlderDir, Collections.<String>emptyList(), TEST_UI);
 
-    DiffCalculator.Result diff = DiffCalculator.calculate(before, after);
+    DiffCalculator.Result diff = DiffCalculator.calculate(before, after, false);
     assertTrue(diff.filesToCreate.isEmpty());
     assertTrue(diff.filesToDelete.isEmpty());
     assertTrue(diff.filesToUpdate.isEmpty());
@@ -371,6 +370,9 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
   }
 
   private static class MyFailOnApplyPatchAction extends PatchAction {
+    // Only used on patch creation
+    protected transient File myOlderDir;
+
     public MyFailOnApplyPatchAction(Patch patch) {
       super(patch, "_dummy_file_", Digester.INVALID);
     }
@@ -381,17 +383,17 @@ public abstract class PatchFileCreatorTest extends PatchTestCase {
     }
 
     @Override
-    protected void doBuildPatchFile(File olderFile, File newerFile, ZipOutputStream patchOutput) throws IOException {
+    protected void doBuildPatchFile(File toFile, MultiZipFile.OutputStream patchOutput) throws IOException {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    protected ValidationResult doValidate(File toFile) throws IOException {
+    protected ValidationResult validate(File toDir) throws IOException {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    protected void doApply(ZipFile patchFile, File toFile) throws IOException {
+    protected void doApply(MultiZipFile patchFile, File backupDir, File toFile) throws IOException {
       throw new IOException("dummy exception");
     }
 
