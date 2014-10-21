@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "f5103e40_7d2f737f",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "myIsBinary, myIsStrict.\n\n(Yeah, I know that\u0027s not as readable. I sometimes skip the \"is\" as redundant: myBinary, myStrict)",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30474440_d56a2e0d",
         "filename": "updater/src/com/intellij/updater/Patch.java",
         "patchSetId": 5
@@ -48,6 +65,125 @@
     },
     {
       "key": {
+        "uuid": "350576fe_3f2fa32e",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "nit: indent hanging indent one extra level",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "150232f8_7e452d72",
+        "filename": "updater/src/com/intellij/updater/PatchAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "out of curiosity, why is this marked transient?",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "150232f8_3e3fa5e0",
+        "filename": "updater/src/com/intellij/updater/PatchFileCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "nit: space after ,",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "350576fe_bf22933f",
+        "filename": "updater/src/com/intellij/updater/PatchSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "my*",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5103e40_fdf023a6",
+        "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "\"There are some conflicts found\" is a little awkward (and yes I notice that it was this way before your change too). Perhaps \"Some conflicts were found in the installation area\" ?",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "350576fe_ff56db9c",
+        "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "Maybe \"Some of the conflicts below do not have a solution, so the patch cannot be applied\" ?",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "350576fe_7fa88b1d",
+        "filename": "updater/testSrc/com/intellij/updater/DigesterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "Do you need to use File.separator instead of / to make this test work on Windows?",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b02c147c_ab56351d",
         "filename": "updater/testSrc/com/intellij/updater/PatchFileCreatorBinaryTest.java",
         "patchSetId": 5
@@ -65,6 +201,23 @@
         "endLine": 18,
         "endChar": 39
       },
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "150232f8_be873535",
+        "filename": "updater/testSrc/com/intellij/updater/PatchFileCreatorNotBinaryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:44:27Z",
+      "side": 1,
+      "message": "File.separator for Windows? (Some other occurrences too; I won\u0027t repeat each one I spot)",
       "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
