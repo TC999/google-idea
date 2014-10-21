@@ -10,7 +10,7 @@ import java.util.zip.ZipOutputStream;
 public class PatchFileCreator {
   private static final String PATCH_INFO_FILE_NAME = ".patch-info";
 
-  public static Patch create(PatchSpec spec,File patchFile, UpdaterUI ui) throws IOException, OperationCancelledException {
+  public static Patch create(PatchSpec spec, File patchFile, UpdaterUI ui) throws IOException, OperationCancelledException {
 
     Patch patchInfo = new Patch(spec, ui);
     Runner.logger.info("Creating the patch file '" + patchFile + "'...");
@@ -25,7 +25,6 @@ public class PatchFileCreator {
       patchInfo.write(out);
       out.closeEntry();
 
-      File olderDir = new File(spec.getOldFolder());
       File newerDir = new File(spec.getNewFolder());
       List<PatchAction> actions = patchInfo.getActions();
       for (PatchAction each : actions) {
@@ -33,7 +32,7 @@ public class PatchFileCreator {
         Runner.logger.info("Packing " + each.getPath());
         ui.setStatus("Packing " + each.getPath());
         ui.checkCancelled();
-        each.buildPatchFile(olderDir, newerDir, out);
+        each.buildPatchFile(newerDir, out);
       }
     }
     finally {
@@ -48,7 +47,7 @@ public class PatchFileCreator {
                                                      UpdaterUI ui) throws IOException, OperationCancelledException {
     Patch patch;
 
-    ZipFile zipFile = new ZipFile(patchFile);
+    MultiZipFile zipFile = new MultiZipFile(patchFile);
     try {
 
       InputStream in = Utils.getEntryInputStream(zipFile, PATCH_INFO_FILE_NAME);
