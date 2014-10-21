@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "950f0224_5a90312b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "Updater: Support for moving files, and patching from multiple binary variations",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55210a94_38e7c56f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "possess",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55210a94_18ec094e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "(you might have done this in the code, but this comment made me think that we need to assert that no non-updater directory ever starts with .variant.)",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "950f0224_5a75d16e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "move this to the top",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "950f0224_da60c1ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "Nit: MB, not Mb\n\n(and I suspect many of those 18MB were changes related to our code changes in that build)",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55210a94_d8b4515a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "should you mention somewhere that the goal of being able to patch from multiple source builds is to be able to get from a previous state of varying patched binaries due to the old updater behavior, to an end state where the patched binary has an *exact* set of bits suitable for signature verification?",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "950f0224_fad145dd",
+        "filename": "updater/src/com/intellij/updater/DiffCalculator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "the path is never just \"/\" right?",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75244ea4_f97dd3a4",
+        "filename": "updater/src/com/intellij/updater/MultiAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "maybe add a comment here which explains that this finds the first action to pass validation and that this is as a side effect stored as mySelectAction, used in doApply",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "151b126c_3916a7f0",
+        "filename": "updater/src/com/intellij/updater/MultiZipFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T23:20:03Z",
+      "side": 1,
+      "message": "should this be myZipOutputStream.write(bytes), or does super end up calling write(int) for each byte or something?",
+      "revId": "e5e465889e1c047b7eb1f3aa5032ffce75f0354e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
