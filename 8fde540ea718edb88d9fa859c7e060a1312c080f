@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95f62248_e80ce75a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30474440_203892f4",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5103e40_7d2f737f",
         "filename": "updater/src/com/intellij/updater/Patch.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2014-10-21T19:44:27Z",
       "side": 1,
       "message": "myIsBinary, myIsStrict.\n\n(Yeah, I know that\u0027s not as readable. I sometimes skip the \"is\" as redundant: myBinary, myStrict)",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5103e40_3de1fba8",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5103e40_7d2f737f",
       "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "350576fe_9f847731",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30474440_d56a2e0d",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 27
+      },
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "350576fe_3f2fa32e",
         "filename": "updater/src/com/intellij/updater/Patch.java",
         "patchSetId": 5
@@ -76,6 +142,24 @@
       "writtenOn": "2014-10-21T19:44:27Z",
       "side": 1,
       "message": "nit: indent hanging indent one extra level",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "150232f8_de3fa1aa",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "The rest of the package for doesn\u0027t indent this further. Not sure if we should indent just this one?",
+      "parentUuid": "350576fe_3f2fa32e",
       "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "350576fe_5f24af21",
+        "filename": "updater/src/com/intellij/updater/PatchAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Because this object is technically serialized, but this variable shouldn\u0027t be. It\u0027s more for readability than anything else as the serialization is custom.",
+      "parentUuid": "150232f8_7e452d72",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "150232f8_3e3fa5e0",
         "filename": "updater/src/com/intellij/updater/PatchFileCreator.java",
         "patchSetId": 5
@@ -110,6 +212,24 @@
       "writtenOn": "2014-10-21T19:44:27Z",
       "side": 1,
       "message": "nit: space after ,",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "350576fe_ffa5bb13",
+        "filename": "updater/src/com/intellij/updater/PatchFileCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "150232f8_3e3fa5e0",
       "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "150232f8_5e0271e3",
+        "filename": "updater/src/com/intellij/updater/PatchSpec.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "350576fe_bf22933f",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5103e40_fdf023a6",
         "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
         "patchSetId": 5
@@ -144,6 +282,24 @@
       "writtenOn": "2014-10-21T19:44:27Z",
       "side": 1,
       "message": "\"There are some conflicts found\" is a little awkward (and yes I notice that it was this way before your change too). Perhaps \"Some conflicts were found in the installation area\" ?",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "150232f8_1efce97f",
+        "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5103e40_fdf023a6",
       "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "f5103e40_7d5ad3cd",
+        "filename": "updater/src/com/intellij/updater/SwingUpdaterUI.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "350576fe_ff56db9c",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "350576fe_7fa88b1d",
         "filename": "updater/testSrc/com/intellij/updater/DigesterTest.java",
         "patchSetId": 5
@@ -178,6 +352,24 @@
       "writtenOn": "2014-10-21T19:44:27Z",
       "side": 1,
       "message": "Do you need to use File.separator instead of / to make this test work on Windows?",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5103e40_8092dabb",
+        "filename": "updater/testSrc/com/intellij/updater/DigesterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "It works as is. Some JVMs on windows allow either paths, and even though it might not be \"portable enough\", all their tests are written with \"/\" in their file creation.",
+      "parentUuid": "350576fe_7fa88b1d",
       "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -207,6 +399,30 @@
     },
     {
       "key": {
+        "uuid": "350576fe_3fc20362",
+        "filename": "updater/testSrc/com/intellij/updater/PatchFileCreatorBinaryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "This is not empty :) It actually runs all the tests from PatchFileCreator test but in binary mode. The tests that wouldn\u0027t work were moved down to the no binary subclass, and that class is the one that runs all no binary tests. The base class is now abstract and no tests from it are run on it\u0027s own.",
+      "parentUuid": "b02c147c_ab56351d",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 39
+      },
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "150232f8_be873535",
         "filename": "updater/testSrc/com/intellij/updater/PatchFileCreatorNotBinaryTest.java",
         "patchSetId": 5
@@ -218,6 +434,24 @@
       "writtenOn": "2014-10-21T19:44:27Z",
       "side": 1,
       "message": "File.separator for Windows? (Some other occurrences too; I won\u0027t repeat each one I spot)",
+      "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5103e40_409cc2cd",
+        "filename": "updater/testSrc/com/intellij/updater/PatchFileCreatorNotBinaryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-21T21:58:12Z",
+      "side": 1,
+      "message": "Ditto.",
+      "parentUuid": "150232f8_be873535",
       "revId": "8fde540ea718edb88d9fa859c7e060a1312c080f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
