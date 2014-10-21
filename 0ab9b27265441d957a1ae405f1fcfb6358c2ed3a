@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "350576fe_7c7bf9ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:01:03Z",
+      "side": 1,
+      "message": "nit: line too wide, break at column 70 (and 65 for first line in git commit msg)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 90
+      },
+      "revId": "0ab9b27265441d957a1ae405f1fcfb6358c2ed3a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "150232f8_db6a1359",
+        "filename": "updater/src/com/intellij/updater/CreateAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-21T19:01:03Z",
+      "side": 1,
+      "message": "Is it possible for toFile to exist when this code is called? I\u0027m asking because mkdir() will return *false* if it\u0027s called on an existing directory, so you normally write code like\n\n  if (!toFile.exists()) {\n      boolean ok \u003d toFile.mkdir();\n  }\n\n(Also, is it possible for any parent directories of toFile to not exist yet? If so, you might be safer with \"mkdirs\" instead of \"mkdir\".)",
+      "revId": "0ab9b27265441d957a1ae405f1fcfb6358c2ed3a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
