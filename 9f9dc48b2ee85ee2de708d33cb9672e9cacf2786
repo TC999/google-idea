@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "150232f8_c45a2f75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-22T18:46:24Z",
+      "side": 1,
+      "message": "Correct, this removes the need for the variations (albeit with larger patches), and works from any version.",
+      "parentUuid": "354c968a_982fe5a7",
+      "revId": "9f9dc48b2ee85ee2de708d33cb9672e9cacf2786",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "354c968a_d87afdaa",
         "filename": "updater/src/com/intellij/updater/Patch.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "150232f8_e7f40d69",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-22T18:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "354c968a_d87afdaa",
+      "revId": "9f9dc48b2ee85ee2de708d33cb9672e9cacf2786",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1549527c_c391f65c",
         "filename": "updater/src/com/intellij/updater/Runner.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-10-22T15:17:53Z",
       "side": 1,
       "message": "...alternatively put the docs on what the args mean here",
+      "revId": "9f9dc48b2ee85ee2de708d33cb9672e9cacf2786",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "354c968a_f3a5da13",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-22T18:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1549527c_c391f65c",
       "revId": "9f9dc48b2ee85ee2de708d33cb9672e9cacf2786",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
