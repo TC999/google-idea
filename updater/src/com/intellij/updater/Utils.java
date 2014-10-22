@@ -2,9 +2,10 @@ package com.intellij.updater;
 
 import java.io.*;
 import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.TreeMap;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class Utils {
   // keep buffer static as there may be many calls of the copyStream method.
@@ -206,5 +207,49 @@ public class Utils {
         result.add(relativePath);
       }
     }
+  }
+
+  public static InputStream newFileInputStream(File file, boolean normalize) throws IOException {
+    FileInputStream inputStream = new FileInputStream(file);
+    if (!normalize || !isZipFile(file.getName())) {
+      return inputStream;
+    }
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    TreeMap<String, NormalizedEntry> map = new TreeMap<String, NormalizedEntry>();
+    ZipInputStream in = new ZipInputStream(inputStream);
+    ZipOutputStream out = new ZipOutputStream(outputStream);
+    try {
+      ZipEntry zipEntry;
+      byte[] buffer = new byte[2048];
+      while ((zipEntry = in.getNextEntry()) != null) {
+        zipEntry.setTime(0);
+        if (zipEntry.isDirectory()) continue;
+        NormalizedEntry ee = new NormalizedEntry();
+        ee.name = zipEntry.getName();
+        int len = 0;
+        while ((len = in.read(buffer)) > 0) {
+          ee.data.write(buffer, 0, len);
+        } map.put(zipEntry.getName(), ee);
+      }
+
+      for (NormalizedEntry entry : map.values()) {
+        zipEntry = new ZipEntry(entry.name);
+        zipEntry.setTime(0);
+        out.putNextEntry(zipEntry);
+        out.write(entry.data.toByteArray());
+        out.closeEntry();
+      }
+    }
+    finally {
+      in.close();
+      out.close();
+    }
+
+    return new ByteArrayInputStream(outputStream.toByteArray());
+  }
+
+  static class NormalizedEntry {
+    String name;
+    ByteArrayOutputStream data = new ByteArrayOutputStream();
   }
 }

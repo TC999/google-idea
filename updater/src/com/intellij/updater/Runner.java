@@ -35,6 +35,7 @@ public class Runner {
 
       boolean binary = Arrays.asList(args).contains("--zip_as_binary");
       boolean strict = Arrays.asList(args).contains("--strict");
+      boolean normalized = Arrays.asList(args).contains("--normalized");
 
       List<String> ignoredFiles = extractFiles(args, "ignored");
       List<String> criticalFiles = extractFiles(args, "critical");
@@ -51,6 +52,7 @@ public class Runner {
         .setJarFile(jarFile)
         .setStrict(strict)
         .setBinary(binary)
+        .setNormalized(normalized)
         .setIgnoredFiles(ignoredFiles)
         .setCriticalFiles(criticalFiles)
         .setOptionalFiles(optionalFiles);
