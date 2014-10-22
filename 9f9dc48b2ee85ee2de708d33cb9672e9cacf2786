@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "354c968a_982fe5a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-22T15:17:53Z",
+      "side": 1,
+      "message": "Clever!\n\nTo make sure I understand correctly: We can do this for all files inside .jars and .zip files, and then we don\u0027t need to ship patches for any variations, since *all* files will be \"down-shifted\" to the normalized version, so there is a single base binary version (the normalized IDE installation) ?",
+      "revId": "9f9dc48b2ee85ee2de708d33cb9672e9cacf2786",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "354c968a_d87afdaa",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-22T15:17:53Z",
+      "side": 1,
+      "message": "I know there weren\u0027t comments in the sourcebase before, and it might be weird to add it in just a few places, but it might be nice to have a line or two on each one of these patch getters to explain what the attribute means",
+      "revId": "9f9dc48b2ee85ee2de708d33cb9672e9cacf2786",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1549527c_c391f65c",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-22T15:17:53Z",
+      "side": 1,
+      "message": "...alternatively put the docs on what the args mean here",
+      "revId": "9f9dc48b2ee85ee2de708d33cb9672e9cacf2786",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
