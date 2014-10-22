@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "150232f8_9a1c7c91",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-22T18:23:03Z",
+      "side": 1,
+      "message": "duplicate",
+      "range": {
+        "startLine": 168,
+        "startChar": 11,
+        "endLine": 168,
+        "endChar": 19
+      },
+      "revId": "583f30e482214f00d6ab6cc0b5ce79d1bb0ab6f7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "354c968a_9eac6dfc",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-22T18:23:03Z",
+      "side": 1,
+      "message": "minor nit: This description doesn\u0027t exactly say what a normalized patch is but describes when it should be used..",
+      "range": {
+        "startLine": 176,
+        "startChar": 44,
+        "endLine": 176,
+        "endChar": 55
+      },
+      "revId": "583f30e482214f00d6ab6cc0b5ce79d1bb0ab6f7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
