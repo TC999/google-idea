@@ -16,6 +16,24 @@
       "revId": "b9cf1cd24a7c21287d4cdb1bcfd9a536bbd28cc6",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f583dec2_8ce788bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-23T16:35:33Z",
+      "side": 1,
+      "message": "Well, that is the thing that exposed the issue. The java spec doesn\u0027t say anything about how the jvm should implement the zip classes so it\u0027s perfectly valid for two different VMs to generate different valid outputs. I only run this on two VMs and they happened to have different output. It wouldn\u0027t surprise me if two different VMs on Mac gave different results as well.",
+      "parentUuid": "f583dec2_c9db42f9",
+      "revId": "b9cf1cd24a7c21287d4cdb1bcfd9a536bbd28cc6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
