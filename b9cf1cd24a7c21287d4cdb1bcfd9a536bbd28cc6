@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f583dec2_c9db42f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-23T13:53:13Z",
+      "side": 1,
+      "message": "We ship per-platform patches, so that wouldn\u0027t be a problem per se, except for the fact that we *generate* all the patches (for all platforms) on Linux -- is that the issue?",
+      "revId": "b9cf1cd24a7c21287d4cdb1bcfd9a536bbd28cc6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
