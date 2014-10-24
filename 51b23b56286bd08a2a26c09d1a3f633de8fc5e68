@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7580cec4_5f536731",
+        "filename": "updater/src/com/intellij/updater/ConsoleUpdaterUI.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-24T19:42:03Z",
+      "side": 1,
+      "message": "sys.out just like above?",
+      "range": {
+        "startLine": 40,
+        "startChar": 14,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "51b23b56286bd08a2a26c09d1a3f633de8fc5e68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
