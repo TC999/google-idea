@@ -36,6 +36,10 @@ public class ConsoleUpdaterUI implements UpdaterUI {
     System.out.println("From " + oldBuildDesc + " to " + newBuildDesc);
   }
 
+  @Override
+  public void showWarning(String message) {
+  }
+
   public Map<String, ValidationResult.Option> askUser(List<ValidationResult> validationResults) {
     return Collections.emptyMap();
   }
