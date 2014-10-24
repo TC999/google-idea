@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5717ac8_fc6365fc",
+        "filename": "updater/src/com/intellij/updater/Utils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-24T04:29:55Z",
+      "side": 1,
+      "message": "nit: Not sure about the Normalized prefix here as this class doesn\u0027t really do anything about it (or is it for the sorting)?",
+      "range": {
+        "startLine": 218,
+        "startChar": 15,
+        "endLine": 218,
+        "endChar": 39
+      },
+      "revId": "4d1c847fe00cb93e57b73b2edce6d5e03b58f2b4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35a1f65e_1164f604",
+        "filename": "updater/src/com/intellij/updater/Utils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-24T04:29:55Z",
+      "side": 1,
+      "message": "List",
+      "range": {
+        "startLine": 220,
+        "startChar": 12,
+        "endLine": 220,
+        "endChar": 21
+      },
+      "revId": "4d1c847fe00cb93e57b73b2edce6d5e03b58f2b4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
