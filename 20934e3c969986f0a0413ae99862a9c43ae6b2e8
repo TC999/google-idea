@@ -16,6 +16,24 @@
       "revId": "20934e3c969986f0a0413ae99862a9c43ae6b2e8",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35a8165b_eaa8639a",
+        "filename": "updater/src/com/intellij/updater/UpdaterUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-27T21:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f52f5eb3_82f1fafc",
+      "revId": "20934e3c969986f0a0413ae99862a9c43ae6b2e8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
