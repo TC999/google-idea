@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f52f5eb3_82f1fafc",
+        "filename": "updater/src/com/intellij/updater/UpdaterUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-27T20:59:38Z",
+      "side": 1,
+      "message": "I know there aren\u0027t really comments in the code here, but it might be useful to explain what the boolean return value means",
+      "revId": "20934e3c969986f0a0413ae99862a9c43ae6b2e8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
