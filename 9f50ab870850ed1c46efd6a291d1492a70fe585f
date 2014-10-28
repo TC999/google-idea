@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d55dfa60_6e2bf3a7",
+        "filename": "bin/scripts/win/idea.bat",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-10-28T23:54:46Z",
+      "side": 1,
+      "message": "nit: odd to see this sequence where the first priority file is specified last. Wouldn\u0027t it make sense to reverse the order (so you first check product_VM_OPTIONS, then set it to user_vm_options and finally to idea vm options?\n\nAlso, line 48 uses NOT and 47 uses exist. Just confirm that the behavior is the same..i.e. if something is set, but doesn\u0027t exist, shouldn\u0027t we fall back to the next one?",
+      "range": {
+        "startLine": 48,
+        "startChar": 3,
+        "endLine": 48,
+        "endChar": 6
+      },
+      "revId": "9f50ab870850ed1c46efd6a291d1492a70fe585f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
