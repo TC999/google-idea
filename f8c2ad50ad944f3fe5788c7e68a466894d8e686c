@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "952542f1_c795be17",
+        "filename": "updater/src/com/intellij/updater/DeleteAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-29T22:47:34Z",
+      "side": 1,
+      "message": "it looks like validateDeletion is more expensive than the other calls so maybe move it to the end of the if-expression?",
+      "revId": "f8c2ad50ad944f3fe5788c7e68a466894d8e686c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b507a651_f977cb41",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-10-29T22:47:34Z",
+      "side": 1,
+      "message": "maybe throw in a couple of testRegexForPath in the unit test to validate that this computes the correct regexes?\n\nI\u0027m assuming you\u0027re doing it this way (using a glob pattern rather than having the command line accept regexes to begin with) because that\u0027s more natural for the case where you just supply file names? If not it might be simpler to just have the patcher accept a series of regexes (just like .gitignore) than to try to compute a regex on the fly... (Also, it looks like we do this on every single file. Should we do the conversion to Pattern just once (e.g.  have myDeleteFiles be a List\u003cPattern\u003e ?)",
+      "revId": "f8c2ad50ad944f3fe5788c7e68a466894d8e686c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
