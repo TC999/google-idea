@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "952542f1_a78eca88",
+        "filename": "updater/src/com/intellij/updater/DeleteAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-29T23:10:39Z",
+      "side": 1,
+      "message": "isModified is the sloweset one when it does a checksum of the file, or it will return true quickly if no checksum is needed. So it\u0027s better to check for validation before we call to isModified. Anyway for most files the three functions will return true so not a big deal.",
+      "parentUuid": "952542f1_c795be17",
+      "revId": "f8c2ad50ad944f3fe5788c7e68a466894d8e686c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b507a651_f977cb41",
         "filename": "updater/src/com/intellij/updater/Patch.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-10-29T22:47:34Z",
       "side": 1,
       "message": "maybe throw in a couple of testRegexForPath in the unit test to validate that this computes the correct regexes?\n\nI\u0027m assuming you\u0027re doing it this way (using a glob pattern rather than having the command line accept regexes to begin with) because that\u0027s more natural for the case where you just supply file names? If not it might be simpler to just have the patcher accept a series of regexes (just like .gitignore) than to try to compute a regex on the fly... (Also, it looks like we do this on every single file. Should we do the conversion to Pattern just once (e.g.  have myDeleteFiles be a List\u003cPattern\u003e ?)",
+      "revId": "f8c2ad50ad944f3fe5788c7e68a466894d8e686c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "952542f1_074876f7",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-29T23:10:39Z",
+      "side": 1,
+      "message": "Done. Yeah I did it to have a glob pattern like, but it\u0027s not worth the added complexity. Will revert back to plain regexes. Regarding the Pattern thing, It\u0027s not that expensive compared to everything else that is done on validation, see my other comment",
+      "parentUuid": "b507a651_f977cb41",
       "revId": "f8c2ad50ad944f3fe5788c7e68a466894d8e686c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
