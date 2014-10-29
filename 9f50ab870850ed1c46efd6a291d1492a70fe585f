@@ -22,6 +22,30 @@
       "revId": "9f50ab870850ed1c46efd6a291d1492a70fe585f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "154a3299_2a48bff7",
+        "filename": "bin/scripts/win/idea.bat",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-10-29T00:04:43Z",
+      "side": 1,
+      "message": "As discussed offline, the things being checked here are\n\nif the variable is set ( if (variable !\u003d empty) )\nthe presence of a file ( if exist )\n\nAnd yes, it looks odd, but it looks better than doing \u0027else\u0027s in a batch file :)",
+      "parentUuid": "d55dfa60_6e2bf3a7",
+      "range": {
+        "startLine": 48,
+        "startChar": 3,
+        "endLine": 48,
+        "endChar": 6
+      },
+      "revId": "9f50ab870850ed1c46efd6a291d1492a70fe585f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
