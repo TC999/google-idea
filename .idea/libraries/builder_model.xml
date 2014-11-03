@@ -1,11 +1,19 @@
 <component name="libraryTable">
   <library name="builder-model">
     <CLASSES>
+<<<<<<< HEAD   (c2a43d Merge "Use custom color for files in the test scope" into id)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/builder-model/builder-model-0.14.0.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/builder-model-0.14.0.jar!/" />
+>>>>>>> BRANCH (831d7c Snapshot idea/139.223 from git://git.jetbrains.org/idea/comm)
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+<<<<<<< HEAD   (c2a43d Merge "Use custom color for files in the test scope" into id)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/builder-model/builder-model-0.14.0-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/builder-model-0.14.0-sources.jar!/" />
+>>>>>>> BRANCH (831d7c Snapshot idea/139.223 from git://git.jetbrains.org/idea/comm)
     </SOURCES>
   </library>
 </component>

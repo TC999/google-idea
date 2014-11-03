@@ -151,7 +151,7 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
       }
 
       jar("bootstrap.jar") { module("bootstrap") }
-      
+
       jar("jps-launcher.jar") { module("jps-launcher") }
 
       jar("resources.jar") {
@@ -261,8 +261,17 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
 }
 
 public def layoutCommunityPlugins(String home) {
+<<<<<<< HEAD   (c2a43d Merge "Use custom color for files in the test scope" into id)
   layoutAndroid()
   layoutGoogle()
+=======
+  if (!isDefined("maySkipAndroidPlugin") || new File("$home/android").exists()) {
+    layoutAndroid("$home/android")
+  }
+  else {
+    projectBuilder.warning("Android plugin sources aren't found at $home/android. Android plugin is excluded from layout.")
+  }
+>>>>>>> BRANCH (831d7c Snapshot idea/139.223 from git://git.jetbrains.org/idea/comm)
 
   dir("plugins") {
     def simplePlugins = ["commander", "copyright", "java-i18n", "hg4idea", "github"] //, "tasks-time-tracking"]
@@ -371,7 +380,7 @@ public def layoutCommunityPlugins(String home) {
         module("git4idea-rt")
       }
       jar("remote-servers-git.jar") {
-        module("remote-servers-git")
+        moduleOptional("remote-servers-git")
       }
       fileset(dir: "$home/plugins/git4idea/lib") {
         include(name: "trilead-ssh2.jar")
@@ -569,7 +578,14 @@ public def layoutCommunityPlugins(String home) {
       }
     }
 
-    layoutPlugin("java-decompiler")
+    pluginDir("java-decompiler") {
+      dir("lib") {
+        jar("java-decompiler.jar") {
+          module("java-decompiler-engine")
+          module("java-decompiler-plugin")
+        }
+      }
+    }
   }
 }
 
@@ -759,6 +775,7 @@ def reorder(String home, String targetDirectory) {
 
 def layoutAndroid() {
   dir("plugins") {
+<<<<<<< HEAD   (c2a43d Merge "Use custom color for files in the test scope" into id)
     def androidModule = "android"
     dir(androidModule) {
       dir("lib") {
@@ -768,6 +785,14 @@ def layoutAndroid() {
           }
           noResources(androidModule)
         }
+=======
+    layoutPlugin("android") {
+      fileset(dir: "${androidHome}/android/lib") {
+        include(name: "**/*.jar")
+        exclude(name: "**/fest-*.jar")
+        exclude(name: "src/*.jar")
+      }
+>>>>>>> BRANCH (831d7c Snapshot idea/139.223 from git://git.jetbrains.org/idea/comm)
 
         jar("resources_en.jar") {
           module(androidModule) {

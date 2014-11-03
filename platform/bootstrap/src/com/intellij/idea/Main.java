@@ -140,8 +140,14 @@ public class Main {
     // always delete previous patch copy
     File patchCopy = new File(tempDir, patchFileName + "_copy");
     File log4jCopy = new File(tempDir, "log4j.jar." + platform + "_copy");
+<<<<<<< HEAD   (c2a43d Merge "Use custom color for files in the test scope" into id)
     if (!FileUtilRt.delete(patchCopy) || !FileUtilRt.delete(log4jCopy)) {
       appendLog("Cannot delete temporary files in " + tempDir);
+=======
+    File jnaUtilsCopy = new File(tempDir, "jna-utils.jar." + platform + "_copy");
+    File jnaCopy = new File(tempDir, "jna.jar." + platform + "_copy");
+    if (!FileUtilRt.delete(patchCopy) || !FileUtilRt.delete(log4jCopy) || !FileUtilRt.delete(jnaUtilsCopy) || !FileUtilRt.delete(jnaCopy)) {
+>>>>>>> BRANCH (831d7c Snapshot idea/139.223 from git://git.jetbrains.org/idea/comm)
       throw new IOException("Cannot delete temporary files in " + tempDir);
     }
 
@@ -149,13 +155,27 @@ public class Main {
     appendLog("[Patch] Original patch %s: %s\n", patch.exists() ? "exists" : "does not exist",
               patch.getAbsolutePath());
     if (!patch.exists()) return;
+
     File log4j = new File(PathManager.getLibPath(), "log4j.jar");
+<<<<<<< HEAD   (c2a43d Merge "Use custom color for files in the test scope" into id)
     if (!log4j.exists()) {
       appendLog("Log4J missing: " + log4j);
       throw new IOException("Log4J missing: " + log4j);
     }
+=======
+    if (!log4j.exists()) throw new IOException("Log4J is missing: " + log4j);
+
+    File jnaUtils = new File(PathManager.getLibPath(), "jna-utils.jar");
+    if (!jnaUtils.exists()) throw new IOException("jna-utils.jar is missing: " + jnaUtils);
+
+    File jna = new File(PathManager.getLibPath(), "jna.jar");
+    if (!jna.exists()) throw new IOException("jna is missing: " + jna);
+
+>>>>>>> BRANCH (831d7c Snapshot idea/139.223 from git://git.jetbrains.org/idea/comm)
     copyFile(patch, patchCopy, true);
     copyFile(log4j, log4jCopy, false);
+    copyFile(jna, jnaCopy, false);
+    copyFile(jnaUtils, jnaUtilsCopy, false);
 
     int status = 0;
     if (Restarter.isSupported()) {
@@ -171,7 +191,7 @@ public class Main {
                          System.getProperty("java.home") + "/bin/java".replace('/', File.separatorChar),
                          "-Xmx500m",
                          "-classpath",
-                         patchCopy.getPath() + File.pathSeparator + log4jCopy.getPath(),
+                         patchCopy.getPath() + File.pathSeparator + log4jCopy.getPath() + File.pathSeparator + jnaCopy.getPath() + File.pathSeparator + jnaUtilsCopy.getPath(),
                          "-Djava.io.tmpdir=" + tempDir,
                          "-Didea.updater.log=" + PathManager.getLogPath(),
                          "-Dswing.defaultlaf=" + UIManager.getSystemLookAndFeelClassName(),
