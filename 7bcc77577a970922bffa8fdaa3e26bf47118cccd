@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f533de7c_e5a7d04d",
+        "filename": "updater/src/com/intellij/updater/BaseUpdateAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2014-11-04T23:51:02Z",
+      "side": 1,
+      "message": "Should this be an \u0026\u0026? Right now, if it is a critical file, we may end up storing the diff if its size is lesser. However, when you apply the patch, you need the full version of the file?",
+      "range": {
+        "startLine": 93,
+        "startChar": 22,
+        "endLine": 93,
+        "endChar": 24
+      },
+      "revId": "7bcc77577a970922bffa8fdaa3e26bf47118cccd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
