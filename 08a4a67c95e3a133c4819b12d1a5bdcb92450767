@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa83cbc2_482e53bc",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-12T07:04:34Z",
+      "side": 1,
+      "message": "I think using -bin here rather than -all makes sense (to keep the download smaller), but FYI for the wrappers in new projects we tend to use -all (and hopefully the wrapper won\u0027t force a download if the gradle-wrapper properties in projects ask for 2.2-all).  The reason we used -all was to pick up the docs, which makes some editor behavior when editing build.gradle files better (I think it can resolve some symbols and API calls).",
+      "revId": "08a4a67c95e3a133c4819b12d1a5bdcb92450767",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
