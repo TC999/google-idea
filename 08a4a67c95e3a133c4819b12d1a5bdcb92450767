@@ -16,6 +16,24 @@
       "revId": "08a4a67c95e3a133c4819b12d1a5bdcb92450767",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa2f4bb3_826d7a29",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-11-12T13:01:08Z",
+      "side": 1,
+      "message": "If the embedded Gradle distribution is present, Studio tells Gradle to use this local distribution instead of the wrapper, regardless of what the wrapper properties file points to (-all or -bin). This behavior override happens only if the wrapper uses the same Gradle version as the embedded one. New projects should work fine (I tested this simulating having the embedded Gradle in tools/adt/idea). We still need to test with the real thing.",
+      "parentUuid": "fa83cbc2_482e53bc",
+      "revId": "08a4a67c95e3a133c4819b12d1a5bdcb92450767",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
