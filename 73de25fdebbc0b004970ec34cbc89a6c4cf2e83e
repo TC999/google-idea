@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af35b1b_7e1df183",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-18T21:59:17Z",
+      "side": 1,
+      "message": "Is this file absolute? If so, what if it contains spaces etc? If so the file here won\u0027t be right. If this method is *only* used to relativize the root directory, not all the files within the bundle, then I guess we could just assert that the root directory had better be the same as its URL encoded suffix?\n\n(Alternatively take a look at the SdkUtils methods for converting between files and URLs)",
+      "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bae9532d_c01ede86",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-18T21:59:17Z",
+      "side": 1,
+      "message": "Do you need to convert /\u0027s to File.separatorChar here? If it\u0027s a URL, probably yes (though there may be other characters to unescape.) If it\u0027s just a system path (in a different file I saw you append \u0027/\u0027, so in that case maybe do .replace(\u0027/\u0027, File.separatorChar) here?",
+      "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5af0570f_dd2d2bbf",
+        "filename": "updater/src/com/intellij/updater/PatchSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-18T21:59:17Z",
+      "side": 1,
+      "message": "Is this a relative path? Or a URL? What file separator is used?",
+      "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5af0570f_3d136f7c",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-18T21:59:17Z",
+      "side": 1,
+      "message": "Are the paths by design always using / as the path separator, or should this be File.separator instead of / ?",
+      "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
