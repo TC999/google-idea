@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fadf4b7d_915ee62f",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-11-19T01:12:28Z",
+      "side": 1,
+      "message": "Yes, it is absolute. It\u0027s fine if it contain spaces. getPath() unescapes the URL and returns just the part of the path. Given that this URI came from a file, we can ignore the rest. The reason I convert it to a URL is to remove windows backslashes and normalize it to forward slashes which is how everything else is represented in the updater.",
+      "parentUuid": "7af35b1b_7e1df183",
+      "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bae9532d_c01ede86",
         "filename": "updater/src/com/intellij/updater/Patch.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-11-18T21:59:17Z",
       "side": 1,
       "message": "Do you need to convert /\u0027s to File.separatorChar here? If it\u0027s a URL, probably yes (though there may be other characters to unescape.) If it\u0027s just a system path (in a different file I saw you append \u0027/\u0027, so in that case maybe do .replace(\u0027/\u0027, File.separatorChar) here?",
+      "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a55ffac_cc4e5e86",
+        "filename": "updater/src/com/intellij/updater/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-11-19T01:12:28Z",
+      "side": 1,
+      "message": "There is no need to replace \u0027/\u0027 with \u0027\\\u0027 on windows when creating a file. This is all over the place in the updater so I read a bit more about it. Windows has always supported forward slashes as directory separators when using the Win API (It does\u0027t work on command line obviously) So it is safe to use forward slashes in new File() calls.",
+      "parentUuid": "bae9532d_c01ede86",
       "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a55ffac_2cb932ed",
+        "filename": "updater/src/com/intellij/updater/PatchSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-11-19T01:12:28Z",
+      "side": 1,
+      "message": "Updated the comment in Runner.java",
+      "parentUuid": "5af0570f_dd2d2bbf",
+      "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5af0570f_3d136f7c",
         "filename": "updater/src/com/intellij/updater/Runner.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2014-11-18T21:59:17Z",
       "side": 1,
       "message": "Are the paths by design always using / as the path separator, or should this be File.separator instead of / ?",
+      "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a55ffac_ec047a09",
+        "filename": "updater/src/com/intellij/updater/Runner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-11-19T01:12:28Z",
+      "side": 1,
+      "message": "Yes, paths are by design all \u0027/\u0027. See the other comment about why this also works in windows.",
+      "parentUuid": "5af0570f_3d136f7c",
       "revId": "73de25fdebbc0b004970ec34cbc89a6c4cf2e83e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
