@@ -138,7 +138,7 @@ public class CodeAnalysisBeforeCheckinHandler extends CheckinHandler {
     if (getSettings().CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT) {
       if (DumbService.getInstance(myProject).isDumb()) {
         if (Messages.showOkCancelDialog(myProject,
-                                "Code analysis can't be performed while IntelliJ IDEA updates the indices in background.\n" +
+                                "Code analysis can't be performed while Android Studio updates the indices in background.\n" +
                                 "You can commit the changes without running inspections, or you can wait until indices are built.",
                                 "Code analysis is not possible right now",
                                 "&Wait", "&Commit", null) == Messages.OK) {

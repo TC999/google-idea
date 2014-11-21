@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public class ImportSettingsFilenameFilter implements FilenameFilter, Serializable {
   private final Set<String> myRelativeNamesToExtract;
-  @NonNls static final String SETTINGS_JAR_MARKER = "IntelliJ IDEA Global Settings";
+  @NonNls static final String SETTINGS_JAR_MARKER = "Android Studio Global Settings";
 
   public ImportSettingsFilenameFilter(Set<String> relativeNamesToExtract) {
     myRelativeNamesToExtract = relativeNamesToExtract;
