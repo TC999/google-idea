@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcc1153_fa14b533",
+        "filename": "platform/bootstrap/src/com/intellij/ide/actions/ImportSettingsFilenameFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-25T18:53:43Z",
+      "side": 1,
+      "message": "Unlike the tip of the day strings, this seems to be used as a filename inside .zip files etc related to settings import -- can you double check that this functionality works? If the string isn\u0027t user visible anyway we might as well leave it undisturbed.",
+      "revId": "f1505e67d9c8d3322a44a42a1c5bc3ee71887352",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
