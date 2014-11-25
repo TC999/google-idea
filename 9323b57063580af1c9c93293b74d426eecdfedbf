@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc2091f_00558b8e",
+        "filename": "platform/util/src/com/intellij/openapi/application/PathManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-25T19:52:54Z",
+      "side": 1,
+      "message": "For Studio we probably don\u0027t need to be looking in community/, but for getting this patch upstreamed it\u0027s probably a good idea to leave it",
+      "revId": "9323b57063580af1c9c93293b74d426eecdfedbf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
