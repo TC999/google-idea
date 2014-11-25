@@ -133,14 +133,16 @@ if [ -z "$MAIN_CLASS_NAME" ]; then
   MAIN_CLASS_NAME="com.intellij.idea.Main"
 fi
 
-VM_OPTIONS_FILE="$@@product_uc@@_VM_OPTIONS"
-if [ -z "$VM_OPTIONS_FILE" ]; then
-  VM_OPTIONS_FILE="$IDE_BIN_HOME/@@vm_options@@$BITS.vmoptions"
+VM_OPTIONS_FILE="$IDE_BIN_HOME/@@vm_options@@$BITS.vmoptions"
+if [ -r "$VM_OPTIONS_FILE" ]; then
+  VM_OPTIONS_DATA=`"$CAT" "$VM_OPTIONS_FILE" | "$GREP" -v "^#.*" | "$TR" '\n' ' '`
+  VM_OPTIONS="$VM_OPTIONS $VM_OPTIONS_DATA -Djb.vmOptionsFile=\"$VM_OPTIONS_FILE\""
 fi
 
+VM_OPTIONS_FILE="$@@product_uc@@_VM_OPTIONS"
 if [ -r "$VM_OPTIONS_FILE" ]; then
-  VM_OPTIONS=`"$CAT" "$VM_OPTIONS_FILE" | "$GREP" -v "^#.*" | "$TR" '\n' ' '`
-  VM_OPTIONS="$VM_OPTIONS -Djb.vmOptionsFile=\"$VM_OPTIONS_FILE\""
+  VM_OPTIONS_DATA=`"$CAT" "$VM_OPTIONS_FILE" | "$GREP" -v "^#.*" | "$TR" '\n' ' '`
+  VM_OPTIONS="$VM_OPTIONS $VM_OPTIONS_DATA -Djb.vmOptionsFile=\"$VM_OPTIONS_FILE\""
 fi
 
 IS_EAP="@@isEap@@"
