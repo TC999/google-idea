@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff581d71_e31e004f",
+        "filename": "native/MacLauncher/Launcher.m",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2014-11-26T01:40:18Z",
+      "side": 1,
+      "message": "What does it mean by \"variable\" and \"explicit\" here?",
+      "revId": "f74307bb3d0fca543a43389362fb65f31a7beca2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
