@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff581d71_a3dc0872",
+        "filename": "native/MacLauncher/Launcher.m",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-26T01:41:17Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "b33bb4cee42e4906f8c415e7b175398d0f5a3491",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff581d71_63f4b0e8",
+        "filename": "native/MacLauncher/Launcher.m",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-26T01:41:17Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "b33bb4cee42e4906f8c415e7b175398d0f5a3491",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

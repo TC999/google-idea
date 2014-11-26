@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f572141_fad3450f",
+        "filename": "build/scripts/utils.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-26T01:41:17Z",
+      "side": 0,
+      "message": "Note: we need to cherrypick this over to idea14 as well; there is no auto-merging in tools/idea",
+      "revId": "9323b57063580af1c9c93293b74d426eecdfedbf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
