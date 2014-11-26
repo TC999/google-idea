@@ -33,6 +33,24 @@
       "revId": "f1505e67d9c8d3322a44a42a1c5bc3ee71887352",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ffb9587_8fa0f904",
+        "filename": "resources-en/src/search/searchableOptions.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-11-26T21:58:55Z",
+      "side": 1,
+      "message": "This is now done by https://android-review.googlesource.com/#/c/116542/",
+      "parentUuid": "1fcc1153_da077988",
+      "revId": "f1505e67d9c8d3322a44a42a1c5bc3ee71887352",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
