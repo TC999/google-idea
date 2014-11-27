@@ -16,6 +16,24 @@
       "revId": "f74307bb3d0fca543a43389362fb65f31a7beca2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fee89c7_3c513d27",
+        "filename": "native/MacLauncher/Launcher.m",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-11-27T00:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff581d71_e31e004f",
+      "revId": "f74307bb3d0fca543a43389362fb65f31a7beca2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
