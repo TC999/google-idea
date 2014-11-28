@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3f147587_ca72e74f",
+        "filename": "jps/model-serialization/src/org/jetbrains/jps/model/serialization/JpsProjectLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2014-11-28T16:14:09Z",
+      "side": 1,
+      "message": "ApplicationNamesInfo is not visible here, due to the dependency structure.",
+      "range": {
+        "startLine": 96,
+        "startChar": 43,
+        "endLine": 96,
+        "endChar": 57
+      },
+      "revId": "f1505e67d9c8d3322a44a42a1c5bc3ee71887352",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fcc1153_fa14b533",
         "filename": "platform/bootstrap/src/com/intellij/ide/actions/ImportSettingsFilenameFilter.java",
         "patchSetId": 1
@@ -13,6 +36,24 @@
       "writtenOn": "2014-11-25T18:53:43Z",
       "side": 1,
       "message": "Unlike the tip of the day strings, this seems to be used as a filename inside .zip files etc related to settings import -- can you double check that this functionality works? If the string isn\u0027t user visible anyway we might as well leave it undisturbed.",
+      "revId": "f1505e67d9c8d3322a44a42a1c5bc3ee71887352",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f147587_6a62d388",
+        "filename": "platform/bootstrap/src/com/intellij/ide/actions/ImportSettingsFilenameFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2014-11-28T16:14:09Z",
+      "side": 1,
+      "message": "Reverted, it does look like a file name. I\u0027m not taking the risk ;)",
+      "parentUuid": "1fcc1153_fa14b533",
       "revId": "f1505e67d9c8d3322a44a42a1c5bc3ee71887352",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -48,6 +89,24 @@
       "side": 1,
       "message": "This is now done by https://android-review.googlesource.com/#/c/116542/",
       "parentUuid": "1fcc1153_da077988",
+      "revId": "f1505e67d9c8d3322a44a42a1c5bc3ee71887352",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f17698b_4bfef978",
+        "filename": "resources-en/src/search/searchableOptions.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2014-11-28T16:14:09Z",
+      "side": 1,
+      "message": "Reverted.",
+      "parentUuid": "3ffb9587_8fa0f904",
       "revId": "f1505e67d9c8d3322a44a42a1c5bc3ee71887352",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
