@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fd68940_53ab1c98",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2014-12-03T18:35:38Z",
+      "side": 1,
+      "message": "The only difference with my change is that I had this begind a system property. But we can deal with that later.",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 17
+      },
+      "revId": "9270f705d772a893b41bc30b96db9f8476c8d52d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
