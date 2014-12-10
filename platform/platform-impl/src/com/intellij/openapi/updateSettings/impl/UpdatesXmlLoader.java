@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (4c427e Merge "Generate searchableOptions.xml at build time" into id)
 /*
  * Copyright 2000-2011 JetBrains s.r.o.
  *
@@ -157,3 +158,5 @@ public class UpdatesXmlLoader {
     }
   }
 }
+=======
+>>>>>>> BRANCH (cb3d17 Snapshot idea/139.658 from git://git.jetbrains.org/idea/comm)
