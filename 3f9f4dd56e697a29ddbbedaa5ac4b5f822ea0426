@@ -16,6 +16,24 @@
       "revId": "3f9f4dd56e697a29ddbbedaa5ac4b5f822ea0426",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0413e612_363436fb",
+        "filename": "plugins/gradle/src/META-INF/gradle-maven-integration.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-12-12T23:15:48Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c4b2ae5b_fa13bdc8",
+      "revId": "3f9f4dd56e697a29ddbbedaa5ac4b5f822ea0426",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
