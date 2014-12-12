@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4b2ae5b_fa13bdc8",
+        "filename": "plugins/gradle/src/META-INF/gradle-maven-integration.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2014-12-12T23:03:53Z",
+      "side": 0,
+      "message": "Whenever I\u0027m touching code in tools/idea, I generally leave the code I removed (or changed) there in place and just comment it out instead, with a specific comment explaining why we\u0027ve made a deliberate change in Android Studio. That makes future merges easier (and you can generally grep the codebase looking for Android Studio specific tweaks). Take a look at groovy/src/META-INF/plugin.xml for example.\n\n(This is different from when we\u0027re making a change that we expect JetBrains to want for IntelliJ as well; in that case, just send them a patch instead -- I\u0027m talking about the case where we\u0027re changing the way the base IDE works for some specific version).",
+      "revId": "3f9f4dd56e697a29ddbbedaa5ac4b5f822ea0426",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
