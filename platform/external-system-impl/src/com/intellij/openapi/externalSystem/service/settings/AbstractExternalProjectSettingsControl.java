@@ -39,6 +39,8 @@ public abstract class AbstractExternalProjectSettingsControl<S extends ExternalP
   private JBCheckBox myUseAutoImportBox;
   private JBCheckBox myCreateEmptyContentRootDirectoriesBox;
   private boolean myHideUseAutoImportBox;
+  private boolean myHideCreateEmptyContentRootDirectoriesBox;
+
 
   protected AbstractExternalProjectSettingsControl(@NotNull S initialSettings) {
     myInitialSettings = initialSettings;
@@ -53,6 +55,11 @@ public abstract class AbstractExternalProjectSettingsControl<S extends ExternalP
     myHideUseAutoImportBox = true;
   }
 
+  public void hideCreateEmptyContentRootDirectoriesBox() {
+    myHideCreateEmptyContentRootDirectoriesBox = true;
+  }
+
+
   @Override
   public void fillUi(@NotNull PaintAwarePanel canvas, int indentLevel) {
     myUseAutoImportBox = new JBCheckBox(ExternalSystemBundle.message("settings.label.use.auto.import"));
@@ -60,6 +67,7 @@ public abstract class AbstractExternalProjectSettingsControl<S extends ExternalP
     canvas.add(myUseAutoImportBox, ExternalSystemUiUtil.getFillLineConstraints(indentLevel));
     myCreateEmptyContentRootDirectoriesBox =
       new JBCheckBox(ExternalSystemBundle.message("settings.label.create.empty.content.root.directories"));
+    myCreateEmptyContentRootDirectoriesBox.setVisible(!myHideCreateEmptyContentRootDirectoriesBox);
     canvas.add(myCreateEmptyContentRootDirectoriesBox, ExternalSystemUiUtil.getFillLineConstraints(indentLevel));
     fillExtraControls(canvas, indentLevel); 
   }

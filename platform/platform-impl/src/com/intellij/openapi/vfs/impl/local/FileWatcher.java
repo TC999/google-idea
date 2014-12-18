@@ -216,7 +216,9 @@ public class FileWatcher {
   }
 
   private static boolean isUpToDate(File executable) {
-    long length = SystemInfo.isWindows ? 71208 :
+    // see http://go/fsnotifier-wrapper
+    long length = Boolean.getBoolean("google.internal") ? -1 :
+                  SystemInfo.isWindows ? 71208 :
                   SystemInfo.isMac ? 13924 :
                   SystemInfo.isLinux ? SystemInfo.isAMD64 ? 29155 : 22791 :
                   -1;
