@@ -1,11 +1,19 @@
 <component name="libraryTable">
   <library name="builder-model">
     <CLASSES>
+<<<<<<< HEAD   (632031 Merge "Fix 'builder-model' library definition, to fix compil)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/builder-model/builder-model-1.1.0-rc1.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/builder-model-1.0.0.jar!/" />
+>>>>>>> BRANCH (0aeed7 Snapshot idea/139.791 from git://git.jetbrains.org/idea/comm)
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+<<<<<<< HEAD   (632031 Merge "Fix 'builder-model' library definition, to fix compil)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/builder-model/builder-model-1.1.0-rc1-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/builder-model-1.0.0-sources.jar!/" />
+>>>>>>> BRANCH (0aeed7 Snapshot idea/139.791 from git://git.jetbrains.org/idea/comm)
     </SOURCES>
   </library>
 </component>
