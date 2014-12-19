@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2151bca8_bc8241db",
+        "filename": "platform/external-system-impl/src/com/intellij/openapi/externalSystem/service/settings/AbstractExternalProjectSettingsControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-12-19T12:40:33Z",
+      "side": 1,
+      "message": "What you are doing here is hiding the \"Preferences\" page for your type project? If so, you can do it in a similar way as AndroidStudioSpecificInitializer. The less we change IDEA code, the better.",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 60
+      },
+      "revId": "9d6708e9b4c1b895f6803d6f28fc703d3beb0cd0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014e780c_fb1f6fcd",
+        "filename": "platform/lang-impl/src/com/intellij/analysis/BaseAnalysisAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-12-19T12:40:33Z",
+      "side": 1,
+      "message": "We have a way, in AndroidStudioSpecificInitializer, to replace IDEA actions with our own. Please use same mechanism. The less we change IDEA code, the better.",
+      "range": {
+        "startLine": 211,
+        "startChar": 22,
+        "endLine": 211,
+        "endChar": 39
+      },
+      "revId": "9d6708e9b4c1b895f6803d6f28fc703d3beb0cd0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2151bca8_5c68dd8d",
+        "filename": "platform/lang-impl/src/com/intellij/analysis/BaseAnalysisAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-12-19T12:40:33Z",
+      "side": 1,
+      "message": "Please explain the change, with code comments.",
+      "range": {
+        "startLine": 212,
+        "startChar": 21,
+        "endLine": 212,
+        "endChar": 37
+      },
+      "revId": "9d6708e9b4c1b895f6803d6f28fc703d3beb0cd0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "014e780c_db1ab3e0",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/vfs/impl/local/FileWatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-12-19T12:40:33Z",
+      "side": 1,
+      "message": "Remove any reference to internal docs.",
+      "range": {
+        "startLine": 219,
+        "startChar": 7,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "9d6708e9b4c1b895f6803d6f28fc703d3beb0cd0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e11c04fd_1ac49d3b",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/vfs/impl/local/FileWatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-12-19T12:40:33Z",
+      "side": 1,
+      "message": "I have seen the same code repeated in another file. I\u0027d rather see SystemInfo.isGoogle and have the check in 1 place.",
+      "range": {
+        "startLine": 220,
+        "startChar": 18,
+        "endLine": 220,
+        "endChar": 55
+      },
+      "revId": "9d6708e9b4c1b895f6803d6f28fc703d3beb0cd0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
