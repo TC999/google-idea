@@ -234,6 +234,30 @@
       "revId": "9d6708e9b4c1b895f6803d6f28fc703d3beb0cd0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21729c91_77908a5a",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/vfs/impl/local/FileWatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2014-12-23T18:06:38Z",
+      "side": 1,
+      "message": "If this has been done in 14 code base, it would be better to cherry-pick those commits from JetBrains and adapt them to 13, if possible. WDYT?",
+      "parentUuid": "c138e05e_47e482df",
+      "range": {
+        "startLine": 220,
+        "startChar": 18,
+        "endLine": 220,
+        "endChar": 55
+      },
+      "revId": "9d6708e9b4c1b895f6803d6f28fc703d3beb0cd0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
