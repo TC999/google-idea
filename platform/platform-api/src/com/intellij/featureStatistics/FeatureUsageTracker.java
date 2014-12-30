@@ -19,6 +19,8 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NonNls;
 
+import java.util.Map;
+
 /**
  * User: anna
  * Date: Jan 28, 2005
@@ -34,6 +36,8 @@ public abstract class FeatureUsageTracker {
   public abstract void triggerFeatureUsed(@NonNls String featureId);
 
   public abstract void triggerFeatureShown(@NonNls String featureId);
+
+  public abstract void triggerFeatureUsed(@NonNls String featureId, Map<String, String> params);
 
   public abstract boolean isToBeShown(@NonNls String featureId, Project project);
 

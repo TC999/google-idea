@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings({"NonPrivateFieldAccessedInSynchronizedContext"})
@@ -184,6 +185,10 @@ public class FeatureUsageTrackerImpl extends FeatureUsageTracker implements Pers
     else {
       descriptor.triggerUsed();
     }
+  }
+
+  public void triggerFeatureUsed(String featureId, Map<String, String> params) {
+    // not implemented
   }
 
   public void triggerFeatureShown(String featureId) {
