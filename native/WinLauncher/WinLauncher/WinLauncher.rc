@@ -61,14 +61,14 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "CompanyName", "JetBrains s.r.o."
-            VALUE "FileDescription", "IntelliJ Platform Windows Launcher"
+            VALUE "CompanyName", "Android"
+            VALUE "FileDescription", "Android Studio Windows Launcher"
             VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "WinLaunc.exe"
-            VALUE "LegalCopyright", "Copyright (C) 2000-2014 JetBrains s.r.o."
-            VALUE "OriginalFilename", "WinLaunc.exe"
-            VALUE "ProductName", "TODO: <Product name>"
-            VALUE "ProductVersion", "1.0.0.AB-123.4567"
+            VALUE "InternalName", "studio.exe"
+            VALUE "LegalCopyright", "Copyright (C) 2013"
+            VALUE "OriginalFilename", "studio.exe"
+            VALUE "ProductName", "Android Studio"
+            VALUE "ProductVersion", "1.0.0.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -134,21 +134,20 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_APP_TITLE           "WinLauncher"
-    IDS_JDK_ENV_VAR         "IDEA_JDK"
-    IDS_VM_OPTIONS_PATH     "%USERPROFILE%\\.IntelliJIdea14\\idea.vmoptions"
+    IDS_APP_TITLE           "Android Studio Launcher"
+    IDS_JDK_ENV_VAR         "STUDIO_JDK"
+    IDS_VM_OPTIONS_PATH     "%USERPROFILE%\\.AndroidStudio"
     IDS_MAIN_CLASS          "com/intellij/idea/Main"
     IDS_CLASSPATH_LIBS      "bootstrap.jar;extensions.jar;util.jar;jdom.jar;log4j.jar;trove4j.jar;jna.jar"
     IDS_JDK_ONLY            "true"
-    IDC_WINLAUNCHER         "WINLAUNCHER"
+    IDC_WINLAUNCHER         "ANDROID_STUDIO_LAUNCHER"
     IDS_COMMAND_LINE_PROCESSOR_CLASS 
                             "com/intellij/ide/WindowsCommandLineProcessor"
     IDS_BOOTCLASSPATH_LIBS  "boot.jar"
-END
-
-STRINGTABLE
-BEGIN
     IDS_VM_OPTIONS          "-Didea.jre.check=false"
+    IDS_PROPS_ENV_VAR       "STUDIO_PROPERTIES"
+    IDS_VM_OPTIONS_ENV_VAR  "STUDIO_VM_OPTIONS"
+    ERROR_LAUNCHING_APP     "Error launching Android Studio"
 END
 
 #endif    // English (United States) resources
