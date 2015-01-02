@@ -20,6 +20,9 @@
 #define IDS_VM_OPTIONS                  129
 #define IDB_BITMAP1                     130
 #define IDB_SPLASH                      130
+#define IDS_PROPS_ENV_VAR               131
+#define IDS_VM_OPTIONS_ENV_VAR          132
+#define IDS_ERROR_LAUNCHING_APP         133
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
