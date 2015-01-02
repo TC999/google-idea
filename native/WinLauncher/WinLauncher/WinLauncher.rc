@@ -136,7 +136,7 @@ STRINGTABLE
 BEGIN
     IDS_APP_TITLE           "WinLauncher"
     IDS_JDK_ENV_VAR         "IDEA_JDK"
-    IDS_VM_OPTIONS_PATH     "%USERPROFILE%\\.IntelliJIdea14\\idea.vmoptions"
+    IDS_VM_OPTIONS_PATH     "%USERPROFILE%\\.__PRODUCT_PATHS_SELECTOR__"
     IDS_MAIN_CLASS          "com/intellij/idea/Main"
     IDS_CLASSPATH_LIBS      "bootstrap.jar;extensions.jar;util.jar;jdom.jar;log4j.jar;trove4j.jar;jna.jar"
     IDS_JDK_ONLY            "true"
@@ -144,11 +144,10 @@ BEGIN
     IDS_COMMAND_LINE_PROCESSOR_CLASS 
                             "com/intellij/ide/WindowsCommandLineProcessor"
     IDS_BOOTCLASSPATH_LIBS  "boot.jar"
-END
-
-STRINGTABLE
-BEGIN
     IDS_VM_OPTIONS          "-Didea.jre.check=false"
+    IDS_PROPS_ENV_VAR       "IDEA_PROPERTIES"
+    IDS_VM_OPTIONS_ENV_VAR  "IDEA_VM_OPTIONS"
+    ERROR_LAUNCHING_APP     "Error Launching IntelliJ Platform"
 END
 
 #endif    // English (United States) resources
