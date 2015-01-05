@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "ae3f59b4_73fa1a85",
+        "filename": "platform/platform-impl/src/com/intellij/featureStatistics/FeatureUsageTrackerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2015-01-05T23:16:58Z",
+      "side": 1,
+      "message": "Yes, the implementation is only used by intellij. But when the Android Plugin is used in Intellij, it will make calls to this method with featureIds that aren\u0027t recognized.  So those calls will take the error path.  What I meant earlier is that the error path doesn\u0027t result in any actual errors, but it could if they, for instance, uncomment their TODO on line 183.",
+      "parentUuid": "0e1b056c_d6dae2a1",
+      "range": {
+        "startLine": 191,
+        "startChar": 11,
+        "endLine": 191,
+        "endChar": 22
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce156d30_9fd47b74",
         "filename": "platform/platform-impl/src/com/intellij/internal/statistic/configurable/StatisticsConfigurationComponent.java",
         "patchSetId": 1
