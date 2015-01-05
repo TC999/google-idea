@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "0e1b056c_d6dae2a1",
+        "filename": "platform/platform-impl/src/com/intellij/featureStatistics/FeatureUsageTrackerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-01-05T21:52:06Z",
+      "side": 1,
+      "message": "This implementation should only be used by IntelliJ code itself right? In Android Studio, we\u0027d be overriding this method which only submits to GA, so none of this should be called. Or am I missing something?",
+      "parentUuid": "8e445558_cf38fdbf",
+      "range": {
+        "startLine": 191,
+        "startChar": 11,
+        "endLine": 191,
+        "endChar": 22
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce156d30_9fd47b74",
         "filename": "platform/platform-impl/src/com/intellij/internal/statistic/configurable/StatisticsConfigurationComponent.java",
         "patchSetId": 1
