@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6126549e_e024be9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2015-01-05T21:23:38Z",
+      "side": 1,
+      "message": "Yes, will update.",
+      "parentUuid": "6e2481a4_b6740869",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce156d30_1fd2ab93",
         "filename": "platform/platform-api/src/com/intellij/featureStatistics/FeatureUsageTracker.java",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "8e445558_cfc35d46",
+        "filename": "platform/platform-api/src/com/intellij/featureStatistics/FeatureUsageTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2015-01-05T21:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce156d30_ff2b77eb",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae3f59b4_b0e758e6",
+        "filename": "platform/platform-api/src/com/intellij/featureStatistics/FeatureUsageTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2015-01-05T21:23:38Z",
+      "side": 1,
+      "message": "Analytics uses a post, so we\u0027re writing a int down as a string anyway, so the conversion has to happen. It might be easier for a user to write an Integer in though, will change.",
+      "parentUuid": "ce156d30_1fd2ab93",
+      "range": {
+        "startLine": 40,
+        "startChar": 80,
+        "endLine": 40,
+        "endChar": 86
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce156d30_dfb31368",
         "filename": "platform/platform-impl/src/com/intellij/featureStatistics/FeatureUsageTrackerImpl.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-05T17:00:32Z",
       "side": 1,
       "message": "lets make this call into triggerFeatureUsed(featureId)",
+      "range": {
+        "startLine": 191,
+        "startChar": 11,
+        "endLine": 191,
+        "endChar": 22
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e445558_cf38fdbf",
+        "filename": "platform/platform-impl/src/com/intellij/featureStatistics/FeatureUsageTrackerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2015-01-05T21:23:38Z",
+      "side": 1,
+      "message": "The problem is that features that aren\u0027t registered with the intellij could lead to strange behavior. They\u0027ve commented out their logging in \"FeatureUsageTrackerImpl.java:183\" but it does seem to indicate that an unregistered feature is considered an error. So any feature we decide to track will take their error branch when using this standard tracker (because registry.getFeatureDescriptor (line 181) will return false).\n\nI\u0027m not sure they\u0027d want us to pollute their registry with feature ids (especially the cloud ones).  Even if we decide to register our features by implementing the extension ProductiviyFeaturesProvider for this, we\u0027d probably be sending extra non-jetbrains plugin usage data to jetbrains.\n\nWould it make more sense to call the method triggerUnregisteredFeatureUsed(....) or something?\nor triggerExternalFeatureUsed(....) ?",
+      "parentUuid": "ce156d30_dfb31368",
       "range": {
         "startLine": 191,
         "startChar": 11,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "6126549e_8036aad0",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/configurable/StatisticsConfigurationComponent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2015-01-05T21:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce156d30_9fd47b74",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 22
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce156d30_df8c339a",
         "filename": "platform/platform-resources/src/META-INF/PlatformExtensions.xml",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2015-01-05T17:00:32Z",
       "side": 1,
       "message": "I don\u0027t think this will work in the build (it\u0027ll work while you are debugging from IDEA) as you can\u0027t make the platform depend on a plugin.\n\nInstead I\u0027d recommend moving the StudioFeatureUsageTracker into the platform (as long as it doesn\u0027t introduce new APIs).",
+      "range": {
+        "startLine": 104,
+        "startChar": 76,
+        "endLine": 104,
+        "endChar": 101
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae3f59b4_50aa6c65",
+        "filename": "platform/platform-resources/src/META-INF/PlatformExtensions.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2015-01-05T21:23:38Z",
+      "side": 1,
+      "message": "okay",
+      "parentUuid": "ce156d30_df8c339a",
       "range": {
         "startLine": 104,
         "startChar": 76,
