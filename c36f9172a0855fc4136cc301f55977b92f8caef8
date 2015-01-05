@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "6e29e184_14e97c3d",
+        "filename": "platform/platform-impl/src/com/intellij/featureStatistics/FeatureUsageTrackerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-01-05T23:19:00Z",
+      "side": 1,
+      "message": "Ofcourse, android plugin in IntelliJ. I think we should leave it as is, and I\u0027ll ask JB for their opinion..",
+      "parentUuid": "ae3f59b4_73fa1a85",
+      "range": {
+        "startLine": 191,
+        "startChar": 11,
+        "endLine": 191,
+        "endChar": 22
+      },
+      "revId": "c36f9172a0855fc4136cc301f55977b92f8caef8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce156d30_9fd47b74",
         "filename": "platform/platform-impl/src/com/intellij/internal/statistic/configurable/StatisticsConfigurationComponent.java",
         "patchSetId": 1
