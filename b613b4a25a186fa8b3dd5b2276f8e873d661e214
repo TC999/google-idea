@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e3369f6_4fce51c6",
+        "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-01-06T01:13:37Z",
+      "side": 1,
+      "message": "We need to abstract away this studio.exe constant here and studio64.exe, just below. I can think of three ways...\n\n1) Get the exe name from the command line and strip out \"(64)?.exe\"\n2) Add a new constant to WinLauncher.rc\n3) Change the wording here to be more vague, like \"You are running the 32-bit version of this application. Consider running the 64-bit version ...\"",
+      "revId": "b613b4a25a186fa8b3dd5b2276f8e873d661e214",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_c5d69ad4",
+        "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-01-06T01:13:37Z",
+      "side": 1,
+      "message": "Worth converting to a std::string as long as we\u0027re here?",
+      "revId": "b613b4a25a186fa8b3dd5b2276f8e873d661e214",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3acdc4_a505d6b2",
+        "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-01-06T01:13:37Z",
+      "side": 1,
+      "message": "Should we extract these strings into constants? Probably not worth it but it\u0027s all that showed up when I searched for IntelliJ (and IntelliJLauncherSplash below)",
+      "revId": "b613b4a25a186fa8b3dd5b2276f8e873d661e214",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
