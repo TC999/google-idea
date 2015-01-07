@@ -16,6 +16,24 @@
       "revId": "9b99405e11f11342df0d987e631825fce299be4e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2efb6987_8cb3e768",
+        "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-01-07T18:04:21Z",
+      "side": 1,
+      "message": "Hehe, Indeed! Will reply to the comments when its done. Run into a lot of issues trying to integrate this into their build system. Long story short, the .rc, icon and splash screen here should be kept generic and there is a tool to patch them after the exe is built. That tool has bugs which I\u0027m fixing... (See the other cl about the PE StringTable fix)",
+      "parentUuid": "6e43a181_1eef0d46",
+      "revId": "9b99405e11f11342df0d987e631825fce299be4e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
