@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e43a181_1eef0d46",
+        "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-01-07T17:40:31Z",
+      "side": 1,
+      "message": "studio64.exe is still here :)",
+      "revId": "9b99405e11f11342df0d987e631825fce299be4e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
