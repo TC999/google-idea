@@ -59,6 +59,7 @@ import com.intellij.openapi.externalSystem.settings.ExternalProjectSettings;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.progress.PerformInBackgroundOption;
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.Progressive;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ex.ProjectRootManagerEx;
@@ -383,10 +384,10 @@ public class ExternalSystemUtil {
     else {
       projectName = projectFile.getName();
     }
-    final TaskUnderProgress refreshProjectStructureTask = new TaskUnderProgress() {
+    final Progressive refreshProjectStructureTask = new Progressive() {
       @SuppressWarnings({"ThrowableResultOfMethodCallIgnored", "IOResourceOpenedButNotSafelyClosed"})
       @Override
-      public void execute(@NotNull ProgressIndicator indicator) {
+      public void run(@NotNull ProgressIndicator indicator) {
         if(project.isDisposed()) return;
 
         ExternalSystemProcessingManager processingManager = ServiceManager.getService(ExternalSystemProcessingManager.class);
@@ -471,7 +472,7 @@ public class ExternalSystemUtil {
             new Task.Modal(project, title, true) {
               @Override
               public void run(@NotNull ProgressIndicator indicator) {
-                refreshProjectStructureTask.execute(indicator);
+                refreshProjectStructureTask.run(indicator);
               }
             }.queue();
             break;
@@ -480,7 +481,7 @@ public class ExternalSystemUtil {
             new Task.Backgroundable(project, title) {
               @Override
               public void run(@NotNull ProgressIndicator indicator) {
-                refreshProjectStructureTask.execute(indicator);
+                refreshProjectStructureTask.run(indicator);
               }
             }.queue();
             break;
@@ -489,7 +490,7 @@ public class ExternalSystemUtil {
             new Task.Backgroundable(project, title, true, PerformInBackgroundOption.DEAF) {
               @Override
               public void run(@NotNull ProgressIndicator indicator) {
-                refreshProjectStructureTask.execute(indicator);
+                refreshProjectStructureTask.run(indicator);
               }
             }.queue();
         }
@@ -707,8 +708,10 @@ public class ExternalSystemUtil {
     final VirtualFile[] file = new VirtualFile[1];
     final Application app = ApplicationManager.getApplication();
     Runnable action = new Runnable() {
+      @Override
       public void run() {
         app.runWriteAction(new Runnable() {
+          @Override
           public void run() {
             file[0] = LocalFileSystem.getInstance().refreshAndFindFileByPath(path);
           }
@@ -722,10 +725,6 @@ public class ExternalSystemUtil {
       app.invokeAndWait(action, ModalityState.defaultModalityState());
     }
     return file[0];
-  }
-
-  private interface TaskUnderProgress {
-    void execute(@NotNull ProgressIndicator indicator);
   }
 
   private static class MyMultiExternalProjectRefreshCallback implements ExternalProjectRefreshCallback {
