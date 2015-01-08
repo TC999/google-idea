@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e2535f1_ed7a6124",
+        "filename": "bin/WinLauncher/WinLauncher64.exe",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-01-08T00:21:11Z",
+      "side": 1,
+      "message": "Dave, these .exe were built with VS\u002713 Could you rebuild and patch with 2010? Thanks!",
+      "revId": "aa6ecec26dbfef11f73e00c2b828102887e94b0f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
