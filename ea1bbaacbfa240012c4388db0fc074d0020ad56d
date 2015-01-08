@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e17bd8b_0891a730",
+        "filename": "build/scripts/dist.gant",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-01-08T01:04:07Z",
+      "side": 1,
+      "message": "One thing I\u0027m a little worried about is we updated our WinLauncher settings to:\n1) embed the manifest file directly\n2) statically link against various Windows libraries\n\nHave we confirmed that JetBrain\u0027s tool handles this alright?",
+      "revId": "ea1bbaacbfa240012c4388db0fc074d0020ad56d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
