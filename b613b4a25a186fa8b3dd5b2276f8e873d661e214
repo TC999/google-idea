@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e630529_08e873b5",
+        "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-01-08T00:20:26Z",
+      "side": 1,
+      "message": "Done. 3)",
+      "parentUuid": "2e3369f6_4fce51c6",
+      "revId": "b613b4a25a186fa8b3dd5b2276f8e873d661e214",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce3acdc4_c5d69ad4",
         "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0e630529_c8eddbca",
+        "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-01-08T00:20:26Z",
+      "side": 1,
+      "message": "Indeed! But follow up CL. In fact there are many places where this code is unsafe, and you can see the warning list when it is compiled. We should revisit them all together.",
+      "parentUuid": "ce3acdc4_c5d69ad4",
+      "revId": "b613b4a25a186fa8b3dd5b2276f8e873d661e214",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce3acdc4_a505d6b2",
         "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2015-01-06T01:13:37Z",
       "side": 1,
       "message": "Should we extract these strings into constants? Probably not worth it but it\u0027s all that showed up when I searched for IntelliJ (and IntelliJLauncherSplash below)",
+      "revId": "b613b4a25a186fa8b3dd5b2276f8e873d661e214",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e2535f1_cdbf9d9b",
+        "filename": "native/WinLauncher/WinLauncher/WinLauncher.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-01-08T00:20:26Z",
+      "side": 1,
+      "message": "Yeah, We had it renamed in our code, but it\u0027s not visible to the user. I believe it\u0027s just an id.",
+      "parentUuid": "ce3acdc4_a505d6b2",
       "revId": "b613b4a25a186fa8b3dd5b2276f8e873d661e214",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
