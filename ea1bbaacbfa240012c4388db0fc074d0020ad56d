@@ -16,6 +16,24 @@
       "revId": "ea1bbaacbfa240012c4388db0fc074d0020ad56d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ee9a9cf_255e54ec",
+        "filename": "build/scripts/dist.gant",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-01-08T22:27:25Z",
+      "side": 1,
+      "message": "As we confirmed offline, IntelliJ was already embedding the manifest and linking libraries statically.",
+      "parentUuid": "4e17bd8b_0891a730",
+      "revId": "ea1bbaacbfa240012c4388db0fc074d0020ad56d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
