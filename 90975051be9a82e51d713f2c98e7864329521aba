@@ -16,6 +16,24 @@
       "revId": "90975051be9a82e51d713f2c98e7864329521aba",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ed17d3e_4984719d",
+        "filename": "native/MacLauncher/Launcher.m",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-01-09T23:17:12Z",
+      "side": 1,
+      "message": "Yes it\u0027s only used from the method below, but the problem is actually that  this is executed from a different thread, so it\u0027s called via performSelectorOnMainThread which only takes one argument. If you feel strongly about this we need to create a specific class for the argument.",
+      "parentUuid": "eee5d11c_7b0f1356",
+      "revId": "90975051be9a82e51d713f2c98e7864329521aba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
