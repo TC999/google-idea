@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee5d11c_7b0f1356",
+        "filename": "native/MacLauncher/Launcher.m",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-01-09T22:58:19Z",
+      "side": 1,
+      "message": "Is this alert method only used by the method below?  If not, maybe add a separate method, addWithLink, to avoid future callers passing two strings and accidentally linkifying the second?",
+      "revId": "90975051be9a82e51d713f2c98e7864329521aba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
