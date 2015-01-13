@@ -22,6 +22,30 @@
       "revId": "0bad8dc0248551e4a7919a8efa245b3eec856d3c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ec449d1_13a6761b",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/configurable/StatisticsConfigurationComponent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1022272
+      },
+      "writtenOn": "2015-01-13T22:10:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e3a5daa_5084929d",
+      "range": {
+        "startLine": 81,
+        "startChar": 7,
+        "endLine": 81,
+        "endChar": 14
+      },
+      "revId": "0bad8dc0248551e4a7919a8efa245b3eec856d3c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
