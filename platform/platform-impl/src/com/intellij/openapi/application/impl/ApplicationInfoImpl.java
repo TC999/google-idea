@@ -397,9 +397,21 @@ public class ApplicationInfoImpl extends ApplicationInfoEx implements JDOMExtern
     if (getMajorVersion() != null) {
       buffer.append(getMajorVersion());
 
-      if (getMinorVersion() != null && getMinorVersion().length() > 0){
+      String minorVersion = getMinorVersion();
+      if (minorVersion != null && minorVersion.length() > 0){
         buffer.append(".");
-        buffer.append(getMinorVersion());
+
+        // Android Studio Temporary Hack:
+        // For build script purposes we want to have version numbers without spaces,
+        // such as 1.1.0-preview1, but for the display (title bar, about box etc)
+        // convert it to something like "1.1.0 Preview 1"
+        String previewToken = "-preview";
+        int index = minorVersion.indexOf(previewToken);
+        if (index != -1 && minorVersion.charAt(index + previewToken.length()) != ' ') {
+          minorVersion = minorVersion.replace(previewToken, " Preview ");
+        }
+
+        buffer.append(minorVersion);
       }
     }
     else {
