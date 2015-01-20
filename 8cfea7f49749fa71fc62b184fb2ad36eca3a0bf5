@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b696f05_18b3a98f",
+        "filename": ".idea/dictionaries/adt.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1017685
+      },
+      "writtenOn": "2015-01-20T18:28:35Z",
+      "side": 1,
+      "message": "nit: spam should be a prerequisite for this word to exist.",
+      "revId": "8cfea7f49749fa71fc62b184fb2ad36eca3a0bf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b63f728_16f6daee",
+        "filename": ".idea/dictionaries/adt.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1017685
+      },
+      "writtenOn": "2015-01-20T18:28:35Z",
+      "side": 1,
+      "message": "nit: should upscale be added too?",
+      "revId": "8cfea7f49749fa71fc62b184fb2ad36eca3a0bf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
