@@ -27,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class JUnit4AnnotatedMethodInJUnit3TestCaseInspectionBase extends BaseInspection {
   protected static final String IGNORE = "org.junit.Ignore";
+  protected static final String RUN_WITH = "org.junit.runner.RunWith";
 
   @Override
   @Nls
@@ -66,6 +67,14 @@ public class JUnit4AnnotatedMethodInJUnit3TestCaseInspectionBase extends BaseIns
       if (!TestUtils.isJUnitTestClass(containingClass)) {
         return;
       }
+
+      if (AnnotationUtil.isAnnotated(containingClass, RUN_WITH, false)) {
+        // Using @RunWith usually means you are executing the test with JUnit4, even if you
+        // are extending TestCase. This is sometimes done for compatibility purposes; see for example
+        //  https://code.google.com/p/android-test-kit/wiki/AndroidJUnitRunnerUserGuide#Backwards_compatibility_to_Android_platform_testing_APIs
+        return;
+      }
+
       if (AnnotationUtil.isAnnotated(method, IGNORE, false) && method.getName().startsWith("test")) {
         registerMethodError(method, containingClass, method);
       } else if (TestUtils.isJUnit4TestMethod(method)) {
