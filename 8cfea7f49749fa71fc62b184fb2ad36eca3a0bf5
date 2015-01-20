@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0bf85789_0b823d68",
+        "filename": ".idea/dictionaries/adt.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-01-20T20:57:51Z",
+      "side": 1,
+      "message": "The IDE already ships with a builtin dictionary which contains a lot of words. This dictionary (adt) is just our own additions for words that occur in our own codebase (usually in the form of comments) such that we don\u0027t get warnings.",
+      "parentUuid": "4b696f05_18b3a98f",
+      "revId": "8cfea7f49749fa71fc62b184fb2ad36eca3a0bf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b63f728_16f6daee",
         "filename": ".idea/dictionaries/adt.xml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-01-20T18:28:35Z",
       "side": 1,
       "message": "nit: should upscale be added too?",
+      "revId": "8cfea7f49749fa71fc62b184fb2ad36eca3a0bf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bfb5b87_15c3766d",
+        "filename": ".idea/dictionaries/adt.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-01-20T20:57:51Z",
+      "side": 1,
+      "message": "Ditto.",
+      "parentUuid": "0b63f728_16f6daee",
       "revId": "8cfea7f49749fa71fc62b184fb2ad36eca3a0bf5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
