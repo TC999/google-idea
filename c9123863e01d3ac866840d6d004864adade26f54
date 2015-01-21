@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb97835c_e204860d",
+        "filename": "build_studio.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-01-21T22:41:03Z",
+      "side": 1,
+      "message": "nitpick: the name should include at least one of windows or installer.\n\nI\u0027m ok removing the android-studio prefix, maybe shorten it to just studio or nothing even since this is only built for the studio target.",
+      "range": {
+        "startLine": 49,
+        "startChar": 79,
+        "endLine": 49,
+        "endChar": 85
+      },
+      "revId": "c9123863e01d3ac866840d6d004864adade26f54",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
