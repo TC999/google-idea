@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2bc27b57_c36cc075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-01-21T22:10:33Z",
+      "side": 1,
+      "message": "Oh, I\u0027d definitely clean this up before sending to them. This isn\u0027t even the right branch to patch against I think? These CLs just exist for discussion for now.",
+      "parentUuid": "ab7cabf1_cbcf6969",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "aed4526e81c47c860e2dd88b67dfc4f6e1016f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bbf77c3_9c5ea4e6",
         "filename": "platform/lang-api/src/com/intellij/execution/configurations/ConfigurationFilter.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-21T22:08:09Z",
       "side": 1,
       "message": "add a simple javadoc here or on the class",
+      "range": {
+        "startLine": 26,
+        "startChar": 26,
+        "endLine": 26,
+        "endChar": 50
+      },
+      "revId": "aed4526e81c47c860e2dd88b67dfc4f6e1016f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab7cabf1_8bb731c7",
+        "filename": "platform/lang-api/src/com/intellij/execution/configurations/ConfigurationFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-01-21T22:10:33Z",
+      "side": 1,
+      "message": "Yeah, I\u0027ll clean this up if we determine this is the right way to add this feature.",
+      "parentUuid": "0bbf77c3_9c5ea4e6",
       "range": {
         "startLine": 26,
         "startChar": 26,
