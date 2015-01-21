@@ -22,6 +22,30 @@
       "revId": "c9123863e01d3ac866840d6d004864adade26f54",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb9c7f86_81c6da57",
+        "filename": "build_studio.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-01-21T22:46:23Z",
+      "side": 1,
+      "message": "Yeah... the name is not great. I\u0027m intentionally not adding windows because I want this file to also contain whatever we need for mac dmgs. That\u0027s also why I chose \"bundle\" instead of installer, as they are all identified as bundles on the build side and they are not all installers. I\u0027ll try to think of a better name...",
+      "parentUuid": "eb97835c_e204860d",
+      "range": {
+        "startLine": 49,
+        "startChar": 79,
+        "endLine": 49,
+        "endChar": 85
+      },
+      "revId": "c9123863e01d3ac866840d6d004864adade26f54",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
