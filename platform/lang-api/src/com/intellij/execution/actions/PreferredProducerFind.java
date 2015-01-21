@@ -18,6 +18,7 @@ package com.intellij.execution.actions;
 
 import com.intellij.execution.Location;
 import com.intellij.execution.RunnerAndConfigurationSettings;
+import com.intellij.execution.configurations.ConfigurationFilter;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.impl.ConfigurationFromContextWrapper;
 import com.intellij.execution.junit.RuntimeConfigurationProducer;
@@ -104,7 +105,7 @@ class PreferredProducerFind {
 
     for (RunConfigurationProducer producer : Extensions.getExtensions(RunConfigurationProducer.EP_NAME)) {
       ConfigurationFromContext fromContext = producer.findOrCreateConfigurationFromContext(context);
-      if (fromContext != null) {
+      if (fromContext != null && ConfigurationFilter.allowConfiguration(fromContext)) {
         configurationsFromContext.add(fromContext);
       }
     }
