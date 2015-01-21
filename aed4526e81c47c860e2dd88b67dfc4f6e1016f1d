@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab7cabf1_cbcf6969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-01-21T22:08:09Z",
+      "side": 1,
+      "message": "I\u0027d remove this, and put in a proper comment for the feature. Many times, Jetbrains folks just cherry pick the change as-is without any modifications.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "aed4526e81c47c860e2dd88b67dfc4f6e1016f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bbf77c3_9c5ea4e6",
+        "filename": "platform/lang-api/src/com/intellij/execution/configurations/ConfigurationFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-01-21T22:08:09Z",
+      "side": 1,
+      "message": "add a simple javadoc here or on the class",
+      "range": {
+        "startLine": 26,
+        "startChar": 26,
+        "endLine": 26,
+        "endChar": 50
+      },
+      "revId": "aed4526e81c47c860e2dd88b67dfc4f6e1016f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
