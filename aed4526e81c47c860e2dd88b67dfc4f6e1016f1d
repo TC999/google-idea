@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "ab7cabf1_eb1d0d00",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/PreferredProducerFind.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-01-21T22:26:27Z",
+      "side": 1,
+      "message": "I see that we\u0027re adding contexts to the configurationsFromContext list above too (on line 103). Does that part need to go through the filter too?",
+      "revId": "aed4526e81c47c860e2dd88b67dfc4f6e1016f1d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bbf77c3_9c5ea4e6",
         "filename": "platform/lang-api/src/com/intellij/execution/configurations/ConfigurationFilter.java",
         "patchSetId": 1
