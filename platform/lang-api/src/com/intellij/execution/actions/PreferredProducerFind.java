@@ -18,6 +18,7 @@ package com.intellij.execution.actions;
 
 import com.intellij.execution.Location;
 import com.intellij.execution.RunnerAndConfigurationSettings;
+import com.intellij.execution.configurations.ConfigurationFilter;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.impl.ConfigurationFromContextWrapper;
 import com.intellij.execution.junit.RuntimeConfigurationProducer;
@@ -110,6 +111,13 @@ class PreferredProducerFind {
     }
 
     if (configurationsFromContext.isEmpty()) return null;
+
+    for (Iterator<ConfigurationFromContext> it = configurationsFromContext.iterator(); it.hasNext(); ) {
+      ConfigurationFromContext configuration = it.next();
+      if (!ConfigurationFilter.allowConfiguration(configuration)) {
+        it.remove();
+      }
+    }
     Collections.sort(configurationsFromContext, ConfigurationFromContext.COMPARATOR);
 
     if(strict) {
