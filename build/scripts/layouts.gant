@@ -621,6 +621,11 @@ def layoutGoogle() {
       // is copied by the Android plugin
       fileset(file: "${home}/../../prebuilts/tools/common/google-api-java-client/1.8.0-rc/google-api-java-client-min-repackaged.jar")
     }
+    layoutPlugin("sdk-updates") {
+      jar("sdk-updates.jar") {
+        module("sdk-updates")
+      }
+    }
   }
 }
 
