@@ -15,9 +15,13 @@
  */
 package com.intellij.openapi.updateSettings.impl;
 
+import com.google.common.collect.Lists;
 import com.google.common.net.HttpHeaders;
 import com.intellij.diagnostic.IdeErrorsDialog;
 import com.intellij.ide.IdeBundle;
+import com.intellij.ide.externalComponents.ExternalComponentManager;
+import com.intellij.ide.externalComponents.ExternalComponentSource;
+import com.intellij.ide.externalComponents.UpdatableExternalComponent;
 import com.intellij.ide.plugins.*;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.notification.*;
@@ -178,16 +182,48 @@ public final class UpdateChecker {
     }
     final Collection<IdeaPluginDescriptor> incompatiblePlugins = buildNumber != null ? new HashSet<IdeaPluginDescriptor>() : null;
     final Collection<PluginDownloader> updatedPlugins = platformUpdate ? null : updatePlugins(manualCheck, incompatiblePlugins, indicator, buildNumber);
+    final Collection<ExternalUpdate> externalUpdates = platformUpdate ? null : updateExternal(manualCheck, indicator);
 
     ApplicationManager.getApplication().invokeLater(new Runnable() {
       @Override
       public void run() {
-        showUpdateResult(project, result, updatedPlugins, incompatiblePlugins, enableLink, manualCheck);
+        showUpdateResult(project, result, updatedPlugins, incompatiblePlugins, externalUpdates, enableLink, manualCheck);
         if (callback != null) {
           callback.setDone();
         }
       }
     });
+  }
+
+  public static Collection<ExternalUpdate> updateExternal(boolean manualCheck, @Nullable ProgressIndicator indicator) {
+    List<ExternalUpdate> result = Lists.newArrayList();
+    ExternalComponentManager manager = ExternalComponentManager.getInstance();
+    if (indicator != null) {
+      indicator.setText("Fetching available updates for external components...");
+    }
+
+    for (ExternalComponentSource source : ExternalComponentManager.getInstance().getComponentSources()) {
+      if (indicator != null) {
+        indicator.checkCanceled();
+      }
+      try {
+        Collection<UpdatableExternalComponent> available = source.getAvailableVersions(indicator);
+        List<UpdatableExternalComponent> siteResult = Lists.newArrayList();
+        for (UpdatableExternalComponent component : available) {
+          if (component.isUpdateFor(manager.findExistingComponentMatching(component, source))) {
+            siteResult.add(component);
+          }
+        }
+        if (!siteResult.isEmpty()) {
+          result.add(new ExternalUpdate(siteResult, source));
+        }
+      }
+      catch (Exception e) {
+        showErrorMessage(manualCheck, e.getMessage());
+      }
+    }
+
+    return result;
   }
 
   public static Collection<PluginDownloader> updatePlugins(boolean manualCheck,
@@ -555,7 +591,8 @@ public final class UpdateChecker {
   private static void showUpdateResult(@Nullable final Project project,
                                        final CheckForUpdateResult checkForUpdateResult,
                                        final Collection<PluginDownloader> updatedPlugins,
-                                       final Collection<IdeaPluginDescriptor> incompatiblePlugins, 
+                                       final Collection<IdeaPluginDescriptor> incompatiblePlugins,
+                                       final Collection<ExternalUpdate> externalUpdates,
                                        final boolean enableLink,
                                        final boolean alwaysShowResults) {
     final UpdateChannel channelToPropose = checkForUpdateResult.getChannelToPropose();
@@ -612,7 +649,27 @@ public final class UpdateChecker {
           }
         }, ", ");
         String message = IdeBundle.message("updates.plugins.ready.message", updatedPlugins.size(), plugins);
+
         showNotification(project, message, false, runnable);
+      }
+    }
+    if (externalUpdates != null && !externalUpdates.isEmpty()) {
+      for (ExternalUpdate update : externalUpdates) {
+        final Collection<UpdatableExternalComponent> components = update.getComponents();
+        String updates = StringUtil.join(components, new Function<UpdatableExternalComponent, String>() {
+          @Override
+          public String fun(UpdatableExternalComponent c) {
+            return c.getName();
+          }
+        }, ", ");
+        final ExternalComponentSource site = update.getSource();
+        String message = String.format("%d external components ready for <a href=\"update\">update</a>: %s", components.size(), updates);
+        showNotification(project, message, false, new Runnable() {
+          @Override
+          public void run() {
+            site.installUpdates(components);
+          }
+        });
       }
     }
     else if (alwaysShowResults) {
