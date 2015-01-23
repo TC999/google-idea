@@ -46,6 +46,30 @@
       "revId": "b2c8cb2e00adf0fd5a1443f3f11b3313bd4519e1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b75533d_cef0a3f5",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/PreferredProducerFind.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-01-23T16:06:36Z",
+      "side": 1,
+      "message": "Until we switch to Java 8 and closures, I personally this is more readable...  (Besides, the IntelliJ codebase is not very functional-programming oriented to begin with. There are multiple other filter steps in this method which all use the same iterator approach.)",
+      "parentUuid": "0b27774c_d3fa9482",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 20
+      },
+      "revId": "b2c8cb2e00adf0fd5a1443f3f11b3313bd4519e1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
