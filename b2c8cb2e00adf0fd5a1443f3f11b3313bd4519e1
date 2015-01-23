@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b27774c_d3fa9482",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/PreferredProducerFind.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-01-23T15:52:02Z",
+      "side": 1,
+      "message": "Nit: You could make ConfigurationFilter build a Condition\u003cConfigurationFromContext\u003e and use ContainerUtil.filter.",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 20
+      },
+      "revId": "b2c8cb2e00adf0fd5a1443f3f11b3313bd4519e1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
