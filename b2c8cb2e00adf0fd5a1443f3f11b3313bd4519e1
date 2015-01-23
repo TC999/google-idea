@@ -22,6 +22,30 @@
       "revId": "b2c8cb2e00adf0fd5a1443f3f11b3313bd4519e1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b724f59_edf565e2",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/PreferredProducerFind.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-01-23T16:04:13Z",
+      "side": 1,
+      "message": "Ah, good to know about that option!\n\nI\u0027m actually using a pattern that JB uses again right below, so I think I\u0027d leave this one here for consistency.",
+      "parentUuid": "0b27774c_d3fa9482",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 20
+      },
+      "revId": "b2c8cb2e00adf0fd5a1443f3f11b3313bd4519e1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
