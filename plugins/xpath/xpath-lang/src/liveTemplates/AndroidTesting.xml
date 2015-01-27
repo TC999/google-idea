@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateSet group="AndroidTesting">
+  <template name="testWriteToParcel" value="public void testWriteToParcel() {&#10;    $classUnderTest$ initialInput = $initializeClassUnderTest$;&#10;    Parcel dest = Parcel.obtain();&#10;    initialInput.writeToParcel(dest, 0);&#10;    dest.setDataPosition(0);&#10;    $classUnderTest$ unparcelled = $classUnderTest$.CREATOR.createFromParcel(dest);&#10;    assertEquals(initialInput, unparcelled);&#10;}" description="Writes a Parcelable to a Parcel, tries to retreive it and compares the result with the input." toReformat="true" toShortenFQNames="true">
+    <variable name="classUnderTest" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="initializeClassUnderTest" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+</templateSet>
+
