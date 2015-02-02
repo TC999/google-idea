@@ -93,7 +93,6 @@ public class CreateTestDialog extends DialogWrapper {
   private JCheckBox myGenerateAfterBox;
   private JCheckBox myShowInheritedMethodsBox;
   private MemberSelectionTable myMethodsTable;
-  private JButton myFixLibraryButton;
   private JPanel myFixLibraryPanel;
   private JLabel myFixLibraryLabel;
 
@@ -165,22 +164,6 @@ public class CreateTestDialog extends DialogWrapper {
       myDefaultLibraryButton = myLibraryButtons.get(0);
     }
 
-    myFixLibraryButton = new JButton(CodeInsightBundle.message("intention.create.test.dialog.fix.library"));
-    myFixLibraryButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-          public void run() {
-            if (mySelectedFramework instanceof JavaTestFramework) {
-              ((JavaTestFramework)mySelectedFramework).setupLibrary(myTargetModule);
-            } else {
-              OrderEntryFix.addJarToRoots(mySelectedFramework.getLibraryPath(), myTargetModule, null);
-            }
-          }
-        });
-        myFixLibraryPanel.setVisible(false);
-      }
-    });
-
     myTargetClassNameField = new EditorTextField(targetClass.getName() + "Test");
     myTargetClassNameField.getDocument().addDocumentListener(new DocumentAdapter() {
       @Override
@@ -240,8 +223,6 @@ public class CreateTestDialog extends DialogWrapper {
       myFixLibraryPanel.setVisible(true);
       String text = CodeInsightBundle.message("intention.create.test.dialog.library.not.found", descriptor.getName());
       myFixLibraryLabel.setText(text);
-
-      myFixLibraryButton.setVisible(descriptor.getLibraryPath() != null);
     }
 
     String superClass = descriptor.getDefaultSuperClass();
@@ -346,7 +327,6 @@ public class CreateTestDialog extends DialogWrapper {
     myFixLibraryLabel = new JLabel();
     myFixLibraryLabel.setIcon(AllIcons.Actions.IntentionBulb);
     myFixLibraryPanel.add(myFixLibraryLabel, BorderLayout.CENTER);
-    myFixLibraryPanel.add(myFixLibraryButton, BorderLayout.EAST);
 
     constr.insets = insets(1);
     constr.gridy = gridy++;
