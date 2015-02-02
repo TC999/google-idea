@@ -241,7 +241,13 @@ public class CreateTestDialog extends DialogWrapper {
       String text = CodeInsightBundle.message("intention.create.test.dialog.library.not.found", descriptor.getName());
       myFixLibraryLabel.setText(text);
 
+      /* Android Studio: All dependencies have to be declared in build.gradle,
+         the dependency added by the button is removed by the next sync.
+
       myFixLibraryButton.setVisible(descriptor.getLibraryPath() != null);
+
+      */
+      myFixLibraryButton.setVisible(false);
     }
 
     String superClass = descriptor.getDefaultSuperClass();
