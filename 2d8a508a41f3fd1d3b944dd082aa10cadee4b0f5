@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c0c4078_32932e43",
+        "filename": "plugins/gradle/src/META-INF/gradle-maven-integration.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-02-05T05:53:31Z",
+      "side": 1,
+      "message": "Same as https://android-review.googlesource.com/119065",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 8
+      },
+      "revId": "2d8a508a41f3fd1d3b944dd082aa10cadee4b0f5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
