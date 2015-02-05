@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
 /*
  * Copyright 2000-2012 JetBrains s.r.o.
  *
@@ -107,3 +108,5 @@ public class SendStatisticsProjectComponent implements ProjectComponent {
     return SendStatisticsProjectComponent.class.getName();
   }
 }
+=======
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)

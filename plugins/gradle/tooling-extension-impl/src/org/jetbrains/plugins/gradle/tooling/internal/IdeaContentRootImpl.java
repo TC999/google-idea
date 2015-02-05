@@ -61,7 +61,17 @@ public class IdeaContentRootImpl implements ExtIdeaContentRoot {
 
   @Override
   public DomainObjectSet<? extends IdeaSourceDirectory> getGeneratedSourceDirectories() {
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
     return ImmutableDomainObjectSet.of(Collections.<IdeaSourceDirectory>emptyList());
+=======
+    List<IdeaSourceDirectory> generatedSourceDirectories = new ArrayList<IdeaSourceDirectory>();
+    for (IdeaSourceDirectory sourceDirectory : mySourceDirectories) {
+      if(sourceDirectory.isGenerated()) {
+        generatedSourceDirectories.add(sourceDirectory);
+      }
+    }
+    return ImmutableDomainObjectSet.of(generatedSourceDirectories);
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
   }
 
   public void addTestDirectory(IdeaSourceDirectory testDirectory) {
@@ -87,7 +97,17 @@ public class IdeaContentRootImpl implements ExtIdeaContentRoot {
 
   @Override
   public DomainObjectSet<? extends IdeaSourceDirectory> getGeneratedTestDirectories() {
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
     return ImmutableDomainObjectSet.of(Collections.<IdeaSourceDirectory>emptyList());
+=======
+    List<IdeaSourceDirectory> generatedTestDirectories = new ArrayList<IdeaSourceDirectory>();
+    for (IdeaSourceDirectory sourceDirectory : myTestDirectories) {
+      if(sourceDirectory.isGenerated()) {
+        generatedTestDirectories.add(sourceDirectory);
+      }
+    }
+    return ImmutableDomainObjectSet.of(generatedTestDirectories);
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
   }
 
   @Override

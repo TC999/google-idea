@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2014 JetBrains s.r.o.
+ * Copyright 2000-2015 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,26 @@
  */
 import static org.jetbrains.jps.idea.IdeaProjectLoader.guessHome
 
-includeTargets << new File("${guessHome(this)}/build/scripts/common_tests.gant")
+def home = guessHome(this)
 
-setProperty("testcases", ["com.intellij.AllTests"])
+includeTargets << new File("${home}/build/scripts/common_tests.gant")
 
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
 def isMac = System.getProperty("os.name").toLowerCase().startsWith("mac")
 def args = [
         "-Xmx1024m",
         "-XX:MaxPermSize=630m",
         "-XX:ReservedCodeCacheSize=96m"
+=======
+if ("GIT_TESTS".equalsIgnoreCase(System.getProperty("idea.test.group"))) {
+  setProperty("cucumber_test_dirs", [["git4idea", "Idea", "${home}/plugins/git4idea/test-features/git4idea", "git4idea"]])
+}
+
+def args = [
+  "-Xmx450m",
+  "-XX:MaxPermSize=430m",
+  "-XX:ReservedCodeCacheSize=96m"
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
 ]
 
 if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
@@ -31,6 +42,9 @@ if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
   if (vendor != null && vendor.toLowerCase().contains("apple")) {
     args << "-d32"
   }
+  args << "-Dfile.encoding=UTF-8"
 };
 
 setProperty("jvm_args", args)
+
+setProperty("testcases", ["com.intellij.AllTests"])

@@ -40,6 +40,10 @@
           <root url="jar://$MODULE_DIR$/lib/gradle-base-services-groovy-2.2.jar!/" />
           <root url="jar://$MODULE_DIR$/lib/gradle-native-2.2.jar!/" />
           <root url="jar://$MODULE_DIR$/lib/gradle-resources-2.2.jar!/" />
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
+=======
+          <root url="jar://$MODULE_DIR$/lib/gradle-cli-2.2.jar!/" />
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
         </CLASSES>
         <JAVADOC />
         <SOURCES>
@@ -53,6 +57,10 @@
           <root url="jar://$MODULE_DIR$/lib/gradle-2.2-src.zip!/gradle-2.2/subprojects/base-services-groovy/src/main/groovy" />
           <root url="jar://$MODULE_DIR$/lib/gradle-2.2-src.zip!/gradle-2.2/subprojects/native/src/main/java" />
           <root url="jar://$MODULE_DIR$/lib/gradle-2.2-src.zip!/gradle-2.2/subprojects/resources/src/main/java" />
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
+=======
+          <root url="jar://$MODULE_DIR$/lib/gradle-2.2-src.zip!/gradle-2.2/subprojects/cli/src/main/java" />
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
         </SOURCES>
       </library>
     </orderEntry>
@@ -116,4 +124,8 @@
     <orderEntry type="library" name="Ant" level="project" />
     <orderEntry type="library" name="gson" level="project" />
   </component>
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
 </module>
+=======
+</module>
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)

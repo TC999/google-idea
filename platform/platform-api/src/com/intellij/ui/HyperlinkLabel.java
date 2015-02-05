@@ -84,6 +84,7 @@ public class HyperlinkLabel extends HighlightableComponent {
     enforceBackgroundOutsideText(textBackgroundColor);
     setHyperlinkText(text);
     enableEvents(AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK);
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
     setFocusable(true);
     addFocusListener(new FocusListener() {
       @Override
@@ -106,6 +107,9 @@ public class HyperlinkLabel extends HighlightableComponent {
         }
       }
     });
+=======
+    setOpaque(false);
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
   }
 
   public void addNotify() {

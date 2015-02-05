@@ -15,7 +15,6 @@
  */
 package org.jetbrains.plugins.gradle.tooling.builder;
 
-import groovy.lang.GroovyObject;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.SourceSet;
@@ -134,12 +133,19 @@ public class ModuleExtendedModelBuilderImpl implements ModelBuilderService {
     final Set<String> ideaSourceDirectories = new HashSet<String>();
     final Set<String> ideaTestDirectories = new HashSet<String>();
     final Set<String> ideaGeneratedDirectories = new HashSet<String>();
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
     final Set<String> ideaExtResourceDirectories = new HashSet<String>();
     final Set<String> ideaExtTestResourceDirectories = new HashSet<String>();
+=======
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
     final Set<File> excludeDirectories = new HashSet<File>();
 
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
     enrichDataFromIdeaPlugin(project, excludeDirectories, ideaSourceDirectories, ideaTestDirectories,
                              ideaExtResourceDirectories, ideaExtTestResourceDirectories, ideaGeneratedDirectories);
+=======
+    enrichDataFromIdeaPlugin(project, excludeDirectories, ideaSourceDirectories, ideaTestDirectories, ideaGeneratedDirectories);
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
 
     if (ideaSourceDirectories.isEmpty()) {
       sourceDirectories.clear();
@@ -155,11 +161,6 @@ public class ModuleExtendedModelBuilderImpl implements ModelBuilderService {
     sourceDirectories.addAll(ideaSourceDirectories);
     ideaTestDirectories.removeAll(testResourceDirectories);
     testDirectories.addAll(ideaTestDirectories);
-
-    resourceDirectories.removeAll(ideaExtTestResourceDirectories);
-    resourceDirectories.addAll(ideaExtResourceDirectories);
-    testResourceDirectories.removeAll(ideaExtResourceDirectories);
-    testResourceDirectories.addAll(ideaExtTestResourceDirectories);
 
     // ensure disjoint directories with different type
     resourceDirectories.removeAll(sourceDirectories);
@@ -224,8 +225,11 @@ public class ModuleExtendedModelBuilderImpl implements ModelBuilderService {
                                                Set<File> excludeDirectories,
                                                Set<String> javaDirectories,
                                                Set<String> testDirectories,
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
                                                Set<String> ideaExtResourceDirectories,
                                                Set<String> ideaExtTestResourceDirectories,
+=======
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
                                                Set<String> ideaGeneratedDirectories) {
 
     IdeaPlugin ideaPlugin = project.getPlugins().getPlugin(IdeaPlugin.class);
@@ -247,6 +251,7 @@ public class ModuleExtendedModelBuilderImpl implements ModelBuilderService {
     if(GradleVersion.current().compareTo(GradleVersion.version("2.2")) >=0) {
       for (File file : ideaModel.getModule().getGeneratedSourceDirs()) {
         ideaGeneratedDirectories.add(file.getPath());
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
       }
     }
 
@@ -265,9 +270,9 @@ public class ModuleExtendedModelBuilderImpl implements ModelBuilderService {
         else if (o instanceof String) {
           directories.add((String)o);
         }
+=======
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
       }
     }
-
-    return directories;
   }
 }

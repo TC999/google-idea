@@ -22,9 +22,13 @@ import com.intellij.internal.statistic.connect.StatisticsService;
 import com.intellij.internal.statistic.persistence.UsageStatisticsPersistenceComponent;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.ApplicationNamesInfo;
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.HyperlinkLabel;
 import com.intellij.util.ui.UIUtil;
+=======
+import com.intellij.ui.RelativeFont;
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -42,19 +46,26 @@ public class StatisticsConfigurationComponent {
   private JRadioButton myMonthlyRadioButton;
   private JRadioButton myWeeklyRadioButton;
   private JLabel myLabel;
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
   private JPanel myRadioButtonPanel;
   private HyperlinkLabel myHyperLink;
+=======
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
 
   public StatisticsConfigurationComponent() {
     String product = ApplicationNamesInfo.getInstance().getFullProductName();
     String company = ApplicationInfo.getInstance().getCompanyName();
     myTitle.setText(StatisticsBundle.message("stats.title", product, company));
     myLabel.setText(StatisticsBundle.message("stats.config.details", company));
+<<<<<<< HEAD   (1507ab Merge "Add a hyper link label to the Usage Statistics dialog)
 
     String linkUrl = null;
     String linkBeforeText = null;
     String linkText = null;
     String linkAfterText = null;
+=======
+    RelativeFont.SMALL.install(myLabel);
+>>>>>>> BRANCH (528b35 Snapshot idea/140.2110 from git://git.jetbrains.org/idea/com)
 
     myAllowToSendUsagesCheckBox.setText(StatisticsBundle.message("stats.config.allow.send.stats.text", company));
     myAllowToSendUsagesCheckBox.addActionListener(new ActionListener() {
