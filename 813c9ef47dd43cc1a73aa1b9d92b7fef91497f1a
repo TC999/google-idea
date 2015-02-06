@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c64949b_0849c7ef",
+        "filename": "platform/platform-api/src/com/intellij/ui/HyperlinkLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-02-06T23:56:38Z",
+      "side": 1,
+      "message": "remove?",
+      "revId": "813c9ef47dd43cc1a73aa1b9d92b7fef91497f1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
