@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c7c94f2_2819eba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-02-06T00:00:42Z",
+      "side": 1,
+      "message": "Could we make the commit messages a bit more generic, something like:\n\n\"\nSupport additional test result states\n\nErrors like this could happen while running tests on a cloud infrastructure.\n\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "af706fa55d615684e8acee0f67917d0297e3b0bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
