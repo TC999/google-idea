@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51abe79d_feb2e115",
+        "filename": ".idea/libraries/lib.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-02-09T23:23:51Z",
+      "side": 1,
+      "message": "1. I think these should be split out\n2. We should not duplicate the jars that already used by the Google login plugin\n\nI suspect both these plugins require the same functionality (to be able to talk to Google using Google APIs, so there is probably a lot of redundancy here).",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 17
+      },
+      "revId": "52aa58e1cd3a358a64bc6602ef04da19d5cd3b29",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
