@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1197af55_4c28ff2e",
+        "filename": ".idea/runConfigurations/AndroidStudio.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-02-09T22:03:12Z",
+      "side": 1,
+      "message": "if we want to enable this by default, then let\u0027s just remove this setting from here.",
+      "range": {
+        "startLine": 5,
+        "startChar": 447,
+        "endLine": 5,
+        "endChar": 451
+      },
+      "revId": "17d0341892fc389414c0d6763e78213a519cb520",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
