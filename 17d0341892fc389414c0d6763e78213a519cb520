@@ -22,6 +22,30 @@
       "revId": "17d0341892fc389414c0d6763e78213a519cb520",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b187c328_e9f0b598",
+        "filename": ".idea/runConfigurations/AndroidStudio.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1052828
+      },
+      "writtenOn": "2015-02-09T22:08:44Z",
+      "side": 1,
+      "message": "Let\u0027s remove these settings and thus, hide by default. I will update the CL accordingly.",
+      "parentUuid": "1197af55_4c28ff2e",
+      "range": {
+        "startLine": 5,
+        "startChar": 447,
+        "endLine": 5,
+        "endChar": 451
+      },
+      "revId": "17d0341892fc389414c0d6763e78213a519cb520",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
