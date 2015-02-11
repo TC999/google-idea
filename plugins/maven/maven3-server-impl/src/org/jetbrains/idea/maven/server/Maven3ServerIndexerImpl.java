@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (af35da Merge "Added google-cloud-testing plugin to layout and IDEA )
 /*
  * Copyright 2000-2010 JetBrains s.r.o.
  *
@@ -394,3 +395,5 @@ public class Maven3ServerIndexerImpl extends MavenRemoteObject implements MavenS
     }
   }
 }
+=======
+>>>>>>> BRANCH (b61dcc Snapshot idea/140.2285 from git://git.jetbrains.org/idea/com)

@@ -173,6 +173,11 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   buildWinZip(winAppRoot, winZip, [paths.distAll, paths.distWin])
   buildTarGz(linTarRoot, linTar, [paths.distAll, paths.distUnix])
   buildMacZip(macAppRoot, macZip, [paths.distAll], paths.distMac)
+<<<<<<< HEAD   (af35da Merge "Added google-cloud-testing plugin to layout and IDEA )
+=======
+
+  buildTarGz("idea-${args.buildNumber}", "$paths.artifacts/idea${args.buildNumber}.tar", [paths.distAll, paths.distUnix])
+>>>>>>> BRANCH (b61dcc Snapshot idea/140.2285 from git://git.jetbrains.org/idea/com)
 }
 
 private layoutWin(Map _args, String home, Paths paths) {
