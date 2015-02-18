@@ -93,10 +93,15 @@ target('default': 'The default target') {
              ide_jvm_args: "-Didea.platform.prefix=AndroidStudio",
              tools_jar: true],
             home, null, paths, true)
+<<<<<<< HEAD   (09d470 Merge "Fixes NPE when getting a process handler returns an e)
 
   // Generate updater.jar from the updater module (patch updater)
   projectBuilder.stage("Generating updater in $out")
   layoutUpdater(out)
+=======
+  String macZip = "$paths.artifacts/ideaIC-${snapshot}.mac.zip"
+  notifyArtifactBuilt(macZip)
+>>>>>>> BRANCH (a9fcb1 Snapshot idea/140.2493 from git://git.jetbrains.org/idea/com)
 }
 
 target('build-dist-jars' : 'Target to build jars from locally compiled classes') {
@@ -110,6 +115,8 @@ target('build-dist-jars' : 'Target to build jars from locally compiled classes')
              system_selector: "IdeaIC${p("component.version.major")}",
              tools_jar: true],
              home, null, paths)
+  String macZip = "$paths.artifacts/ideaIC-${snapshot}.mac.zip"
+  notifyArtifactBuilt(macZip)
 }
 
 private void indexSearchableOptions() {
@@ -225,7 +232,11 @@ private layoutMac(Map _args, String home, Paths paths) {
   args."idea.properties.path" = "${paths.distAll}/bin/idea.properties"
   args.urlSchemes = ["idea"]
   args.mac_no_yjp = true
+<<<<<<< HEAD   (09d470 Merge "Fixes NPE when getting a process handler returns an e)
 
+=======
+  args.executable = "idea"
+>>>>>>> BRANCH (a9fcb1 Snapshot idea/140.2493 from git://git.jetbrains.org/idea/com)
   layoutMacApp(target, home, args)
 }
 
