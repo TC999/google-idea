@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5cb393b_cbfb35ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-02-24T01:53:22Z",
+      "side": 1,
+      "message": "typo, also in line 9",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "a0f9de7ea6925d9e38bd52690a680267565a6a06",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5cb393b_4b30a5e1",
+        "filename": "platform/core-impl/src/com/intellij/openapi/application/impl/ApplicationInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-02-24T01:53:22Z",
+      "side": 1,
+      "message": "nit: *If it is trivial*, then it\u0027d be good to see a set of test cases for this. Otherwise, maybe a javadoc.",
+      "range": {
+        "startLine": 239,
+        "startChar": 16,
+        "endLine": 239,
+        "endChar": 30
+      },
+      "revId": "a0f9de7ea6925d9e38bd52690a680267565a6a06",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5cb393b_2b3999fb",
+        "filename": "platform/core-impl/src/com/intellij/openapi/application/impl/ApplicationInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-02-24T01:53:22Z",
+      "side": 1,
+      "message": "nit: !isEmpty(), also line 244",
+      "range": {
+        "startLine": 242,
+        "startChar": 54,
+        "endLine": 242,
+        "endChar": 66
+      },
+      "revId": "a0f9de7ea6925d9e38bd52690a680267565a6a06",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5cb393b_0b985d8b",
+        "filename": "platform/core-impl/src/com/intellij/openapi/application/impl/ApplicationInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-02-24T01:53:22Z",
+      "side": 1,
+      "message": "would there be a NPE or is it expected that all of these will be defined?\n\nI guess I\u0027m not following why the getFullVersion name does 2 things differently:\n - you do getMajorVersion() instead of just myMajorVersion here\n - it checks for nulls, but not this method",
+      "range": {
+        "startLine": 261,
+        "startChar": 11,
+        "endLine": 261,
+        "endChar": 25
+      },
+      "revId": "a0f9de7ea6925d9e38bd52690a680267565a6a06",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
