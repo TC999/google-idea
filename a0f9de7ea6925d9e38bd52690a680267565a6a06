@@ -163,6 +163,30 @@
       "revId": "a0f9de7ea6925d9e38bd52690a680267565a6a06",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "258ab12f_adf87dce",
+        "filename": "platform/core-impl/src/com/intellij/openapi/application/impl/ApplicationInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-02-24T18:36:08Z",
+      "side": 1,
+      "message": "Seems like we should take the simpler approach - just keep this as is. But I\u0027m still curious about why getFullVersion() handles nulls differently.",
+      "parentUuid": "65a82991_cf277dd5",
+      "range": {
+        "startLine": 261,
+        "startChar": 11,
+        "endLine": 261,
+        "endChar": 25
+      },
+      "revId": "a0f9de7ea6925d9e38bd52690a680267565a6a06",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
