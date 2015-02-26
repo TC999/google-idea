@@ -18,12 +18,14 @@ package com.intellij.ui.treeStructure.treetable;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.util.ui.tree.WideSelectionTreeUI;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -99,7 +101,7 @@ public class TreeTableTree extends Tree {
   public void setVisibleRow(int row) {
     myVisibleRow  = row;
     final Rectangle rowBounds = getRowBounds(myVisibleRow);
-    final int indent = rowBounds.x - getVisibleRect().x;
+    final int indent = rowBounds.x - getVisibleRect().x - getTreeColumnOffset();
     setPreferredSize(new Dimension(getRowBounds(myVisibleRow).width + indent, getPreferredSize().height));
   }
 
@@ -123,4 +125,30 @@ public class TreeTableTree extends Tree {
     );
   }
 
+  @Nullable
+  @Override
+  public Rectangle getPathBounds(TreePath path) {
+    Rectangle bounds = super.getPathBounds(path);
+    if (bounds == null) {
+      return null;
+    }
+    int columnOffset = getTreeColumnOffset();
+    if (columnOffset != -1) {
+      bounds.x += columnOffset;
+    }
+    return bounds;
+  }
+
+  public int getTreeColumnOffset() {
+    int dx = 0;
+    boolean found = false;
+    for (int i = 0; i < myTreeTable.getColumnCount(); i++) {
+      if (TreeTableModel.class.isAssignableFrom(myTreeTable.getColumnClass(i))) {
+        found = true;
+        break;
+      }
+      dx += myTreeTable.getColumnModel().getColumn(i).getWidth();
+    }
+    return found ? dx : -1;
+  }
 }
