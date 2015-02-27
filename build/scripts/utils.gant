@@ -65,6 +65,7 @@ binding.setVariable("isEap", {
 binding.setVariable("mem32", "-server -Xms128m -Xmx512m -XX:MaxPermSize=250m -XX:ReservedCodeCacheSize=150m")
 binding.setVariable("mem64", "-Xms128m -Xmx750m -XX:MaxPermSize=350m -XX:ReservedCodeCacheSize=225m")
 binding.setVariable("common_vmoptions", "-XX:+UseConcMarkSweepGC -XX:SoftRefLRUPolicyMSPerMB=50 -ea " +
+                                        "-Djna.nosys=true -Djna.boot.library.path=  -Djna.debug_load=true -Djna.debug_load.jna=true " +
                                         "-Dsun.io.useCanonCaches=false -Djava.net.preferIPv4Stack=true")
 
 binding.setVariable("vmOptions", { "$common_vmoptions ${isEap() ? '-XX:+HeapDumpOnOutOfMemoryError' : ''}".trim() })
@@ -184,7 +185,8 @@ projectBuilder.compressJars = false
 
 binding.setVariable("notifyArtifactBuilt", { String artifactPath ->
   if (!artifactPath.startsWith(home)) {
-    projectBuilder.error("Artifact path $artifactPath should start with $home")
+    projectBuilder.info("Artifact path $artifactPath should start with $home")
+    return
   }
   def relativePath = artifactPath.substring(home.length())
   if (relativePath.startsWith("/")) {
@@ -431,6 +433,9 @@ binding.setVariable("layoutMacApp", { String path, String ch, Map args ->
     replacefilter(token: "@@product_state@@", value: EAP)
     replacefilter(token: "@@bundle_identifier@@", value: args.bundleIdentifier)
     replacefilter(token: "@@year@@", value: "$todayYear")
+    replacefilter(token: "@@company_name@@", value: p("component.company.name"))
+    replacefilter(token: "@@min_year@@", value: "2000")
+    replacefilter(token: "@@max_year@@", value: "$todayYear")
     replacefilter(token: "@@version@@", value: version)
     replacefilter(token: "@@vmoptions@@", value: vmOptions)
     replacefilter(token: "@@idea_properties@@", value: coreProperties)
@@ -864,6 +869,7 @@ private void fixIdeaPropertiesEol(List paths, String eol) {
 binding.setVariable("buildWinLauncher", { String ch, String inputPath, String outputPath, String appInfo,
                                           String launcherProperties, String pathsSelector, List resourcePaths ->
   projectBuilder.stage("winLauncher")
+  projectBuilder.stage("resourcePaths: " + resourcePaths)
 
   if (pathsSelector != null) {
     def paths = getProperty("paths")

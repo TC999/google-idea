@@ -19,6 +19,12 @@ import static org.jetbrains.jps.idea.IdeaProjectLoader.guessHome
 includeTargets << new File("${guessHome(this)}/build/scripts/utils.gant")
 
 requireProperty("out", "$home/out")
+requireProperty("buildNumber", "SNAPSHOT")
+
+// "out" has to be canonical, otherwise the ant build fails
+// with mysterious errors
+out = new File(out).getCanonicalPath()
+setProperty("out", out)
 
 class Paths {
   final sandbox
@@ -49,26 +55,29 @@ class Paths {
 def paths = new Paths(out)
 setProperty("paths", paths)
 
-setProperty("maySkipAndroidPlugin", true)
+def products = includeFile("$home/build/scripts/products.gant")
+setProperty("products", products)
+
+setProperty("maySkipAndroidPlugin", products.pp("maySkipAndroidPlugin"))
 
 target(compile: "Compile project") {
   loadProject()
 
   projectBuilder.stage("Cleaning up sandbox folder")
-  forceDelete(paths.sandbox)
+//  forceDelete(paths.sandbox)
 
   [paths.sandbox, paths.distWin, paths.distAll, paths.distUnix, paths.distMac, paths.artifacts, paths.artifacts_core, paths.artifacts_jps].each {
     ant.mkdir(dir: it)
   }
 
   projectBuilder.targetFolder = "$out/classes"
-  projectBuilder.cleanOutput()
-  projectBuilder.buildProduction()
-  projectBuilder.makeModuleTests(findModule("jps-builders"))
+//  projectBuilder.cleanOutput()
+//  projectBuilder.buildProduction()
+//  projectBuilder.makeModuleTests(findModule("jps-builders"))
 }
 
 private String appInfoFile() {
-  return "${projectBuilder.moduleOutput(findModule("community-resources"))}/idea/IdeaApplicationInfo.xml"
+  return products.pp("appInfoFile")()
 }
 
 target('default': 'The default target') {
@@ -81,11 +90,12 @@ target('default': 'The default target') {
 
   indexSearchableOptions()
 
-  layoutAll([buildNumber: "IC-$snapshot",
-             system_selector: "IdeaIC${p("component.version.major")}",
+  layoutAll([buildNumber: products.pp("buildNumber"),
+             system_selector: products.pp("systemSelector")(),
              tools_jar: true],
             home, null, paths, true)
-  String macZip = "$paths.artifacts/ideaIC-${snapshot}.mac.zip"
+  String macZipPrefix = products.pp("prefix") + products.pp("buildNumber")
+  String macZip = "$paths.artifacts/${macZipPrefix}.mac.zip"
   notifyArtifactBuilt(macZip)
 }
 
@@ -97,11 +107,12 @@ target('build-dist-jars' : 'Target to build jars from locally compiled classes')
 
   indexSearchableOptions()
 
-  layoutAll([buildNumber: "IC-$snapshot",
-             system_selector: "IdeaIC${p("component.version.major")}",
+  layoutAll([buildNumber: products.pp("buildNumber"),
+             system_selector: products.pp("systemSelector")(),
              tools_jar: true],
              home, null, paths)
-  String macZip = "$paths.artifacts/ideaIC-${snapshot}.mac.zip"
+  String macZipPrefix = products.pp("prefix") + products.pp("buildNumber")
+  String macZip = "$paths.artifacts/${macZipPrefix}.mac.zip"
   notifyArtifactBuilt(macZip)
 }
 
@@ -148,16 +159,15 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   layoutMac(args, home, paths)
   layoutUnix(args, home, paths)
 
-  buildWinZip("$paths.artifacts/idea${args.buildNumber}.win.zip", [paths.distAll, paths.distWin])
+  def productPrefix = products.pp("prefix")
+  buildWinZip("$paths.artifacts/$productPrefix${args.buildNumber}.win.zip", [paths.distAll, paths.distWin])
 
-  def macAppRoot = isEap() ?
-                   "IntelliJ IDEA ${p("component.version.major")} CE EAP.app/Contents" :
-                   "IntelliJ IDEA ${p("component.version.major")} CE.app/Contents"
+  def macAppRoot = products.pp("macAppRoot")()
 
-  String macZip = "$paths.artifacts/idea${args.buildNumber}.mac.zip"
+  String macZip = "$paths.artifacts/${productPrefix}${args.buildNumber}.mac.zip"
   buildMacZip(macAppRoot, macZip, [paths.distAll], paths.distMac)
 
-  buildTarGz("idea-${args.buildNumber}", "$paths.artifacts/idea${args.buildNumber}.tar", [paths.distAll, paths.distUnix])
+  buildTarGz("${productPrefix}-${args.buildNumber}", "$paths.artifacts/${productPrefix}${args.buildNumber}.tar", [paths.distAll, paths.distUnix])
 }
 
 private layoutWin(Map args, String home, Paths paths) {
@@ -173,7 +183,8 @@ private layoutWin(Map args, String home, Paths paths) {
 
   winScripts(target, home, "idea.bat", args)
   winVMOptions(target, null, "idea.exe", "idea64.exe")
-  List resourcePaths = ["$home/community-resources/src", "$home/platform/icons/src"]
+  def appInfoModulePath = products.pp("appInfoModulePath")
+  List resourcePaths = ["$home/${appInfoModulePath}/src", "$home/platform/icons/src"]
   buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/idea.exe", appInfoFile(),
                    "$home/build/conf/ideaCE-launcher.properties", args.ce_exe_selector, resourcePaths)
   buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/idea64.exe", appInfoFile(),
