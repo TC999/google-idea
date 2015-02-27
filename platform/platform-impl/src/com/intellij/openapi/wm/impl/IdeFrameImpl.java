@@ -28,10 +28,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataProvider;
 import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
 import com.intellij.openapi.actionSystem.impl.MouseGestureManager;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationInfo;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.application.*;
 import com.intellij.openapi.application.ex.ApplicationInfoEx;
 import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import com.intellij.openapi.project.DumbAwareRunnable;
@@ -58,6 +55,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.io.PowerSupplyKit;
 
+import javax.accessibility.Accessible;
+import javax.accessibility.AccessibleContext;
+import javax.accessibility.AccessibleRole;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -70,7 +70,7 @@ import java.io.File;
  * @author Anton Katilin
  * @author Vladimir Kondratyev
  */
-public class IdeFrameImpl extends JFrame implements IdeFrameEx, DataProvider {
+public class IdeFrameImpl extends JFrame implements IdeFrameEx, DataProvider, Accessible {
   public static final Key<Boolean> SHOULD_OPEN_IN_FULL_SCREEN = Key.create("should.open.in.full.screen");
 
   private static final String FULL_SCREEN = "FullScreen";
@@ -562,5 +562,39 @@ public class IdeFrameImpl extends JFrame implements IdeFrameEx, DataProvider {
   @Override
   public void toBack() {
     super.toBack();
+  }
+
+  @Override
+  public AccessibleContext getAccessibleContext() {
+    if (accessibleContext == null) {
+      accessibleContext = new IdeFrameAccessibleContext();
+    }
+
+    return accessibleContext;
+  }
+
+  private class IdeFrameAccessibleContext extends JFrame.AccessibleJFrame {
+    // Customize the name to make it shorter based on context, such that a user switching between applications doesn't
+    // have to listen to a long description like the following (which is the default) :
+    //   "myapplication/MainActivity.java - [myapplication4] - My Application - [~/IdeaProjects/MyApplication7]"
+    // The goal of this method is to
+    //   (1) Just say the current file name, if a file is showing in the editor, otherwise
+    //   (2) Just say the application name, if there is only one open project, otherwise
+    //   (3) Just say the project name
+    @Override
+    public String getAccessibleName() {
+      // For now, just the product name
+      return ApplicationNamesInfo.getInstance().getProductName();
+    }
+
+    @Override
+    public String getAccessibleDescription() {
+      // Make the description the full name instead (e.g. the default accessible name: the JFrame title
+      return IdeFrameImpl.this.getTitle();
+    }
+
+    public AccessibleRole getAccessibleRole() {
+      return AccessibleRole.FRAME;
+    }
   }
 }
