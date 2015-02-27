@@ -19,6 +19,12 @@ import static org.jetbrains.jps.idea.IdeaProjectLoader.guessHome
 includeTargets << new File("${guessHome(this)}/build/scripts/utils.gant")
 
 requireProperty("out", "$home/out")
+requireProperty("buildNumber", "SNAPSHOT")
+
+// "out" has to be canonical, otherwise the ant build fails
+// with mysterious errors
+out = new File(out).getCanonicalPath()
+setProperty("out", out)
 
 class Paths {
   final sandbox
@@ -49,7 +55,10 @@ class Paths {
 def paths = new Paths(out)
 setProperty("paths", paths)
 
-setProperty("maySkipAndroidPlugin", true)
+def products = includeFile("$home/build/scripts/products.gant")
+setProperty("products", products)
+
+setProperty("maySkipAndroidPlugin", products.pp("maySkipAndroidPlugin"))
 
 target(compile: "Compile project") {
   loadProject()
@@ -68,7 +77,7 @@ target(compile: "Compile project") {
 }
 
 private String appInfoFile() {
-  return "${projectBuilder.moduleOutput(findModule("community-resources"))}/idea/IdeaApplicationInfo.xml"
+  return products.pp("appInfoFile")()
 }
 
 target('default': 'The default target') {
@@ -81,11 +90,12 @@ target('default': 'The default target') {
 
   indexSearchableOptions()
 
-  layoutAll([buildNumber: "IC-$snapshot",
-             system_selector: "IdeaIC${p("component.version.major")}",
+  layoutAll([buildNumber: products.pp("buildNumber"),
+             system_selector: products.pp("systemSelector")(),
              tools_jar: true],
             home, null, paths, true)
-  String macZip = "$paths.artifacts/ideaIC-${snapshot}.mac.zip"
+  String macZipPrefix = products.pp("prefix") + products.pp("buildNumber")
+  String macZip = "$paths.artifacts/${macZipPrefix}.mac.zip"
   notifyArtifactBuilt(macZip)
 }
 
@@ -97,11 +107,12 @@ target('build-dist-jars' : 'Target to build jars from locally compiled classes')
 
   indexSearchableOptions()
 
-  layoutAll([buildNumber: "IC-$snapshot",
-             system_selector: "IdeaIC${p("component.version.major")}",
+  layoutAll([buildNumber: products.pp("buildNumber"),
+             system_selector: products.pp("systemSelector")(),
              tools_jar: true],
              home, null, paths)
-  String macZip = "$paths.artifacts/ideaIC-${snapshot}.mac.zip"
+  String macZipPrefix = products.pp("prefix") + products.pp("buildNumber")
+  String macZip = "$paths.artifacts/${macZipPrefix}.mac.zip"
   notifyArtifactBuilt(macZip)
 }
 
@@ -148,11 +159,10 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   layoutMac(args, home, paths)
   layoutUnix(args, home, paths)
 
-  buildWinZip("$paths.artifacts/idea${args.buildNumber}.win.zip", [paths.distAll, paths.distWin])
+  def productPrefix = products.pp("prefix")
+  buildWinZip("$paths.artifacts/$productPrefix${args.buildNumber}.win.zip", [paths.distAll, paths.distWin])
 
-  def macAppRoot = isEap() ?
-                   "IntelliJ IDEA ${p("component.version.major")} CE EAP.app/Contents" :
-                   "IntelliJ IDEA ${p("component.version.major")} CE.app/Contents"
+  def macAppRoot = products.pp("macAppRoot")()
 
   String macZip = "$paths.artifacts/idea${args.buildNumber}.mac.zip"
   buildMacZip(macAppRoot, macZip, [paths.distAll], paths.distMac)
