@@ -257,8 +257,9 @@ binding.setVariable("commonJvmArgsForTests", {
     "-Didea.home.path=$home",
     "-Didea.config.path=${p("teamcity.build.tempDir")}/config",
     "-Didea.system.path=${p("teamcity.build.tempDir")}/system",
-    "-Xdebug",
-    jdwp
+    // We don't want this on the Jenkins build server
+    // "-Xdebug",
+    // jdwp
   ]
 })
 
@@ -803,6 +804,15 @@ binding.setVariable("buildMacZip", { String zipRoot, String zipPath, List paths,
           exclude(name: it)
         }
         exclude(name: "bin/idea.properties")
+
+
+        // With version 10.9.5+ of Mac, only binary files should be in the Contents folder.
+        // IntelliJ does manage to sign these text files as binaries, but in such cases (where you are signing a text file),
+        // the code signatures are placed in extended file attributes that could easily get lost. So rather than code signing these files,
+        // we'll just move them into the recommended location inside Resources (see the zip action below)
+        exclude(name: "build.txt")
+        exclude(name: "LICENSE.txt")
+        exclude(name: "NOTICE.txt")
       }
     }
 
@@ -823,6 +833,7 @@ binding.setVariable("buildMacZip", { String zipRoot, String zipPath, List paths,
       zipfileset(dir: it, prefix: "$zipRoot/Resources") {
         include(name: "build.txt")
         include(name: "NOTICE.txt")
+        include(name: "LICENSE.txt")
       }
     }
 

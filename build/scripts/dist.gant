@@ -99,6 +99,10 @@ target('default': 'The default target') {
   String archiveName = products.pp("archiveName")()
   String macZip = "$paths.artifacts/${archiveName}.mac.zip"
   notifyArtifactBuilt(macZip)
+
+  // Generate updater.jar from the updater module (patch updater)
+  projectBuilder.stage("Generating updater in $out")
+  layoutUpdater(out)
 }
 
 target('build-dist-jars' : 'Target to build jars from locally compiled classes') {

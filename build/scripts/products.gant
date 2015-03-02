@@ -53,7 +53,7 @@ def pp(String property) {
     prefix: "studio",
     code: "AI",
     appInfoModule: "adt-branding",
-    appInfoModulePath: "android/adt-branding", // ../adt/idea/adt-branding
+    appInfoModulePath: "../adt/idea/adt-branding",
     appInfoFile: {-> "${projectBuilder.moduleOutput(findModule("adt-branding"))}/idea/AndroidStudioApplicationInfo.xml"},
     buildNumber: "AI-$snapshot".replaceAll("SNAPSHOT", p("buildNumber")),
     bundleIdentifier: "com.google.android.studio",
@@ -65,8 +65,8 @@ def pp(String property) {
     archiveName: { -> "android-studio-${buildNumber}"},
     ideJvmArgs: "-Didea.platform.prefix=AndroidStudio",
     maySkipAndroidPlugin: false,
-    relativeAndroidHome: "android", // ../adt/idea
-    relativeAndroidToolsBaseHome: "android/tools-base", // ../base
+    relativeAndroidHome: "../adt/idea",
+    relativeAndroidToolsBaseHome: "../base",
 
     excludedPlugins: ["ant", "ByteCodeViewer", "devkit", "eclipse", "javaFX", "uiDesigner", "xpath", "xslt-debugger"],
 
