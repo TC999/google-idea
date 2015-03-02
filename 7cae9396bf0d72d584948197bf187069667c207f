@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b26c2a16_56e5f421",
+        "filename": "build/scripts/dist.gant",
+        "patchSetId": 10
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-03-02T19:09:21Z",
+      "side": 1,
+      "message": "The bundle name and identifier get a \"-EAP\" suffix by default. This means that the app comes up as \"Android Studio EAP\" on a Mac. Do we want this behavior?",
+      "range": {
+        "startLine": 208,
+        "startChar": 7,
+        "endLine": 208,
+        "endChar": 23
+      },
+      "revId": "7cae9396bf0d72d584948197bf187069667c207f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
