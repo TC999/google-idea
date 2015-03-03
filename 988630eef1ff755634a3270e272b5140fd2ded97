@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2dfca22_3e4d894a",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 12
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-03-03T00:02:54Z",
+      "side": 1,
+      "message": "This is personal, but I\u0027d prefer to have empty functions in the products file than a null value. It simplifies the code here, and also makes it clearer in the products file that the null is not an arbitrary value, but a function.",
+      "range": {
+        "startLine": 266,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 18
+      },
+      "revId": "988630eef1ff755634a3270e272b5140fd2ded97",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
