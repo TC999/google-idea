@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "321d9af7_e0e57626",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-03-03T22:19:23Z",
+      "side": 1,
+      "message": "by re-launching the script if the IDE requests a restart.",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "58211a3f54efa50d748745eb54591bb8058508cb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1285f658_310190b7",
+        "filename": "bin/scripts/unix/idea.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-03-03T22:19:23Z",
+      "side": 1,
+      "message": "nice",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 4
+      },
+      "revId": "58211a3f54efa50d748745eb54591bb8058508cb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
