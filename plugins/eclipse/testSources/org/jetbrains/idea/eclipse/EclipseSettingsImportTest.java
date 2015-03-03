@@ -34,6 +34,7 @@ public class EclipseSettingsImportTest extends PlatformTestCase {
     assertNotNull(indentOptions);
     javaSettings.SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS = false;
     javaSettings.SPACE_WITHIN_ARRAY_INITIALIZER_BRACES = false;
+    javaSettings.SPACE_WITHIN_EMPTY_ARRAY_INITIALIZER_BRACES = true;
     javaSettings.ARRAY_INITIALIZER_RBRACE_ON_NEXT_LINE = true;
     javaSettings.SPACE_WITHIN_ANNOTATION_PARENTHESES = true;
     javaSettings.BLANK_LINES_AROUND_FIELD = -1;
@@ -151,6 +152,7 @@ public class EclipseSettingsImportTest extends PlatformTestCase {
 
       assertTrue(javaSettings.SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS);
       assertTrue(javaSettings.SPACE_WITHIN_ARRAY_INITIALIZER_BRACES);
+      assertFalse(javaSettings.SPACE_WITHIN_EMPTY_ARRAY_INITIALIZER_BRACES);
       assertFalse(javaSettings.ARRAY_INITIALIZER_RBRACE_ON_NEXT_LINE);
       assertFalse(javaSettings.SPACE_WITHIN_ANNOTATION_PARENTHESES);
       assertEquals(0, javaSettings.BLANK_LINES_AROUND_FIELD);

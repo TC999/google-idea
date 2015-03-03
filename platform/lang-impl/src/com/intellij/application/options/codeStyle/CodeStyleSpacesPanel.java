@@ -44,7 +44,8 @@ public class CodeStyleSpacesPanel extends OptionTreeWithPreviewPanel {
     initBooleanField("SPACE_BEFORE_ANOTATION_PARAMETER_LIST", ApplicationBundle.message("checkbox.spaces.annotation.parameters"), SPACES_BEFORE_PARENTHESES);
     initCustomOptions(SPACES_BEFORE_PARENTHESES);
 
-    initBooleanField("SPACE_AROUND_ASSIGNMENT_OPERATORS", ApplicationBundle.message("checkbox.spaces.assignment.operators"), SPACES_AROUND_OPERATORS);
+    initBooleanField("SPACE_AROUND_ASSIGNMENT_OPERATORS", ApplicationBundle.message("checkbox.spaces.assignment.operators"),
+                     SPACES_AROUND_OPERATORS);
     initBooleanField("SPACE_AROUND_LOGICAL_OPERATORS", ApplicationBundle.message("checkbox.spaces.logical.operators"), SPACES_AROUND_OPERATORS);
     initBooleanField("SPACE_AROUND_EQUALITY_OPERATORS", ApplicationBundle.message("checkbox.spaces.equality.operators"), SPACES_AROUND_OPERATORS);
     initBooleanField("SPACE_AROUND_RELATIONAL_OPERATORS", ApplicationBundle.message("checkbox.spaces.relational.operators"), SPACES_AROUND_OPERATORS);
@@ -82,6 +83,8 @@ public class CodeStyleSpacesPanel extends OptionTreeWithPreviewPanel {
     initBooleanField("SPACE_WITHIN_BRACES", ApplicationBundle.message("checkbox.spaces.within.braces"), SPACES_WITHIN);
     initBooleanField("SPACE_WITHIN_BRACKETS", ApplicationBundle.message("checkbox.spaces.within.brackets"), SPACES_WITHIN);
     initBooleanField("SPACE_WITHIN_ARRAY_INITIALIZER_BRACES", ApplicationBundle.message("checkbox.spaces.within.array.initializer.braces"), SPACES_WITHIN);
+    initBooleanField("SPACE_WITHIN_EMPTY_ARRAY_INITIALIZER_BRACES", ApplicationBundle.message("checkbox.spaces.within.empty.array.initializer.braces"), SPACES_WITHIN);
+
     initBooleanField("SPACE_WITHIN_PARENTHESES", ApplicationBundle.message("checkbox.spaces.within.parentheses"), SPACES_WITHIN);
     initBooleanField("SPACE_WITHIN_METHOD_CALL_PARENTHESES", ApplicationBundle.message("checkbox.spaces.checkbox.spaces.method.call.parentheses"), SPACES_WITHIN);
     initBooleanField(
