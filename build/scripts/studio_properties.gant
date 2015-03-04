@@ -1,0 +1,103 @@
+/*
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+def getProperties() {
+  return { key ->
+    def props = [prefix                      : "studio",
+                 code                        : "AI",
+                 appInfoModule               : "adt-branding",
+                 appInfoModulePath           : "../adt/idea/adt-branding",
+                 appInfoFile                 : { ->
+                   "${projectBuilder.moduleOutput(findModule("adt-branding"))}/idea/AndroidStudioApplicationInfo.xml"
+                 },
+                 buildNumber                 : "AI-$snapshot".replaceAll("SNAPSHOT", p("buildNumber")),
+                 bundleIdentifier            : "com.google.android.studio",
+                 systemSelector              : { -> "AndroidStudioPreview1.2" },
+                 platformPrefix              : "AndroidStudio",
+                 macAppRoot                  : { -> "Android Studio.app/Contents" },
+                 winAppRoot                  : { -> "android-studio" },
+                 linAppRoot                  : { -> "android-studio" },
+                 archiveName                 : { -> "android-studio-${buildNumber}" },
+                 ideJvmArgs                  : "-Didea.platform.prefix=AndroidStudio",
+                 maySkipAndroidPlugin        : false,
+                 relativeAndroidHome         : "../adt/idea",
+                 relativeAndroidToolsBaseHome: "../base",
+
+                 buildUpdater                : true,
+                 excludedPlugins             : ["ant", "ByteCodeViewer", "devkit", "eclipse", "javaFX", "uiDesigner", "xpath", "xslt-debugger"],
+                 customLayout                : { targetDirectory ->
+                   layout(targetDirectory) {
+                     dir("gradle") {
+                       dir("m2repository") {
+                         fileset(dir: "${home}/../../prebuilts/tools/common/offline-m2")
+                       }
+                     }
+
+                     dir("plugins") {
+                       dir("google-cloud-tools") {
+                         dir("lib") {
+                           jar("google-cloud-tools.jar") {
+                             module("google-cloud-tools")
+                           }
+                           dir("templates") {
+                             fileset(dir: "${home}/../studio/google/cloud/tools/resources/templates")
+                           }
+                           dir("clientTemplates") {
+                             fileset(dir: "${home}/../studio/google/cloud/tools/resources/clientTemplates")
+                           }
+                           fileset(dir: "${home}/../studio/google/cloud/tools/lib") {
+                             include(name: "**/*.jar")
+                           }
+                         }
+                       }
+
+                       dir("google-login") {
+                         dir("lib") {
+                           jar("google-login.jar") {
+                             module("google-login")
+                           }
+                           fileset(dir: "${home}/../studio/google/login/lib") {
+                             include(name: "**/*.jar")
+                           }
+                           // Additional libraries that need to be manually copied
+                           fileset(
+                                   file: "${home}/../../prebuilts/tools/common/google-api-java-client/1.8.0-rc/google-api-java-client-min-repackaged.jar")
+                         }
+                       }
+
+                       dir("google-cloud-testing") {
+                         dir("lib") {
+                           jar("google-cloud-testing.jar") {
+                             module("google-cloud-testing")
+                           }
+                           fileset(dir: "${home}/../studio/google/cloud/testing/lib") {
+                             include(name: "**/*.jar")
+                           }
+                         }
+                       }
+                     }
+                   }
+                   ant.unzip(src: "${home}/../external/gradle/gradle-2.2.1-bin.zip", dest: "${targetDirectory}/gradle")
+                 },
+
+                 icon128                     : "$home/../adt/idea/adt-branding/src/artwork/icon_AS_128.png",
+                 ico                         : "$home/../adt/idea/adt-branding/src/artwork/androidstudio.ico",
+                 icns                        : "$home/../adt/idea/adt-branding/src/artwork/AndroidStudio.icns",]
+
+    return props[key];
+  }
+}
+
