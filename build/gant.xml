@@ -48,9 +48,6 @@
   </taskdef>
 
   <target name="doGant">
-    <gant file="${gant.script}" target="${gant.target}">
-      <definition name="teamcity.build.tempDir" value="${teamcity.build.tempDir}"/>
-      <definition name="idea.test.patterns" value="${idea.test.patterns}"/>
-    </gant>
+    <gant file="${gant.script}" target="${gant.target}"/>
   </target>
 </project>
