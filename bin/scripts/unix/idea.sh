@@ -151,7 +151,7 @@ if [ "$IS_EAP" = "true" ]; then
   OS_NAME=`echo $OS_TYPE | "$TR" '[:upper:]' '[:lower:]'`
   AGENT_LIB="yjpagent-$OS_NAME$BITS"
   if [ -r "$IDE_BIN_HOME/lib$AGENT_LIB.so" ]; then
-    AGENT="-agentlib:$AGENT_LIB=disablej2ee,disablealloc,delay=10000,sessionname=@@system_selector@@"
+    AGENT="-agentlib:$AGENT_LIB=disablealloc,delay=10000,sessionname=@@system_selector@@"
   fi
 fi
 
@@ -165,6 +165,7 @@ fi
 # ---------------------------------------------------------------------
 # Run the IDE.
 # ---------------------------------------------------------------------
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
 LD_LIBRARY_PATH="$IDE_BIN_HOME:$LD_LIBRARY_PATH" "$JDK/bin/java" \
   $AGENT \
   "-Xbootclasspath/a:$IDE_HOME/lib/boot.jar" \
@@ -179,3 +180,21 @@ LD_LIBRARY_PATH="$IDE_BIN_HOME:$LD_LIBRARY_PATH" "$JDK/bin/java" \
   "$@"
 test $? -ne 88 && exit 0
 exec "$0" "$@"
+=======
+while true ; do
+  LD_LIBRARY_PATH="$IDE_BIN_HOME:$LD_LIBRARY_PATH" "$JDK/bin/java" \
+    $AGENT \
+    "-Xbootclasspath/a:$IDE_HOME/lib/boot.jar" \
+    -classpath "$CLASSPATH" \
+    $VM_OPTIONS "-Djb.vmOptionsFile=$VM_OPTIONS_FILES_USED" \
+    "-XX:ErrorFile=$HOME/java_error_in_@@product_uc@@_%p.log" \
+    -Djb.restart.code=88 -Didea.paths.selector=@@system_selector@@ \
+    $IDE_PROPERTIES_PROPERTY \
+    $IDE_JVM_ARGS \
+    $REQUIRED_JVM_ARGS \
+    $MAIN_CLASS_NAME \
+    "$@"
+  EC=$?
+  test $EC -ne 88 && exit $EC
+done
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)

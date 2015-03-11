@@ -1,9 +1,15 @@
 <component name="libraryTable">
   <library name="asm-tools">
     <CLASSES>
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/org/ow2/asm/asm-analysis/5.0.3/asm-analysis-5.0.3.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/m2/repository/org/ow2/asm/asm-tree/5.0.3/asm-tree-5.0.3.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/asm-5.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/android/android/lib/asm-analysis-5.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/android/android/lib/asm-tree-5.0.3.jar!/" />
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
     </CLASSES>
     <JAVADOC />
     <SOURCES>

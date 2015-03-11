@@ -15,50 +15,15 @@
  */
 package org.jetbrains.plugins.gradle.service.settings;
 
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.externalSystem.model.settings.LocationSettingType;
 import com.intellij.openapi.externalSystem.service.settings.AbstractExternalProjectSettingsControl;
 import com.intellij.openapi.externalSystem.service.settings.AbstractImportFromExternalSystemControl;
-import com.intellij.openapi.externalSystem.service.ui.ExternalSystemJdkComboBox;
 import com.intellij.openapi.externalSystem.util.ExternalSystemUiUtil;
 import com.intellij.openapi.externalSystem.util.PaintAwarePanel;
-import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.MessageType;
-import com.intellij.openapi.ui.TextComponentAccessor;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.components.JBLabel;
-import com.intellij.ui.components.JBRadioButton;
-import com.intellij.util.Alarm;
-import com.intellij.util.Consumer;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.ui.UIUtil;
-import org.gradle.util.GradleVersion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.plugins.gradle.service.GradleInstallationManager;
-import org.jetbrains.plugins.gradle.settings.DistributionType;
 import org.jetbrains.plugins.gradle.settings.GradleProjectSettings;
-import org.jetbrains.plugins.gradle.util.GradleBundle;
-import org.jetbrains.plugins.gradle.util.GradleConstants;
-import org.jetbrains.plugins.gradle.util.GradleUtil;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
-import static com.intellij.openapi.externalSystem.service.execution.ExternalSystemJdkUtil.USE_PROJECT_JDK;
 
 /**
  * @author Denis Zhdanov
@@ -66,6 +31,7 @@ import static com.intellij.openapi.externalSystem.service.execution.ExternalSyst
  */
 public class GradleProjectSettingsControl extends AbstractExternalProjectSettingsControl<GradleProjectSettings> {
 
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
   private static final long BALLOON_DELAY_MILLIS = TimeUnit.SECONDS.toMillis(1);
 
   @NotNull private final Alarm myAlarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD);
@@ -85,14 +51,22 @@ public class GradleProjectSettingsControl extends AbstractExternalProjectSetting
   private JBRadioButton             myUseBundledDistributionButton;
 
   private boolean myShowBalloonIfNecessary;
+=======
+  private final GradleProjectSettingsControlBuilder myBuilder;
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
 
   public GradleProjectSettingsControl(@NotNull GradleProjectSettings initialSettings) {
-    super(initialSettings);
-    myInstallationManager = ServiceManager.getService(GradleInstallationManager.class);
+    this(GradleSettingsControlProvider.get().getProjectSettingsControlBuilder(initialSettings));
+  }
+
+  public GradleProjectSettingsControl(@NotNull GradleProjectSettingsControlBuilder builder) {
+    super(null, builder.getInitialSettings(), builder.getExternalSystemSettingsControlCustomizer());
+    myBuilder = builder;
   }
 
   @Override
   protected void fillExtraControls(@NotNull PaintAwarePanel content, int indentLevel) {
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
     content.setPaintCallback(new Consumer<Graphics>() {
       @Override
       public void consume(Graphics graphics) {
@@ -206,27 +180,19 @@ public class GradleProjectSettingsControl extends AbstractExternalProjectSetting
       public void changedUpdate(DocumentEvent e) {
       }
     });
+=======
+    myBuilder.createAndFillControls(content, indentLevel);
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
   }
 
   @Override
   public boolean validate(@NotNull GradleProjectSettings settings) throws ConfigurationException {
-    String gradleHomePath = FileUtil.toCanonicalPath(myGradleHomePathField.getText());
-    if (myUseLocalDistributionButton.isSelected()) {
-      if (StringUtil.isEmpty(gradleHomePath)) {
-        myGradleHomeSettingType = LocationSettingType.UNKNOWN;
-        throw new ConfigurationException(GradleBundle.message("gradle.home.setting.type.explicit.empty", gradleHomePath));
-      }
-      else if (!myInstallationManager.isGradleSdkHome(new File(gradleHomePath))) {
-        myGradleHomeSettingType = LocationSettingType.EXPLICIT_INCORRECT;
-        new DelayedBalloonInfo(MessageType.ERROR, myGradleHomeSettingType, 0).run();
-        throw new ConfigurationException(GradleBundle.message("gradle.home.setting.type.explicit.incorrect", gradleHomePath));
-      }
-    }
-    return true;
+    return myBuilder.validate(settings);
   }
 
   @Override
   protected void applyExtraSettings(@NotNull GradleProjectSettings settings) {
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
     String gradleHomePath = FileUtil.toCanonicalPath(myGradleHomePathField.getText());
     if (StringUtil.isEmpty(gradleHomePath)) {
       settings.setGradleHome(null);
@@ -244,10 +210,14 @@ public class GradleProjectSettingsControl extends AbstractExternalProjectSetting
     } else if(myUseWrapperButton.isSelected()) {
       settings.setDistributionType(DistributionType.DEFAULT_WRAPPED);
     }
+=======
+    myBuilder.apply(settings);
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
   }
 
   @Override
   protected void updateInitialExtraSettings() {
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
     String gradleHomePath = FileUtil.toCanonicalPath(myGradleHomePathField.getText());
     getInitialSettings().setGradleHome(StringUtil.isEmpty(gradleHomePath) ? null : gradleHomePath);
     final String gradleJvm = FileUtil.toCanonicalPath(myGradleJdkComboBox.getSelectedValue());
@@ -257,10 +227,14 @@ public class GradleProjectSettingsControl extends AbstractExternalProjectSetting
     } else if(myUseWrapperButton.isSelected()) {
       getInitialSettings().setDistributionType(DistributionType.DEFAULT_WRAPPED);
     }
+=======
+    myBuilder.apply(getInitialSettings());
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
   }
 
   @Override
   protected boolean isExtraSettingModified() {
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
     DistributionType distributionType = getInitialSettings().getDistributionType();
     if (myUseBundledDistributionButton.isSelected() && distributionType != DistributionType.BUNDLED) {
       return true;
@@ -285,38 +259,17 @@ public class GradleProjectSettingsControl extends AbstractExternalProjectSetting
     else {
       return !gradleHome.equals(getInitialSettings().getGradleHome());
     }
+=======
+    return myBuilder.isModified();
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
   }
 
   @Override
   protected void resetExtraSettings(boolean isDefaultModuleCreation) {
-    String gradleHome = getInitialSettings().getGradleHome();
-    myGradleHomePathField.setText(gradleHome == null ? "" : gradleHome);
-    myGradleHomePathField.getTextField().setForeground(LocationSettingType.EXPLICIT_CORRECT.getColor());
-
-    resetGradleJdkComboBox(getProject());
-
-    updateWrapperControls(getInitialSettings().getExternalProjectPath(), isDefaultModuleCreation);
-    if (!myUseLocalDistributionButton.isSelected()) {
-      myGradleHomePathField.setEnabled(false);
-      return;
-    }
-
-    if (StringUtil.isEmpty(gradleHome)) {
-      myGradleHomeSettingType = LocationSettingType.UNKNOWN;
-      deduceGradleHomeIfPossible();
-    }
-    else {
-      myGradleHomeSettingType = myInstallationManager.isGradleSdkHome(new File(gradleHome)) ?
-                                LocationSettingType.EXPLICIT_CORRECT :
-                                LocationSettingType.EXPLICIT_INCORRECT;
-      myAlarm.cancelAllRequests();
-      if (myGradleHomeSettingType == LocationSettingType.EXPLICIT_INCORRECT &&
-          getInitialSettings().getDistributionType() == DistributionType.LOCAL) {
-        new DelayedBalloonInfo(MessageType.ERROR, myGradleHomeSettingType, 0).run();
-      }
-    }
+    myBuilder.reset(getProject(), getInitialSettings(), isDefaultModuleCreation);
   }
 
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
   public void updateWrapperControls(@Nullable String linkedProjectPath, boolean isDefaultModuleCreation) {
     if(StringUtil.isEmpty(linkedProjectPath) && !isDefaultModuleCreation) {
         myUseLocalDistributionButton.setSelected(true);
@@ -358,42 +311,16 @@ public class GradleProjectSettingsControl extends AbstractExternalProjectSetting
         myUseBundledDistributionButton.setSelected(true);
         break;
     }
+=======
+  public void update(@Nullable String linkedProjectPath, boolean isDefaultModuleCreation) {
+    myBuilder.update(linkedProjectPath, getInitialSettings(), isDefaultModuleCreation);
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
   }
 
-  /**
-   * Updates GUI of the gradle configurable in order to show deduced path to gradle (if possible).
-   */
-  private void deduceGradleHomeIfPossible() {
-    File gradleHome = myInstallationManager.getAutodetectedGradleHome();
-    if (gradleHome == null) {
-      new DelayedBalloonInfo(MessageType.WARNING, LocationSettingType.UNKNOWN, BALLOON_DELAY_MILLIS).run();
-      return;
-    }
-    myGradleHomeSettingType = LocationSettingType.DEDUCED;
-    new DelayedBalloonInfo(MessageType.INFO, LocationSettingType.DEDUCED, BALLOON_DELAY_MILLIS).run();
-    myGradleHomePathField.setText(gradleHome.getPath());
-    myGradleHomePathField.getTextField().setForeground(LocationSettingType.DEDUCED.getColor());
-  }
-  
-  void showBalloonIfNecessary() {
-    if (!myShowBalloonIfNecessary || !myGradleHomePathField.isEnabled()) {
-      return;
-    }
-    myShowBalloonIfNecessary = false;
-    MessageType messageType = null;
-    switch (myGradleHomeSettingType) {
-      case DEDUCED:
-        messageType = MessageType.INFO;
-        break;
-      case EXPLICIT_INCORRECT:
-      case UNKNOWN:
-        messageType = MessageType.ERROR;
-        break;
-      default:
-    }
-    if (messageType != null) {
-      new DelayedBalloonInfo(messageType, myGradleHomeSettingType, BALLOON_DELAY_MILLIS).run();
-    }
+  @Override
+  public void showUi(boolean show) {
+    super.showUi(show);
+    myBuilder.showUi(show);
   }
 
   /**
@@ -401,47 +328,12 @@ public class GradleProjectSettingsControl extends AbstractExternalProjectSetting
    */
   public void setCurrentProject(@Nullable Project project) {
     super.setCurrentProject(project);
-    resetGradleJdkComboBox(project);
+    myBuilder.reset(getProject(), getInitialSettings(), false);
   }
 
-  private void resetGradleJdkComboBox(@Nullable final Project project) {
-    final String gradleJvm = getInitialSettings().getGradleJvm();
-    myGradleJdkComboBox.setProject(project);
-
-    final String sdkItem = ObjectUtils.nullizeByCondition(gradleJvm, new Condition<String>() {
-      @Override
-      public boolean value(String s) {
-        return (project == null && StringUtil.equals(USE_PROJECT_JDK, s)) || StringUtil.isEmpty(s);
-      }
-    });
-
-    myGradleJdkComboBox.refreshData(sdkItem);
-  }
-
-  private class DelayedBalloonInfo implements Runnable {
-    private final MessageType myMessageType;
-    private final String      myText;
-    private final long        myTriggerTime;
-
-    DelayedBalloonInfo(@NotNull MessageType messageType, @NotNull LocationSettingType settingType, long delayMillis) {
-      myMessageType = messageType;
-      myText = settingType.getDescription(GradleConstants.SYSTEM_ID);
-      myTriggerTime = System.currentTimeMillis() + delayMillis;
-    }
-
-    @Override
-    public void run() {
-      long diff = myTriggerTime - System.currentTimeMillis();
-      if (diff > 0) {
-        myAlarm.cancelAllRequests();
-        myAlarm.addRequest(this, diff);
-        return;
-      }
-      if (myGradleHomePathField == null || !myGradleHomePathField.isShowing()) {
-        // Don't schedule the balloon if the configurable is hidden.
-        return;
-      }
-      ExternalSystemUiUtil.showBalloon(myGradleHomePathField, myMessageType, myText);
-    }
+  @Override
+  public void disposeUIResources() {
+    super.disposeUIResources();
+    myBuilder.disposeUIResources();
   }
 }

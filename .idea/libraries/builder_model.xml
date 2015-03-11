@@ -1,11 +1,19 @@
 <component name="libraryTable">
   <library name="builder-model">
     <CLASSES>
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/builder-model/builder-model-1.1.0-rc1.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/builder-model-1.1.0-rc1.jar!/" />
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+<<<<<<< HEAD   (ea1a52 Merge "Remove XML editor browser toolbar" into idea14-1.2-de)
       <root url="jar://$PROJECT_DIR$/../../prebuilts/tools/common/builder-model/builder-model-1.1.0-rc1-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/android/android/lib/src/builder-model-1.1.0-rc1-sources.jar!/" />
+>>>>>>> BRANCH (fffd69 Snapshot idea/141.104.1 from git://git.jetbrains.org/idea/co)
     </SOURCES>
   </library>
 </component>
