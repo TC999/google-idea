@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c6d48430_9683cc4f",
+        "filename": ".idea/modules.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fc8e4_9c05b1cc",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4683341d_9ea04d9f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-18T14:17:21Z",
       "side": 1,
       "message": "Hopefully JetBrains will just cherrypick your CL; in that case having the commit message say \"IntelliJ changes\" will be a bit odd.\n\nCan you update the commit message to explain roughly what the changes are? I haven\u0027t reviewed them in depth yet but my rough guess would be something like:\n\nAdd support for external updates\n\nThis CL adds support to the updater to check additional remote\nsources for updates to external components, such as SDKs.",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06bbfcf2_3838694e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Yes, clearly the description wasn\u0027t ready for primetime yet :-)",
+      "parentUuid": "4683341d_9ea04d9f",
       "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "06bbfcf2_7bcffbab",
+        "filename": "build/scripts/studio_properties.gant",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fc8e4_bc0275bf",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4683341d_be9d116e",
         "filename": "community-main.iml",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2015-03-18T14:17:21Z",
       "side": 1,
       "message": "This too",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6bd08e7_b755a857",
+        "filename": "community-main.iml",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4683341d_be9d116e",
       "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "06bbfcf2_3b118356",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fc8e4_fcfced3b",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e67fc8e4_1c19c134",
         "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2015-03-18T14:17:21Z",
       "side": 1,
       "message": "Instead of get instance, you\u0027d use something like\n\n  public static ExternalComponentManager getInstance() {\n    return ApplicationManager.getApplication().getComponent(ExternalComponentManager.class);\n  }",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d48430_79df03de",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fc8e4_1c19c134",
       "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "e6bd08e7_fa454576",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fc8e4_9c69316d",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e67fc8e4_fc1dcdea",
         "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2015-03-18T14:17:21Z",
       "side": 1,
       "message": "Alternatively just have the method return Iterable\u003cExternalComponentSource\u003e. and then return mySources",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6bd08e7_7a5a5557",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fc8e4_fc1dcdea",
       "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "c6d48430_f9f1d368",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4683341d_9e876d12",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e67fc8e4_7c555da4",
         "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
         "patchSetId": 3
@@ -166,6 +328,24 @@
       "writtenOn": "2015-03-18T14:17:21Z",
       "side": 1,
       "message": "@NotNull on parameters?",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06bbfcf2_3b28637c",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fc8e4_7c555da4",
       "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "c6d48430_ea632f14",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4683341d_be84310e",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "067dbcec_228e6284",
         "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/UpdatableExternalComponent.java",
         "patchSetId": 3
@@ -200,6 +398,24 @@
       "writtenOn": "2015-03-18T14:17:21Z",
       "side": 1,
       "message": "I\u0027m not sure how that key is used yet, so these comments may be way off -- but I\u0027ll just mention that IntelliJ has its own Key class which is used for typed key lookup - com.intellij.openapi.util.Key; useful when you do key/value lookup to avoid \"Object\" and unsafe casts.\n\n(If this is instead intended to be used as some sort of unique identifier for the component, maybe better to go with a name like \"getId()\" and use String type.)",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6d48430_eaf7afa1",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/UpdatableExternalComponent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure if Key is what\u0027s needed in this case, but I agree that the way it\u0027s done now isn\u0027t great. Let\u0027s talk about it.",
+      "parentUuid": "067dbcec_228e6284",
       "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "c6d48430_0a40abf4",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/ExternalUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67fc8e4_5c9ed9e4",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4683341d_7e02b90c",
         "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/ExternalUpdate.java",
         "patchSetId": 3
@@ -234,6 +468,24 @@
       "writtenOn": "2015-03-18T14:17:21Z",
       "side": 1,
       "message": "switch parameternames from c and s to components and source? (and nullness annotations)",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6bd08e7_c66e2cad",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/ExternalUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4683341d_7e02b90c",
       "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "06bbfcf2_1ee34d49",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "Done, except still using StringUtil for consistency.",
+      "parentUuid": "e67fc8e4_9cc4d1bf",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "067dbcec_7dcabb9d",
         "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
         "patchSetId": 3
@@ -268,6 +538,24 @@
       "writtenOn": "2015-03-18T14:17:21Z",
       "side": 1,
       "message": "This creates a separate notification from the IDE-is-ready-for-update, right? Is one shown after the other, or do they both get posted at the same time?",
+      "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6bd08e7_8659541b",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-03-18T19:19:50Z",
+      "side": 1,
+      "message": "I\u0027m not exactly sure what you\u0027re asking. Spatially they\u0027re shown one after the other (if there are both platform or plugin and external updates), temporally they could be shown at the same time.\nPerhaps the implicit suggestion is that this should be merged with the existing update notification?",
+      "parentUuid": "067dbcec_7dcabb9d",
       "revId": "61dc1eb867d6b24ea7e04b2bdf4bfd9f846fe8b9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
