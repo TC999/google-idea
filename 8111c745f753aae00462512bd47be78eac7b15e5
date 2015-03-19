@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "667af834_ebe6b12c",
+        "filename": "java/java-impl/src/com/intellij/psi/formatter/java/JavaSpacePropertyProcessor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1613,
+      "author": {
+        "id": 1061944
+      },
+      "writtenOn": "2015-03-19T23:06:02Z",
+      "side": 1,
+      "message": "You could have used this variable in the first half of the if too: \"spaces \u003d addSpace ? 1: 0;\"",
+      "range": {
+        "startLine": 1613,
+        "startChar": 16,
+        "endLine": 1613,
+        "endChar": 24
+      },
+      "revId": "8111c745f753aae00462512bd47be78eac7b15e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
