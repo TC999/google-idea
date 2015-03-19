@@ -22,6 +22,30 @@
       "revId": "8111c745f753aae00462512bd47be78eac7b15e5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66259842_1954ab24",
+        "filename": "java/java-impl/src/com/intellij/psi/formatter/java/JavaSpacePropertyProcessor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1613,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-03-19T23:26:56Z",
+      "side": 1,
+      "message": "This CL was just a demo implementation for JetBrains. They\u0027ve already patched it into their codebase here: https://github.com/JetBrains/intellij-community/commit/0d7819283f747a95104ecb39e7e8008ca8d17196",
+      "parentUuid": "667af834_ebe6b12c",
+      "range": {
+        "startLine": 1613,
+        "startChar": 16,
+        "endLine": 1613,
+        "endChar": 24
+      },
+      "revId": "8111c745f753aae00462512bd47be78eac7b15e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
