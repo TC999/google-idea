@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6694b8c1_e43f90d9",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-03-24T14:45:54Z",
+      "side": 1,
+      "message": "I believe we don\u0027t add these?",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "ef42ea426ba8d02028fc06824298c03db7cef2b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6694b8c1_245a5856",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentManagerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-03-24T14:45:54Z",
+      "side": 1,
+      "message": "s/Find/Finds/\n\nMost of the comments I see in intelliJ are in third person. Here and throughout \nNit: and have a blank line before the first @param.",
+      "range": {
+        "startLine": 44,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 9
+      },
+      "revId": "ef42ea426ba8d02028fc06824298c03db7cef2b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a68a309d_c6b1b8f8",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-03-24T14:45:54Z",
+      "side": 1,
+      "message": "Nit: s/site/source/",
+      "range": {
+        "startLine": 485,
+        "startChar": 38,
+        "endLine": 485,
+        "endChar": 42
+      },
+      "revId": "ef42ea426ba8d02028fc06824298c03db7cef2b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a68a309d_c698d87a",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-03-24T14:45:54Z",
+      "side": 1,
+      "message": "Not sure if this is relevant, but both the plugins and the platforms do not show the notification if \"alwaysShowResults\" is true. Should the external updates behave the same way? Does it look inconsistent if this is called with \"alwaysShowResults\" ?",
+      "range": {
+        "startLine": 487,
+        "startChar": 8,
+        "endLine": 487,
+        "endChar": 24
+      },
+      "revId": "ef42ea426ba8d02028fc06824298c03db7cef2b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a68a309d_c6637814",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-03-24T14:45:54Z",
+      "side": 1,
+      "message": "This seems wrong. This else was attached to the \"if newChannelReady\" chain, and if one of the other notifications were shown, this else was not run. Now, even if it went into one of the showNotification paths above, and there are no external updates, it will show the NoUpdatesDialog dialog anyway.",
+      "range": {
+        "startLine": 495,
+        "startChar": 4,
+        "endLine": 495,
+        "endChar": 8
+      },
+      "revId": "ef42ea426ba8d02028fc06824298c03db7cef2b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
