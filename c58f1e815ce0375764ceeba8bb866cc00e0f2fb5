@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2362b2ee_bc4730a8",
+        "filename": ".idea/libraries/pty4j.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1047759
+      },
+      "writtenOn": "2015-03-25T21:26:35Z",
+      "side": 1,
+      "message": "I can\u0027t spot a difference. Is there something different here?",
+      "revId": "c58f1e815ce0375764ceeba8bb866cc00e0f2fb5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
