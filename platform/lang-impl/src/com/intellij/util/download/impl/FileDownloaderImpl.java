@@ -17,6 +17,7 @@ package com.intellij.util.download.impl;
 
 import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.AtomicDouble;
+import com.intellij.concurrency.AsyncFuture;
 import com.intellij.concurrency.SensitiveProgressWrapper;
 import com.intellij.ide.IdeBundle;
 import com.intellij.openapi.application.PathManager;
@@ -26,10 +27,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
-import com.intellij.openapi.progress.EmptyProgressIndicator;
-import com.intellij.openapi.progress.ProcessCanceledException;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.*;
+import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.Pair;
@@ -38,6 +37,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.*;
 import com.intellij.util.concurrency.BoundedTaskExecutor;
+import com.intellij.util.concurrency.FutureResult;
 import com.intellij.util.containers.hash.LinkedHashMap;
 import com.intellij.util.download.DownloadableFileDescription;
 import com.intellij.util.download.FileDownloader;
@@ -52,9 +52,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -149,6 +147,37 @@ public class FileDownloaderImpl implements FileDownloader {
     }
 
     return findVirtualFiles(localFiles.get());
+  }
+
+  @Nullable
+  @Override
+  public Future<List<Pair<VirtualFile, DownloadableFileDescription>>> downloadWithProgressAsynchronously(
+    @NotNull String targetDirectoryPath,
+    @Nullable Project project) {
+    final File targetDir = new File(targetDirectoryPath);
+    final FutureResult<List<Pair<VirtualFile,DownloadableFileDescription>>> result =
+      new FutureResult<List<Pair<VirtualFile,DownloadableFileDescription>>>();
+
+    final Task.Backgroundable task = new Task.Backgroundable(project, myDialogTitle, true) {
+      @Override
+      public void run(@NotNull ProgressIndicator indicator) {
+        try {
+          result.set(findVirtualFiles(download(targetDir)));
+        }
+        catch (IOException e) {
+          final boolean tryAgain = IOExceptionDialog.showErrorDialog(myDialogTitle, e.getMessage());
+          if (tryAgain) {
+            run(indicator);
+          } else {
+            result.set(null);
+          }
+        }
+      }
+    };
+    BackgroundableProcessIndicator indicator = new BackgroundableProcessIndicator(task);
+    ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, indicator);
+
+    return result;
   }
 
   @NotNull
