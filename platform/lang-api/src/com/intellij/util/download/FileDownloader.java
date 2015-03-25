@@ -25,6 +25,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * Use {@link DownloadableFileService} to create instances of this interface
@@ -49,12 +50,15 @@ public interface FileDownloader {
   List<Pair<VirtualFile, DownloadableFileDescription>> downloadWithProgress(@Nullable String targetDirectoryPath,
                                                                             @Nullable Project project, @Nullable JComponent parentComponent);
 
-  /**
-   * Download files synchronously. Call this method under progress only (see {@link com.intellij.openapi.progress.Task})
-   * @param targetDir target directory for downloaded files
-   * @return list of downloaded files with their descriptions
-   * @throws IOException
-   */
+  Future<List<Pair<VirtualFile, DownloadableFileDescription>>> downloadWithProgressAsynchronously(@NotNull String targetDirectoryPath,
+                                                                                                  @Nullable Project project);
+
+    /**
+     * Download files synchronously. Call this method under progress only (see {@link com.intellij.openapi.progress.Task})
+     * @param targetDir target directory for downloaded files
+     * @return list of downloaded files with their descriptions
+     * @throws IOException
+     */
   @NotNull
   List<Pair<File, DownloadableFileDescription>> download(@NotNull File targetDir) throws IOException;
 
