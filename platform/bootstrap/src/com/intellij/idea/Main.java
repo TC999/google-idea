@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import static java.io.File.pathSeparator;
 
@@ -128,20 +129,29 @@ public class Main {
 
   private static void installPatch() throws IOException {
     String platform = System.getProperty(PLATFORM_PREFIX_PROPERTY, "idea");
-    String patchFileName = ("jetbrains.patch.jar." + platform).toLowerCase(Locale.US);
-    String tempDir = System.getProperty("java.io.tmpdir");
-
-    // always delete previous patch copy
-    File patchCopy = new File(tempDir, patchFileName + "_copy");
+    File tempDir = new File(System.getProperty("java.io.tmpdir"));
+    Pattern patchFilePattern = Pattern.compile("^jetbrains\\.patch(\\.*)?\\.jar\\." + platform.toLowerCase(Locale.US) + "$");
+    String patchFileName = null;
+    for (String tempFile : tempDir.list()) {
+      if (patchFilePattern.matcher(tempFile).matches()) {
+        patchFileName = tempFile;
+        break;
+      }
+    }
+    File patchCopy = null;
+    if (patchFileName != null) {
+      // always delete previous patch copy
+      patchCopy = new File(tempDir, patchFileName + "_copy");
+    }
     File log4jCopy = new File(tempDir, "log4j.jar." + platform + "_copy");
     File jnaUtilsCopy = new File(tempDir, "jna-utils.jar." + platform + "_copy");
     File jnaCopy = new File(tempDir, "jna.jar." + platform + "_copy");
-    if (!FileUtilRt.delete(patchCopy) || !FileUtilRt.delete(log4jCopy) || !FileUtilRt.delete(jnaUtilsCopy) || !FileUtilRt.delete(jnaCopy)) {
+    if (!(patchCopy == null || FileUtilRt.delete(patchCopy)) || !FileUtilRt.delete(log4jCopy) || !FileUtilRt.delete(jnaUtilsCopy) || !FileUtilRt.delete(jnaCopy)) {
       throw new IOException("Cannot delete temporary files in " + tempDir);
     }
 
+    if (patchFileName == null) return;
     File patch = new File(tempDir, patchFileName);
-    if (!patch.exists()) return;
 
     File log4j = new File(PathManager.getLibPath(), "log4j.jar");
     if (!log4j.exists()) throw new IOException("Log4J is missing: " + log4j);
