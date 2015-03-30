@@ -16,6 +16,24 @@
       "revId": "c58f1e815ce0375764ceeba8bb866cc00e0f2fb5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43308612_539b3b4b",
+        "filename": ".idea/libraries/pty4j.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-03-30T20:50:04Z",
+      "side": 1,
+      "message": "For some reason it added a new line. Reverted to avoid changing the log of this file",
+      "parentUuid": "2362b2ee_bc4730a8",
+      "revId": "c58f1e815ce0375764ceeba8bb866cc00e0f2fb5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
