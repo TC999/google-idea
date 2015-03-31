@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63bd8ac9_9c06a9d6",
+        "filename": "native/jumplistbridge/stdafx.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-03-31T23:46:02Z",
+      "side": 1,
+      "message": "I think adding precompiled headers for this project is a bit overkill and probably not needed. Did VS add it itself?",
+      "revId": "28387155deb2de6787f0176f39f729d5bdaad4ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
