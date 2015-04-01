@@ -16,6 +16,24 @@
       "revId": "28387155deb2de6787f0176f39f729d5bdaad4ca",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e37fbae4_0d1b5575",
+        "filename": "native/jumplistbridge/stdafx.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-04-01T17:46:25Z",
+      "side": 1,
+      "message": "What you\u0027re not seeing here is that a JumpListBridge sln file simply didn\u0027t exist before I made this CL - no one bothered to check one in :( It was just a lone .cpp file.\n\nTake a look at JetBrains\u0027 other projects, which all have stdafx.h.",
+      "parentUuid": "63bd8ac9_9c06a9d6",
+      "revId": "28387155deb2de6787f0176f39f729d5bdaad4ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
