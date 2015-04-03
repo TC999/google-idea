@@ -919,6 +919,14 @@ binding.setVariable("layoutUpdater", { String target, String jarName = "updater.
   }
 })
 
+binding.setVariable("layoutSdkUpdater", { String target, String jarName = "sdk-updater.jar" ->
+  layout(target) {
+    jar(jarName) {
+      module("sdk-updater")
+    }
+  }
+})
+
 binding.setVariable("collectUsedJars", { List modules, List approvedJars, List forbiddenJars, List modulesToBuild ->
   def usedJars = new HashSet();
 
