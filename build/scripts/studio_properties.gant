@@ -114,6 +114,15 @@ def getProperties(String root) {
                            }
                          }
                        }
+                       dir("sdk-update-runner") {
+                         dir("lib") {
+                           jar("sdk-update-runner.jar") {
+                             module("sdk-updates")
+                             module("sdklib")
+                             module("layoutlib-api")
+                           }
+                         }
+                       }
                      }
                    }
                    ant.unzip(src: "${home}/../external/gradle/gradle-2.2.1-bin.zip", dest: "${targetDirectory}/gradle")

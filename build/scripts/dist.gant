@@ -110,6 +110,7 @@ target('default': 'The default target') {
   if (pp("buildUpdater")) {
     // Generate updater.jar from the updater module (patch updater)
     layoutUpdater(out)
+    layoutSdkUpdater(out)
   }
 }
 
