@@ -80,6 +80,15 @@
       <zipfileset src="lib/jna-utils.jar" />
     </jarjar>
   </target>
+  <target name="sdkupdater" depends="build">
+    <jarjar jarfile="${out.dir}/sdk-updater.jar">
+      <zipfileset src="${out.dir}/sdk-updater.jar" />
+      <zipfileset src="lib/log4j.jar" />
+      <zipfileset src="lib/jna.jar" />
+      <zipfileset src="lib/jna-utils.jar" />
+      <zipfileset src="lib/sdklib.jar" />
+    </jarjar>
+  </target>
 
   <target name="all" depends="cleanup,build,fullupdater"/>
 </project>
