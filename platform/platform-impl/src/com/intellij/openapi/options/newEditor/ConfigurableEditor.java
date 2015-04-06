@@ -31,6 +31,7 @@ import com.intellij.openapi.options.ex.ConfigurableVisitor;
 import com.intellij.openapi.options.ex.ConfigurableWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.ActionCallback;
+import com.intellij.openapi.wm.ex.IdeFocusTraversalPolicy;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.RelativeFont;
 import com.intellij.ui.components.labels.LinkLabel;
@@ -145,6 +146,16 @@ class ConfigurableEditor extends AbstractEditor implements AnActionListener, AWT
   public final void afterActionPerformed(AnAction action, DataContext context, AnActionEvent event) {
     requestUpdate();
   }
+
+  @Override
+  public JComponent getPreferredFocusedComponent() {
+    if (myConfigurable instanceof BaseConfigurable) {
+      JComponent preferred = ((BaseConfigurable)myConfigurable).getPreferredFocusedComponent();
+      if (preferred != null) return preferred;
+    }
+    return super.getPreferredFocusedComponent();
+  }
+
 
   @Override
   public final void eventDispatched(AWTEvent event) {
