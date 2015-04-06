@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d47630_5f90a71b",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/application/ConfigImportHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-04-06T23:57:04Z",
+      "side": 1,
+      "message": "This is prep-work for when we switch the final settings dir over from AndroidStudioPreview1.2 to AndroidStudio1.2.",
+      "revId": "5b50e514348b1e16cfcfa5a942ecddd2ef15588d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03092eaf_ee569bb4",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/application/ConfigImportHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-04-06T23:57:04Z",
+      "side": 1,
+      "message": "This is the cause of the bug. Whereas on line 121 we\u0027re constructing a path from the *parent* of the config folder (so CONFIG_RELATED_PATH has to be prepended), here we\u0027re starting with the config folder. On Mac, they\u0027re the same, so this worked, but on Windows/Linux it doesn\u0027t.",
+      "revId": "5b50e514348b1e16cfcfa5a942ecddd2ef15588d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
