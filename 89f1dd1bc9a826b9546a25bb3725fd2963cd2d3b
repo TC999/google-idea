@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a32b0216_1b834307",
+        "filename": "platform/platform-impl/src/com/intellij/ide/SystemHealthMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-04-07T16:53:11Z",
+      "side": 1,
+      "message": "Yes. And while I was reading the man page, decided to make it work BSD-style (we do have FreeBSD users).",
+      "parentUuid": "e38eda7f_efc48143",
+      "revId": "89f1dd1bc9a826b9546a25bb3725fd2963cd2d3b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c375563f_4e5b5359",
         "filename": "platform/platform-resources-en/src/messages/IdeBundle.properties",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-04-07T15:53:29Z",
       "side": 1,
       "message": "Maybe \"Your system is using the \\\"IBus Daemon\" which is known to cause intermittent keyboard issues with the IDE. See {rest}",
+      "revId": "89f1dd1bc9a826b9546a25bb3725fd2963cd2d3b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832a7e12_ddab7f85",
+        "filename": "platform/platform-resources-en/src/messages/IdeBundle.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-04-07T16:53:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c375563f_4e5b5359",
       "revId": "89f1dd1bc9a826b9546a25bb3725fd2963cd2d3b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
