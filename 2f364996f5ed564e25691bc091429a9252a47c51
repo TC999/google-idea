@@ -16,6 +16,24 @@
       "revId": "2f364996f5ed564e25691bc091429a9252a47c51",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a32b0216_5e89a924",
+        "filename": "platform/platform-impl/src/com/intellij/ide/SystemHealthMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-04-07T17:31:02Z",
+      "side": 1,
+      "message": "Nice, it does work.",
+      "parentUuid": "832a7e12_7d3eeb8c",
+      "revId": "2f364996f5ed564e25691bc091429a9252a47c51",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
