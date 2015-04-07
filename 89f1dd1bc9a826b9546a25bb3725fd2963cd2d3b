@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e38eda7f_efc48143",
+        "filename": "platform/platform-impl/src/com/intellij/ide/SystemHealthMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-04-07T15:53:29Z",
+      "side": 1,
+      "message": "Should this be /bin/ps instead of just \"ps\" to avoid a path search (or to accidentally pick up some other command named \"ps\" on the user\u0027s path, such as \"postscript\" or who knows what else?",
+      "revId": "89f1dd1bc9a826b9546a25bb3725fd2963cd2d3b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c375563f_4e5b5359",
+        "filename": "platform/platform-resources-en/src/messages/IdeBundle.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-04-07T15:53:29Z",
+      "side": 1,
+      "message": "Maybe \"Your system is using the \\\"IBus Daemon\" which is known to cause intermittent keyboard issues with the IDE. See {rest}",
+      "revId": "89f1dd1bc9a826b9546a25bb3725fd2963cd2d3b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
