@@ -548,6 +548,7 @@ public class RunManagerImpl extends RunManagerEx implements PersistentStateCompo
   @Override
   public Element getState() {
     Element parentNode = new Element("state");
+
     // writes temporary configurations here
     writeContext(parentNode);
 
