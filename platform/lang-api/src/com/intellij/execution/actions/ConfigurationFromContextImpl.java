@@ -56,6 +56,11 @@ public class ConfigurationFromContextImpl extends ConfigurationFromContext {
   }
 
   @Override
+  public boolean shouldReplace(ConfigurationFromContext other) {
+    return myConfigurationProducer.shouldReplace(this, other);
+  }
+
+  @Override
   public boolean isProducedBy(Class<? extends RunConfigurationProducer> producerClass) {
     return producerClass.isInstance(myConfigurationProducer);
   }
