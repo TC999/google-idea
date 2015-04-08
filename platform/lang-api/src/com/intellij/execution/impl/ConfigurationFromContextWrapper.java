@@ -61,4 +61,10 @@ public class ConfigurationFromContextWrapper extends ConfigurationFromContext {
     return other instanceof ConfigurationFromContextWrapper &&
            myProducer.compareTo(((ConfigurationFromContextWrapper) other).myProducer) < 0;
   }
+
+  @Override
+  public boolean shouldReplace(ConfigurationFromContext other) {
+    return other instanceof ConfigurationFromContextWrapper &&
+           myProducer.compareTo(((ConfigurationFromContextWrapper) other).myProducer) > 0;
+  }
 }
