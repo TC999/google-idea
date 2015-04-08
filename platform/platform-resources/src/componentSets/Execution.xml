@@ -15,5 +15,8 @@
     <component>
       <implementation-class>com.intellij.execution.impl.ProjectRunConfigurationManager</implementation-class>
     </component>
+    <component>
+      <implementation-class>com.intellij.execution.RunConfigurationProducerManager</implementation-class>
+    </component>
   </project-components>
 </components>
