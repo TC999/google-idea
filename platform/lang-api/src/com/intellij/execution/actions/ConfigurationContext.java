@@ -31,7 +31,6 @@ import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
@@ -181,7 +180,7 @@ public class ConfigurationContext {
           }
         }
       }
-      for (RunConfigurationProducer producer : Extensions.getExtensions(RunConfigurationProducer.EP_NAME)) {
+      for (RunConfigurationProducer producer : RunConfigurationProducer.getProducers(getProject())) {
         RunnerAndConfigurationSettings configuration = producer.findExistingConfiguration(this);
         if (configuration != null && configuration.getConfiguration() == myRuntimeConfiguration) {
           myExistingConfiguration.set(configuration);
@@ -196,7 +195,7 @@ public class ConfigurationContext {
         }
       }
     }
-    for (RunConfigurationProducer producer : Extensions.getExtensions(RunConfigurationProducer.EP_NAME)) {
+    for (RunConfigurationProducer producer : RunConfigurationProducer.getProducers(getProject())) {
       RunnerAndConfigurationSettings configuration = producer.findExistingConfiguration(this);
       if (configuration != null) {
         myExistingConfiguration.set(configuration);
