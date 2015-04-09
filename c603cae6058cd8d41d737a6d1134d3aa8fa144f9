@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3d33a94_2ab4dfc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-04-09T15:13:17Z",
+      "side": 1,
+      "message": "nit: Although JB is usually ok with such commit messages, I prefer a little more descriptive messages. Describe the problem, and the solution as implemented in this CL in a little more detail..",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3d33a94_0ab11bd4",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-04-09T15:13:17Z",
+      "side": 1,
+      "message": "extra classes?",
+      "range": {
+        "startLine": 29,
+        "startChar": 105,
+        "endLine": 29,
+        "endChar": 123
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3d33a94_0adabb13",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-04-09T15:13:17Z",
+      "side": 1,
+      "message": "I struggle a little bit with whether you need a full fledged PersistenceComponent, or just use PropertiesComponent if what you want is to save an array of strings. Using PropertiesComponent would have eliminated most of this class and the registration in plugin.xml.\n\nThat said, this would be the right approach if everything else about run configurations was already being saved in runConfigurations.xml and we are just piggy backing on top of the same file.",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 6
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3d33a94_6abed7a3",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-04-09T15:13:17Z",
+      "side": 1,
+      "message": "ProducerManager seems a little too much. In fact, this doesn\u0027t manage anything but just keeps state of a list of class names. I wonder if a simpler name would be more appropriate?",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 44
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3d33a94_ea9f6734",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-04-09T15:13:17Z",
+      "side": 1,
+      "message": "I have no idea if there are class loader issues to think about here. Since this code is in the platform, would it always be able to load a class that was inside a plugin? Would it be safer to keep the API here to set/get fully qualified class names, and when you are actually comparing them, just compare them by class names instead of the class.isAssignableFrom form used now in RunConfigurationProducer?",
+      "range": {
+        "startLine": 70,
+        "startChar": 15,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3d33a94_cae703d7",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-04-09T15:13:17Z",
+      "side": 1,
+      "message": "The set() API forces clients to do a read-modify-set sequence. I\u0027m not sure if that would lead to sequencing problems if different plugins do this at the same time. However, it is more general as the client can modify the set as opposed to just adding to it.\n\nI would have used add() instead of set(), but I\u0027m ok with set() too. Just make sure you\u0027ve thought through the implications.",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 33
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
