@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3cab6dd_95836eda",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/ConfigurationFromContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-04-09T15:41:34Z",
+      "side": 1,
+      "message": "Should this default to !isPreferredTo(other) ?",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3d33a94_ea6da7b0",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-04-09T15:41:34Z",
+      "side": 1,
+      "message": "Nit: extra @param self",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3d33a94_ca726392",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-04-09T15:41:34Z",
+      "side": 1,
+      "message": "I\u0027m a bit worried that we might be exposing an API that can return contradictory values. \n\nWhat would happen if I set up my code to return the following for configurations A and B?\n\nisPreferredConfiguration(A, B) -\u003e return true;\n\nshouldReplace(A, B) -\u003e return true;\n\nIs that an error? Or is there a situation where this makes sense?",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
