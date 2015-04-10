@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e356daec_611618d3",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/ConfigurationFromContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T19:10:55Z",
+      "side": 1,
+      "message": "I think \"preferred\" and \"replace\" are 2 separate, independent things (Michal please confirm.) \"Preferred\" is about order of run configurations, while \"replace\" removes run configurations.",
+      "parentUuid": "c3cab6dd_95836eda",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3d33a94_ea6da7b0",
         "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-04-09T15:41:34Z",
       "side": 1,
       "message": "I\u0027m a bit worried that we might be exposing an API that can return contradictory values. \n\nWhat would happen if I set up my code to return the following for configurations A and B?\n\nisPreferredConfiguration(A, B) -\u003e return true;\n\nshouldReplace(A, B) -\u003e return true;\n\nIs that an error? Or is there a situation where this makes sense?",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "636d8ab3_2847852e",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T19:10:55Z",
+      "side": 1,
+      "message": "Android test is preferred over Unit test? true\nShould Android test replace Unit test? true\nI don\u0027t see a problem with that.\n(I cannot find an example where this would be a problem. Michal?)",
+      "parentUuid": "e3d33a94_ca726392",
       "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
