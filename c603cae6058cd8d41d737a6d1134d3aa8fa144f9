@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "636d8ab3_c5a7dcb2",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "Nit: FQN not needed. Editor gives a warning in IDEA 14.1.",
+      "range": {
+        "startLine": 29,
+        "startChar": 48,
+        "endLine": 29,
+        "endChar": 80
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3d33a94_0adabb13",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
         "patchSetId": 5
@@ -95,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "636d8ab3_0507149f",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "If we have a UI for that, it really doesn\u0027t matter where the data is stored. PropertiesComponent can be used per Project, which I\u0027m sure goes somewhere in the .idea file.",
+      "parentUuid": "a38a229d_604b6cb5",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 6
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3d33a94_6abed7a3",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
         "patchSetId": 5
@@ -111,6 +158,122 @@
         "startChar": 13,
         "endLine": 39,
         "endChar": 44
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "636d8ab3_a54bc0b3",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "I have seen IDEA code use a pattern where they have a \"State\" class, instead of a JDOM element. \nPlease take a look at their documentation: https://confluence.jetbrains.com/display/IDEADEV/Persisting+State+of+Components",
+      "range": {
+        "startLine": 39,
+        "startChar": 81,
+        "endLine": 39,
+        "endChar": 88
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "636d8ab3_85ea441c",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "I agree, \"RunConfigurationProducers\" can be an alternative. IDEA uses \"Service\" for this type of components too: \"RunConfigurationProducerService\" sounds better that \"ProducerManager\".",
+      "parentUuid": "e3d33a94_6abed7a3",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 44
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e356daec_41467481",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "@NotNull",
+      "range": {
+        "startLine": 41,
+        "startChar": 60,
+        "endLine": 41,
+        "endChar": 67
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_b452f838",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "@NotNull",
+      "range": {
+        "startLine": 41,
+        "startChar": 16,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_749df069",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "It would be helpful if you can document what data is stored and what is the schema (just have a sample configuration file in a comment.)",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 25
       },
       "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
@@ -141,6 +304,30 @@
     },
     {
       "key": {
+        "uuid": "234d525a_341a886e",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "e3d33a94_ea9f6734",
+      "range": {
+        "startLine": 70,
+        "startChar": 15,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3d33a94_cae703d7",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
         "patchSetId": 5
@@ -157,6 +344,76 @@
         "startChar": 14,
         "endLine": 82,
         "endChar": 33
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_94297482",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "This method is not being used at all. Remove?",
+      "parentUuid": "e3d33a94_cae703d7",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 33
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "636d8ab3_e8302d1f",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "@NotNull",
+      "range": {
+        "startLine": 43,
+        "startChar": 16,
+        "endLine": 43,
+        "endChar": 20
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "636d8ab3_88f979c5",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T18:53:07Z",
+      "side": 1,
+      "message": "@NotNull",
+      "range": {
+        "startLine": 43,
+        "startChar": 63,
+        "endLine": 43,
+        "endChar": 70
       },
       "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
