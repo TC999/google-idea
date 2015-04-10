@@ -104,6 +104,24 @@
       "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e32fba6e_670d5236",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-04-10T20:00:11Z",
+      "side": 1,
+      "message": "I think so, I got confused by the docs as well. Probably we should fix them as part of the CL.",
+      "parentUuid": "234d525a_88a074a0",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
