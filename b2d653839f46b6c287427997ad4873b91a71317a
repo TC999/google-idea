@@ -86,6 +86,24 @@
       "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234d525a_88a074a0",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-04-10T19:14:49Z",
+      "side": 1,
+      "message": "The way Alex says this makes sense. I think what confuses me is the header documentation for isPreferredConfiguration:\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nChecks if this configuration should be discarded in favor of another configuration created from the same context.\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\nSo Alex is saying that isPreferred simply changes order (which makes sense), but the docs say that isPreferred discards the target configuration (which implies replacement)\n\nAre the docs bad? Or am I misreading something?",
+      "parentUuid": "636d8ab3_2847852e",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
