@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "a38a229d_604b6cb5",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-10T15:44:40Z",
+      "side": 1,
+      "message": "PropertiesComponent writes to the workspace file, that most people don\u0027t put under version control. According to the email thread with Dmitry, IJ would have a UI for editing this list, so I though it needs a proper configuration file.",
+      "parentUuid": "e3d33a94_0adabb13",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 6
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3d33a94_6abed7a3",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
         "patchSetId": 5
