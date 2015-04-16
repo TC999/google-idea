@@ -79,7 +79,7 @@ public class InferNullityAnnotationsAction extends BaseAnalysisAction {
 
   @Override
   protected void analyze(@NotNull final Project project, @NotNull final AnalysisScope scope) {
-    PropertiesComponent.getInstance().setValue(ANNOTATE_LOCAL_VARIABLES, String.valueOf(myAnnotateLocalVariablesCb.isSelected()));
+    PropertiesComponent.getInstance().setValue(ANNOTATE_LOCAL_VARIABLES, String.valueOf(isLocalVariablesSelected()));
 
     final ProgressManager progressManager = ProgressManager.getInstance();
     final Set<Module> modulesWithoutAnnotations = new HashSet<Module>();
@@ -200,7 +200,7 @@ public class InferNullityAnnotationsAction extends BaseAnalysisAction {
   private UsageInfo[] findUsages(@NotNull final Project project,
                                  @NotNull final AnalysisScope scope, 
                                           final int fileCount) {
-    final NullityInferrer inferrer = new NullityInferrer(myAnnotateLocalVariablesCb.isSelected(), project);
+    final NullityInferrer inferrer = new NullityInferrer(isLocalVariablesSelected(), project);
     final PsiManager psiManager = PsiManager.getInstance(project);
     final Runnable searchForUsages = new Runnable() {
       @Override
@@ -349,11 +349,19 @@ public class InferNullityAnnotationsAction extends BaseAnalysisAction {
 
   @Override
   protected JComponent getAdditionalActionSettings(Project project, BaseAnalysisActionDialog dialog) {
+    NullableNotNullManager manager = NullableNotNullManager.getInstance(project);
+    if (!manager.isApplicableToLocalVariables(manager.getDefaultNotNull()) || !manager.isApplicableToLocalVariables(manager.getDefaultNullable())) {
+      return null;
+    }
     final JPanel panel = new JPanel(new VerticalFlowLayout());
     panel.add(new TitledSeparator());
     myAnnotateLocalVariablesCb = new JCheckBox("Annotate local variables", PropertiesComponent.getInstance().getBoolean(ANNOTATE_LOCAL_VARIABLES, false));
     panel.add(myAnnotateLocalVariablesCb);
     return panel;
+  }
+
+  private boolean isLocalVariablesSelected() {
+    return myAnnotateLocalVariablesCb != null && myAnnotateLocalVariablesCb.isSelected();
   }
 
   @Override
