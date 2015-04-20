@@ -39,15 +39,8 @@ import java.util.*;
 public abstract class NullableNotNullManager implements PersistentStateComponent<Element> {
   private static final Logger LOG = Logger.getInstance("#" + NullableNotNullManager.class.getName());
 
-  public String myDefaultNullable = AnnotationUtil.NULLABLE;
-  public String myDefaultNotNull = AnnotationUtil.NOT_NULL;
-  /* Android Studio: Switch default annotations for projects over to the Android support library
-      public String myDefaultNullable = "android.support.annotation.Nullable";
-      public String myDefaultNotNull = "android.support.annotation.NonNull";
-    such that infer nullity & friends can use these instead. But first, we'll need
-    to make InferNullityAnnotationsAction able to insert a Gradle project dependency
-    on the right library.
-    */
+  public String myDefaultNullable = "android.support.annotation.Nullable";
+  public String myDefaultNotNull = "android.support.annotation.NonNull";
 
   public final JDOMExternalizableStringList myNullables = new JDOMExternalizableStringList();
   public final JDOMExternalizableStringList myNotNulls = new JDOMExternalizableStringList();
@@ -131,7 +124,7 @@ public abstract class NullableNotNullManager implements PersistentStateComponent
     PsiAnnotation.TargetType[] acceptAnyTarget = PsiAnnotation.TargetType.values();
     return isNullabilityDefault(anno, true, acceptAnyTarget) || isNullabilityDefault(anno, false, acceptAnyTarget);
   }
-      
+
   public void setDefaultNullable(@NotNull String defaultNullable) {
     LOG.assertTrue(getNullables().contains(defaultNullable));
     myDefaultNullable = defaultNullable;
@@ -141,7 +134,7 @@ public abstract class NullableNotNullManager implements PersistentStateComponent
   public String getDefaultNotNull() {
     return myDefaultNotNull;
   }
-  
+
   @Nullable
   public PsiAnnotation getNotNullAnnotation(@NotNull PsiModifierListOwner owner, boolean checkBases) {
     return findNullabilityAnnotation(owner, checkBases, false);
@@ -175,7 +168,7 @@ public abstract class NullableNotNullManager implements PersistentStateComponent
     myDefaultNotNull = defaultNotNull;
   }
 
-  @Nullable 
+  @Nullable
   private PsiAnnotation findNullabilityAnnotation(@NotNull PsiModifierListOwner owner, boolean checkBases, boolean nullable) {
     Set<String> qNames = ContainerUtil.newHashSet(nullable ? getNullables() : getNotNulls());
     PsiAnnotation annotation = checkBases && owner instanceof PsiMethod
@@ -196,7 +189,7 @@ public abstract class NullableNotNullManager implements PersistentStateComponent
     if (!nullable && hasHardcodedContracts(owner)) {
       return null;
     }
-    
+
     return findNullabilityDefaultInHierarchy(owner, nullable);
   }
 
@@ -219,7 +212,7 @@ public abstract class NullableNotNullManager implements PersistentStateComponent
     return findNullabilityAnnotation(owner, checkBases, false) != null;
   }
 
-  @Nullable 
+  @Nullable
   private static PsiAnnotation findNullabilityDefaultInHierarchy(PsiModifierListOwner owner, boolean nullable) {
     PsiAnnotation.TargetType[] placeTargetTypes = AnnotationTargetUtil.getTargetsForLocation(owner.getModifierList());
 
@@ -260,9 +253,9 @@ public abstract class NullableNotNullManager implements PersistentStateComponent
     if (!(declaration instanceof PsiClass)) return false;
 
     if (!AnnotationUtil.isAnnotated((PsiClass)declaration,
-                                     nullable ? JAVAX_ANNOTATION_NULLABLE : JAVAX_ANNOTATION_NONNULL,
-                                     false,
-                                     true)) {
+                                    nullable ? JAVAX_ANNOTATION_NULLABLE : JAVAX_ANNOTATION_NONNULL,
+                                    false,
+                                    true)) {
       return false;
     }
 
