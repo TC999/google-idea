@@ -89,6 +89,8 @@ public class XLightBreakpointPropertiesPanel<B extends XBreakpointBase<?,?,?>> i
   private JBCheckBox myConditionEnabledCheckbox;
   private JPanel myCustomTopPropertiesPanelWrapper;
   private JPanel myConditionEnabledPanel;
+  private JPanel myMainCardPanel;
+  private JPanel myCustomMainPanel;
   private final List<XBreakpointCustomPropertiesPanel<B>> myCustomPanels;
 
   private List<XBreakpointPropertiesSubPanel<B>> mySubPanels = new ArrayList<XBreakpointPropertiesSubPanel<B>>();
@@ -177,6 +179,16 @@ public class XLightBreakpointPropertiesPanel<B extends XBreakpointBase<?,?,?>> i
       myCustomPanels.add(customTopPropertiesPanel);
     }
 
+    XBreakpointCustomPropertiesPanel<B> customMainPanel = breakpointType.createMainPanel(project);
+    if (customMainPanel != null) {
+      myCustomMainPanel.add(customMainPanel.getComponent(), BorderLayout.CENTER);
+      myCustomPanels.add(customMainPanel);
+      ((CardLayout)myMainCardPanel.getLayout()).show(myMainCardPanel, "Custom");
+    }
+    else {
+      ((CardLayout)myMainCardPanel.getLayout()).show(myMainCardPanel, "Standard");
+    }
+
     myMainPanel.addFocusListener(new FocusAdapter() {
       @Override
       public void focusGained(FocusEvent event) {
@@ -249,7 +261,7 @@ public class XLightBreakpointPropertiesPanel<B extends XBreakpointBase<?,?,?>> i
   }
 
   public JPanel getMainPanel() {
-    return myMainPanel;
+    return myMainCardPanel;
   }
 
   public void dispose() {
