@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_30494694",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/ConfigurationFromContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:22:41Z",
+      "side": 1,
+      "message": "Let me explain. You can think of isPreferredTo as \"shouldNotBeReplacedBy\" - the way the method works is quite confusing.\n\nCurrently when two run configurations can be created from a given context, they are \"compared\". By default there\u0027s a draw and they are both offered. The current API allows the loser to choose to lose. If they both choose to lose, one is offered, but it\u0027s not clear which one.\n\nWhat I\u0027m doing is adding the option for the winner to choose to win. Again - if they both want to win, the result is not specified.\n\nNot wanting to lose is not necessary wanting to win, the same way as !(a \u003c b) doesn\u0027t imply (a \u003e b). The default is for this to be false (a \u003d\u003d b).",
+      "parentUuid": "e356daec_611618d3",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3d33a94_ea6da7b0",
         "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
         "patchSetId": 1
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "I think so, I got confused by the docs as well. Probably we should fix them as part of the CL.",
       "parentUuid": "234d525a_88a074a0",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50e84e65_28008f03",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:22:41Z",
+      "side": 1,
+      "message": "Please see my other comment.",
+      "parentUuid": "e32fba6e_670d5236",
       "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
