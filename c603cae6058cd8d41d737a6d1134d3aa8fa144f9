@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50984e8f_82b37a7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d33a94_2ab4dfc3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3d33a94_0ab11bd4",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
         "patchSetId": 5
@@ -59,6 +83,54 @@
       "writtenOn": "2015-04-10T18:53:07Z",
       "side": 1,
       "message": "Nit: FQN not needed. Editor gives a warning in IDEA 14.1.",
+      "range": {
+        "startLine": 29,
+        "startChar": 48,
+        "endLine": 29,
+        "endChar": 80
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b088aa37_ad96bdc3",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d33a94_0ab11bd4",
+      "range": {
+        "startLine": 29,
+        "startChar": 105,
+        "endLine": 29,
+        "endChar": 123
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50984e8f_62b0766d",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "636d8ab3_c5a7dcb2",
       "range": {
         "startLine": 29,
         "startChar": 48,
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_4d0b99ab",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "I\u0027m not planning on adding a UI in AS for now, but IJ might add it in the future. This setting does not belong in the workspace file, so I can\u0027t use PropertiesComponent (AFAIK).\n\nI also changed the annotation to just append data to misc.xml.",
+      "parentUuid": "636d8ab3_0507149f",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 6
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3d33a94_6abed7a3",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
         "patchSetId": 5
@@ -212,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_b0fb76b9",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Renamed.\n\nI tried that - for some reason if I use a java bean as state, it does not get saved (???). I was quite confused by it, by tried Element and it worked, so I stopped fighting.",
+      "parentUuid": "636d8ab3_a54bc0b3",
+      "range": {
+        "startLine": 39,
+        "startChar": 81,
+        "endLine": 39,
+        "endChar": 88
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e356daec_41467481",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
         "patchSetId": 5
@@ -258,6 +378,54 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_f005fe41",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234d525a_b452f838",
+      "range": {
+        "startLine": 41,
+        "startChar": 16,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90972654_0fe0a912",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e356daec_41467481",
+      "range": {
+        "startLine": 41,
+        "startChar": 60,
+        "endLine": 41,
+        "endChar": 67
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "234d525a_749df069",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
         "patchSetId": 5
@@ -269,6 +437,30 @@
       "writtenOn": "2015-04-10T18:53:07Z",
       "side": 1,
       "message": "It would be helpful if you can document what data is stored and what is the schema (just have a sample configuration file in a comment.)",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b088aa37_30622614",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234d525a_749df069",
       "range": {
         "startLine": 49,
         "startChar": 17,
@@ -315,6 +507,30 @@
       "writtenOn": "2015-04-10T18:53:07Z",
       "side": 1,
       "message": "SGTM.",
+      "parentUuid": "e3d33a94_ea9f6734",
+      "range": {
+        "startLine": 70,
+        "startChar": 15,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50984e8f_e59a506e",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "I actually want to use isAssignableFrom so I can disable all Gradle configurations by blacklisting the common superclass.",
       "parentUuid": "e3d33a94_ea9f6734",
       "range": {
         "startLine": 70,
@@ -375,6 +591,30 @@
     },
     {
       "key": {
+        "uuid": "50984e8f_c58f4c2e",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "It is being used in http://r.android.com/146063, this CL only exposes the functionality.\n\nI changed it to add, since it\u0027s all we need for now. When IJ looks at adding a UI for this feature, they can add more ways to edit it.\n\nShould this be synchronized? Or should we just assume it will be executed in a WriteAction?",
+      "parentUuid": "234d525a_94297482",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 33
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "636d8ab3_e8302d1f",
         "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
         "patchSetId": 5
@@ -409,6 +649,54 @@
       "writtenOn": "2015-04-10T18:53:07Z",
       "side": 1,
       "message": "@NotNull",
+      "range": {
+        "startLine": 43,
+        "startChar": 63,
+        "endLine": 43,
+        "endChar": 70
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50984e8f_45845c0d",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "636d8ab3_e8302d1f",
+      "range": {
+        "startLine": 43,
+        "startChar": 16,
+        "endLine": 43,
+        "endChar": 20
+      },
+      "revId": "c603cae6058cd8d41d737a6d1134d3aa8fa144f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50984e8f_65876014",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-22T15:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "636d8ab3_88f979c5",
       "range": {
         "startLine": 43,
         "startChar": 63,
