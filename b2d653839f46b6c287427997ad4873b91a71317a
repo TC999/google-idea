@@ -158,6 +158,24 @@
       "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d08d1e46_63f4e004",
+        "filename": "platform/lang-api/src/com/intellij/execution/actions/RunConfigurationProducer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-04-22T16:36:43Z",
+      "side": 1,
+      "message": "Thanks Michal for the explanations.",
+      "parentUuid": "50e84e65_28008f03",
+      "revId": "b2d653839f46b6c287427997ad4873b91a71317a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
