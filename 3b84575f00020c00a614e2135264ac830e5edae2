@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d076fe11_064eda4d",
+        "filename": "java/java-impl/src/com/intellij/codeInspection/inferNullity/InferNullityAnnotationsAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1068658
+      },
+      "writtenOn": "2015-04-22T01:32:18Z",
+      "side": 1,
+      "message": "This looks like a lot of code, but it really just splits up analyze() into a couple of methods that we can override in a special Android version.\nThe Map created below in meant for Modules but the Java implementation needs 1 Java file from each module.",
+      "revId": "3b84575f00020c00a614e2135264ac830e5edae2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
