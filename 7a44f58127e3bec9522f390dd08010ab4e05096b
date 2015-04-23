@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "90972654_af4eb5c6",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-23T11:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90972654_8f9f39ab",
+      "range": {
+        "startLine": 43,
+        "startChar": 19,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "7a44f58127e3bec9522f390dd08010ab4e05096b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b088aa37_1077ea03",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerService.java",
         "patchSetId": 7
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "b088aa37_b322a0cd",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-23T11:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b088aa37_1077ea03",
+      "revId": "7a44f58127e3bec9522f390dd08010ab4e05096b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b088aa37_307ce6e5",
         "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerService.java",
         "patchSetId": 7
@@ -53,6 +95,24 @@
       "writtenOn": "2015-04-23T09:56:44Z",
       "side": 1,
       "message": "I would rather not eager-load the producers here, but simply store the FQ names of ignored producer classes and check a specific producer class against the stored list of FQ names. This won\u0027t allow to take inheritance into account when performing the check, but in practice (when the users will choose specific producers to ignore) this won\u0027t be important.",
+      "revId": "7a44f58127e3bec9522f390dd08010ab4e05096b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50984e8f_084e6b4d",
+        "filename": "platform/lang-api/src/com/intellij/execution/RunConfigurationProducerService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-04-23T11:07:57Z",
+      "side": 1,
+      "message": "The scenario I had in mind when using inheritance was test configurations: where there\u0027s a common superclass and a couple of subclasses, e.g. test method, test class, all in package.\n\nFor now I switched to what you suggested and moved the check here, so it can be later changed to check for isAssignableFrom. In AS we can just list all 3 gradle test configurations.",
+      "parentUuid": "b088aa37_307ce6e5",
       "revId": "7a44f58127e3bec9522f390dd08010ab4e05096b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
