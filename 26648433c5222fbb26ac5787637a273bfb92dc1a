@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50984e8f_680cd7ef",
+        "filename": "platform/platform-resources/src/META-INF/PlatformExtensions.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1071870
+      },
+      "writtenOn": "2015-04-23T11:43:55Z",
+      "side": 1,
+      "message": "This should be in LangExtensions.xml, not here.",
+      "revId": "26648433c5222fbb26ac5787637a273bfb92dc1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
