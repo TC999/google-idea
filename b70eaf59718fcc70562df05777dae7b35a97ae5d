@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "309d9a70_ebbedac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-04-24T16:45:10Z",
+      "side": 1,
+      "message": "isn\u0027t that a feature, not a bug? :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 78
+      },
+      "revId": "b70eaf59718fcc70562df05777dae7b35a97ae5d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
