@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706b9231_22b9fb0e",
+        "filename": "community-main.iml",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-04-24T22:44:02Z",
+      "side": 1,
+      "message": "Why did you need to add these?",
+      "revId": "3b4ec0ddc2770ca69d093ec26d26949d54e89da0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
