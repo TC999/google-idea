@@ -26,6 +26,11 @@ import java.util.List;
  */
 public abstract class TaskStateCombo extends JPanel {
 
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
+=======
+  private final JBLabel myHintLabel;
+
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
   public static boolean stateUpdatesSupportedFor(@Nullable Task task) {
     if (task == null || !task.isIssue()) {
       return false;
@@ -49,14 +54,24 @@ public abstract class TaskStateCombo extends JPanel {
     myProject = project;
     myTask = task;
 
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
     final JBLabel hintLabel = new JBLabel();
     hintLabel.setIcon(PlatformIcons.UP_DOWN_ARROWS);
     hintLabel.setToolTipText("Pressing Up or Down arrows while in editor changes the state");
+=======
+    myHintLabel = new JBLabel();
+    myHintLabel.setIcon(PlatformIcons.UP_DOWN_ARROWS);
+    myHintLabel.setToolTipText("Pressing Up or Down arrows while in editor changes the state");
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
     final JComboBox comboBox = myKindCombo.getComboBox();
     comboBox.setPreferredSize(new Dimension(300, UIUtil.fixComboBoxHeight(comboBox.getPreferredSize().height)));
     setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
     add(myKindCombo);
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
     add(hintLabel);
+=======
+    add(myHintLabel);
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
   }
 
   /**
@@ -92,6 +107,13 @@ public abstract class TaskStateCombo extends JPanel {
   public void setEnabled(boolean enabled) {
     super.setEnabled(enabled);
     myKindCombo.setEnabled(enabled);
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
+=======
+  }
+
+  public void showHintLabel(boolean show) {
+    myHintLabel.setVisible(show);
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
   }
 
   /**

@@ -388,7 +388,11 @@ binding.setVariable("layoutMacApp", { String path, String ch, Map args ->
 
   new File("$path/bin/idea.properties").text = effectiveProperties.toString()
   String ideaVmOptions = "$mem64 -XX:+UseCompressedOops"
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
   if (isEap() && pp("includeYourkitAgent") && !args.mac_no_yjp) {
+=======
+  if (isEap() && !args.mac_no_yjp) {
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
     ideaVmOptions += " ${yjpOptions(args.system_selector)}"
   }
   new File("$path/bin/${executable}.vmoptions").text = ideaVmOptions.split(" ").join("\n")

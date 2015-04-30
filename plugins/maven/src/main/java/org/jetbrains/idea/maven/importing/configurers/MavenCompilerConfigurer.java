@@ -40,8 +40,12 @@ public class MavenCompilerConfigurer extends MavenModuleConfigurer {
     if (module == null) return;
 
     CompilerConfiguration configuration = CompilerConfiguration.getInstance(project);
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
     Boolean ignoreMavenCompilerTargetOption = module.getUserData(IGNORE_MAVEN_COMPILER_TARGET_KEY);
     if (ignoreMavenCompilerTargetOption == null || !ignoreMavenCompilerTargetOption.booleanValue()) {
+=======
+    if (!Boolean.TRUE.equals(module.getUserData(IGNORE_MAVEN_COMPILER_TARGET_KEY))) {
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
       String targetLevel = mavenProject.getTargetLevel();
       // default source and target settings of maven-compiler-plugin is 1.5, see details at http://maven.apache.org/plugins/maven-compiler-plugin
       configuration.setBytecodeTargetLevel(module, ObjectUtils.notNull(targetLevel, "1.5"));

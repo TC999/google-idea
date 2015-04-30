@@ -15,7 +15,11 @@
  */
 
 
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
 import org.apache.tools.ant.BuildException
+=======
+import org.jetbrains.jps.gant.LayoutInfo
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
 
 import static org.jetbrains.jps.idea.IdeaProjectLoader.guessHome
 
@@ -149,7 +153,7 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   ant.echo(message: args.buildNumber, file: "$paths.distAll/build.txt")
 
   def layouts = includeFile("$home/build/scripts/layouts.gant")
-  layouts.layoutFull(home, paths.distAll, null)
+  LayoutInfo info = layouts.layoutFull(home, paths.distAll, null)
   layouts.layout_core(home, paths.artifacts_core)
   notifyArtifactBuilt(paths.artifacts_core)
   if (buildJps) {
@@ -185,7 +189,12 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   String macZip = "$paths.artifacts/${archiveName}.mac.zip"
   buildMacZip(macAppRoot, macZip, [paths.distAll], paths.distMac)
 
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
   buildTarGz(linAppRoot, "$paths.artifacts/${archiveName}.tar", [paths.distAll, paths.distUnix])
+=======
+  buildTarGz("idea-${args.buildNumber}", "$paths.artifacts/idea${args.buildNumber}.tar", [paths.distAll, paths.distUnix])
+  return info
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
 }
 
 private layoutWin(Map args, String home, Paths paths) {

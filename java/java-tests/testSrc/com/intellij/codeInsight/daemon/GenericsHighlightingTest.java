@@ -475,6 +475,14 @@ public class GenericsHighlightingTest extends LightDaemonAnalyzerTestCase {
     doTest(LanguageLevel.JDK_1_7, JavaSdkVersion.JDK_1_7, false);
   }
 
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
+=======
+  public void testSOEInInfiniteTypesWithSuperWildcards() throws Exception {
+    doTest(LanguageLevel.JDK_1_7, JavaSdkVersion.JDK_1_7, false);
+
+  }
+
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
   public void testJavaUtilCollections_NoVerify() throws Exception {
     PsiClass collectionsClass = getJavaFacade().findClass("java.util.Collections", GlobalSearchScope.moduleWithLibrariesScope(getModule()));
     assertNotNull(collectionsClass);

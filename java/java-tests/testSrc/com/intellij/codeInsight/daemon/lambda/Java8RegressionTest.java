@@ -63,6 +63,13 @@ public class Java8RegressionTest extends LightDaemonAnalyzerTestCase {
     doTest();
   }
 
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
+=======
+  public void testIDEA138696() throws Exception {
+    doTest();
+  }
+
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
   private void doTest() {
     doTest(false);
   }

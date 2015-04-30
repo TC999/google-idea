@@ -178,13 +178,23 @@ public class OpenTaskDialog extends DialogWrapper {
       myChangelistName.setText(taskManager.getChangelistName(task));
     }
     updateFields(true);
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
     final JComponent preferredFocusedComponent = getPreferredFocusedComponent();
     if (preferredFocusedComponent != null) {
       myTaskStateCombo.registerUpDownAction(preferredFocusedComponent);
+=======
+    myTaskStateCombo.registerUpDownAction(myBranchName);
+    myTaskStateCombo.registerUpDownAction(myChangelistName);
+    if (myUpdateState.isSelected()) {
+      myTaskStateCombo.scheduleUpdateOnce();
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
     }
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
     if (myUpdateState.isSelected()) {
       myTaskStateCombo.scheduleUpdateOnce();
     }
+=======
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
     init();
   }
 

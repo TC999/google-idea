@@ -89,6 +89,10 @@ public class OverloadResolutionTest extends LightDaemonAnalyzerTestCase {
     doTest();
   }
 
+  public void testLambdaValueCompatibleWithNestedTryWithResources() throws Exception {
+    doTest(false);
+  }
+
   public void testManyOverloadsWithVarargs() throws Exception {
     PlatformTestUtil.startPerformanceTest("Overload resolution with 14 overloads", 20000, new ThrowableRunnable() {
       @Override
@@ -102,6 +106,13 @@ public class OverloadResolutionTest extends LightDaemonAnalyzerTestCase {
     doTest(false);
   }
 
+<<<<<<< HEAD   (601525 Merge "Merge remote-tracking branch 'aosp/upstream-idea14' i)
+=======
+  public void testSecondSearchPossibleForFunctionalInterfacesWithPrimitiveFisrtParameter() throws Exception {
+    doTest(false);
+  }
+
+>>>>>>> BRANCH (ff1dfa Snapshot idea/141.713.2 from git://git.jetbrains.org/idea/co)
   private void doTest() {
     doTest(true);
   }
