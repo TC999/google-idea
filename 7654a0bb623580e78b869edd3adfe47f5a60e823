@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "300cbaed_db999553",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-04-30T19:28:21Z",
+      "side": 1,
+      "message": "I thought the issue was only in studio-1.3-dev (internal)?\n\nIn any case, thanks so much for looking into this. I couldn\u0027t figure out the cause, so I had emailed JB asking them for info on how to update the JPS builder .jar files (inside build/lib). It seems like these would need to be updated to show the full stacktrace.\n\nNik responded 2 or 3 days ago with instructions (see the JB email alias), but I haven\u0027t had a chance to follow up on it. Feel free to look at that as well if this doesn\u0027t work out - (my understanding is that this is always a clean checkout, so shouldn\u0027t have this cache, but certainly worth a try).",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "7654a0bb623580e78b869edd3adfe47f5a60e823",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
