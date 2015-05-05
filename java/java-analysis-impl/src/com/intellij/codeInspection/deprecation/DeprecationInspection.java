@@ -18,10 +18,7 @@ package com.intellij.codeInspection.deprecation;
 import com.intellij.codeInsight.daemon.JavaErrorMessages;
 import com.intellij.codeInsight.daemon.impl.analysis.HighlightMessageUtil;
 import com.intellij.codeInsight.daemon.impl.analysis.JavaHighlightUtil;
-import com.intellij.codeInspection.BaseJavaBatchLocalInspectionTool;
-import com.intellij.codeInspection.DeprecationUtil;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.codeInspection.*;
 import com.intellij.codeInspection.ui.MultipleCheckboxOptionsPanel;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
@@ -33,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -281,9 +280,25 @@ public class DeprecationInspection extends BaseJavaBatchLocalInspectionTool {
       return;
     }
 
-    String description = JavaErrorMessages.message("deprecated.symbol",
-                                                   HighlightMessageUtil.getSymbolName(refElement, PsiSubstitutor.EMPTY));
+    String symbolName = HighlightMessageUtil.getSymbolName(refElement, PsiSubstitutor.EMPTY);
+    String description = JavaErrorMessages.message("deprecated.symbol", symbolName);
 
-    holder.registerProblem(elementToHighlight, description, ProblemHighlightType.LIKE_DEPRECATED, rangeInElement);
+    List<LocalQuickFix> fixes = new ArrayList<LocalQuickFix>(4);
+    for (DeprecationFilter filter : DeprecationFilter.EP_NAME.getExtensions()) {
+      if (filter.isExcluded(refElement, elementToHighlight, symbolName)) {
+        return;
+      }
+      String message = filter.getDeprecationMessage(refElement, elementToHighlight, symbolName, description);
+      if (message != null) {
+        description = message;
+      }
+      LocalQuickFix[] additionalFixes = filter.getQuickFixes(refElement, elementToHighlight, symbolName);
+      if (additionalFixes != null && additionalFixes.length > 0) {
+        Collections.addAll(fixes, additionalFixes);
+      }
+    }
+
+    holder.registerProblem(elementToHighlight, description, ProblemHighlightType.LIKE_DEPRECATED, rangeInElement,
+                           fixes.toArray(new LocalQuickFix[fixes.size()]));
   }
 }
