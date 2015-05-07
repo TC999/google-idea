@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd24a5a6_cd5fdf75",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-05-07T18:55:18Z",
+      "side": 1,
+      "message": "Added a comment.\nI\u0027m going to leave it as pairs, since in this case we really do want simply a pair of strings.",
+      "parentUuid": "cd24a5a6_c21d6f90",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d1e2d58_3a2d6790",
         "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-07T00:08:57Z",
       "side": 1,
       "message": "Nit: @NotNull UpdateSettings?",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d8435cc_5ee4d8d7",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-05-07T18:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d1e2d58_3a2d6790",
       "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4d8435cc_a07e32e1",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-05-07T18:55:18Z",
+      "side": 1,
+      "message": "explained in person",
+      "parentUuid": "8d1e2d58_ba7df76b",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd24a5a6_2259c35d",
         "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettings.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "8d1e2d58_66a225ab",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-05-07T18:55:18Z",
+      "side": 1,
+      "message": "It is the same... if folding is on for the other lines :-)",
+      "parentUuid": "cd24a5a6_2259c35d",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd24a5a6_4296ff49",
         "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettingsConfigurable.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2015-05-07T00:08:57Z",
       "side": 1,
       "message": "Can I look over your shoulder and see what this looks like (if you\u0027re in tomorrow)? (I\u0027m being lazy but I can build this tomorrow and take a look myself if you\u0027re not here)",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d1e2d58_e694f51c",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettingsConfigurable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-05-07T18:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd24a5a6_4296ff49",
       "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
