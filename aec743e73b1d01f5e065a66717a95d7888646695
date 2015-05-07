@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd24a5a6_c21d6f90",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-05-07T00:08:57Z",
+      "side": 1,
+      "message": "Should have a header comment.\n\nAlso, go/nopair... some other options to consider:\n\n* Use a custom class here, like Status { getHeader(), getDesc() }\n* Create an enum: StatusType { Tools, Platforms } and return a  MultiMap\u003cStatusType, String\u003e here",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d1e2d58_3a2d6790",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-05-07T00:08:57Z",
+      "side": 1,
+      "message": "Nit: @NotNull UpdateSettings?",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d1e2d58_ba7df76b",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-05-07T00:08:57Z",
+      "side": 1,
+      "message": "Just curious, I can see from this CL that \"external component source\" is an IntelliJ concept, but I have no idea what it is. What\u0027s an enabled external component source, and how do you enable/disable one?",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24a5a6_2259c35d",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-05-07T00:08:57Z",
+      "side": 1,
+      "message": "Nit: autoformat to match other lines?",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24a5a6_4296ff49",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettingsConfigurable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-05-07T00:08:57Z",
+      "side": 1,
+      "message": "Can I look over your shoulder and see what this looks like (if you\u0027re in tomorrow)? (I\u0027m being lazy but I can build this tomorrow and take a look myself if you\u0027re not here)",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
