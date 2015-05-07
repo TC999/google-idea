@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd24a5a6_c400dc8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-05-07T02:05:12Z",
+      "side": 1,
+      "message": "Relevant bug (I\u0027ll update the commit message):\nhttps://code.google.com/p/android/issues/detail?id\u003d171525",
+      "revId": "2b7b4cd86de7357cca2fa4ec7f927529f9df5110",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
