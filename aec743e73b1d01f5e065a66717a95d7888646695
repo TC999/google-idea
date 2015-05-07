@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "4d8435cc_965175b8",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-05-07T19:28:00Z",
+      "side": 1,
+      "message": "Yeah, I know... I actually fixed it, but somehow the change didn\u0027t get uploaded.\nI\u0027ll fix it for real before submitting.",
+      "parentUuid": "ed5b293d_c1520639",
+      "revId": "aec743e73b1d01f5e065a66717a95d7888646695",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd24a5a6_4296ff49",
         "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettingsConfigurable.java",
         "patchSetId": 1
