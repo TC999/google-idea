@@ -16,6 +16,29 @@
       "revId": "2b7b4cd86de7357cca2fa4ec7f927529f9df5110",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d8435cc_eebe440f",
+        "filename": "java/java-analysis-impl/src/com/intellij/codeInspection/deprecation/DeprecationFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-05-07T16:18:43Z",
+      "side": 1,
+      "message": "might be better as LocalQuickFix.EMPTY_ARRAY and @NotNull",
+      "range": {
+        "startLine": 79,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 15
+      },
+      "revId": "2b7b4cd86de7357cca2fa4ec7f927529f9df5110",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
