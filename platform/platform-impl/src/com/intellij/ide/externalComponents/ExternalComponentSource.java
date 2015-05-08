@@ -16,6 +16,7 @@
 package com.intellij.ide.externalComponents;
 
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.updateSettings.impl.UpdateSettings;
 import com.intellij.openapi.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,10 +30,11 @@ public interface ExternalComponentSource {
   /**
    * Retrieve information on the updates that this source can provide.
    * @param indicator A {@link ProgressIndicator} that can be updated to show progress, or can be used to cancel the process.
+   * @param updateSettings
    * @return A Collection of {@link UpdatableExternalComponent}s representing the available updates.
    */
   @NotNull
-  Collection<UpdatableExternalComponent> getAvailableVersions(@Nullable ProgressIndicator indicator);
+  Collection<UpdatableExternalComponent> getAvailableVersions(@Nullable ProgressIndicator indicator, UpdateSettings updateSettings);
 
   /**
    * Retrieve information on currently installed components.
