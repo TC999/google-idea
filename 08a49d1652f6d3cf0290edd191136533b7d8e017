@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d1e2d58_e7598890",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-05-08T01:16:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d1e2d58_a7915020",
+      "revId": "08a49d1652f6d3cf0290edd191136533b7d8e017",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d1e2d58_678b38ef",
         "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentSource.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-05-08T00:42:22Z",
       "side": 1,
       "message": "UpdateSettings @NotNull? @Nullable?",
+      "revId": "08a49d1652f6d3cf0290edd191136533b7d8e017",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d1e2d58_c75e8c77",
+        "filename": "platform/platform-impl/src/com/intellij/ide/externalComponents/ExternalComponentSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1055888
+      },
+      "writtenOn": "2015-05-08T01:16:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d1e2d58_678b38ef",
       "revId": "08a49d1652f6d3cf0290edd191136533b7d8e017",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
