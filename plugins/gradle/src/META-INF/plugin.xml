@@ -48,6 +48,10 @@
     <extensionPoint name="resolve.contributor" interface="org.jetbrains.plugins.gradle.service.resolve.GradleMethodContextContributor"/>
     <extensionPoint name="settingsControlProvider" interface="org.jetbrains.plugins.gradle.service.settings.GradleSettingsControlProvider"/>
     <extensionPoint name="importCustomizer" interface="org.jetbrains.plugins.gradle.service.project.GradleImportCustomizer"/>
+<<<<<<< HEAD   (8b50da Merge "Updated FEST jars to latest versions." into idea14-1.)
+=======
+    <extensionPoint name="frameworkSupport" interface="org.jetbrains.plugins.gradle.frameworkSupport.GradleFrameworkSupportProvider"/>
+>>>>>>> BRANCH (e40daf Snapshot idea/141.1010.3 from git://git.jetbrains.org/idea/c)
   </extensionPoints>
 
   <extensions defaultExtensionNs="org.jetbrains.plugins.gradle">
@@ -64,6 +68,8 @@
     <resolve.contributor implementation="org.jetbrains.plugins.gradle.service.resolve.GradleSourceSetsContributor"/>
     <resolve.contributor implementation="org.jetbrains.plugins.gradle.service.resolve.GradleImplicitContributor"/>
     <projectResolve implementation="org.jetbrains.plugins.gradle.service.project.BaseGradleProjectResolverExtension"/>
+    <frameworkSupport implementation="org.jetbrains.plugins.gradle.frameworkSupport.GradleJavaFrameworkSupportProvider"/>
+    <frameworkSupport implementation="org.jetbrains.plugins.gradle.frameworkSupport.GradleGroovyFrameworkSupportProvider"/>
   </extensions>
 
   <extensions defaultExtensionNs="com.intellij">

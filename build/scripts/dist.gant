@@ -15,7 +15,11 @@
  */
 
 
+<<<<<<< HEAD   (8b50da Merge "Updated FEST jars to latest versions." into idea14-1.)
 import org.apache.tools.ant.BuildException
+=======
+import com.intellij.openapi.util.text.StringUtil
+>>>>>>> BRANCH (e40daf Snapshot idea/141.1010.3 from git://git.jetbrains.org/idea/c)
 import org.jetbrains.jps.gant.LayoutInfo
 
 import static org.jetbrains.jps.idea.IdeaProjectLoader.guessHome
@@ -152,6 +156,10 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   def layouts = includeFile("$home/build/scripts/layouts.gant")
   LayoutInfo info = layouts.layoutFull(home, paths.distAll, null)
   layouts.layout_core(home, paths.artifacts_core)
+  ant.zip(destfile: "${paths.artifacts}/intellij-core-${StringUtil.trimStart(args.buildNumber, "IC-")}.zip") {
+    fileset(dir: paths.artifacts_core)
+  }
+
   notifyArtifactBuilt(paths.artifacts_core)
   if (buildJps) {
     layouts.layoutJps(home, paths.artifacts_jps, args.buildNumber, {})
