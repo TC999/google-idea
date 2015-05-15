@@ -22,6 +22,30 @@
       "revId": "d7893df42677ccbcaffa89ba6bf18f715daa67f3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d9a7579_8fe00a13",
+        "filename": "java/java-psi-api/src/com/intellij/codeInsight/NullableNotNullManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1068658
+      },
+      "writtenOn": "2015-05-15T19:39:54Z",
+      "side": 1,
+      "message": "I started doing this earlier.\nBut reverted it because I thought that would be harder to merge with new Intellij builds.\nLet me know if you still think I should extract the strings as constants.",
+      "parentUuid": "eda6c9c2_ca7cb96d",
+      "range": {
+        "startLine": 52,
+        "startChar": 49,
+        "endLine": 52,
+        "endChar": 84
+      },
+      "revId": "d7893df42677ccbcaffa89ba6bf18f715daa67f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
