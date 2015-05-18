@@ -30,10 +30,29 @@ private pass(String prop) {
   }
 }
 
-target('run_ui_tests': 'Run java tests') {
+target(run_ui_tests: 'Run java tests') {
   depends([check, compile])
 
-  ant.junit(fork: "yes", showoutput: "true", logfailedtests:false, printsummary: "true") {
+  def pathBuilder = new StringBuilder()
+  projectBuilder.moduleRuntimeClasspath(findModule("community-main"), true).each {
+    File entry = new File(it)
+    if (entry.exists()) {
+      if (entry.isDirectory()) {
+        pathBuilder.append(entry.getAbsolutePath() + "/ ")
+      } else {
+        pathBuilder.append(entry.getAbsolutePath() + " ")
+      }
+    }
+  }
+  def text = pathBuilder.toString()
+
+  ant.jar(destfile: "${out}/uitests_classpath_manifest.jar") {
+    manifest() {
+      attribute(name: "Class-Path", value: text)
+    }
+  }
+
+  ant.junit(fork: "yes", showoutput: "true", logfailedtests: "true", printsummary: "true") {
     pass("idea.test.group")
     pass("idea.test.patterns")
     pass("idea.fast.only")
@@ -56,9 +75,7 @@ target('run_ui_tests': 'Run java tests') {
     }
 
     classpath {
-      projectBuilder.moduleRuntimeClasspath(findModule("community-main"), true).each {
-        pathelement(location: it)
-      }
+      pathelement(location: "${out}/uitests_classpath_manifest.jar")
       pathelement(location: "${jdkHome}/lib/tools.jar")
     }
 
@@ -73,7 +90,6 @@ target('run_ui_tests': 'Run java tests') {
 
 target('default' : "Run all UI tests") {
   depends([compile, run_ui_tests])
-  depends([run_ui_tests])
 }
 
 // To run just your own tests, you can for example write
