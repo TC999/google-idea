@@ -15,6 +15,7 @@
  */
 package com.intellij.openapi.application;
 
+import com.google.common.io.Files;
 import com.intellij.ide.plugins.IdeaPluginDescriptorImpl;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.ide.plugins.PluginManagerCore;
@@ -142,8 +143,8 @@ public class ConfigImportHelper {
         }
         File options = new File(file, OPTIONS_XML);
         if (options.exists()) {
-          final long modified = options.lastModified();
-          if (modified > lastModified) {
+          final long modified = file.lastModified();
+          if (modified >= lastModified) {
             lastModified = modified;
             maxFile = file;
           }
@@ -165,11 +166,29 @@ public class ConfigImportHelper {
   private static void doImport(@NotNull File newConfigDir, @NotNull File oldConfigDir, ConfigImportSettings settings, File installationHome) {
     try {
       copy(oldConfigDir, newConfigDir, settings, installationHome);
+
+      // There are a couple of files that live outside the system/ and config/ folders; handle
+      // these here; see https://code.google.com/p/android/issues/detail?id=171122
+      File oldParent = oldConfigDir.getParentFile();
+      File newParent = newConfigDir.getParentFile();
+      if (oldParent != null && newParent!= null) {
+        copyIfExists("idea.properties", oldParent, newParent);
+        copyIfExists("studio.vmoptions", oldParent, newParent);
+        copyIfExists("studio64.vmoptions", oldParent, newParent);
+      }
     }
     catch (IOException e) {
       JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
                                     ApplicationBundle.message("error.unable.to.import.settings", e.getMessage()),
                                     ApplicationBundle.message("title.settings.import.failed"), JOptionPane.WARNING_MESSAGE);
+    }
+  }
+
+  private static void copyIfExists(String name, File srcFolder, File destFolder) throws IOException {
+    File src = new File(srcFolder, name);
+    if (src.exists()) {
+      File dest = new File(destFolder, name);
+      Files.copy(src, dest);
     }
   }
 
