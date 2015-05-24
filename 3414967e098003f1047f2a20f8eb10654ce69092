@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8d162dff_5d92afd1",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/application/ConfigImportHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-05-24T05:16:13Z",
+      "side": 1,
+      "message": "I would have naively thought that we offer the most recent one according to their version number (AndroidStudio1.2 is newer than AndroidStudio, etc), which increases the chance of copying a more compatible config. After all the user can then change this folder as it is only a suggestion. But just a thought.",
+      "range": {
+        "startLine": 146,
+        "startChar": 32,
+        "endLine": 146,
+        "endChar": 36
+      },
+      "revId": "3414967e098003f1047f2a20f8eb10654ce69092",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0995dc_eb476b0e",
         "filename": "platform/platform-impl/src/com/intellij/openapi/application/ConfigImportHelper.java",
         "patchSetId": 1
@@ -13,6 +36,24 @@
       "writtenOn": "2015-05-24T03:46:06Z",
       "side": 1,
       "message": "I don\u0027t love having a specific whitelist here. But given that it\u0027s looking outside of the config folder, I was afraid to just blindly copy every non-directory file there -- at least until I can see what IntelliJ is doing on Windows (e.g. where it\u0027s decided to put these files and what else is there.)",
+      "revId": "3414967e098003f1047f2a20f8eb10654ce69092",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4daef5fa_21c358ba",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/application/ConfigImportHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-05-24T05:16:13Z",
+      "side": 1,
+      "message": "Yeah, not in love with it either. I would feel slightly more comfortable with something like [ \"*.properties , \"*.vmoptions\" ]\n\nFor example if we fix the other bug that says that \"idea.properties\" should be \"studio.properties\" this will break.",
+      "parentUuid": "4d0995dc_eb476b0e",
       "revId": "3414967e098003f1047f2a20f8eb10654ce69092",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
