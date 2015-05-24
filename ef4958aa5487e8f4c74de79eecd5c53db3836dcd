@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0995dc_8bb22f76",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/application/ConfigImportHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-05-24T16:13:50Z",
+      "side": 1,
+      "message": "Accidental import, shouldn\u0027t be here",
+      "revId": "ef4958aa5487e8f4c74de79eecd5c53db3836dcd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
