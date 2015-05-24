@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0995dc_eb476b0e",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/application/ConfigImportHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-05-24T03:46:06Z",
+      "side": 1,
+      "message": "I don\u0027t love having a specific whitelist here. But given that it\u0027s looking outside of the config folder, I was afraid to just blindly copy every non-directory file there -- at least until I can see what IntelliJ is doing on Windows (e.g. where it\u0027s decided to put these files and what else is there.)",
+      "revId": "3414967e098003f1047f2a20f8eb10654ce69092",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
