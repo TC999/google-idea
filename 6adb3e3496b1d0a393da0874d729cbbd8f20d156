@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd3d85a0_0ba3b27f",
+        "filename": "platform/platform-impl/src/com/intellij/ide/ui/laf/darcula/darcula.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-05-27T23:08:16Z",
+      "side": 1,
+      "message": "or if you set it to 0 it should be dynamic and use the component size",
+      "range": {
+        "startLine": 164,
+        "startChar": 15,
+        "endLine": 164,
+        "endChar": 17
+      },
+      "revId": "6adb3e3496b1d0a393da0874d729cbbd8f20d156",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
