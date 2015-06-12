@@ -31,6 +31,7 @@
       <module fileurl="file://$PROJECT_DIR$/../base/build-system/builder-test-api/builder-test-api.iml" filepath="$PROJECT_DIR$/../base/build-system/builder-test-api/builder-test-api.iml" group="plugins/Android/android-sdk" />
       <module fileurl="file://$PROJECT_DIR$/platform/built-in-server/built-in-server.iml" filepath="$PROJECT_DIR$/platform/built-in-server/built-in-server.iml" group="platform" />
       <module fileurl="file://$PROJECT_DIR$/platform/built-in-server-api/built-in-server-api.iml" filepath="$PROJECT_DIR$/platform/built-in-server-api/built-in-server-api.iml" group="platform" />
+      <module fileurl="file://$PROJECT_DIR$/../studio/google/cloud/testing/cassette/cassette.iml" filepath="$PROJECT_DIR$/../studio/google/cloud/testing/cassette/cassette.iml" group="plugins/Google/testing" />
       <module fileurl="file://$PROJECT_DIR$/../base/chartlib/chartlib.iml" filepath="$PROJECT_DIR$/../base/chartlib/chartlib.iml" group="plugins/Android/android-sdk" />
       <module fileurl="file://$PROJECT_DIR$/colorSchemes/colorSchemes.iml" filepath="$PROJECT_DIR$/colorSchemes/colorSchemes.iml" group="platform" />
       <module fileurl="file://$PROJECT_DIR$/plugins/commander/commander.iml" filepath="$PROJECT_DIR$/plugins/commander/commander.iml" group="plugins" />
@@ -87,7 +88,7 @@
       <module fileurl="file://$PROJECT_DIR$/plugins/github/github.iml" filepath="$PROJECT_DIR$/plugins/github/github.iml" group="plugins" />
       <module fileurl="file://$PROJECT_DIR$/plugins/google-app-engine/google-app-engine.iml" filepath="$PROJECT_DIR$/plugins/google-app-engine/google-app-engine.iml" group="plugins/GAE" />
       <module fileurl="file://$PROJECT_DIR$/plugins/google-app-engine/jps-plugin/google-app-engine-jps-plugin.iml" filepath="$PROJECT_DIR$/plugins/google-app-engine/jps-plugin/google-app-engine-jps-plugin.iml" group="plugins/GAE" />
-      <module fileurl="file://$PROJECT_DIR$/../studio/google/cloud/testing/google-cloud-testing.iml" filepath="$PROJECT_DIR$/../studio/google/cloud/testing/google-cloud-testing.iml" group="plugins/Google" />
+      <module fileurl="file://$PROJECT_DIR$/../studio/google/cloud/testing/google-cloud-testing/google-cloud-testing.iml" filepath="$PROJECT_DIR$/../studio/google/cloud/testing/google-cloud-testing/google-cloud-testing.iml" group="plugins/Google/testing" />
       <module fileurl="file://$PROJECT_DIR$/../studio/google/cloud/tools/google-cloud-tools.iml" filepath="$PROJECT_DIR$/../studio/google/cloud/tools/google-cloud-tools.iml" group="plugins/Google" />
       <module fileurl="file://$PROJECT_DIR$/../studio/google/login/google-login.iml" filepath="$PROJECT_DIR$/../studio/google/login/google-login.iml" group="plugins/Google" />
       <module fileurl="file://$PROJECT_DIR$/plugins/gradle/gradle.iml" filepath="$PROJECT_DIR$/plugins/gradle/gradle.iml" group="plugins/gradle" />
