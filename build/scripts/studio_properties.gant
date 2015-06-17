@@ -83,6 +83,20 @@ def getProperties(String root) {
                          }
                        }
 
+                       dir("google-cloud-tools-core") {
+                         dir("lib") {
+                           jar("google-cloud-tools-core.jar") {
+                             module("google-cloud-tools-core-as")
+                           }
+                           fileset(dir: "${home}/../../external/google/ct4ij/lib") {
+                             include(name: "**/*.jar")
+                           }
+                           fileset(dir: "${home}/../../external/google/ct4ij/third_party") {
+                             include(name: "**/*.jar")
+                           }
+                         }
+                       }
+
                        dir("google-services") {
                          dir("lib") {
                            jar("google-services.jar") {
@@ -97,9 +111,12 @@ def getProperties(String root) {
                        dir("google-login") {
                          dir("lib") {
                            jar("google-login.jar") {
-                             module("google-login")
+                             module("google-login-as")
                            }
-                           fileset(dir: "${home}/../studio/google/login/lib") {
+                           fileset(dir: "${home}/../../external/google/login4ij/lib") {
+                             include(name: "**/*.jar")
+                           }
+                           fileset(dir: "${home}/../../external/google/login4ij/third_party") {
                              include(name: "**/*.jar")
                            }
                            // Additional libraries that need to be manually copied, this is exported to cloud tools/testing
