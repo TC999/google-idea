@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e67ca0f_0d9b777a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-06-19T19:51:37Z",
+      "side": 1,
+      "message": "why? Don\u0027t you want those tested too? Is the issue then that those tests are necessary for everything else?",
+      "range": {
+        "startLine": 16,
+        "startChar": 43,
+        "endLine": 16,
+        "endChar": 68
+      },
+      "revId": "44525e3200e1fbc9b094dc887fc869c3761a0b10",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e7adaa8_d43bd1a3",
+        "filename": "build/scripts/layouts.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-06-19T19:51:37Z",
+      "side": 1,
+      "message": "If we think that these apply only to Studio and not to IDEA, (and I think they do since fest-*.jar isn\u0027t in IDEA), then we should try to move them into studio_properties.gant, so that this file can remain consistent with upstream layouts.gant.\n\nIf its too much of a hassle, then its fine.",
+      "range": {
+        "startLine": 784,
+        "startChar": 10,
+        "endLine": 784,
+        "endChar": 19
+      },
+      "revId": "44525e3200e1fbc9b094dc887fc869c3761a0b10",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
