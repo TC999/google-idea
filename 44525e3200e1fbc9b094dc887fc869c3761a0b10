@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1eb50aac_f1905a59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-06-19T22:58:35Z",
+      "side": 1,
+      "message": "We could disable the \"First Run Wizard\" for all tests and have\n\n  IdeGuiTestSetup(enableFirstRunWizard \u003d true) \n\nfor the tests that care about it. WDYT?",
+      "parentUuid": "1e67ca0f_0d9b777a",
+      "range": {
+        "startLine": 16,
+        "startChar": 43,
+        "endLine": 16,
+        "endChar": 68
+      },
+      "revId": "44525e3200e1fbc9b094dc887fc869c3761a0b10",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e7adaa8_d43bd1a3",
         "filename": "build/scripts/layouts.gant",
         "patchSetId": 1
