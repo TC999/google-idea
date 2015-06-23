@@ -38,7 +38,7 @@ public class LargeFileEditorProvider implements FileEditorProvider, DumbAware {
 
   @Override
   public boolean accept(@NotNull Project project, @NotNull VirtualFile file) {
-    if (file.isDirectory() || !file.isValid()) {
+    if (file.isDirectory() || !file.isValid() || file.getFileType().isBinary()) {
       return false;
     }
     return SingleRootFileViewProvider.isTooLargeForContentLoading(file);
