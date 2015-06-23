@@ -109,6 +109,7 @@ public class HyperlinkLabel extends HighlightableComponent {
     });
   }
 
+  @Override
   public void addNotify() {
     super.addNotify();
     adjustSize();
@@ -135,6 +136,7 @@ public class HyperlinkLabel extends HighlightableComponent {
   }
 
 
+  @Override
   protected void processMouseEvent(MouseEvent e) {
     if (e.getID() == MouseEvent.MOUSE_EXITED) {
       setCursor(Cursor.getDefaultCursor());
