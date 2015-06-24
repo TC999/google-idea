@@ -15,6 +15,8 @@
  */
 package com.intellij.util.ui;
 
+import com.intellij.openapi.util.SystemInfo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -111,6 +113,11 @@ public class ThreeStateCheckBox extends JCheckBox {
 
   @Override
   protected void paintComponent(Graphics g) {
+    if (SystemInfo.isMacOSSnowLeopard && !UIUtil.isUnderDarcula() && !UIUtil.isUnderIntelliJLaF()) {
+      paintAquaIndeterminateIcon(g);
+      return;
+    }
+
     super.paintComponent(g);
     switch (getState()) {
       case DONT_CARE:
@@ -148,6 +155,23 @@ public class ThreeStateCheckBox extends JCheckBox {
         break;
       default:
         break;
+    }
+  }
+
+  private void paintAquaIndeterminateIcon(Graphics g) {
+    State initial = getState();
+    try {
+      if (getState() == State.DONT_CARE) {
+        setSelected(true);
+        putClientProperty("JButton.selectedState", "indeterminate");
+      }
+      else {
+        putClientProperty("JButton.selectedState", null);
+      }
+      super.paintComponent(g);
+    }
+    finally {
+      setState(initial);
     }
   }
 }
