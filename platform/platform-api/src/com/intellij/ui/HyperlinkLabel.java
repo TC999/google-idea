@@ -27,6 +27,9 @@ import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.accessibility.Accessible;
+import javax.accessibility.AccessibleContext;
+import javax.accessibility.AccessibleRole;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -43,7 +46,7 @@ import java.util.List;
 /**
  * @author Eugene Belyaev
  */
-public class HyperlinkLabel extends HighlightableComponent {
+public class HyperlinkLabel extends HighlightableComponent implements Accessible {
   private static final TextAttributes BOLD_ATTRIBUTES = new TextAttributes(new JBColor(new NotNullProducer<Color>() {
     @NotNull
     @Override
@@ -253,6 +256,27 @@ public class HyperlinkLabel extends HighlightableComponent {
     parent.revalidate();
     parent.repaint();
     adjustSize();
+  }
+
+  @Override
+  public AccessibleContext getAccessibleContext() {
+    if (accessibleContext == null) {
+      accessibleContext = new AccessibleHyperlink();
+    }
+
+    return accessibleContext;
+  }
+
+  private class AccessibleHyperlink extends AccessibleJComponent {
+    @Override
+    public String getAccessibleName() {
+      return myText;
+    }
+
+    @Override
+    public AccessibleRole getAccessibleRole() {
+      return AccessibleRole.HYPERLINK;
+    }
   }
 
   public static class Croppable extends HyperlinkLabel {
