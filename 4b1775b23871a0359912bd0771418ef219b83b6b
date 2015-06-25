@@ -16,6 +16,24 @@
       "revId": "4b1775b23871a0359912bd0771418ef219b83b6b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "beeebe34_f23bee87",
+        "filename": "platform/platform-api/src/com/intellij/ui/HyperlinkLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-06-25T19:49:06Z",
+      "side": 1,
+      "message": "Ah, at the very least, this context should be in HighlightableComponent, you\u0027re right. As for creating a context vs. setting accessible context values directly, I was just copying what JLabel does, which seems support creating a custom context like I\u0027m doing here.",
+      "parentUuid": "1eea6a20_ca9d54ec",
+      "revId": "4b1775b23871a0359912bd0771418ef219b83b6b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
