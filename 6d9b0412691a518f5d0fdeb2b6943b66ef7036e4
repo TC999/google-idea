@@ -22,6 +22,30 @@
       "revId": "6d9b0412691a518f5d0fdeb2b6943b66ef7036e4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "539a1d79_924bdc7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1050224
+      },
+      "writtenOn": "2015-06-30T15:19:56Z",
+      "side": 1,
+      "message": "login is the same between intellij and android studio.\nct4as is a plugin targeting only AS.\n\nThe iml files you see with \"-as\" are for a different reason.\nIf you develop the plugins within the AS tree, the\ndependencies are source module versus when we\ndevelop against IJ and are resolved through an SDK setting.\n\nSo we have:\n\nctcore/cloud-tools-core    : used when developing IJ\nctcore/cloud-tools-core-as : used when developing AS\nlogin/login                : used when developing IJ\nlogin/login-as             : used when developing AS\nct4as/cloud-tools          : used when developing AS\n\nI may change \"cloud-tools\" to also have 2 versions and be named something more AS specific, but that change isn\u0027t needed yet.",
+      "parentUuid": "b3da7933_7d60f704",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "6d9b0412691a518f5d0fdeb2b6943b66ef7036e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
