@@ -71,4 +71,12 @@ public interface ExternalComponentSource {
    */
   @Nullable
   List<String> getAllChannels();
+
+  /**
+   * Gets the default channel for this source.
+   * @return A channel name that will be set as the default when the IDE first becomes aware of this channel, or {@code null} if this source
+   *         doesn't have different update channels.
+   */
+  @Nullable
+  String getDefaultChannel();
 }
