@@ -15,6 +15,8 @@
  */
 package com.intellij.openapi.updateSettings.impl;
 
+import com.intellij.ide.externalComponents.ExternalComponentManager;
+import com.intellij.ide.externalComponents.ExternalComponentSource;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.impl.ApplicationInfoImpl;
 import com.intellij.openapi.components.*;
@@ -61,6 +63,8 @@ public class UpdateSettings implements PersistentStateComponent<UpdateSettings.S
     @CollectionBean
     public final List<String> enabledExternalComponentSources = new SmartList<String>();
     @CollectionBean
+    public final List<String> knownExternalComponentSources = new SmartList<String>();
+    @CollectionBean
     public final Map<String, String> externalUpdateChannels = new HashMap<String, String>();
 
     public boolean CHECK_NEEDED = true;
@@ -91,6 +95,10 @@ public class UpdateSettings implements PersistentStateComponent<UpdateSettings.S
 
   public List<String> getEnabledExternalUpdateSources() {
     return myState.enabledExternalComponentSources;
+  }
+
+  public List<String> getKnownExternalUpdateSources() {
+    return myState.knownExternalComponentSources;
   }
 
   public Map<String, String> getExternalUpdateChannels() {
