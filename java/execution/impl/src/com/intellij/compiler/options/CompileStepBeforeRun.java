@@ -17,6 +17,7 @@ package com.intellij.compiler.options;
 
 import com.intellij.execution.BeforeRunTask;
 import com.intellij.execution.BeforeRunTaskProvider;
+import com.intellij.execution.DefaultBeforeRunTaskChooser;
 import com.intellij.execution.ExecutionBundle;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.configurations.RunConfigurationBase;
@@ -191,7 +192,16 @@ public class CompileStepBeforeRun extends BeforeRunTaskProvider<CompileStepBefor
   public static class MakeBeforeRunTask extends BeforeRunTask<MakeBeforeRunTask> {
     public MakeBeforeRunTask() {
       super(ID);
-      setEnabled(true);
+    }
+  }
+
+  /**
+   * {@link DefaultBeforeRunTaskChooser} that enables the "Make" step only.
+   */
+  public static class CompilerBeforeRunTaskChooser extends DefaultBeforeRunTaskChooser {
+    @Override
+    public void changeIsEnabled(@NotNull BeforeRunTask task, @NotNull RunConfiguration runConfiguration) {
+      task.setEnabled(task.getProviderId().equals(ID));
     }
   }
 }
