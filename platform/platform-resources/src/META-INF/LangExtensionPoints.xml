@@ -419,6 +419,10 @@
                     interface="com.intellij.execution.BeforeRunTaskProvider"
                     area="IDEA_PROJECT"/>
 
+    <extensionPoint name="defaultBeforeRunTaskChooser"
+                    interface="com.intellij.execution.DefaultBeforeRunTaskChooser"
+                    area="IDEA_PROJECT"/>
+
     <extensionPoint name="consoleFilterProvider" interface="com.intellij.execution.filters.ConsoleFilterProvider"/>
     <extensionPoint name="consoleInputFilterProvider" interface="com.intellij.execution.filters.ConsoleInputFilterProvider"/>
     <extensionPoint name="consoleActionsPostProcessor" interface="com.intellij.execution.actions.ConsoleActionsPostProcessor"/>

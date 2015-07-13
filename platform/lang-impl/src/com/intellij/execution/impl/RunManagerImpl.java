@@ -638,7 +638,7 @@ public class RunManagerImpl extends RunManagerEx implements PersistentStateCompo
     List<BeforeRunTask> tasks = new ArrayList<BeforeRunTask>(getBeforeRunTasks(settings.getConfiguration()));
     Map<Key<BeforeRunTask>, BeforeRunTask> templateTasks = new THashMap<Key<BeforeRunTask>, BeforeRunTask>();
     List<BeforeRunTask> beforeRunTasks = settings.isTemplate()
-                                         ? getHardcodedBeforeRunTasks(settings.getConfiguration())
+                                         ? getDefaultBeforeRunTasks(settings.getConfiguration())
                                          : getBeforeRunTasks(getConfigurationTemplate(settings.getFactory()).getConfiguration());
     for (BeforeRunTask templateTask : beforeRunTasks) {
       templateTasks.put(templateTask.getProviderId(), templateTask);
@@ -1161,16 +1161,24 @@ public class RunManagerImpl extends RunManagerEx implements PersistentStateCompo
   private List<BeforeRunTask> getTemplateBeforeRunTasks(@NotNull RunConfiguration settings) {
     final RunnerAndConfigurationSettings template = getConfigurationTemplate(settings.getFactory());
     final List<BeforeRunTask> templateTasks = myConfigurationToBeforeTasksMap.get(template.getConfiguration());
-    return templateTasks == null ? getHardcodedBeforeRunTasks(settings) : getCopies(templateTasks);
+    return templateTasks == null ? getDefaultBeforeRunTasks(settings) : getCopies(templateTasks);
   }
 
   @NotNull
-  private List<BeforeRunTask> getHardcodedBeforeRunTasks(@NotNull RunConfiguration settings) {
+  private List<BeforeRunTask> getDefaultBeforeRunTasks(@NotNull RunConfiguration settings) {
+    BeforeRunTaskProvider<BeforeRunTask>[] runTaskProviders = Extensions.getExtensions(BeforeRunTaskProvider.EXTENSION_POINT_NAME, myProject);
+    DefaultBeforeRunTaskChooser[] choosers = Extensions.getExtensions(DefaultBeforeRunTaskChooser.EP_NAME, myProject);
+
     List<BeforeRunTask> _tasks = new SmartList<BeforeRunTask>();
-    for (BeforeRunTaskProvider<? extends BeforeRunTask> provider : Extensions
-      .getExtensions(BeforeRunTaskProvider.EXTENSION_POINT_NAME, myProject)) {
+    for (BeforeRunTaskProvider<? extends BeforeRunTask> provider : runTaskProviders) {
       BeforeRunTask task = provider.createTask(settings);
-      if (task != null && task.isEnabled()) {
+      if (task == null) {
+        continue;
+      }
+      for (DefaultBeforeRunTaskChooser chooser : choosers) {
+        chooser.changeIsEnabled(task, settings);
+      }
+      if (task.isEnabled()) {
         Key<? extends BeforeRunTask> providerID = provider.getId();
         settings.getFactory().configureBeforeRunTaskDefaults(providerID, task);
         if (task.isEnabled()) {
