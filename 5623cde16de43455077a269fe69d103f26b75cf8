@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38cf4674_a14c1e95",
+        "filename": "platform/platform-impl/src/com/intellij/ide/ui/laf/darcula/ui/DarculaButtonUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1054756
+      },
+      "writtenOn": "2015-07-13T08:31:53Z",
+      "side": 1,
+      "message": "This seems like it would modify the JToggleButton paint as well which I\u0027m not sure it\u0027s the intended behaviour.\nShould this be a check for AbstractButton instead and then,  keep a check for JButton below?",
+      "range": {
+        "startLine": 63,
+        "startChar": 58,
+        "endLine": 63,
+        "endChar": 65
+      },
+      "revId": "5623cde16de43455077a269fe69d103f26b75cf8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
