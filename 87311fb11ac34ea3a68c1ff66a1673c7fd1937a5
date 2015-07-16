@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3837466d_fb90cfa4",
+        "filename": "java/java-impl/src/com/intellij/testIntegration/createTest/CreateTestAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-07-16T19:22:35Z",
+      "side": 1,
+      "message": "Please add a comment (in the gerrit) about why do you need this to be \"protected\" (to improve the chances of getting this patch accepted.)",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 11
+      },
+      "revId": "87311fb11ac34ea3a68c1ff66a1673c7fd1937a5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
