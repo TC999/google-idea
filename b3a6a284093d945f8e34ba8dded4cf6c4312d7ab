@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3837466d_f50b00af",
+        "filename": "build/scripts/utils.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-07-16T16:49:42Z",
+      "side": 1,
+      "message": "are we sure we want to essentially double the max heap size for 32-bit JVMs? I ask because I\u0027m not sure how this will affect users on a 32-bit arch (on 32-bit Windows, the maximum you can get is ~1.6Gb because of the contiguous address space requirement of the JVM; the Gradle daemon has similar requirements, and I\u0027m not sure it will fit; plus, we might force more swapping).",
+      "range": {
+        "startLine": 65,
+        "startChar": 48,
+        "endLine": 65,
+        "endChar": 56
+      },
+      "revId": "b3a6a284093d945f8e34ba8dded4cf6c4312d7ab",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
