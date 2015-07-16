@@ -46,6 +46,30 @@
       "revId": "b3a6a284093d945f8e34ba8dded4cf6c4312d7ab",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "982af212_d4791cf3",
+        "filename": "build/scripts/utils.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-07-16T17:13:06Z",
+      "side": 1,
+      "message": "750m sgtm.",
+      "parentUuid": "f8f20ee5_724df68e",
+      "range": {
+        "startLine": 65,
+        "startChar": 48,
+        "endLine": 65,
+        "endChar": 56
+      },
+      "revId": "b3a6a284093d945f8e34ba8dded4cf6c4312d7ab",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
