@@ -22,6 +22,30 @@
       "revId": "b3a6a284093d945f8e34ba8dded4cf6c4312d7ab",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8f20ee5_724df68e",
+        "filename": "build/scripts/utils.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-07-16T16:55:35Z",
+      "side": 1,
+      "message": "I\u0027m fine with going lower, say 750m. I actually have no idea how many users are affected by this. It seems unlikely Studio will perform well in 512mb (if they include features like layout editing).",
+      "parentUuid": "3837466d_f50b00af",
+      "range": {
+        "startLine": 65,
+        "startChar": 48,
+        "endLine": 65,
+        "endChar": 56
+      },
+      "revId": "b3a6a284093d945f8e34ba8dded4cf6c4312d7ab",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
