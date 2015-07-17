@@ -22,6 +22,30 @@
       "revId": "87311fb11ac34ea3a68c1ff66a1673c7fd1937a5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b817b6fa_9529c495",
+        "filename": "java/java-impl/src/com/intellij/testIntegration/createTest/CreateTestAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-07-17T12:34:35Z",
+      "side": 1,
+      "message": "Actually, I missed the fact that the overloaded variant is already protected, I\u0027ll revert this change.",
+      "parentUuid": "3837466d_fb90cfa4",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 11
+      },
+      "revId": "87311fb11ac34ea3a68c1ff66a1673c7fd1937a5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
