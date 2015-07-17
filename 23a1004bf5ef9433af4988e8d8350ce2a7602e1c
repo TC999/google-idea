@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18d1a28c_08bf67aa",
+        "filename": "java/java-impl/src/com/intellij/testIntegration/createTest/CreateTestAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1057413
+      },
+      "writtenOn": "2015-07-17T12:34:35Z",
+      "side": 1,
+      "message": "This will be useful when we create an Android-specific subclass of CreateTestAction.",
+      "range": {
+        "startLine": 160,
+        "startChar": 2,
+        "endLine": 160,
+        "endChar": 11
+      },
+      "revId": "23a1004bf5ef9433af4988e8d8350ce2a7602e1c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
