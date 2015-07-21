@@ -160,7 +160,7 @@ def getProperties(String root) {
                          }
                        }
 
-                       if (isDefined("studio.ui.tests")) {
+                       if (!System.getProperty("studio.ui.tests").isEmpty()) {
                          dir("android") {
                            dir("lib") {
                              fileset(dir: "${home}/${androidRoot}/android/lib") {
