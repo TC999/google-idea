@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d6a42d9_77b8d013",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-07-21T21:58:16Z",
+      "side": 1,
+      "message": "Nice job debugging this problem, thanks!",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "329a02233aecf05dc28250745a0043e378fbb3bd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8568eec_7e44fd69",
+        "filename": "platform/bootstrap/src/com/intellij/ide/BootstrapClassLoaderUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-07-21T21:58:16Z",
+      "side": 1,
+      "message": "I thought you mentioned this was necessary (some crypto lib), not just a supporting legacy behavior?\n\nIf it is necessary, then I\u0027d tweak the comment, otherwise this is good.",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 50
+      },
+      "revId": "329a02233aecf05dc28250745a0043e378fbb3bd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
