@@ -45,6 +45,30 @@
       "revId": "329a02233aecf05dc28250745a0043e378fbb3bd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d6a42d9_7743f069",
+        "filename": "platform/bootstrap/src/com/intellij/ide/BootstrapClassLoaderUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-07-21T22:13:03Z",
+      "side": 1,
+      "message": "Rephrased. Yes, the Java Cryptography Extensions are there and we need to keep them working.",
+      "parentUuid": "f8568eec_7e44fd69",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 50
+      },
+      "revId": "329a02233aecf05dc28250745a0043e378fbb3bd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
