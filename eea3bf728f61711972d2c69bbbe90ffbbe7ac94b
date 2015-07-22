@@ -22,6 +22,30 @@
       "revId": "eea3bf728f61711972d2c69bbbe90ffbbe7ac94b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d7552bb_d9579353",
+        "filename": "build/scripts/studio_properties.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-07-22T14:36:08Z",
+      "side": 1,
+      "message": "See isMac and isWin definitions in utils.gant. They seem to be using the same mechanism.\n\nWhat is the concern?",
+      "parentUuid": "0ddfa2f3_5557dc30",
+      "range": {
+        "startLine": 163,
+        "startChar": 27,
+        "endLine": 163,
+        "endChar": 43
+      },
+      "revId": "eea3bf728f61711972d2c69bbbe90ffbbe7ac94b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
