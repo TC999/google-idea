@@ -46,6 +46,30 @@
       "revId": "eea3bf728f61711972d2c69bbbe90ffbbe7ac94b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd2dee8_18d42d31",
+        "filename": "build/scripts/studio_properties.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-07-22T15:41:46Z",
+      "side": 1,
+      "message": "I just wanted a non-empty string, don\u0027t really care about the contents (1, enabled, true, etc).",
+      "parentUuid": "8d7552bb_d9579353",
+      "range": {
+        "startLine": 163,
+        "startChar": 27,
+        "endLine": 163,
+        "endChar": 43
+      },
+      "revId": "eea3bf728f61711972d2c69bbbe90ffbbe7ac94b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
