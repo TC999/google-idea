@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d86fa2e_b201c6be",
+        "filename": "platform/core-api/src/com/intellij/util/PlatformConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-07-24T18:45:44Z",
+      "side": 1,
+      "message": "I left the original as I find it clearer",
+      "parentUuid": "ed8dee45_08917b24",
+      "revId": "872fb28eb65fed1b8e78d23144d2fecc64e93721",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d9d1a6f_97b2ecce",
         "filename": "platform/core-api/src/com/intellij/util/PlatformConfig.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ad977653_95f4a6c5",
+        "filename": "platform/core-api/src/com/intellij/util/PlatformConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-07-24T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d9d1a6f_97b2ecce",
+      "revId": "872fb28eb65fed1b8e78d23144d2fecc64e93721",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d9ade79_06232a58",
         "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateStrategy.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2015-07-24T18:33:18Z",
       "side": 1,
       "message": "This comment is now obsolete because of the nice PlatformConfig variable (and can be removed if you want)",
+      "revId": "872fb28eb65fed1b8e78d23144d2fecc64e93721",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d9d1a6f_7753c8e9",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-07-24T18:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d9ade79_06232a58",
       "revId": "872fb28eb65fed1b8e78d23144d2fecc64e93721",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
