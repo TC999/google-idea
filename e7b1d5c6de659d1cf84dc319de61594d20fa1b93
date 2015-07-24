@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd882a39_61385efb",
+        "filename": "platform/platform-impl/src/com/intellij/ide/SystemHealthMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-07-24T23:54:09Z",
+      "side": 1,
+      "message": "jsut for testing, maybe we can set this to be every 5 minutes, and divide the count by 1000?",
+      "range": {
+        "startLine": 253,
+        "startChar": 7,
+        "endLine": 253,
+        "endChar": 9
+      },
+      "revId": "e7b1d5c6de659d1cf84dc319de61594d20fa1b93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
