@@ -15,11 +15,13 @@
  */
 package com.intellij.openapi.actionSystem.impl;
 
+import com.google.common.collect.ImmutableSet;
 import com.intellij.AbstractBundle;
 import com.intellij.CommonBundle;
 import com.intellij.diagnostic.PluginException;
 import com.intellij.ide.ActivityTracker;
 import com.intellij.ide.DataManager;
+import com.intellij.ide.SystemHealthMonitor;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.ide.plugins.PluginManagerCore;
@@ -34,6 +36,7 @@ import com.intellij.openapi.application.*;
 import com.intellij.openapi.application.ex.ApplicationManagerEx;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.editor.actions.BackspaceAction;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.keymap.Keymap;
 import com.intellij.openapi.keymap.KeymapManager;
@@ -1186,9 +1189,16 @@ public final class ActionManagerImpl extends ActionManagerEx implements Applicat
     myActionListeners.remove(listener);
   }
 
+  // we want to exclude some actions (the actual list is somewhat arbitrary) from being counted and reported
+  private static final Set<String> ourActionsExcludedFromTracking = ImmutableSet.of(BackspaceAction.class.getName());
+
   @Override
   public void fireBeforeActionPerformed(AnAction action, DataContext dataContext, AnActionEvent event) {
     if (action != null) {
+      if (!ourActionsExcludedFromTracking.contains(action.getClass().getName())) {
+        SystemHealthMonitor.ourStudioActivityTracker.incrementAndGet();
+      }
+
       myPrevPerformedActionId = myLastPreformedActionId;
       myLastPreformedActionId = getId(action);
       //noinspection AssignmentToStaticFieldFromInstanceMethod
