@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d83be1d_8aa80b10",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-07-24T03:41:21Z",
+      "side": 1,
+      "message": "My brain is running against a wall here. Is it possible to break some of the logic below out into separate boolean variables?\n\nThe left side reads OK to me, as each condition makes sense. But here, it seems like we\u0027ve got conditions that are logically true but hard to reason about, spread out as they are across multiple nested blocks now.\n\nIt might help if we can break out the android studio logic into its own separate block:\n\nfor (channel in channels) {\n   if (!androidstudio) {\n      // Old block\n   }\n   else {\n      // New block\n   }\n}\n\nThat might duplicate some code but it may be easier to read? (Also it may be easier to merge with Jetbrains in the future if they ever update their own logic separately)",
+      "revId": "36038ee707c0c8ab02c51e6af35bf230b8e3f58e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
