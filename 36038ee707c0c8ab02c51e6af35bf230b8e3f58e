@@ -16,6 +16,24 @@
       "revId": "36038ee707c0c8ab02c51e6af35bf230b8e3f58e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d83be1d_93eda601",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1047453
+      },
+      "writtenOn": "2015-07-24T17:07:59Z",
+      "side": 1,
+      "message": "This side is also easy to read as well, but it reads differently. I\u0027ve added comments to it that should make it better.\n\nDuplicating these lines is a no go, because if IJ doesn\u0027t take this change, a fix might just happen on \"Old block\", and it\u0027ll merge fine, leaving \"New block\" unchanged.",
+      "parentUuid": "6d83be1d_8aa80b10",
+      "revId": "36038ee707c0c8ab02c51e6af35bf230b8e3f58e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
