@@ -20,13 +20,11 @@
 package com.intellij.openapi.wm.impl.welcomeScreen;
 
 import com.intellij.icons.AllIcons;
+import com.intellij.ide.DataManager;
 import com.intellij.ide.RecentProjectsManager;
 import com.intellij.ide.RecentProjectsManagerBase;
 import com.intellij.ide.ReopenProjectAction;
-import com.intellij.openapi.actionSystem.ActionPlaces;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CustomShortcutSet;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.VerticalFlowLayout;
@@ -45,6 +43,7 @@ import com.intellij.util.Function;
 import com.intellij.util.SystemProperties;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,7 +53,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 
-public class RecentProjectPanel extends JPanel {
+public class RecentProjectPanel extends JPanel implements ReopenProjectAction.RemovedProjectListener, DataProvider {
   protected final JBList myList;
   protected final UniqueNameBuilder<ReopenProjectAction> myPathShortener;
   protected AnAction removeRecentProjectAction;
@@ -75,6 +74,18 @@ public class RecentProjectPanel extends JPanel {
     }
   };
 
+  @Override
+  public void projectRemoved(String myProjectPath) {
+    // If we get this message, it means we've clicked on an entry in my list that is no longer valid.
+    // Just remove the actively selected item.
+    ListUtil.removeSelectedItems(myList);
+  }
+
+  @Nullable
+  @Override
+  public Object getData(@NonNls String dataId) {
+    return ReopenProjectAction.REMOVED_LISTENER_KEY.is(dataId) ? this : null;
+  }
 
   private boolean rectInListCoordinatesContains(Rectangle listCellBounds,  Point p) {
 
@@ -96,6 +107,8 @@ public class RecentProjectPanel extends JPanel {
     super(new BorderLayout());
 
     final AnAction[] recentProjectActions = RecentProjectsManager.getInstance().getRecentProjectsActions(false);
+
+    putClientProperty(DataManager.CLIENT_PROPERTY_DATA_PROVIDER, this);
 
     myPathShortener = new UniqueNameBuilder<ReopenProjectAction>(SystemProperties.getUserHome(), File.separator, 40);
     for (AnAction action : recentProjectActions) {
