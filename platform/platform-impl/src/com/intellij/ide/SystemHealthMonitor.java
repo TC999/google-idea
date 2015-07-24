@@ -17,6 +17,8 @@ package com.intellij.ide;
 
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.internal.statistic.StatisticsUploadAssistant;
+import com.intellij.internal.statistic.analytics.PlatformUsageTracker;
 import com.intellij.notification.*;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
@@ -39,6 +41,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.management.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +63,10 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     checkJvm();
     checkIBusPresent();
     startDiskSpaceMonitoring();
+
+    if (StatisticsUploadAssistant.isSendAllowed()) {
+      startActivityMonitoring();
+    }
   }
 
   private void checkJvm() {
@@ -155,7 +162,7 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
                 // file.getUsableSpace() can fail and return 0 e.g. after MacOSX restart or awakening from sleep
                 // so several times try to recalculate usable space on receiving 0 to be sure
                 long fileUsableSpace = file.getUsableSpace();
-                while(fileUsableSpace == 0) {
+                while (fileUsableSpace == 0) {
                   Thread.sleep(5000); // hopefully we will not hummer disk too much
                   fileUsableSpace = file.getUsableSpace();
                 }
@@ -231,4 +238,27 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     }, 1, TimeUnit.SECONDS);
   }
 
+  private static final int INTERVAL = 1; // minutes
+  private static void startActivityMonitoring() {
+    JobScheduler.getScheduler().scheduleAtFixedRate(new Runnable() {
+      private int mLastCount;
+
+      @Override
+      public void run() {
+        int count = ActivityTracker.getInstance().getCount(); // note: this isn't thread safe as it should be accessed on EDT
+        if (count < mLastCount) {
+          mLastCount = count;
+          return;
+        }
+
+        int actions = count - mLastCount;
+        // TODO: do we just send 1 event as long as actions > a threshold, or send multiple events to indicate heavy activity?
+        if (actions > 1000) {
+          mLastCount = count;
+          System.out.printf("# of actions in the last %1$d minutes: %2$d\n", INTERVAL, actions);
+          PlatformUsageTracker.trackActivity();
+        }
+      }
+    }, INTERVAL, INTERVAL, TimeUnit.MINUTES);
+  }
 }

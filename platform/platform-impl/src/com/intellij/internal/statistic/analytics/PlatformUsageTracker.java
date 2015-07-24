@@ -73,6 +73,18 @@ public class PlatformUsageTracker {
       new BasicNameValuePair("exf", fatal ? "1" : "0")));
   }
 
+  public static void trackActivity() {
+    if (!DEBUG && !trackingEnabled()) {
+      return;
+    }
+
+    // We report activity count as a screen view
+    post(ImmutableList.of(
+      new BasicNameValuePair("t", "screenview"),
+      new BasicNameValuePair("cd", "ActivityTracker")
+    ));
+  }
+
   private static void post(@NotNull final List<BasicNameValuePair> parameters) {
     ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
       @Override
