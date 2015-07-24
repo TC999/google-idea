@@ -17,6 +17,7 @@ package com.intellij.ide;
 
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.internal.statistic.StatisticsUploadAssistant;
 import com.intellij.notification.*;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
@@ -39,6 +40,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.management.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +62,11 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     checkJvm();
     checkIBusPresent();
     startDiskSpaceMonitoring();
+
+    if (StatisticsUploadAssistant.isSendAllowed()) {
+      startActivityMonitoring();
+      startVmHealthMonitoring();
+    }
   }
 
   private void checkJvm() {
@@ -231,4 +238,57 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     }, 1, TimeUnit.SECONDS);
   }
 
+  private static void startActivityMonitoring() {
+    JobScheduler.getScheduler().scheduleAtFixedRate(new Runnable() {
+      private int mLastCount;
+
+      @Override
+      public void run() {
+        int count = ActivityTracker.getInstance().getCount(); // note: this isn't thread safe as it should be accessed on EDT
+        if (count > mLastCount) {
+          int actions = count - mLastCount;
+          System.out.println("# of actions: " + actions);
+        }
+        mLastCount = count;
+      }
+    }, 20, 20, TimeUnit.SECONDS);
+  }
+
+  private static void startVmHealthMonitoring() {
+     JobScheduler.getScheduler().scheduleAtFixedRate(new Runnable() {
+       private volatile long myEdtThreadId;
+       private long myMaxHeap;
+
+       @Override
+       public void run() {
+         RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
+         long uptime = runtimeMxBean.getUptime();
+
+         MemoryMXBean memoryMxBean = ManagementFactory.getMemoryMXBean();
+         MemoryUsage heapMemoryUsage = memoryMxBean.getHeapMemoryUsage();
+         long maxHeap = heapMemoryUsage.getMax();
+         if (maxHeap > myMaxHeap) {
+           myMaxHeap = maxHeap;
+           System.out.println("Max Heap Increased: " + maxHeap);
+         }
+
+         if (myEdtThreadId == 0) {
+           ApplicationManager.getApplication().invokeLater(new Runnable() {
+             @Override
+             public void run() {
+               myEdtThreadId = Thread.currentThread().getId();
+             }
+           });
+         } else {
+           ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
+           if (!threadMxBean.isThreadContentionMonitoringEnabled()) {
+             threadMxBean.setThreadContentionMonitoringEnabled(true);
+           }
+
+           ThreadInfo threadInfo = threadMxBean.getThreadInfo(myEdtThreadId);
+           System.out.println("EDT Thread Waited For: " + ((double) threadInfo.getWaitedTime()) / uptime);
+         }
+       }
+     }, 30, 30, TimeUnit.SECONDS);
+  }
 }
