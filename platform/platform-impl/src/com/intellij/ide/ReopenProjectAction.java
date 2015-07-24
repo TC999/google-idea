@@ -15,10 +15,7 @@
  */
 package com.intellij.ide;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -31,6 +28,9 @@ import java.io.File;
 * @author yole
 */
 public class ReopenProjectAction extends AnAction implements DumbAware {
+
+  public final static DataKey<RemovedProjectListener> REMOVED_LISTENER_KEY = DataKey.create("ReopenProject.RemovedListener");
+
   private final String myProjectPath;
   private final String myProjectName;
 
@@ -55,6 +55,10 @@ public class ReopenProjectAction extends AnAction implements DumbAware {
                                        "If it is on a removable or network drive, please make sure that the drive is connected.",
                                        "Reopen Project", new String[]{"OK", "&Remove From List"}, 0, Messages.getErrorIcon()) == 1) {
         RecentProjectsManager.getInstance().removePath(myProjectPath);
+        RemovedProjectListener listener = e.getData(REMOVED_LISTENER_KEY);
+        if (listener != null) {
+          listener.projectRemoved(myProjectPath);
+        }
       }
       return;
     }
@@ -64,8 +68,16 @@ public class ReopenProjectAction extends AnAction implements DumbAware {
   public String getProjectPath() {
     return myProjectPath;
   }
-  
+
   public String getProjectName() {
     return myProjectName;
+  }
+
+  /**
+   * A listener which is fired anytime this action removes a project, which a caller can register for by adding itself as a
+   * {@link DataProvider} with the {@link #REMOVED_LISTENER_KEY}.
+   */
+  public interface RemovedProjectListener {
+    void projectRemoved(String myProjectPath);
   }
 }
