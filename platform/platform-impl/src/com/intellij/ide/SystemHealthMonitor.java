@@ -17,6 +17,7 @@ package com.intellij.ide;
 
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.internal.statistic.StatisticsUploadAssistant;
 import com.intellij.notification.*;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
@@ -60,6 +61,7 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     checkJvm();
     checkIBusPresent();
     startDiskSpaceMonitoring();
+    startActivityMonitoring();
   }
 
   private void checkJvm() {
@@ -231,4 +233,23 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     }, 1, TimeUnit.SECONDS);
   }
 
+  private static void startActivityMonitoring() {
+    if (!StatisticsUploadAssistant.isSendAllowed()) {
+      return;
+    }
+
+    JobScheduler.getScheduler().scheduleAtFixedRate(new Runnable() {
+      private int mLastCount;
+
+      @Override
+      public void run() {
+        int count = ActivityTracker.getInstance().getCount(); // note: this isn't thread safe as it should be accessed on EDT
+        if (count > mLastCount) {
+          int actions = count - mLastCount;
+          System.out.println("# of actions: " + actions);
+        }
+        mLastCount = count;
+      }
+    }, 20, 20, TimeUnit.SECONDS);
+  }
 }
