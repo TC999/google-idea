@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed8dee45_08917b24",
+        "filename": "platform/core-api/src/com/intellij/util/PlatformConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-07-24T18:33:18Z",
+      "side": 1,
+      "message": "Nit: Since we\u0027re an IDE, I thought \"at compile time\" meant when the user is doing a compile :)\n\nMaybe \"A set of configuration flags that may differ by IntelliJ product\" or something?",
+      "revId": "872fb28eb65fed1b8e78d23144d2fecc64e93721",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d9d1a6f_97b2ecce",
+        "filename": "platform/core-api/src/com/intellij/util/PlatformConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-07-24T18:33:18Z",
+      "side": 1,
+      "message": "Nit: \"between different major versions\" sounds like it can go from higher to lower as well. Maybe \"... will allow patch updates to cross major version boundaries\"",
+      "revId": "872fb28eb65fed1b8e78d23144d2fecc64e93721",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d9ade79_06232a58",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateStrategy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-07-24T18:33:18Z",
+      "side": 1,
+      "message": "This comment is now obsolete because of the nice PlatformConfig variable (and can be removed if you want)",
+      "revId": "872fb28eb65fed1b8e78d23144d2fecc64e93721",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
