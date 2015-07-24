@@ -18,6 +18,7 @@ package com.intellij.ide.errorTreeView;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.*;
 import com.intellij.ide.actions.*;
+import com.intellij.ide.errorTreeView.actions.AutoscrollAction;
 import com.intellij.ide.errorTreeView.impl.ErrorTreeViewConfiguration;
 import com.intellij.ide.errorTreeView.impl.ErrorViewTextExporter;
 import com.intellij.openapi.actionSystem.*;
@@ -71,6 +72,7 @@ public class NewErrorTreeViewPanel extends JPanel implements DataProvider, Occur
   private final Alarm myUpdateAlarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD);
   private volatile boolean myIsDisposed = false;
   private final ErrorTreeViewConfiguration myConfiguration;
+  private JScrollPane myScrollPane;
 
   public interface ProcessController {
     void stopProcess();
@@ -150,9 +152,9 @@ public class NewErrorTreeViewPanel extends JPanel implements DataProvider, Occur
     myTree.setShowsRootHandles(true);
     myTree.setLargeModel(true);
 
-    JScrollPane scrollPane = NewErrorTreeRenderer.install(myTree);
-    scrollPane.setBorder(IdeBorderFactory.createBorder(SideBorder.LEFT));
-    myMessagePanel.add(scrollPane, BorderLayout.CENTER);
+    myScrollPane = NewErrorTreeRenderer.install(myTree);
+    myScrollPane.setBorder(IdeBorderFactory.createBorder(SideBorder.LEFT));
+    myMessagePanel.add(myScrollPane, BorderLayout.CENTER);
 
     if (createToolbar) {
       add(createToolbarPanel(rerunAction), BorderLayout.WEST);
@@ -561,6 +563,7 @@ public class NewErrorTreeViewPanel extends JPanel implements DataProvider, Occur
       group.add(new HideWarningsAction());
     }
     group.add(myAutoScrollToSourceHandler.createToggleAction());
+    group.add(new AutoscrollAction(myScrollPane));
   }
 
   @Override
