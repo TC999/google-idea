@@ -19,6 +19,7 @@ import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.impl.ApplicationInfoImpl;
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.util.PlatformUtils;
 import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.net.NetUtils;
@@ -130,8 +131,10 @@ public class UpdateSettings implements PersistentStateComponent<UpdateSettings.S
   }
 
   private void updateDefaultChannel() {
-    if (ApplicationInfoImpl.getShadowInstance().isEAP()) {
-      myState.UPDATE_CHANNEL_TYPE = ChannelStatus.EAP_CODE;
+    if (!PlatformUtils.isAndroidStudio()) {
+      if (ApplicationInfoImpl.getShadowInstance().isEAP()) {
+        myState.UPDATE_CHANNEL_TYPE = ChannelStatus.EAP_CODE;
+      }
     }
   }
 

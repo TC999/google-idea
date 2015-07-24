@@ -37,6 +37,7 @@ public class PlatformUtils {
   public static final String PHP_PREFIX = "PhpStorm";
   public static final String WEB_PREFIX = "WebStorm";
   public static final String DBE_PREFIX = "0xDBE";
+  public static final String ANDROID_STUDIO_PREFIX = "AndroidStudio";
 
   public static String getPlatformPrefix() {
     return getPlatformPrefix(IDEA_PREFIX);
@@ -100,6 +101,10 @@ public class PlatformUtils {
 
   public static boolean isDatabaseIDE() {
     return is(DBE_PREFIX);
+  }
+
+  public static boolean isAndroidStudio() {
+    return is(ANDROID_STUDIO_PREFIX);
   }
 
   public static boolean isCommunityEdition() {
