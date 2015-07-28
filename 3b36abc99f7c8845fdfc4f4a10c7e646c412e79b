@@ -46,6 +46,30 @@
       "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed1c0e21_101c9c71",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-07-28T23:46:50Z",
+      "side": 1,
+      "message": "I don\u0027t know if all the context can be retrieved here, but if possible, then ~/.AndroidStudio/system or /config seems more appropriate.\n\nFor instance, if you set an application wide property, (PropertiesComponent.setValue()), and see where it gets written down, then maybe we can use the same location.",
+      "parentUuid": "4db19a56_2519a6b0",
+      "range": {
+        "startLine": 214,
+        "startChar": 26,
+        "endLine": 214,
+        "endChar": 40
+      },
+      "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
