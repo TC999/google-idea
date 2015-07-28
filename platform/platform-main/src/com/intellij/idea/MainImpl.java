@@ -16,10 +16,15 @@
 package com.intellij.idea;
 
 import com.intellij.ide.plugins.PluginManager;
+import com.intellij.internal.statistic.analytics.PlatformUsageTracker;
 import com.intellij.openapi.application.ConfigImportHelper;
+import com.intellij.openapi.application.PathManager;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.PlatformUtils;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.FileFilter;
 
 @SuppressWarnings({"UnusedDeclaration"})
 public class MainImpl {
@@ -30,6 +35,8 @@ public class MainImpl {
    */
   protected static void start(final String[] args) {
     System.setProperty(PlatformUtils.PLATFORM_PREFIX_KEY, PlatformUtils.getPlatformPrefix(PlatformUtils.IDEA_CE_PREFIX));
+
+    reportPreviousCrashes();
 
     StartupUtil.prepareAndStart(args, new StartupUtil.AppStarter() {
       @Override
@@ -56,5 +63,22 @@ public class MainImpl {
         });
       }
     });
+  }
+
+  private static void reportPreviousCrashes() {
+    if (!"AndroidStudio".equals(System.getProperty(PlatformUtils.PLATFORM_PREFIX_KEY))) {
+      return;
+    }
+
+    File[] previousRecords = new File(PathManager.getTempPath()).listFiles(new FileFilter() {
+      @Override
+      public boolean accept(File pathname) {
+        return pathname.getName().startsWith("AndroidStudio.");
+      }
+    });
+    for (File record : previousRecords) {
+      PlatformUsageTracker.trackException(new Throwable(), true);
+      FileUtil.delete(record);
+    }
   }
 }
