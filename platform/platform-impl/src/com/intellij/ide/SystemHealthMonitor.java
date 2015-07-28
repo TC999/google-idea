@@ -17,6 +17,7 @@ package com.intellij.ide;
 
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.internal.statistic.analytics.PlatformUsageTracker;
 import com.intellij.notification.*;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
@@ -28,17 +29,16 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.SystemInfo;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.util.PlatformUtils;
 import com.intellij.util.SystemProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.PropertyKey;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +60,7 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     checkJvm();
     checkIBusPresent();
     startDiskSpaceMonitoring();
+    reportPreviousCrashes();
   }
 
   private void checkJvm() {
@@ -131,6 +132,22 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     });
   }
 
+  private static void reportPreviousCrashes() {
+    File[] previousRecords = new File(PathManager.getTempPath()).listFiles(new FileFilter() {
+      @Override
+      public boolean accept(File pathname) {
+        return pathname.getName().startsWith(PlatformUtils.getPlatformPrefix()) &&
+               !pathname.getAbsolutePath().equals(System.getProperty("studio.record.file"));
+      }
+    });
+    if (previousRecords != null) {
+      for (File record : previousRecords) {
+        PlatformUsageTracker.trackException(new StudioCrash(), true);
+        FileUtil.delete(record);
+      }
+    }
+  }
+
   private static void startDiskSpaceMonitoring() {
     if (SystemProperties.getBooleanProperty("idea.no.system.path.space.monitoring", false)) {
       return;
@@ -155,7 +172,7 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
                 // file.getUsableSpace() can fail and return 0 e.g. after MacOSX restart or awakening from sleep
                 // so several times try to recalculate usable space on receiving 0 to be sure
                 long fileUsableSpace = file.getUsableSpace();
-                while(fileUsableSpace == 0) {
+                while (fileUsableSpace == 0) {
                   Thread.sleep(5000); // hopefully we will not hummer disk too much
                   fileUsableSpace = file.getUsableSpace();
                 }
@@ -231,4 +248,5 @@ public class SystemHealthMonitor extends ApplicationComponent.Adapter {
     }, 1, TimeUnit.SECONDS);
   }
 
+  private static class StudioCrash extends Throwable {}
 }
