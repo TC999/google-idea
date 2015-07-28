@@ -22,6 +22,30 @@
       "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4db19a56_2519a6b0",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-07-28T23:14:55Z",
+      "side": 1,
+      "message": "It won\u0027t call deleteOnExit (I manually verified), and it\u0027s probably a good idea to pass false and make sure upstream changes won\u0027t break us, I agree.\n\nBut aside from that, where do you want to write these files?",
+      "parentUuid": "eda16e0d_5d72c7d6",
+      "range": {
+        "startLine": 214,
+        "startChar": 26,
+        "endLine": 214,
+        "endChar": 40
+      },
+      "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
