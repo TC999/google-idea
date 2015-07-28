@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eda16e0d_5d72c7d6",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-07-28T22:58:28Z",
+      "side": 1,
+      "message": "I see a couple of possible issues here:\n\n1. this particular way of invoking createTempFile will end up calling file.deleteOnExit(), so it might be cleaned up at VM termination?\n\n2. Even otherwise, I\u0027m not sure if we can rely on files created in the tmp folder?",
+      "range": {
+        "startLine": 214,
+        "startChar": 26,
+        "endLine": 214,
+        "endChar": 40
+      },
+      "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
