@@ -23,6 +23,7 @@ import javax.swing.*;
 
 @SuppressWarnings({"UnusedDeclaration"})
 public class MainImpl {
+
   private MainImpl() { }
 
   /**
