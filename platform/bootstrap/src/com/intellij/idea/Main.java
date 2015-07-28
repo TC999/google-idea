@@ -19,6 +19,7 @@ import com.intellij.ide.Bootstrap;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.SystemInfoRt;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.util.ArrayUtilRt;
 import com.intellij.util.Restarter;
@@ -28,10 +29,8 @@ import com.intellij.util.ui.UIUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
 
 import static java.io.File.pathSeparator;
 
@@ -78,6 +77,8 @@ public class Main {
         System.exit(UPDATE_FAILED);
       }
     }
+
+    createRecordFile();
 
     try {
       Bootstrap.main(args, Main.class.getName() + "Impl", "start");
@@ -203,6 +204,18 @@ public class Main {
       FileUtilRt.copy(original, copy);
       if (!copy.exists()) {
         throw new IOException("Cannot create temporary file: " + copy);
+      }
+    }
+  }
+
+  private static void createRecordFile() {
+    if (!isHeadless && "AndroidStudio".equals(System.getProperty(PLATFORM_PREFIX_PROPERTY))) {
+      try {
+        File f = FileUtil.createTempFile("AndroidStudio.", UUID.randomUUID().toString());
+        // We use a system property to pass the filename across classloaders.
+        System.setProperty("studio.record.file", f.getAbsolutePath());
+      } catch (IOException ex) {
+        // Keep going anyway.
       }
     }
   }
