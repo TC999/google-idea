@@ -94,6 +94,30 @@
       "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a6260ef_323376b1",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-07-30T23:18:47Z",
+      "side": 1,
+      "message": "Yeah, that seems much better to me. I was worried that you wouldn\u0027t be able to call that before bootstrap.main(), but it looks like all this is in utils that seems to only rely on system properties.",
+      "parentUuid": "ea523422_2c39d7fd",
+      "range": {
+        "startLine": 214,
+        "startChar": 26,
+        "endLine": 214,
+        "endChar": 40
+      },
+      "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
