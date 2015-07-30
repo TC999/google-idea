@@ -15,6 +15,7 @@
  */
 package com.intellij.diagnostic;
 
+import com.intellij.internal.statistic.analytics.PlatformUsageTracker;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
@@ -26,6 +27,7 @@ import com.intellij.openapi.diagnostic.IdeaLoggingEvent;
 import com.intellij.openapi.updateSettings.impl.UpdateChecker;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.util.io.MappingFailedException;
+import org.apache.log4j.spi.ThrowableInformation;
 import org.jetbrains.annotations.NonNls;
 
 import javax.swing.*;
@@ -73,6 +75,14 @@ public class DefaultIdeaErrorLogger implements ErrorLogger {
 
   public void handle(IdeaLoggingEvent event) {
     if (ourLoggerBroken) return;
+
+    // Android Studio: track exception count
+    if (PlatformUsageTracker.trackingEnabled()) {
+      Throwable t = event.getThrowable();
+      if (t != null) {
+        PlatformUsageTracker.trackException(t, false);
+      }
+    }
 
     try {
       Throwable throwable = event.getThrowable();
