@@ -70,6 +70,30 @@
       "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea523422_2c39d7fd",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-07-30T23:11:08Z",
+      "side": 1,
+      "message": "How about PathManager.getTempPath(), which is ~/.AndroidStudio1.X/system/tmp ? There\u0027s also getSystemPath(), if you really want the top-level folder. \n\nOne thing I haven\u0027t verified yet is whether these files will be copied to .AndroidStudio1.N+1 when you update (my preference would be to not copy them over), but I suspect tmp is not...",
+      "parentUuid": "ed1c0e21_101c9c71",
+      "range": {
+        "startLine": 214,
+        "startChar": 26,
+        "endLine": 214,
+        "endChar": 40
+      },
+      "revId": "3b36abc99f7c8845fdfc4f4a10c7e646c412e79b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
