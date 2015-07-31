@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa33dcf3_322da818",
+        "filename": "platform/platform-impl/src/com/intellij/ide/SystemHealthMonitor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-07-31T01:05:51Z",
+      "side": 1,
+      "message": "as it is written now, we send 1 screen view event, if over the last INTERVAL minutes, you have been using Studio moderately.",
+      "range": {
+        "startLine": 256,
+        "startChar": 22,
+        "endLine": 256,
+        "endChar": 26
+      },
+      "revId": "f47bf52827e39622e0e087e2db30406cf9ae9a05",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
