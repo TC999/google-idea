@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a536c56_fef8593f",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-08-03T19:12:44Z",
+      "side": 1,
+      "message": "from within? from?",
+      "range": {
+        "startLine": 44,
+        "startChar": 29,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "9df40d345dfa79a789e982acf1edef37d7ae4f74",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
