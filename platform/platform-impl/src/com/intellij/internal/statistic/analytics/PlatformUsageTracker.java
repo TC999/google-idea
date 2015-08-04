@@ -126,27 +126,45 @@ public class PlatformUsageTracker {
   @VisibleForTesting
   @NotNull
   public static String getDescription(@NotNull Throwable t) {
-    boolean isAndroid = false;
-    for (StackTraceElement el : t.getStackTrace()) {
-      if (el.getClassName().contains("android")) {
-        isAndroid = true;
-        break;
+    StringBuilder sb = new StringBuilder(150);
+    boolean androidPlugin = false;
+
+    sb.append(t.getClass().getSimpleName());
+
+    // always record the top of the stack trace
+    StackTraceElement[] stackTraceElements = t.getStackTrace();
+    if (stackTraceElements.length > 0) {
+      sb.append(" @ ");
+      sb.append(stackTraceElements[0].getFileName());
+      sb.append(":");
+      sb.append(stackTraceElements[0].getLineNumber());
+      androidPlugin = fromAndroidPlugin(stackTraceElements[0]);
+    }
+
+    // if the top of the trace wasn't from the android plugin, then record the source from within the android plugin
+    if (!androidPlugin) {
+      for (int i = 1; i < stackTraceElements.length; i++) {
+        if (fromAndroidPlugin(stackTraceElements[i])) {
+          sb.append(" (");
+          sb.append(stackTraceElements[i].getFileName());
+          sb.append(":");
+          sb.append(stackTraceElements[i].getLineNumber());
+          sb.append(")");
+          break;
+        }
       }
     }
 
-    String sourceLocation = "";
-    if (t.getStackTrace().length > 0) {
-      StackTraceElement loc = t.getStackTrace()[0];
-      sourceLocation = " @ " + loc.getFileName() + ":" + loc.getLineNumber();
-    }
-    String prefix = isAndroid ? "android:" : "";
-    String desc = prefix + t.getClass().getSimpleName() + sourceLocation;
-
+    String desc = sb.toString();
     if (desc.length() > 150) {
       desc = desc.substring(0, 150); // quick hack: lets assume this is mostly ASCII
     }
 
     return desc;
+  }
+
+  private static boolean fromAndroidPlugin(StackTraceElement el) {
+    return el.getClassName().contains("android");
   }
 
   // Similar to ExceptionUntil.getRootCause, but attempts to avoid infinite recursion
