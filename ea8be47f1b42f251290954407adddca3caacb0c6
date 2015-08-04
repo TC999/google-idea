@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eadf9421_e8451c1b",
+        "filename": "platform/bootstrap/src/com/intellij/idea/Main.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-08-04T22:02:54Z",
+      "side": 1,
+      "message": "I\u0027ll leave it in for now, in a separate method.",
+      "parentUuid": "ca157084_e817eb51",
+      "range": {
+        "startLine": 211,
+        "startChar": 24,
+        "endLine": 211,
+        "endChar": 90
+      },
+      "revId": "ea8be47f1b42f251290954407adddca3caacb0c6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ad9483e_2200103e",
         "filename": "platform/platform-main/src/com/intellij/idea/MainImpl.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-08-03T23:07:13Z",
       "side": 1,
       "message": "use same method in both classes for this check",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 86
+      },
+      "revId": "ea8be47f1b42f251290954407adddca3caacb0c6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aae91cd1_d6e1e4ba",
+        "filename": "platform/platform-main/src/com/intellij/idea/MainImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-08-04T22:02:54Z",
+      "side": 1,
+      "message": "Not needed anymore, AndroidStudioSpecificInitializer implies we\u0027re in the right place :)",
+      "parentUuid": "0ad9483e_2200103e",
       "range": {
         "startLine": 69,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "eadf9421_68c74c0f",
+        "filename": "platform/platform-main/src/com/intellij/idea/MainImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-08-04T22:02:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ad60c0d_a01dfaf5",
+      "range": {
+        "startLine": 73,
+        "startChar": 65,
+        "endLine": 73,
+        "endChar": 73
+      },
+      "revId": "ea8be47f1b42f251290954407adddca3caacb0c6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0ff877_439c26f1",
         "filename": "platform/platform-main/src/com/intellij/idea/MainImpl.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2015-08-03T23:07:13Z",
       "side": 1,
       "message": "not sure if you want to extract this prefix to a constant..",
+      "range": {
+        "startLine": 76,
+        "startChar": 46,
+        "endLine": 76,
+        "endChar": 59
+      },
+      "revId": "ea8be47f1b42f251290954407adddca3caacb0c6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4acfc072_369daef0",
+        "filename": "platform/platform-main/src/com/intellij/idea/MainImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1048338
+      },
+      "writtenOn": "2015-08-04T22:02:54Z",
+      "side": 1,
+      "message": "Well, reused the platform prefix stuff.",
+      "parentUuid": "8a0ff877_439c26f1",
       "range": {
         "startLine": 76,
         "startChar": 46,
