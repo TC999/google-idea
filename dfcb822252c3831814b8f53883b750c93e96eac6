@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6acc847d_7133c2af",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T19:24:31Z",
+      "side": 1,
+      "message": "s/150/MAX_DESCRIPTION_SIZE ?",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa14bc88_04a22bad",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T19:24:31Z",
+      "side": 1,
+      "message": "we could shave off a few characters here if the exception ends with the string \"Exception\" and replace it with for example \"E*\".",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4acfc072_fb7a4f95",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T19:24:31Z",
+      "side": 1,
+      "message": "remove whitespace around @ ?",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0ff877_2c9d97f0",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T19:24:31Z",
+      "side": 1,
+      "message": "strip whitespace?",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4acfc072_5bffbb73",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T19:24:31Z",
+      "side": 1,
+      "message": "nit - use char",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aae91cd1_30ae90ef",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T19:24:31Z",
+      "side": 1,
+      "message": "nit - lets \u003d\u003e let\u0027s",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cadad034_6cae839e",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T19:24:31Z",
+      "side": 1,
+      "message": "desc \u003d desc.substring(0, MAX_DESCRIPTION_SIZE - 1) + \"\u003e\" \nto let us know that it\u0027s truncated (e.g. so we don\u0027t get a misleading line number because we\u0027re missing a final digit)",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6acc847d_914e860e",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T19:24:31Z",
+      "side": 1,
+      "message": "-1 ? In theory it could be anything right? Maybe we should convert to ASCII, and then take the string of that (and truncate to the actual size) ?\n\nnew String(desc.getBytes(Charsets.US_ASCII), Charsets.US_ASCII) ?",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
