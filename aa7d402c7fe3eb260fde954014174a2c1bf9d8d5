@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6acc847d_e8c52732",
+        "filename": "platform/platform-impl/src/com/intellij/ide/SystemHealthMonitor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T01:07:11Z",
+      "side": 1,
+      "message": "s/ourStudioActivityTracker/ourStudioActionCount ?",
+      "revId": "aa7d402c7fe3eb260fde954014174a2c1bf9d8d5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ad60c0d_234f3410",
+        "filename": "platform/platform-impl/src/com/intellij/ide/SystemHealthMonitor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T01:07:11Z",
+      "side": 1,
+      "message": "Does System.out.printf(\"%d\") perform Locale-specific integer formatting (e.g. commas for kilo groups in some locales etc?) If so, maybe insert Locale.US as a first parameter.\n\n(Actually I just now spotted this is internal only -- is this just as we tweak the params?)",
+      "revId": "aa7d402c7fe3eb260fde954014174a2c1bf9d8d5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa14bc88_ebfa42ac",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionManagerImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-04T01:07:11Z",
+      "side": 1,
+      "message": "Maybe just make this an IdentityHashMap\u003cClass\u003c?\u003e,Boolean\u003e instead? And then put BackspaceAction.class in here initially, and then in the contains you just switch on action.getClass() ?",
+      "revId": "aa7d402c7fe3eb260fde954014174a2c1bf9d8d5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
