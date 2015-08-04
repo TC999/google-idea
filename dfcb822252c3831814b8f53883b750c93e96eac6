@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6acc847d_d1a48e3c",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-04T19:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6acc847d_7133c2af",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa14bc88_04a22bad",
         "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "aa14bc88_24f64789",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-04T19:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa14bc88_04a22bad",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4acfc072_fb7a4f95",
         "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2015-08-04T19:24:31Z",
       "side": 1,
       "message": "remove whitespace around @ ?",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4acfc072_bbe447cc",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-04T19:33:55Z",
+      "side": 1,
+      "message": "leaving the white spaces in. Makes it easier to read..",
+      "parentUuid": "4acfc072_fb7a4f95",
       "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "8a0ff877_accb47c5",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-04T19:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4acfc072_5bffbb73",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aae91cd1_30ae90ef",
         "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
         "patchSetId": 3
@@ -98,6 +170,24 @@
       "writtenOn": "2015-08-04T19:24:31Z",
       "side": 1,
       "message": "nit - lets \u003d\u003e let\u0027s",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eadf9421_d376564c",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-04T19:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aae91cd1_30ae90ef",
       "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -132,6 +222,24 @@
       "writtenOn": "2015-08-04T19:24:31Z",
       "side": 1,
       "message": "-1 ? In theory it could be anything right? Maybe we should convert to ASCII, and then take the string of that (and truncate to the actual size) ?\n\nnew String(desc.getBytes(Charsets.US_ASCII), Charsets.US_ASCII) ?",
+      "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6acc847d_d18d6eba",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-04T19:33:55Z",
+      "side": 1,
+      "message": "the while loop should take care of this? (Also, this is unlikely since we don\u0027t have non ASCII chars in file names).",
+      "parentUuid": "6acc847d_914e860e",
       "revId": "dfcb822252c3831814b8f53883b750c93e96eac6",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
