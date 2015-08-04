@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "6acc847d_c8aea369",
+        "filename": "platform/platform-impl/src/com/intellij/ide/SystemHealthMonitor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-04T01:22:52Z",
+      "side": 1,
+      "message": "Yes, this is just for debugging and is all internal (i.e. IDE launched from IDEA)",
+      "parentUuid": "2ad60c0d_234f3410",
+      "revId": "aa7d402c7fe3eb260fde954014174a2c1bf9d8d5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa14bc88_ebfa42ac",
         "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionManagerImpl.java",
         "patchSetId": 8
@@ -47,6 +65,24 @@
       "writtenOn": "2015-08-04T01:07:11Z",
       "side": 1,
       "message": "Maybe just make this an IdentityHashMap\u003cClass\u003c?\u003e,Boolean\u003e instead? And then put BackspaceAction.class in here initially, and then in the contains you just switch on action.getClass() ?",
+      "revId": "aa7d402c7fe3eb260fde954014174a2c1bf9d8d5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0ff877_26101810",
+        "filename": "platform/platform-impl/src/com/intellij/openapi/actionSystem/impl/ActionManagerImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-04T01:22:52Z",
+      "side": 1,
+      "message": "Thank you! That is what I wanted to do, but didn\u0027t know how to.",
+      "parentUuid": "aa14bc88_ebfa42ac",
       "revId": "aa7d402c7fe3eb260fde954014174a2c1bf9d8d5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
