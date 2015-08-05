@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4acfc072_2d2e3890",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-05T00:33:19Z",
+      "side": 1,
+      "message": "The only difference seems to be that .toString gives en_US, while the user agent string has \"en-US\". So leaving it as is..",
+      "parentUuid": "cadad034_32393690",
+      "revId": "7f339b4d6a491f3242d154602537b54cf1765c1b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa14bc88_50b4d970",
         "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "It will. We can either return \"\", en-US, or some other combo which is unlikely as an indication that we don\u0027t know about this. Let me know if there is a preference in this.",
       "parentUuid": "aa14bc88_50b4d970",
+      "revId": "7f339b4d6a491f3242d154602537b54cf1765c1b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aae91cd1_91bda623",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-05T00:33:19Z",
+      "side": 1,
+      "message": "Decided to return \"\" as GA right now reports \"language unset\", so it\u0027ll report that if it can\u0027t identify the locale.",
+      "parentUuid": "cadad034_f28a6e9f",
       "revId": "7f339b4d6a491f3242d154602537b54cf1765c1b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
