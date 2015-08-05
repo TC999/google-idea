@@ -16,6 +16,40 @@
       "revId": "7f339b4d6a491f3242d154602537b54cf1765c1b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa14bc88_50b4d970",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-05T00:06:36Z",
+      "side": 1,
+      "message": "will this make us miscount the number of English/US users?",
+      "revId": "7f339b4d6a491f3242d154602537b54cf1765c1b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ad9483e_0827a666",
+        "filename": "platform/platform-impl/src/com/intellij/internal/statistic/analytics/PlatformUsageTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2015-08-05T00:06:36Z",
+      "side": 1,
+      "message": "toLowerCase(Locale.US) to avoid the Turkish i problem",
+      "revId": "7f339b4d6a491f3242d154602537b54cf1765c1b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
