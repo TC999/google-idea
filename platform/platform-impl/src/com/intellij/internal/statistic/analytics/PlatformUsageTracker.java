@@ -66,10 +66,9 @@ public class PlatformUsageTracker {
   // We'll use something like the following:
   //    Studio/1.4.0.0 (Linux; U; Linux 3.13.0-57-generic; en-us)
   @NonNls private static final String ANALYTICS_UA = String.format(Locale.US, "Studio/%1$s (%2$s; U; %2$s %3$s; %4$s)",
-                                                                   ApplicationInfo.getInstance().getStrictVersion(),
+                                                                   UNIT_TEST_MODE ? "u" : ApplicationInfo.getInstance().getStrictVersion(),
                                                                    SystemInfo.OS_NAME,
-                                                                   SystemInfo.OS_VERSION,
-                                                                   getLanguage());
+                                                                   SystemInfo.OS_VERSION, getLanguage());
 
   private static final int MAX_DESCRIPTION_SIZE = 150; // max allowed by GA
 
@@ -105,8 +104,7 @@ public class PlatformUsageTracker {
     }
 
     t = getRootCause(t);
-    post(ImmutableList.of(new BasicNameValuePair("t", "exception"),
-                          new BasicNameValuePair("exd", getDescription(t)),
+    post(ImmutableList.of(new BasicNameValuePair("t", "exception"), new BasicNameValuePair("exd", getDescription(t)),
                           new BasicNameValuePair("exf", fatal ? "1" : "0")));
   }
 
@@ -115,11 +113,9 @@ public class PlatformUsageTracker {
       return;
     }
 
-    post(ImmutableList.of(new BasicNameValuePair("t", "event"),
-                          new BasicNameValuePair("ec", "ActivityTracker"),
-                          new BasicNameValuePair("ea", "Hit"),
-                          new BasicNameValuePair("ev", Long.toString(count)),
-                          new BasicNameValuePair("cm1", Long.toString(count))));
+    post(ImmutableList
+           .of(new BasicNameValuePair("t", "event"), new BasicNameValuePair("ec", "ActivityTracker"), new BasicNameValuePair("ea", "Hit"),
+               new BasicNameValuePair("ev", Long.toString(count)), new BasicNameValuePair("cm1", Long.toString(count))));
   }
 
   private static void post(@NotNull final List<BasicNameValuePair> parameters) {
@@ -165,7 +161,7 @@ public class PlatformUsageTracker {
   @NotNull
   public static String getDescription(@NotNull Throwable t) {
     StringBuilder sb = new StringBuilder(MAX_DESCRIPTION_SIZE);
-    String simpleName = t.getClass().getSimpleName().replace("Exception", "Ex");
+    String simpleName = t.getClass().getSimpleName().replace("Exception", "Ex").replace("Error", "Er");
     sb.append(simpleName);
 
     StackTraceElement[] stackTraceElements = t.getStackTrace();
@@ -188,11 +184,11 @@ public class PlatformUsageTracker {
       }
 
       if (i != 0) {
-        sb.append(" <- ");
+        sb.append(" < ");
       }
 
+      String fileName = getBaseName(el.getFileName());
       // skip filename if it is the same as the previous stack element
-      String fileName = el.getFileName();
       if (!StringUtil.equals(fileName, lastFileName)) {
         sb.append(fileName);
         lastFileName = fileName;
@@ -214,7 +210,7 @@ public class PlatformUsageTracker {
       for (; i < stackTraceElements.length; i++) {
         StackTraceElement el = stackTraceElements[i];
         if (fromAndroidPlugin(el)) {
-          String android = "... <- " + el.getFileName() + ":" + el.getLineNumber();
+          String android = "... < " + el.getFileName() + ":" + el.getLineNumber();
           if (desc.length() + android.length() > MAX_DESCRIPTION_SIZE) {
             desc = desc.substring(0, MAX_DESCRIPTION_SIZE - android.length());
           }
@@ -249,5 +245,14 @@ public class PlatformUsageTracker {
       e = e.getCause();
     }
     return e;
+  }
+
+  private static String getBaseName(@NotNull String fileName) {
+    int extension = fileName.indexOf('.');
+    if (extension > 0) {
+      return fileName.substring(0, extension);
+    } else {
+      return fileName;
+    }
   }
 }
