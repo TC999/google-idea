@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ae980f9_317410c2",
+        "filename": "platform/platform-impl/src/com/intellij/ide/ui/laf/darcula/ui/DarculaComboBoxUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1052043
+      },
+      "writtenOn": "2015-08-06T13:06:27Z",
+      "side": 1,
+      "message": "it may be useful to add a comment about when/why c can be null, as it does not seem obvious to me",
+      "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
