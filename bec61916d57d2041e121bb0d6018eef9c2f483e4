@@ -16,6 +16,24 @@
       "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2abb6cf3_ec8b53f8",
+        "filename": "platform/platform-impl/src/com/intellij/ide/ui/laf/darcula/ui/DarculaComboBoxUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-06T15:41:27Z",
+      "side": 1,
+      "message": "I don\u0027t actually know. I could not reproduce it. We just saw this crash happen many times in analytics, so hopefully with this check it won\u0027t NPE (but have bad rendering maybe).\n\nPlease feel free to submit a better patch!",
+      "parentUuid": "4ae980f9_317410c2",
+      "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
