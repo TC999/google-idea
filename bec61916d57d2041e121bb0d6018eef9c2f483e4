@@ -70,6 +70,24 @@
       "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "070ea328_dac1e177",
+        "filename": "platform/platform-impl/src/com/intellij/ide/ui/laf/darcula/ui/DarculaComboBoxUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-08-07T04:33:40Z",
+      "side": 1,
+      "message": "Either option sgtm if you are interested in tracking this down further.\n\nNote that in analytics, we don\u0027t get any info from the exception, just that an exception happened. But you can hope that someone will submit an idea.log with this additional info.",
+      "parentUuid": "67367fe0_52b6f426",
+      "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
