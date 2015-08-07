@@ -52,6 +52,24 @@
       "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67367fe0_52b6f426",
+        "filename": "platform/platform-impl/src/com/intellij/ide/ui/laf/darcula/ui/DarculaComboBoxUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1052043
+      },
+      "writtenOn": "2015-08-07T02:43:35Z",
+      "side": 1,
+      "message": "sorry, it should actually be:\n\n\n  if (c \u003d\u003d null) {\n    throw new NullPointerException(renderer + \" returned null in \"+ comboBox + \" for item \" + comboBox.getSelectedItem());\n  }\n\n\nas it is actually a NullPointerException",
+      "parentUuid": "6a33a4d7_0aef3bf7",
+      "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
