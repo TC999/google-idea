@@ -34,6 +34,24 @@
       "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a33a4d7_0aef3bf7",
+        "filename": "platform/platform-impl/src/com/intellij/ide/ui/laf/darcula/ui/DarculaComboBoxUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1052043
+      },
+      "writtenOn": "2015-08-07T00:54:25Z",
+      "side": 1,
+      "message": "so the problem is for some reason the renderer is retuning null, shouldnt we not silently swallow this problem and instead maybe log what ComboBox this is, and the renderer thats returning null, so we can actually work out where is it going wrong, or maybe we need to search for renderers that are returning null in some situations, my suggestion would be to replace your code with something like:\n\n\n  throw new IllegalStateException(renderer + \" returned null in \"+ comboBox + \" for item \" + comboBox.getSelectedItem());\n\n\nthen when the crash happens, it will give us better info as to where the problem is",
+      "parentUuid": "2abb6cf3_ec8b53f8",
+      "revId": "bec61916d57d2041e121bb0d6018eef9c2f483e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
