@@ -335,12 +335,18 @@ public class RenameDialog extends RefactoringDialog {
   @Override
   protected void canRun() throws ConfigurationException {
     if (Comparing.strEqual(getNewName(), myOldName)) throw new ConfigurationException(null);
-    if (!areButtonsValid()) {
-      throw new ConfigurationException("\'" + getNewName() + "\' is not a valid identifier");
+    if (areButtonsValid()) {
+      setErrorText(null);
     }
-    final Function<String, String> inputValidator = RenameInputValidatorRegistry.getInputErrorValidator(myPsiElement);
-    if (inputValidator != null) {
-      setErrorText(inputValidator.fun(getNewName()));
+    else {
+      final Function<String, String> inputValidator = RenameInputValidatorRegistry.getInputErrorValidator(myPsiElement);
+      String customizedError = inputValidator != null ? inputValidator.fun(getNewName()) : null;
+      if (customizedError != null) {
+        setErrorText(customizedError);
+      }
+      else {
+        throw new ConfigurationException("'" + getNewName() + "' is not a valid identifier");
+      }
     }
   }
 
