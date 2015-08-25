@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e430ad80_62db9be4",
+        "filename": "platform/lang-impl/src/com/intellij/refactoring/rename/RenameDialog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1047759
+      },
+      "writtenOn": "2015-08-25T00:03:43Z",
+      "side": 1,
+      "message": "Same here?",
+      "range": {
+        "startLine": 348,
+        "startChar": 64,
+        "endLine": 348,
+        "endChar": 65
+      },
+      "revId": "aa779191947acead77b283bc9ddd06284689d59e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e430ad80_a2d1b3c7",
+        "filename": "platform/lang-impl/src/com/intellij/refactoring/rename/RenameDialog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1047759
+      },
+      "writtenOn": "2015-08-25T00:03:43Z",
+      "side": 1,
+      "message": "I don\u0027t believe escaping the single quote is needed?",
+      "range": {
+        "startLine": 348,
+        "startChar": 42,
+        "endLine": 348,
+        "endChar": 43
+      },
+      "revId": "aa779191947acead77b283bc9ddd06284689d59e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
