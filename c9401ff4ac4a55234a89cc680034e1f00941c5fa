@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c42ba915_2894a648",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-08-25T01:36:37Z",
+      "side": 1,
+      "message": "Nit: Space between header and body",
+      "revId": "c9401ff4ac4a55234a89cc680034e1f00941c5fa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c42ba915_c8889230",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-08-25T01:36:37Z",
+      "side": 1,
+      "message": "Ah, you don\u0027t need this part anymore? Or was my rephrasing of your description mistaken?",
+      "revId": "c9401ff4ac4a55234a89cc680034e1f00941c5fa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
