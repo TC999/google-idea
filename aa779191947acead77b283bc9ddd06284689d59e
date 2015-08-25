@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e430ad80_2269236f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-08-25T00:11:27Z",
+      "side": 1,
+      "message": "How about\n\nFixed broken prioritization in rename dialog error message\n\nCurrently, rename dialog logic always ignores custom error messages that might be provided by an appropriate input validator. This CL fixes that issue.\n(wrapped to 70 chars)",
+      "revId": "aa779191947acead77b283bc9ddd06284689d59e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e430ad80_62db9be4",
         "filename": "platform/lang-impl/src/com/intellij/refactoring/rename/RenameDialog.java",
         "patchSetId": 4
