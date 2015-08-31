@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0484e2ca_488ad3a1",
+        "filename": "platform/bootstrap/src/com/intellij/ide/startup/StartupActionScriptManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-08-31T23:26:33Z",
+      "side": 1,
+      "message": "Why not just\n\ntry {\n   ois \u003d new ObjectInputStream(...);\n   return ois.readObject();\n}\ncatch (Throwable) {\n   ...\n}",
+      "revId": "f95cdd9c801b764e845c69f304a081b1454b68e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
