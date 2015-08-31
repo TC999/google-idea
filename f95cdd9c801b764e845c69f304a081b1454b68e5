@@ -16,6 +16,24 @@
       "revId": "f95cdd9c801b764e845c69f304a081b1454b68e5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e486eed4_c7101217",
+        "filename": "platform/bootstrap/src/com/intellij/ide/startup/StartupActionScriptManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1078623
+      },
+      "writtenOn": "2015-08-31T23:29:44Z",
+      "side": 1,
+      "message": "On line 101 in the finally clause below, ois would be null.",
+      "parentUuid": "0484e2ca_488ad3a1",
+      "revId": "f95cdd9c801b764e845c69f304a081b1454b68e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
