@@ -38,6 +38,9 @@ public class StartupActionScriptManager {
 
   @NonNls private static final String ACTION_SCRIPT_FILE = "action.script";
 
+  private static final String CORRUPTED_FILE_MESSAGE =
+    "Internal file was corrupted. Problem is fixed.\nIf plugins have been installed/uninstalled, please re-install/uninstall them.";
+
   private StartupActionScriptManager() {
   }
 
@@ -73,14 +76,21 @@ public class StartupActionScriptManager {
     File file = new File(getActionScriptPath());
     if (file.exists()) {
       boolean fileCorrupted = false;
-      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+      ObjectInputStream ois;
+      try {
+        ois = new ObjectInputStream(new FileInputStream(file));
+      } catch (IOException e) {
+        LOG.error(CORRUPTED_FILE_MESSAGE, e);
+        FileUtil.delete(file); // do not need corrupted file anymore
+        throw e;
+      }
       try {
         //noinspection unchecked
         return (List<ActionCommand>)ois.readObject();
       }
       catch (Throwable e) {    // ClassNotFoundException / IOException
         fileCorrupted = true;
-        LOG.error("Internal file was corrupted. Problem is fixed.\nIf some plugins has been installed/uninstalled, please re-install/-uninstall them.", e);
+        LOG.error(CORRUPTED_FILE_MESSAGE, e);
         //noinspection InstanceofCatchParameter
         if (e instanceof IOException) throw (IOException)e;
 
