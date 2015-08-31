@@ -34,6 +34,24 @@
       "revId": "f95cdd9c801b764e845c69f304a081b1454b68e5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8429b287_54ba64a9",
+        "filename": "platform/bootstrap/src/com/intellij/ide/startup/StartupActionScriptManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1047533
+      },
+      "writtenOn": "2015-08-31T23:34:19Z",
+      "side": 1,
+      "message": "I\u0027d go for the one null check vs. a couple lines of catch logic, any concerns with that?",
+      "parentUuid": "e486eed4_c7101217",
+      "revId": "f95cdd9c801b764e845c69f304a081b1454b68e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
