@@ -52,6 +52,24 @@
       "revId": "f95cdd9c801b764e845c69f304a081b1454b68e5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4618eea_4fb8811f",
+        "filename": "platform/bootstrap/src/com/intellij/ide/startup/StartupActionScriptManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1078623
+      },
+      "writtenOn": "2015-09-01T00:13:36Z",
+      "side": 1,
+      "message": "Frankly it looks great to me neither way, but have a look at patch set 4. ;-)",
+      "parentUuid": "8429b287_54ba64a9",
+      "revId": "f95cdd9c801b764e845c69f304a081b1454b68e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
