@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "644d9e85_3407de5a",
+        "filename": "plugins/gradle/src/org/jetbrains/plugins/gradle/codeInsight/GradlePluginDescriptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-09-01T22:38:56Z",
+      "side": 1,
+      "message": "@NotNull/@Nullable",
+      "range": {
+        "startLine": 28,
+        "startChar": 9,
+        "endLine": 28,
+        "endChar": 12
+      },
+      "revId": "f686324896332e7de913dda0492dc9342cbaedd4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e486eed4_16294a65",
+        "filename": "plugins/gradle/src/org/jetbrains/plugins/gradle/codeInsight/GradlePluginDescriptionsExtension.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1019910
+      },
+      "writtenOn": "2015-09-01T22:38:56Z",
+      "side": 1,
+      "message": "@NotNull/@Nullable",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 5
+      },
+      "revId": "f686324896332e7de913dda0492dc9342cbaedd4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
