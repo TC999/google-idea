@@ -115,6 +115,7 @@ public abstract class LogConsoleBase extends AdditionalTabComponent implements L
     myReaderThread = new ReaderThread(reader);
     myBuildInActions = buildInActions;
     TextConsoleBuilder builder = TextConsoleBuilderFactory.getInstance().createBuilder(project, scope);
+    builder.setViewer(true);
     myConsole = builder.getConsole();
     myConsole.attachToProcess(myProcessHandler);
     myDisposed = false;
