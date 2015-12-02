@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbae3bf9_9b7557da",
+        "filename": "platform/platform-impl/src/com/intellij/ui/plaf/beg/BegTableUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010055
+      },
+      "writtenOn": "2015-12-02T15:19:49Z",
+      "side": 1,
+      "message": "It would be good to have the single line change that actually matters and leave everything else as is inside the platform sources.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "113c5c38d5a066d69aa619d64b33a7656c982087",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
