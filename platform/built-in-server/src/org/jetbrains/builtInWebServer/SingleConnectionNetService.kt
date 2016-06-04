@@ -6,6 +6,7 @@ import com.intellij.util.Consumer
 import com.intellij.util.net.NetUtils
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.Channel
+import io.netty.channel.ChannelFuture
 import org.jetbrains.concurrency.AsyncPromise
 import org.jetbrains.concurrency.Promise
 import org.jetbrains.concurrency.catchError
@@ -57,7 +58,7 @@ abstract class SingleConnectionNetService(project: Project) : NetService(project
 
   private fun addCloseListener(it: Channel) {
     it.closeFuture().addListener {
-      val channel = it.channel()
+      val channel = (it as ChannelFuture).channel()
       processChannel.compareAndSet(channel, null)
       channel.eventLoop().shutdownIfOio()
     }
