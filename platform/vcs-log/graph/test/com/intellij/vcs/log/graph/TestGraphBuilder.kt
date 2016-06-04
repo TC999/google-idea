@@ -166,7 +166,7 @@ private fun LinearGraph.assertEdge(nodeIndex: Int, edge: GraphEdge) {
   }
 }
 
-public fun LinearGraph.asTestGraphString(sorted: Boolean = false): String = StringBuilder {
+public fun LinearGraph.asTestGraphString(sorted: Boolean = false): String = buildString {
   for (nodeIndex in 0..nodesCount() - 1) {
     val node = getGraphNode(nodeIndex)
     append(getNodeId(nodeIndex))

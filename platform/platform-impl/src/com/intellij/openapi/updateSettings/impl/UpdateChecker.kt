@@ -294,7 +294,7 @@ object UpdateChecker {
   private fun collectUpdateablePlugins(): MutableMap<PluginId, IdeaPluginDescriptor> {
     val updateable = ContainerUtil.newTroveMap<PluginId, IdeaPluginDescriptor>()
 
-    updateable += PluginManagerCore.getPlugins().filter { !it.isBundled }.toMapBy { it.pluginId }
+    updateable += PluginManagerCore.getPlugins().filter { !it.isBundled }.associateBy { it.pluginId }
 
     val onceInstalled = File(PathManager.getConfigPath(), PluginManager.INSTALLED_TXT)
     if (onceInstalled.isFile) {
@@ -509,7 +509,7 @@ object UpdateChecker {
         }
         else {
           val updates = StringUtil.join(components, ", ")
-          val message = IdeBundle.message("updates.external.ready.message", components.size(), updates)
+          val message = IdeBundle.message("updates.external.ready.message", components.size, updates)
           showNotification(project, message, runnable, NotificationUniqueType.PLUGINS_UPDATE) // TODO: Which type to use?
         }
       }
