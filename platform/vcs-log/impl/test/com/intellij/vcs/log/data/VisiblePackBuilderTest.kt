@@ -108,7 +108,7 @@ class VisiblePackBuilderTest {
       }
     }
 
-    graph.providers.entries.iterator().next().getValue().setFilteredCommitsProvider(func)
+    graph.providers.entries.iterator().next().value.setFilteredCommitsProvider(func)
     val visiblePack = graph.build(filters(VcsLogBranchFilterImpl(setOf(), setOf("master")), userFilter(DEFAULT_USER)))
     val visibleGraph = visiblePack.getVisibleGraph()
     assertEquals(3, visibleGraph.getVisibleCommitCount())

@@ -484,7 +484,7 @@ internal fun sortStoragesByDeprecated(storages: Array<Storage>): Array<out Stora
     }
   }
 
-  return storages.sortedArrayWith(comparator { o1, o2 ->
+  return storages.sortedArrayWith(Comparator { o1, o2 ->
     val w1 = if (o1.deprecated) 1 else 0
     val w2 = if (o2.deprecated) 1 else 0
     w1 - w2
