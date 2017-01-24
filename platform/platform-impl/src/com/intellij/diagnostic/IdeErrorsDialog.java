@@ -976,15 +976,16 @@ public class IdeErrorsDialog extends DialogWrapper implements MessagePoolListene
       }
     }
 
+    for (ErrorReportSubmitter reporter : reporters) {
+      final PluginDescriptor descriptor = reporter.getPluginDescriptor();
+      if (descriptor != null && Comparing.equal(pluginId, descriptor.getPluginId())) {
+        return new ExternalPluginErrorReportSubmitted(reporter, getErrorReporter(reporters, "android"));
+      }
+    }
+
     // Android Studio: Always use the android error reporter
     return getErrorReporter(reporters, "android");
 
-    //for (ErrorReportSubmitter reporter : reporters) {
-    //  final PluginDescriptor descriptor = reporter.getPluginDescriptor();
-    //  if (descriptor != null && Comparing.equal(pluginId, descriptor.getPluginId())) {
-    //    return reporter;
-    //  }
-    //}
     //IdeaPluginDescriptor plugin = PluginManager.getPlugin(pluginId);
     //if (plugin == null) {
     //  return getCorePluginSubmitter(reporters);
@@ -1056,6 +1057,38 @@ public class IdeErrorsDialog extends DialogWrapper implements MessagePoolListene
     byte[] code = md5.digest(key.getBytes());
     BigInteger bi = new BigInteger(code).abs();
     return bi.abs().toString(16);
+  }
+
+  /**
+   * Wraps an external plugin error reporter to also submit the error to the android error reporter.
+   */
+  private static class ExternalPluginErrorReportSubmitted extends ErrorReportSubmitter {
+    private final ErrorReportSubmitter externalSubmitter;
+    private final ErrorReportSubmitter androidSubmitter;
+
+    public ExternalPluginErrorReportSubmitted(ErrorReportSubmitter externalSubmitter, ErrorReportSubmitter androidSubmitter) {
+      this.externalSubmitter = externalSubmitter;
+      this.androidSubmitter = androidSubmitter;
+    }
+
+    @Override
+    public String getReportActionText() {
+      return externalSubmitter.getReportActionText();
+    }
+
+    @Override
+    public PluginDescriptor getPluginDescriptor() {
+      return externalSubmitter.getPluginDescriptor();
+    }
+
+    @Override
+    public boolean submit(@NotNull IdeaLoggingEvent[] events,
+                          @Nullable String additionalInfo,
+                          @NotNull Component parentComponent,
+                          @NotNull Consumer<SubmittedReportInfo> consumer) {
+      androidSubmitter.submit(events, additionalInfo, parentComponent, Consumer.EMPTY_CONSUMER);
+      return externalSubmitter.submit(events, additionalInfo, parentComponent, consumer);
+    }
   }
 
   private class AnalyzeAction extends AbstractAction {
