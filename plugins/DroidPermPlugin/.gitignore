@@ -1,0 +1,41 @@
+# Android built artifacts
+*.apk
+*.ap_
+*.dex
+
+# other generated files
+bin/
+gen/
+build/
+out/
+
+# local configuration file (for Android sdk path, etc)
+local.properties
+
+# OSX files
+.DS_Store
+
+# Eclipse project files
+.classpath
+.project
+
+# IntelliJ project files
+.idea/workspace.xml
+.idea/misc.xml
+.gradle
+
+# Android NDK
+obj/
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# DroidPerm generated files
+*.war
+*.ear
+dp-out/
+dp-lib/sootOutput/
+DroidPermPlugin.zip
