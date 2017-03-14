@@ -1,0 +1,54 @@
+% SOURCES
+%=======================
+
+% NOT required both both with and without --sysflows. No effect for non-sysflows, duplicate flows for --sysflows.
+% <android.content.Context: java.io.File getExternalCacheDir()> -> _SOURCE_
+
+% Required both with and without --sysflows
+<android.content.Context: java.io.File   getCacheDir()> -> _SOURCE_
+<android.content.Context: java.io.File   getCodeCacheDir()> -> _SOURCE_
+<android.content.Context: java.io.File   getDir(java.lang.String,int)> -> _SOURCE_
+<android.content.Context: java.io.File   getExternalCacheDir()> -> _SOURCE_
+<android.content.Context: java.io.File[] getExternalCacheDirs()> -> _SOURCE_
+<android.content.Context: java.io.File   getExternalFilesDir(java.lang.String)> -> _SOURCE_
+<android.content.Context: java.io.File[] getExternalFilesDirs(java.lang.String)> -> _SOURCE_
+<android.content.Context: java.io.File[] getExternalMediaDirs()> -> _SOURCE_
+<android.content.Context: java.io.File   getFilesDir()> -> _SOURCE_
+<android.content.Context: java.io.File   getNoBackupFilesDir()> -> _SOURCE_
+<android.content.Context: java.io.File   getObbDir()> -> _SOURCE_
+<android.content.Context: java.io.File[] getObbDirs()> -> _SOURCE_
+
+<android.content.Context: java.io.File   getDatabasePath(java.lang.String)> -> _SOURCE_
+<android.content.Context: java.io.File   getFileStreamPath(java.lang.String)> -> _SOURCE_
+<android.content.Context: java.lang.String getPackageCodePath()> -> _SOURCE_
+<android.content.Context: java.lang.String getPackageResourcePath()> -> _SOURCE_
+
+% SINKS
+%=======================
+
+% All 10 required both with and without --sysflows
+
+<java.io.FileOutputStream: void <init>(java.io.FileDescriptor)> -> _SINK_
+<java.io.FileOutputStream: void <init>(java.io.File,boolean)> -> _SINK_
+<java.io.FileOutputStream: void <init>(java.lang.String)> -> _SINK_
+<java.io.FileOutputStream: void <init>(java.lang.String,boolean)> -> _SINK_
+<java.io.FileOutputStream: void <init>(java.io.File)> -> _SINK_
+
+<java.io.FileWriter: void <init>(java.io.FileDescriptor)> -> _SINK_
+<java.io.FileWriter: void <init>(java.io.File,boolean)> -> _SINK_
+<java.io.FileWriter: void <init>(java.lang.String)> -> _SINK_
+<java.io.FileWriter: void <init>(java.lang.String,boolean)> -> _SINK_
+<java.io.FileWriter: void <init>(java.io.File)> -> _SINK_
+
+
+% perm-test app
+%=======================
+
+<edu.oregonstate.ex.flowdroidtest.FileManager: java.lang.String getCachePath(java.net.URL)> -> _SOURCE_
+<edu.oregonstate.ex.flowdroidtest.FileManager: java.io.FileOutputStream createFileOutputStream(java.io.File)> -> _SINK_
+
+% taint-test-to-runnable app
+%=======================
+
+<edu.oregonstate.ex.ttest.MainActivity: java.lang.String source()> -> _SOURCE_
+<edu.oregonstate.ex.ttest.MainActivity: void sink(java.lang.String)> -> _SINK_

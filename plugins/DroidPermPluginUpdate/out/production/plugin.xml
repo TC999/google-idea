@@ -1,0 +1,67 @@
+<!--suppress XmlUnboundNsPrefix -->
+<idea-plugin version="2">
+  <id>DroidPermPlugin</id>
+  <name>DroidPermPlugin</name>
+  <version>1.1</version>
+
+  <!--I guess it was more of a teamwork.-->
+  <!--<vendor email="nelsonni@oregonstate.edu" url="http://people.oregonstate.edu/~nelsonni/">Nicholas Nelson</vendor>-->
+
+  <description><![CDATA[
+      Android Studio plugin that partially automates the insertion of permission guards to fix support for Android
+      System Permissions (API 23+).
+      See (<a href="https://developer.android.com/guide/topics/security/permissions.html#normal-dangerous">
+      Normal and Dangerous Permissions</a>) for a list of permissions that require guards.
+    This plugin provides a menu action to encapsulate calls requiring dangerous permissions in runtime 
+    permission check, request, and callback blocks.]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="141.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <depends>com.intellij.modules.lang</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+      <applicationService serviceInterface="edu.oregonstate.settings.PersistentSettings"
+                          serviceImplementation="edu.oregonstate.settings.PersistentSettings"/>
+      <!--No need for settings panelcurrently.
+      <applicationConfigurable instance="edu.oregonstate.settings.SettingsConfigurable"/>
+      -->
+
+      <!-- DP Inspect will not be integrated with DP-Transform
+      <globalInspection implementationClass="edu.oregonstate.dp.inspect.PermissionGuardInspection"
+                        groupBundle="messages.InspectionsBundle"
+                        groupPath="Android" groupName="DroidPerm"
+                        displayName="Statement requires permission guard"
+                        language="JAVA" enabledByDefault="true" level="WARNING"/>
+                        -->
+  </extensions>
+
+  <application-components>
+    <!-- application components go here -->
+    <component>
+      <implementation-class>edu.oregonstate.actions.SelectionService</implementation-class>
+    </component>
+  </application-components>
+
+  <actions>
+      <action id="DroidPermPlugin.edu.oregonstate.actions.PermissionGuardAction"
+              class="edu.oregonstate.actions.PermissionGuardAction"
+              text="Convert to Android Runtime Permissions"
+              description="Converts to use Runtime Permissions for Android 6.0 (API 23) and higher">
+              <add-to-group group-id="RefactoringMenu4" anchor="last"/>
+      </action>
+  </actions>
+
+</idea-plugin>
