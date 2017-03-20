@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b028726_4bcc1e6b",
+        "filename": "build/scripts/common_tests.gant",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1078623
+      },
+      "writtenOn": "2017-03-20T21:28:02Z",
+      "side": 0,
+      "message": "This line in particular fails here in AOSP.",
+      "revId": "2f0fdb514a1167612a9fb5c91939a9ba0a02f57e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
