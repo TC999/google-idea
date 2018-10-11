@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "486c8cb8_b4ecdeb3",
+        "filename": ".idea/modules.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1078623
+      },
+      "writtenOn": "2018-10-11T17:57:59Z",
+      "side": 1,
+      "message": "Somewhere along the line I decided to attempt the minimal change to achieve a successful build in IDEA and ant. (The exception I made was in build.sh, where I was a bit more aggressive, but I was thinking about dialing it back in a second patch set.) Here in modules.xml it turned out I needed to remove only one module, google-appindexing.\n\nI could go through and try to remove more unnecessary modules (and much else presumably) but it\u0027s not clear where to stop. I believe there are unused libraries and what not in the first place.",
+      "parentUuid": "c6b89794_f3487bc8",
+      "revId": "f76eb662d6f4d3f5bf430207cb9ab8f4e064d089",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c427449_0a53ca44",
         "filename": ".idea/vcs.xml",
         "patchSetId": 1
@@ -50,6 +68,24 @@
       "revId": "f76eb662d6f4d3f5bf430207cb9ab8f4e064d089",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a40d9bd3_62b05b34",
+        "filename": "intellij.idea.community.main.iml",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1078623
+      },
+      "writtenOn": "2018-10-11T17:57:59Z",
+      "side": 1,
+      "message": "No, I built in the IDE first and then went to ant (which requires further change).\n\nI also installed and launched the resulting build to make sure it basically works.",
+      "parentUuid": "fc1188bf_1bb66e2c",
+      "revId": "f76eb662d6f4d3f5bf430207cb9ab8f4e064d089",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
