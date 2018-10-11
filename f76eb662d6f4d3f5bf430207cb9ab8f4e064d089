@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6b89794_f3487bc8",
+        "filename": ".idea/modules.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2018-10-11T13:51:01Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these and other vendor/ plugin entries be deleted? (I\u0027m surprised they\u0027re there in the current version btw.)",
+      "revId": "f76eb662d6f4d3f5bf430207cb9ab8f4e064d089",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c427449_0a53ca44",
+        "filename": ".idea/vcs.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2018-10-11T13:51:01Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "f76eb662d6f4d3f5bf430207cb9ab8f4e064d089",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc1188bf_1bb66e2c",
+        "filename": "intellij.idea.community.main.iml",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1004689
+      },
+      "writtenOn": "2018-10-11T13:51:01Z",
+      "side": 1,
+      "message": "ditto.\n\nI\u0027m guessing you got things building from the command line but didn\u0027t open it in the IDE? That\u0027s when it would complain about all the missing plugins etc.",
+      "revId": "f76eb662d6f4d3f5bf430207cb9ab8f4e064d089",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
