@@ -36,7 +36,8 @@ public class GradleTaskIndexBuilder extends AbstractModelBuilderService {
     // This is tested by TaskConfigurationNotTriggeredDuringSyncTest.testTasksAreNotConfiguredDuringSync().
     boolean skipTasks;
     try {
-      skipTasks = Boolean.parseBoolean(String.valueOf(project.getProperties().get("idea.gradle.do.not.build.tasks")).trim());
+      Provider<String> buildTasksProvider = project.getProviders().gradleProperty("idea.gradle.do.not.build.tasks");
+      skipTasks = Boolean.parseBoolean(buildTasksProvider.get().trim());
     } catch (Throwable ignored) {
       skipTasks = false;
     }
